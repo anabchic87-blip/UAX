@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Apache VirtualHosts</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #e9e9e9;
+      color: #111;
+    }
+
+    .wrapper {
+      max-width: 1450px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    .timer {
+      background: #fff;
+      border: 2px solid #1f232b;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 18px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      background: #f7f7f7;
+      border: 1px solid #bdbdbd;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      background: #1f232b;
+      color: white;
+      font-weight: bold;
+      padding: 12px 18px;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 16px;
+    }
+
+    .code-box {
+      background: #1f232b;
+      color: white;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #444;
+    }
+
+    .code-title {
+      padding: 12px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid #666;
+      font-weight: bold;
+    }
+
+    .code-content {
+      padding: 14px 16px;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .question-box {
+      background: #f7f7f7;
+      border: 1px solid #c8c8c8;
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .question-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 14px 0;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .option input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #1f232b;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #d9d9d9;
+      color: #111;
+      border: 1px solid #aaa;
+    }
+
+    .btn-menu {
+      background: #4b5563;
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .result-box {
+      background: white;
+      border: 2px solid #1f232b;
+      border-radius: 8px;
+      padding: 18px;
+      font-size: 18px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .correcta {
+      color: #0b7a20;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .incorrecta {
+      color: #b00020;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .nota-final {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .question-title {
+        font-size: 18px;
+      }
+
+      .option {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="timer" id="timer">Tiempo restante: 20:00</div>
+
+    <form id="quizForm">
+
+      <!-- EJERCICIO 1 -->
+      <div class="panel">
+        <div class="panel-header">Escenario de configuración - Apache VirtualHosts - Ejercicio 1</div>
+        <div class="config-grid">
+          <div class="code-box">
+            <div class="code-title">Mapa de VirtualHosts por IP - Puerto - ServerName</div>
+            <div class="code-content">IP         Puerto   VirtualHost   ServerName
+10.0.0.10  80       VH-A          sri.local
+10.0.0.10  80       VH-B          sad.local
+10.0.0.11  80       VH-C          sri.local
+10.0.0.11  80       VH-D          sad.local
+*          80       VH-E          sri.local
+*          80       VH-F          sad.local
+
+Entender que el VirtualHost es el nombre del fichero en el SO.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">1. Un cliente hace: http://10.0.0.10/</div>
+        <label class="option"><input type="radio" name="q1" value="A"> A) VH-A</label>
+        <label class="option"><input type="radio" name="q1" value="B"> B) VH-B</label>
+        <label class="option"><input type="radio" name="q1" value="C"> C) VH-C</label>
+        <div id="feedback1"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">2. Petición: http://prueba.local/ con prueba.local apuntando a 10.0.0.11</div>
+        <label class="option"><input type="radio" name="q2" value="A"> A) VH-D</label>
+        <label class="option"><input type="radio" name="q2" value="B"> B) VH-C</label>
+        <label class="option"><input type="radio" name="q2" value="C"> C) Conexión rechazada</label>
+        <div id="feedback2"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">3. Petición: https://10.0.0.11/</div>
+        <label class="option"><input type="radio" name="q3" value="A"> A) VH-C</label>
+        <label class="option"><input type="radio" name="q3" value="B"> B) VH-D</label>
+        <label class="option"><input type="radio" name="q3" value="C"> C) Conexión rechazada</label>
+        <div id="feedback3"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">4. Petición: http://10.0.0.12:80/app</div>
+        <label class="option"><input type="radio" name="q4" value="A"> A) VH-F</label>
+        <label class="option"><input type="radio" name="q4" value="B"> B) VH-E</label>
+        <label class="option"><input type="radio" name="q4" value="C"> C) VH-A</label>
+        <div id="feedback4"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">5. Petición: http://sad.local/ con sad.local apuntando a 10.0.0.11</div>
+        <label class="option"><input type="radio" name="q5" value="A"> A) VH-C</label>
+        <label class="option"><input type="radio" name="q5" value="B"> B) VH-D</label>
+        <label class="option"><input type="radio" name="q5" value="C"> C) VH-A</label>
+        <div id="feedback5"></div>
+      </div>
+
+      <!-- EJERCICIO 2 -->
+      <div class="panel">
+        <div class="panel-header">Escenario de configuración - Apache VirtualHosts - Ejercicio 2</div>
+        <div class="config-grid">
+          <div class="code-box">
+            <div class="code-title">Mapa de VirtualHosts por IP - Puerto - ServerName</div>
+            <div class="code-content">IP         Puerto   VirtualHost   ServerName
+192.168.1.20  80    WEB-A         aula.local
+192.168.1.20  80    WEB-B         intranet.local
+192.168.1.21  80    WEB-C         aula.local
+192.168.1.21  80    WEB-D         intranet.local
+*             80    WEB-E         aula.local
+*             80    WEB-F         intranet.local</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">6. Un cliente hace: http://192.168.1.20/</div>
+        <label class="option"><input type="radio" name="q6" value="A"> A) WEB-A</label>
+        <label class="option"><input type="radio" name="q6" value="B"> B) WEB-B</label>
+        <label class="option"><input type="radio" name="q6" value="C"> C) WEB-C</label>
+        <div id="feedback6"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">7. Petición: http://intranet.local/ con intranet.local apuntando a 192.168.1.21</div>
+        <label class="option"><input type="radio" name="q7" value="A"> A) WEB-D</label>
+        <label class="option"><input type="radio" name="q7" value="B"> B) WEB-C</label>
+        <label class="option"><input type="radio" name="q7" value="C"> C) WEB-F</label>
+        <div id="feedback7"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">8. Petición: http://otra.local/ con otra.local apuntando a 192.168.1.21</div>
+        <label class="option"><input type="radio" name="q8" value="A"> A) WEB-C</label>
+        <label class="option"><input type="radio" name="q8" value="B"> B) WEB-D</label>
+        <label class="option"><input type="radio" name="q8" value="C"> C) Conexión rechazada</label>
+        <div id="feedback8"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">9. Petición: http://192.168.1.99/</div>
+        <label class="option"><input type="radio" name="q9" value="A"> A) WEB-E</label>
+        <label class="option"><input type="radio" name="q9" value="B"> B) WEB-F</label>
+        <label class="option"><input type="radio" name="q9" value="C"> C) WEB-A</label>
+        <div id="feedback9"></div>
+      </div>
+
+      <!-- EJERCICIO 3 -->
+      <div class="panel">
+        <div class="panel-header">Escenario de configuración - Apache VirtualHosts - Ejercicio 3</div>
+        <div class="config-grid">
+          <div class="code-box">
+            <div class="code-title">Mapa de VirtualHosts por IP - Puerto - ServerName</div>
+            <div class="code-content">IP         Puerto   VirtualHost   ServerName
+172.16.0.5  8080    APP-A         api.local
+172.16.0.5  8080    APP-B         panel.local
+172.16.0.6  8080    APP-C         api.local
+172.16.0.6  8080    APP-D         panel.local
+*           8080    APP-E         api.local
+*           8080    APP-F         panel.local</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">10. Petición: http://172.16.0.5:8080/</div>
+        <label class="option"><input type="radio" name="q10" value="A"> A) APP-A</label>
+        <label class="option"><input type="radio" name="q10" value="B"> B) APP-B</label>
+        <label class="option"><input type="radio" name="q10" value="C"> C) APP-E</label>
+        <div id="feedback10"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">11. Petición: http://panel.local:8080/ con panel.local apuntando a 172.16.0.6</div>
+        <label class="option"><input type="radio" name="q11" value="A"> A) APP-C</label>
+        <label class="option"><input type="radio" name="q11" value="B"> B) APP-D</label>
+        <label class="option"><input type="radio" name="q11" value="C"> C) APP-F</label>
+        <div id="feedback11"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">12. Petición: http://test.local:8080/ con test.local apuntando a 172.16.0.6</div>
+        <label class="option"><input type="radio" name="q12" value="A"> A) APP-C</label>
+        <label class="option"><input type="radio" name="q12" value="B"> B) APP-D</label>
+        <label class="option"><input type="radio" name="q12" value="C"> C) Conexión rechazada</label>
+        <div id="feedback12"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">13. Petición: https://172.16.0.6:8080/</div>
+        <label class="option"><input type="radio" name="q13" value="A"> A) APP-C</label>
+        <label class="option"><input type="radio" name="q13" value="B"> B) APP-D</label>
+        <label class="option"><input type="radio" name="q13" value="C"> C) Conexión rechazada</label>
+        <div id="feedback13"></div>
+      </div>
+
+      <!-- EJERCICIO 4 -->
+      <div class="panel">
+        <div class="panel-header">Escenario de configuración - Apache VirtualHosts - Ejercicio 4</div>
+        <div class="config-grid">
+          <div class="code-box">
+            <div class="code-title">Mapa de VirtualHosts por IP - Puerto - ServerName</div>
+            <div class="code-content">IP          Puerto   VirtualHost   ServerName
+10.1.0.1    80       SITE-A        campus.local
+10.1.0.1    80       SITE-B        correo.local
+10.1.0.2    80       SITE-C        campus.local
+10.1.0.2    80       SITE-D        correo.local
+*           80       SITE-E        campus.local
+*           80       SITE-F        correo.local</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">14. Petición: http://correo.local/ con correo.local apuntando a 10.1.0.2</div>
+        <label class="option"><input type="radio" name="q14" value="A"> A) SITE-C</label>
+        <label class="option"><input type="radio" name="q14" value="B"> B) SITE-D</label>
+        <label class="option"><input type="radio" name="q14" value="C"> C) SITE-F</label>
+        <div id="feedback14"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">15. Petición: http://10.1.0.50/</div>
+        <label class="option"><input type="radio" name="q15" value="A"> A) SITE-E</label>
+        <label class="option"><input type="radio" name="q15" value="B"> B) SITE-F</label>
+        <label class="option"><input type="radio" name="q15" value="C"> C) SITE-A</label>
+        <div id="feedback15"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-title">16. Petición: http://campus.local/ con campus.local apuntando a 10.1.0.1</div>
+        <label class="option"><input type="radio" name="q16" value="A"> A) SITE-A</label>
+        <label class="option"><input type="radio" name="q16" value="B"> B) SITE-B</label>
+        <label class="option"><input type="radio" name="q16" value="C"> C) SITE-E</label>
+        <div id="feedback16"></div>
+      </div>
+    </form>
+
+    <div class="controls">
+      <button class="btn-primary" type="button" onclick="corregirExamen()">Corregir examen</button>
+      <button class="btn-secondary" type="button" onclick="reiniciarExamen()">Reiniciar</button>
+      <a class="btn-menu" href="index.html">Volver al menú</a>
+    </div>
+
+    <div class="result-box" id="resultado"></div>
+  </div>
+
+  <script>
+    const respuestasCorrectas = {
+      q1: "A",
+      q2: "B",
+      q3: "C",
+      q4: "B",
+      q5: "B",
+      q6: "A",
+      q7: "A",
+      q8: "A",
+      q9: "A",
+      q10: "A",
+      q11: "B",
+      q12: "A",
+      q13: "C",
+      q14: "B",
+      q15: "A",
+      q16: "A"
+    };
+
+    const textoRespuestas = {
+      q1: "A) VH-A",
+      q2: "B) VH-C",
+      q3: "C) Conexión rechazada",
+      q4: "B) VH-E",
+      q5: "B) VH-D",
+      q6: "A) WEB-A",
+      q7: "A) WEB-D",
+      q8: "A) WEB-C",
+      q9: "A) WEB-E",
+      q10: "A) APP-A",
+      q11: "B) APP-D",
+      q12: "A) APP-C",
+      q13: "C) Conexión rechazada",
+      q14: "B) SITE-D",
+      q15: "A) SITE-E",
+      q16: "A) SITE-A"
+    };
+
+    let tiempo = 1200;
+    let examenCorregido = false;
+    let temporizador = setInterval(actualizarTimer, 1000);
+
+    function actualizarTimer() {
+      const minutos = Math.floor(tiempo / 60);
+      const segundos = tiempo % 60;
+
+      document.getElementById("timer").textContent =
+        "Tiempo restante: " +
+        String(minutos).padStart(2, "0") +
+        ":" +
+        String(segundos).padStart(2, "0");
+
+      if (tiempo <= 0) {
+        clearInterval(temporizador);
+        corregirExamen();
+        bloquearFormulario();
+        return;
+      }
+
+      tiempo--;
+    }
+
+    function corregirExamen() {
+      if (examenCorregido) return;
+
+      let aciertos = 0;
+      const total = Object.keys(respuestasCorrectas).length;
+
+      for (let i = 1; i <= total; i++) {
+        const nombre = "q" + i;
+        const seleccionada = document.querySelector(`input[name="${nombre}"]:checked`);
+        const feedback = document.getElementById("feedback" + i);
+
+        if (!feedback) continue;
+        feedback.innerHTML = "";
+
+        if (seleccionada) {
+          if (seleccionada.value === respuestasCorrectas[nombre]) {
+            aciertos++;
+            feedback.innerHTML = '<div class="correcta">✔ Correcta</div>';
+          } else {
+            feedback.innerHTML =
+              '<div class="incorrecta">✘ Incorrecta. Respuesta correcta: ' +
+              textoRespuestas[nombre] +
+              '</div>';
+          }
+        } else {
+          feedback.innerHTML =
+            '<div class="incorrecta">✘ No contestada. Respuesta correcta: ' +
+            textoRespuestas[nombre] +
+            '</div>';
+        }
+      }
+
+      const nota = ((aciertos / total) * 10).toFixed(2);
+      const resultado = document.getElementById("resultado");
+      resultado.style.display = "block";
+      resultado.innerHTML = `
+        <strong>Resultado final</strong><br><br>
+        Aciertos: ${aciertos} de ${total}<br>
+        Fallos: ${total - aciertos} de ${total}<br>
+        <div class="nota-final">Nota: ${nota} / 10</div>
+      `;
+
+      examenCorregido = true;
+      bloquearFormulario();
+      clearInterval(temporizador);
+    }
+
+    function reiniciarExamen() {
+      document.getElementById("quizForm").reset();
+      document.getElementById("resultado").style.display = "none";
+      document.getElementById("resultado").innerHTML = "";
+
+      const total = Object.keys(respuestasCorrectas).length;
+      for (let i = 1; i <= total; i++) {
+        const fb = document.getElementById("feedback" + i);
+        if (fb) fb.innerHTML = "";
+      }
+
+      clearInterval(temporizador);
+      tiempo = 1200;
+      examenCorregido = false;
+      temporizador = setInterval(actualizarTimer, 1000);
+      document.getElementById("timer").textContent = "Tiempo restante: 20:00";
+
+      desbloquearFormulario();
+    }
+
+    function bloquearFormulario() {
+      const inputs = document.querySelectorAll('input[type="radio"]');
+      inputs.forEach(input => input.disabled = true);
+    }
+
+    function desbloquearFormulario() {
+      const inputs = document.querySelectorAll('input[type="radio"]');
+      inputs.forEach(input => input.disabled = false);
+    }
+  </script>
+</body>
+</html>
