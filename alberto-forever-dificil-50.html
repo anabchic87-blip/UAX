@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberto Forever · Difícil</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#eef3ff;
+  --card:#ffffff;
+  --text:#162033;
+  --muted:#5b6470;
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --ok-bg:#dcfce7;
+  --ok-border:#86efac;
+  --ok-text:#166534;
+  --bad-bg:#fee2e2;
+  --bad-border:#fca5a5;
+  --bad-text:#991b1b;
+}
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#eef3ff 0%,#f8fbff 60%,#eef2ff 100%);
+  color:var(--text);
+}
+.wrapper{
+  max-width:1100px;
+  margin:24px auto;
+  padding:0 16px 40px;
+}
+.header{
+  background:linear-gradient(135deg,#111827,#1e3a8a);
+  color:#fff;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 14px 34px rgba(0,0,0,.18);
+  margin-bottom:22px;
+}
+.header h1{margin:0 0 8px;font-size:36px}
+.header p{margin:0;color:rgba(255,255,255,.86);line-height:1.6}
+.hero-note{
+  margin-top:14px;
+  font-weight:700;
+  color:#fde68a;
+}
+.stats{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.stat{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:14px;
+  padding:10px 14px;
+  min-width:140px;
+}
+.stat small{display:block;color:rgba(255,255,255,.78);margin-bottom:4px}
+.stat strong{font-size:24px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+button{
+  border:none;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+.primary{background:#22c55e;color:#07210f}
+.secondary{background:#fff;color:#111827}
+.quiz-item{
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  border:2px solid transparent;
+}
+.quiz-item.correct{border-color:#16a34a;background:#f0fdf4}
+.quiz-item.incorrect{border-color:#dc2626;background:#fff5f5}
+.question-title{margin:0 0 14px;font-size:20px;line-height:1.5}
+.options{display:grid;gap:10px}
+.option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#f8fafc;
+  border:1px solid #dbe4f0;
+  border-radius:12px;
+  padding:12px 14px;
+}
+.option:hover{background:#f1f5f9}
+.feedback{
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-weight:700;
+  display:none;
+  line-height:1.5;
+}
+.feedback.show{display:block}
+.feedback.ok{background:var(--ok-bg);color:var(--ok-text);border:1px solid var(--ok-border)}
+.feedback.bad{background:var(--bad-bg);color:var(--bad-text);border:1px solid var(--bad-border)}
+.correct-answer{margin-top:8px;font-weight:600}
+.note{text-align:center;color:#5b6470;margin-top:22px}
+.icon-big{font-size:20px;margin-right:6px}
+@media (max-width:700px){
+  .header h1{font-size:30px}
+  .question-title{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <h1>Alberto Forever · 50 preguntas difíciles 😈</h1>
+    <p>Test tipo examen, dificultad difícil, listo para GitHub Pages. Corrige automáticamente al marcar cada respuesta. Si fallas aparece el diablo 😈 y si aciertas aparece el ángel 😇.</p>
+    <div class="hero-note">Si sobrevives a este test… Alberto no podrá contigo.</div>
+    <div class="stats">
+      <div class="stat"><small>Preguntas</small><strong id="totalQuestions">51</strong></div>
+      <div class="stat"><small>Aciertos</small><strong id="score">0</strong></div>
+      <div class="stat"><small>Fallos</small><strong id="errors">0</strong></div>
+      <div class="stat"><small>Respondidas</small><strong id="answered">0</strong></div>
+    </div>
+    <div class="actions">
+      <button class="primary" onclick="corregirTodo()">Corregir todo 😈</button>
+      <button class="secondary" onclick="reiniciarExamen()">Reiniciar</button>
+    </div>
+  </div>
+
+  <div id="quiz"></div>
+  <p class="note">Guárdalo como archivo HTML y súbelo tal cual a GitHub Pages.</p>
+</div>
+
+<script>
+const questions = [
+  {
+    "q": "En una resolución DNS recursiva, ¿qué servidor asume la responsabilidad de obtener la respuesta final para el cliente?",
+    "options": [
+      "El servidor raíz",
+      "El resolvedor DNS o servidor recursivo",
+      "El servidor autoritativo secundario",
+      "El servidor relay DHCP"
+    ],
+    "answer": 1,
+    "explanation": "En una resolución recursiva, el servidor recursivo realiza las consultas necesarias hasta devolver la respuesta final al cliente."
+  },
+  {
+    "q": "¿Qué registro DNS se utiliza típicamente para la resolución inversa de IPv4?",
+    "options": [
+      "CNAME",
+      "AAAA",
+      "PTR",
+      "SOA"
+    ],
+    "answer": 2,
+    "explanation": "La resolución inversa utiliza registros PTR."
+  },
+  {
+    "q": "¿Cuál es la finalidad principal del registro SOA en una zona DNS?",
+    "options": [
+      "Definir alias del dominio",
+      "Identificar el servidor autoritativo y parámetros de control de la zona",
+      "Guardar la IPv6 del dominio",
+      "Especificar el servidor de correo"
+    ],
+    "answer": 1,
+    "explanation": "SOA define el servidor principal de la zona y parámetros como serie, refresh o retry."
+  },
+  {
+    "q": "Si aumenta el número de serie de una zona DNS primaria, ¿qué efecto debería producirse en la secundaria?",
+    "options": [
+      "Ignora el cambio hasta reinicio manual",
+      "Solicita transferencia de zona",
+      "Borra automáticamente la caché",
+      "Desactiva la resolución inversa"
+    ],
+    "answer": 1,
+    "explanation": "La secundaria detecta el nuevo serial y solicita una transferencia de zona."
+  },
+  {
+    "q": "¿Qué comando permite consultar un registro MX concreto con dig?",
+    "options": [
+      "dig dominio -x",
+      "dig dominio MX",
+      "dig -mx dominio.local",
+      "dig dominio PTR"
+    ],
+    "answer": 1,
+    "explanation": "Con dig puedes pedir un tipo de registro concreto, por ejemplo MX."
+  },
+  {
+    "q": "¿Qué ventaja aporta una zona secundaria respecto a una única zona primaria?",
+    "options": [
+      "Permite modificar más rápido los registros",
+      "Aumenta disponibilidad y tolerancia a fallos",
+      "Sustituye al DHCP",
+      "Evita usar registros NS"
+    ],
+    "answer": 1,
+    "explanation": "La secundaria aporta redundancia y disponibilidad."
+  },
+  {
+    "q": "¿Qué servicio resuelve el problema de un host con IP pública cambiante que necesita seguir accesible por nombre?",
+    "options": [
+      "NAT estático",
+      "DDNS",
+      "FTP pasivo",
+      "IMAP4"
+    ],
+    "answer": 1,
+    "explanation": "DDNS actualiza el nombre DNS cuando cambia la IP."
+  },
+  {
+    "q": "¿Qué mensaje DHCP aparece justo después del DISCOVER en un proceso estándar DORA?",
+    "options": [
+      "ACK",
+      "REQUEST",
+      "OFFER",
+      "RELEASE"
+    ],
+    "answer": 2,
+    "explanation": "El servidor responde al DISCOVER con un OFFER."
+  },
+  {
+    "q": "En DHCP, ¿qué tipo de asignación vincula una MAC concreta con una IP fija configurada por el administrador?",
+    "options": [
+      "Dinámica",
+      "Automática",
+      "Reserva o estática",
+      "Recursiva"
+    ],
+    "answer": 2,
+    "explanation": "La reserva asigna siempre la misma IP a la misma MAC."
+  },
+  {
+    "q": "¿Qué función cumple un agente DHCP relay?",
+    "options": [
+      "Resolver nombres de dominio",
+      "Reenviar peticiones DHCP entre subredes distintas",
+      "Filtrar correo spam",
+      "Cifrar concesiones DHCP"
+    ],
+    "answer": 1,
+    "explanation": "El relay permite que clientes y servidor DHCP estén en redes diferentes."
+  },
+  {
+    "q": "¿Qué técnica de seguridad en switches reduce el riesgo de servidores DHCP no autorizados?",
+    "options": [
+      "DHCP snooping",
+      "Port forwarding",
+      "Round robin",
+      "DNSSEC"
+    ],
+    "answer": 0,
+    "explanation": "DHCP snooping valida los puertos autorizados para mensajes DHCP del servidor."
+  },
+  {
+    "q": "¿Qué significa que HTTP sea un protocolo sin estado?",
+    "options": [
+      "No utiliza TCP",
+      "No conserva por sí mismo información de solicitudes anteriores",
+      "No puede transferir HTML",
+      "No admite métodos como GET o POST"
+    ],
+    "answer": 1,
+    "explanation": "HTTP no mantiene estado entre peticiones a menos que se añadan mecanismos como cookies o sesiones."
+  },
+  {
+    "q": "¿Qué código HTTP indica que el servidor ha entendido la solicitud pero rechaza autorizarla?",
+    "options": [
+      "301",
+      "403",
+      "404",
+      "500"
+    ],
+    "answer": 1,
+    "explanation": "403 significa Forbidden."
+  },
+  {
+    "q": "¿Qué diferencia principal hay entre GET y POST en formularios web?",
+    "options": [
+      "GET cifra los datos y POST no",
+      "GET suele enviar parámetros en la URL y POST en el cuerpo",
+      "POST no funciona con HTML",
+      "GET solo sirve para imágenes"
+    ],
+    "answer": 1,
+    "explanation": "GET pone los parámetros en la URL; POST los envía en el cuerpo de la petición."
+  },
+  {
+    "q": "¿Qué cabecera o mecanismo se usa habitualmente para identificar el tipo de contenido transferido por HTTP?",
+    "options": [
+      "Content-Type",
+      "Transfer-Mode",
+      "Cookie-Type",
+      "Server-Port"
+    ],
+    "answer": 0,
+    "explanation": "Content-Type indica el tipo MIME del recurso."
+  },
+  {
+    "q": "¿Qué tipo de cookie suele desaparecer al cerrar el navegador?",
+    "options": [
+      "Persistente",
+      "De sesión",
+      "De terceros",
+      "Segura"
+    ],
+    "answer": 1,
+    "explanation": "Las cookies de sesión se eliminan al cerrar la sesión/navegador."
+  },
+  {
+    "q": "En Apache sobre Ubuntu, ¿qué directorio contiene normalmente las configuraciones de sitios disponibles?",
+    "options": [
+      "/etc/apache2/sites-available",
+      "/var/log/apache2",
+      "/usr/share/apache2",
+      "/etc/apache2/mods-enabled"
+    ],
+    "answer": 0,
+    "explanation": "Los virtual hosts disponibles se guardan normalmente en sites-available."
+  },
+  {
+    "q": "¿Qué comando se usa habitualmente para habilitar un sitio en Apache?",
+    "options": [
+      "a2ensite",
+      "site-enable",
+      "apache-enable-site",
+      "ensite2"
+    ],
+    "answer": 0,
+    "explanation": "a2ensite habilita un virtual host."
+  },
+  {
+    "q": "Para servir HTTPS en Apache, además del certificado, ¿qué módulo debe estar activado?",
+    "options": [
+      "mime",
+      "proxy_fcgi",
+      "ssl",
+      "rewrite-map"
+    ],
+    "answer": 2,
+    "explanation": "El módulo ssl es imprescindible para HTTPS."
+  },
+  {
+    "q": "¿Qué puerto utiliza HTTPS por defecto?",
+    "options": [
+      "21",
+      "25",
+      "80",
+      "443"
+    ],
+    "answer": 3,
+    "explanation": "HTTPS usa el puerto 443."
+  },
+  {
+    "q": "¿Qué archivo de log de Apache registra normalmente errores del servidor?",
+    "options": [
+      "access.log",
+      "error.log",
+      "site.log",
+      "https.log"
+    ],
+    "answer": 1,
+    "explanation": "error.log registra errores del servicio o del sitio."
+  },
+  {
+    "q": "¿Qué herramienta de Linux se utiliza para rotar automáticamente archivos de log?",
+    "options": [
+      "journalctl",
+      "tar",
+      "logrotate",
+      "rotatefs"
+    ],
+    "answer": 2,
+    "explanation": "logrotate automatiza rotación, compresión y conservación de logs."
+  },
+  {
+    "q": "¿Cuál es la principal debilidad de FTP clásico frente a SFTP o FTPS?",
+    "options": [
+      "No usa TCP",
+      "Transfiere credenciales y datos sin cifrar",
+      "No admite usuarios anónimos",
+      "No funciona con archivos grandes"
+    ],
+    "answer": 1,
+    "explanation": "FTP clásico no cifra ni usuario, ni contraseña, ni contenido."
+  },
+  {
+    "q": "En FTP activo, ¿qué puertos clásicos se asocian a control y datos?",
+    "options": [
+      "21 control y 20 datos",
+      "20 control y 21 datos",
+      "22 control y 21 datos",
+      "80 control y 20 datos"
+    ],
+    "answer": 0,
+    "explanation": "El control usa 21 y los datos 20 en modo activo."
+  },
+  {
+    "q": "¿Qué protocolo de transferencia de archivos funciona sobre SSH?",
+    "options": [
+      "FTP",
+      "FTPS",
+      "SFTP",
+      "TFTP"
+    ],
+    "answer": 2,
+    "explanation": "SFTP usa el canal SSH."
+  },
+  {
+    "q": "Dentro de la arquitectura del correo, ¿qué componente interactúa directamente con el usuario final?",
+    "options": [
+      "MTA",
+      "MDA",
+      "MUA",
+      "MX"
+    ],
+    "answer": 2,
+    "explanation": "El MUA es el cliente de correo del usuario."
+  },
+  {
+    "q": "¿Qué agente se encarga del transporte entre servidores de correo?",
+    "options": [
+      "MTA",
+      "MUA",
+      "MIME",
+      "MDA"
+    ],
+    "answer": 0,
+    "explanation": "El MTA transporta mensajes entre servidores."
+  },
+  {
+    "q": "¿Qué registro DNS indica qué servidor acepta correo para un dominio?",
+    "options": [
+      "A",
+      "MX",
+      "PTR",
+      "NS"
+    ],
+    "answer": 1,
+    "explanation": "El registro MX define el servidor de correo del dominio."
+  },
+  {
+    "q": "¿Qué protocolo resulta más apropiado para consultar el mismo buzón desde varios dispositivos sin descargarlo localmente y eliminarlo del servidor?",
+    "options": [
+      "POP3",
+      "IMAP4",
+      "SMTP",
+      "FTP"
+    ],
+    "answer": 1,
+    "explanation": "IMAP trabaja con el correo almacenado en servidor y sincroniza varios dispositivos."
+  },
+  {
+    "q": "¿Qué puertos se utilizan habitualmente para el envío autenticado de correo desde un cliente según configuración moderna?",
+    "options": [
+      "20 y 21",
+      "53 y 67",
+      "465 o 587",
+      "110 o 143"
+    ],
+    "answer": 2,
+    "explanation": "Los clientes suelen usar 465 o 587 para envío autenticado."
+  },
+  {
+    "q": "¿Qué objetivo persigue SPF?",
+    "options": [
+      "Firmar el mensaje con clave privada",
+      "Autorizar qué servidores pueden enviar correo para un dominio",
+      "Cifrar adjuntos grandes",
+      "Sincronizar buzones IMAP"
+    ],
+    "answer": 1,
+    "explanation": "SPF publica qué servidores están autorizados a enviar correo para el dominio."
+  },
+  {
+    "q": "¿Qué objetivo persigue DKIM?",
+    "options": [
+      "Comprimir mensajes",
+      "Firmar digitalmente el mensaje para validar autenticidad del dominio remitente",
+      "Resolver IP dinámica",
+      "Eliminar spam automáticamente"
+    ],
+    "answer": 1,
+    "explanation": "DKIM añade una firma verificable mediante una clave pública en DNS."
+  },
+  {
+    "q": "¿Cuándo tiene sentido implantar DMARC?",
+    "options": [
+      "Antes de configurar DNS",
+      "Antes de SPF y DKIM",
+      "Después de SPF y DKIM",
+      "Solo si no existe correo saliente"
+    ],
+    "answer": 2,
+    "explanation": "DMARC se apoya en SPF y DKIM para aplicar políticas."
+  },
+  {
+    "q": "¿Cuál es una ventaja fundamental del audio digital frente al analógico mencionada habitualmente en estos temas?",
+    "options": [
+      "Siempre ocupa menos",
+      "Puede copiarse múltiples veces sin degradación",
+      "No necesita muestreo",
+      "No requiere códec"
+    ],
+    "answer": 1,
+    "explanation": "Una copia digital correcta no pierde calidad respecto al original."
+  },
+  {
+    "q": "¿Qué codificación sin compresión se usa de forma clásica en CD de audio?",
+    "options": [
+      "AAC",
+      "PCM",
+      "MP3",
+      "Opus"
+    ],
+    "answer": 1,
+    "explanation": "PCM representa cada muestra directamente."
+  },
+  {
+    "q": "¿Cuál de estos formatos es de compresión sin pérdidas?",
+    "options": [
+      "FLAC",
+      "MP3",
+      "AAC",
+      "WMA Lossy"
+    ],
+    "answer": 0,
+    "explanation": "FLAC comprime sin pérdida de información."
+  },
+  {
+    "q": "¿Qué concepto mide el número de imágenes por segundo en vídeo?",
+    "options": [
+      "Bitrate",
+      "Resolución",
+      "FPS",
+      "Codec"
+    ],
+    "answer": 2,
+    "explanation": "FPS significa frames per second."
+  },
+  {
+    "q": "¿Qué reproductor multimedia libre y muy extendido se menciona con frecuencia por su compatibilidad con múltiples formatos?",
+    "options": [
+      "VLC",
+      "Paint",
+      "Notepad++",
+      "WinRAR"
+    ],
+    "answer": 0,
+    "explanation": "VLC soporta una gran cantidad de códecs y contenedores."
+  },
+  {
+    "q": "¿Qué es el streaming?",
+    "options": [
+      "Un método para guardar copias de seguridad",
+      "Una transmisión que permite reproducir mientras se reciben datos",
+      "Una técnica de compresión sin pérdidas",
+      "Una zona inversa DNS"
+    ],
+    "answer": 1,
+    "explanation": "En streaming se reproduce el contenido mientras llega."
+  },
+  {
+    "q": "¿Qué se entiende por latencia en transmisión multimedia o redes?",
+    "options": [
+      "Tamaño del archivo",
+      "Número de fotogramas por segundo",
+      "Suma de retardos en la transmisión",
+      "Resolución de pantalla"
+    ],
+    "answer": 2,
+    "explanation": "La latencia es el retraso total entre origen y destino."
+  },
+  {
+    "q": "¿Qué puerto utiliza HTTP por defecto?",
+    "options": [
+      "25",
+      "53",
+      "80",
+      "443"
+    ],
+    "answer": 2,
+    "explanation": "HTTP usa el puerto 80."
+  },
+  {
+    "q": "¿Qué distingue a HTTPS frente a HTTP?",
+    "options": [
+      "Usa UDP en lugar de TCP",
+      "Añade cifrado y autenticación mediante TLS/SSL",
+      "Elimina las cabeceras",
+      "Solo funciona con HTML estático"
+    ],
+    "answer": 1,
+    "explanation": "HTTPS encapsula HTTP sobre TLS para aportar seguridad."
+  },
+  {
+    "q": "¿Qué variable superglobal de PHP contiene datos enviados mediante POST?",
+    "options": [
+      "$_GET",
+      "$_POST",
+      "$_SERVER",
+      "$_COOKIE"
+    ],
+    "answer": 1,
+    "explanation": "$_POST contiene los datos recibidos por POST."
+  },
+  {
+    "q": "¿Qué función de PHP se usa frecuentemente para escapar salida HTML y reducir riesgos XSS básicos?",
+    "options": [
+      "explode()",
+      "filter_var()",
+      "htmlspecialchars()",
+      "implode()"
+    ],
+    "answer": 2,
+    "explanation": "htmlspecialchars transforma caracteres especiales en entidades HTML."
+  },
+  {
+    "q": "¿Qué variable de servidor permite comprobar si la petición llegó por GET o POST?",
+    "options": [
+      "$_SERVER['PHP_SELF']",
+      "$_SERVER['REQUEST_METHOD']",
+      "$_SERVER['REMOTE_ADDR']",
+      "$_POST['method']"
+    ],
+    "answer": 1,
+    "explanation": "REQUEST_METHOD indica el método HTTP de la petición."
+  },
+  {
+    "q": "En SQL, ¿qué instrucción se utiliza para modificar filas ya existentes?",
+    "options": [
+      "ALTER",
+      "UPDATE",
+      "CHANGE",
+      "INSERT"
+    ],
+    "answer": 1,
+    "explanation": "UPDATE modifica registros existentes."
+  },
+  {
+    "q": "¿Qué dispositivo de red trabaja normalmente en capa 2 del modelo OSI y conmuta tramas según MAC?",
+    "options": [
+      "Router",
+      "Switch",
+      "Proxy",
+      "Servidor DNS"
+    ],
+    "answer": 1,
+    "explanation": "El switch trabaja en capa 2 y utiliza direcciones MAC."
+  },
+  {
+    "q": "¿Qué protocolo usa el comando ping?",
+    "options": [
+      "TCP",
+      "UDP",
+      "ICMP",
+      "ARP"
+    ],
+    "answer": 2,
+    "explanation": "Ping utiliza mensajes ICMP."
+  },
+  {
+    "q": "¿Qué significa URL?",
+    "options": [
+      "Uniform Resource Locator",
+      "Universal Routing Link",
+      "Unified Resource Level",
+      "Uniform Route Logic"
+    ],
+    "answer": 0,
+    "explanation": "URL es Uniform Resource Locator."
+  },
+  {
+    "q": "¿Qué formato de datos estructurados es muy común en APIs y aplicaciones web modernas?",
+    "options": [
+      "CSV",
+      "YAML",
+      "JSON",
+      "BMP"
+    ],
+    "answer": 2,
+    "explanation": "JSON es muy habitual en la web actual."
+  },
+  {
+    "q": "¿Qué etiqueta HTML se utiliza para crear un enlace?",
+    "options": [
+      "<link>",
+      "<href>",
+      "<a>",
+      "<url>"
+    ],
+    "answer": 2,
+    "explanation": "La etiqueta <a> crea enlaces."
+  }
+];
+const quiz = document.getElementById("quiz");
+
+const frasesAngel = [
+  "😇 El ángel académico aprueba esta respuesta.",
+  "😇 Bien. Hoy Alberto no puede contigo.",
+  "😇 Correcta. Un paso más cerca del aprobado.",
+  "😇 Esta ha entrado limpia.",
+  "😇 Respuesta de estudiante legendaria."
+];
+
+const frasesDiablo = [
+  "😈 Alberto sonríe en la distancia.",
+  "😈 Esta dolía más que un 4,9.",
+  "😈 Aquí cayó media clase.",
+  "😈 Respira y vuelve a intentarlo.",
+  "😈 El examen se está poniendo serio."
+];
+
+function renderQuiz(){
+  quiz.innerHTML = "";
+  questions.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "quiz-item";
+    card.id = `question-${index}`;
+
+    const optionsHtml = item.options.map((option, i) => `
+      <label class="option">
+        <input type="radio" name="q${index}" value="${i}" onchange="corregirPregunta(${index}); actualizarResumen();">
+        <span>${option}</span>
+      </label>
+    `).join("");
+
+    card.innerHTML = `
+      <h2 class="question-title">${index + 1}. ${item.q}</h2>
+      <div class="options">${optionsHtml}</div>
+      <div class="feedback" id="feedback-${index}"></div>
+    `;
+    quiz.appendChild(card);
+  });
+}
+
+function fraseAleatoria(lista){
+  return lista[Math.floor(Math.random() * lista.length)];
+}
+
+function corregirPregunta(index){
+  const item = questions[index];
+  const selected = document.querySelector(`input[name="q${index}"]:checked`);
+  const card = document.getElementById(`question-${index}`);
+  const feedback = document.getElementById(`feedback-${index}`);
+
+  card.classList.remove("correct","incorrect");
+  feedback.classList.remove("show","ok","bad");
+
+  if(!selected){
+    feedback.classList.add("show","bad");
+    feedback.innerHTML = `😈 No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div>`;
+    card.classList.add("incorrect");
+    return;
+  }
+
+  const value = Number(selected.value);
+
+  if(value === item.answer){
+    card.classList.add("correct");
+    feedback.classList.add("show","ok");
+    feedback.innerHTML = `<span class="icon-big">😇</span>Correcta.<div class="correct-answer">${item.explanation}</div><div class="correct-answer">${fraseAleatoria(frasesAngel)}</div>`;
+  } else {
+    card.classList.add("incorrect");
+    feedback.classList.add("show","bad");
+    feedback.innerHTML = `<span class="icon-big">😈</span>Incorrecta.<div class="correct-answer">${fraseAleatoria(frasesDiablo)}</div><div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div><div class="correct-answer">${item.explanation}</div>`;
+  }
+}
+
+function actualizarResumen(){
+  let score = 0;
+  let errors = 0;
+  let answered = 0;
+
+  questions.forEach((item, index) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    if(selected){
+      answered++;
+      if(Number(selected.value) === item.answer) score++;
+      else errors++;
+    }
+  });
+
+  document.getElementById("score").textContent = score;
+  document.getElementById("errors").textContent = errors;
+  document.getElementById("answered").textContent = answered;
+}
+
+function corregirTodo(){
+  questions.forEach((_, index) => corregirPregunta(index));
+  actualizarResumen();
+  mensajeFinal();
+}
+
+function mensajeFinal(){
+  const score = Number(document.getElementById("score").textContent);
+  const total = questions.length;
+  let texto = "";
+
+  if(score === total){
+    texto = "😇 Perfecto absoluto. Alberto se ha quedado sin palabras.";
+  } else if(score >= Math.ceil(total * 0.7)){
+    texto = "😇 Muy bien. Has superado bastante bien el modo difícil.";
+  } else if(score >= Math.ceil(total * 0.5)){
+    texto = "😈 Vas pasando, pero Alberto aún guarda preguntas trampa.";
+  } else {
+    texto = "😈 Alberto gana esta ronda... toca revancha.";
+  }
+
+  setTimeout(() => alert(texto), 120);
+}
+
+function reiniciarExamen(){
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('.quiz-item').forEach(card => card.classList.remove('correct','incorrect'));
+  document.querySelectorAll('.feedback').forEach(f => {
+    f.classList.remove('show','ok','bad');
+    f.innerHTML = '';
+  });
+  document.getElementById("score").textContent = "0";
+  document.getElementById("errors").textContent = "0";
+  document.getElementById("answered").textContent = "0";
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
