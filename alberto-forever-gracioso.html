@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberto Forever</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#eef3ff;
+  color:#162033;
+}
+.wrapper{
+  max-width:1100px;
+  margin:24px auto;
+  padding:0 16px 40px;
+}
+.header{
+  background:linear-gradient(135deg,#111827,#1e3a8a);
+  color:#fff;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 14px 34px rgba(0,0,0,.18);
+  margin-bottom:22px;
+}
+.header h1{margin:0 0 8px;font-size:36px}
+.header p{margin:0;color:rgba(255,255,255,.86);line-height:1.6}
+.stats{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.stat{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:14px;
+  padding:10px 14px;
+  min-width:140px;
+}
+.stat small{display:block;color:rgba(255,255,255,.78);margin-bottom:4px}
+.stat strong{font-size:24px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+button{
+  border:none;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+.primary{background:#22c55e;color:#07210f}
+.secondary{background:#fff;color:#111827}
+.quiz-item{
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  border:2px solid transparent;
+}
+.quiz-item.correct{border-color:#16a34a;background:#f0fdf4}
+.quiz-item.incorrect{border-color:#dc2626;background:#fff5f5}
+.question-title{margin:0 0 14px;font-size:20px;line-height:1.5}
+.options{display:grid;gap:10px}
+.option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#f8fafc;
+  border:1px solid #dbe4f0;
+  border-radius:12px;
+  padding:12px 14px;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-weight:700;
+  display:none;
+  line-height:1.5;
+}
+.feedback.show{display:block}
+.feedback.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.feedback.bad{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.correct-answer{margin-top:8px;font-weight:600}
+.note{text-align:center;color:#5b6470;margin-top:22px}
+@media (max-width:700px){
+  .header h1{font-size:30px}
+  .question-title{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <h1>Alberto Forever 😈</h1>
+    <p>Test tipo examen generado a partir de tus dos documentos. Se corrige automáticamente al marcar cada respuesta, muestra la correcta si fallas y ahora incluye mensajes graciosos dedicados a la asignatura de Alberto.</p>
+    <div class="stats">
+      <div class="stat"><small>Preguntas</small><strong id="totalQuestions">62</strong></div>
+      <div class="stat"><small>Aciertos</small><strong id="score">0</strong></div>
+      <div class="stat"><small>Fallos</small><strong id="errors">0</strong></div>
+      <div class="stat"><small>Respondidas</small><strong id="answered">0</strong></div>
+    </div>
+    <div class="actions">
+      <button class="primary" onclick="corregirTodo()">Corregir todo</button>
+      <button class="secondary" onclick="reiniciarExamen()">Reiniciar</button>
+    </div>
+    <p style="margin:14px 0 0;color:rgba(255,255,255,.82);font-weight:700">Si sobrevives a este test, sobrevives a cualquier examen de Alberto.</p>
+  </div>
+
+  <div id="quiz"></div>
+  <p class="note">Archivo listo para Visual Studio Code y GitHub Pages.</p>
+</div>
+
+<script>
+const questions = [
+  {
+    "q": "¿Cuál es la función principal del DNS?",
+    "options": [
+      "Cifrar páginas web",
+      "Traducir nombres de dominio a direcciones IP",
+      "Asignar direcciones MAC",
+      "Comprimir archivos"
+    ],
+    "answer": 1,
+    "explanation": "El DNS se encarga de resolver o traducir nombres de dominio a sus direcciones IP correspondientes."
+  },
+  {
+    "q": "¿Cómo se simboliza el dominio raíz en DNS?",
+    "options": [
+      "Con una barra /",
+      "Con un punto .",
+      "Con un guion -",
+      "Con dos puntos :"
+    ],
+    "answer": 1,
+    "explanation": "El dominio raíz se representa con un punto."
+  },
+  {
+    "q": "¿Qué significa FQDN?",
+    "options": [
+      "Formato de consulta dinámica de nombres",
+      "Nombre de dominio completamente cualificado",
+      "Fichero de gestión DNS",
+      "Función de consulta de dominio"
+    ],
+    "answer": 1,
+    "explanation": "FQDN es el nombre de dominio completo y único dentro de la jerarquía DNS."
+  },
+  {
+    "q": "¿Qué tipo de resolución obtiene una IP a partir de un nombre DNS?",
+    "options": [
+      "Inversa",
+      "Directa",
+      "Recursiva",
+      "Delegada"
+    ],
+    "answer": 1,
+    "explanation": "La resolución directa obtiene la dirección IP a partir del nombre DNS."
+  },
+  {
+    "q": "¿Qué parámetro de dig se usa para una consulta inversa?",
+    "options": [
+      "-r",
+      "-x",
+      "-i",
+      "-p"
+    ],
+    "answer": 1,
+    "explanation": "Para una consulta inversa con dig se utiliza el parámetro -x."
+  },
+  {
+    "q": "¿Qué tipo de zona DNS devuelve el nombre a partir de una IP?",
+    "options": [
+      "Zona forward",
+      "Zona inversa",
+      "Zona primaria",
+      "Zona caché"
+    ],
+    "answer": 1,
+    "explanation": "La zona inversa se utiliza para devolver el nombre DNS a partir de una dirección IP."
+  },
+  {
+    "q": "¿Qué caracteriza a una zona primaria DNS?",
+    "options": [
+      "Es solo de lectura",
+      "No contiene registros",
+      "Permite añadir, modificar o eliminar registros",
+      "Solo sirve para caché"
+    ],
+    "answer": 2,
+    "explanation": "La zona primaria permite administrar y modificar los registros."
+  },
+  {
+    "q": "¿Qué es una zona secundaria?",
+    "options": [
+      "Una zona sin autoridad",
+      "Un espejo de una zona primaria de solo lectura",
+      "Una zona temporal",
+      "Una zona solo para correo"
+    ],
+    "answer": 1,
+    "explanation": "La zona secundaria replica la información de la primaria y es de solo lectura."
+  },
+  {
+    "q": "¿Qué registro DNS debe ser el primero de la zona?",
+    "options": [
+      "MX",
+      "A",
+      "SOA",
+      "PTR"
+    ],
+    "answer": 2,
+    "explanation": "El registro SOA identifica al servidor autoritario de la zona y debe aparecer primero."
+  },
+  {
+    "q": "¿Qué registro DNS sirve para obtener la IPv4 de un FQDN?",
+    "options": [
+      "A",
+      "NS",
+      "TXT",
+      "PTR"
+    ],
+    "answer": 0,
+    "explanation": "El registro A asocia un nombre de dominio con una dirección IPv4."
+  },
+  {
+    "q": "¿Qué registro DNS se usa en búsquedas inversas?",
+    "options": [
+      "CNAME",
+      "PTR",
+      "TXT",
+      "NS"
+    ],
+    "answer": 1,
+    "explanation": "El registro PTR se usa en la resolución inversa."
+  },
+  {
+    "q": "¿Qué registro DNS permite crear alias?",
+    "options": [
+      "SOA",
+      "A",
+      "CNAME",
+      "MX"
+    ],
+    "answer": 2,
+    "explanation": "CNAME permite asociar un alias a un nombre canónico real."
+  },
+  {
+    "q": "¿Qué servicio soluciona asociar un dominio a una IP dinámica?",
+    "options": [
+      "FTP",
+      "DDNS",
+      "TLS",
+      "IMAP4"
+    ],
+    "answer": 1,
+    "explanation": "DDNS permite vincular un nombre de dominio a una dirección IP dinámica."
+  },
+  {
+    "q": "¿Qué parámetro de red permite llegar a otras redes?",
+    "options": [
+      "Máscara",
+      "Puerta de enlace",
+      "MAC",
+      "Hostname"
+    ],
+    "answer": 1,
+    "explanation": "La puerta de enlace permite la conectividad con otras redes e Internet."
+  },
+  {
+    "q": "¿Cuál es el objetivo principal de DHCP?",
+    "options": [
+      "Comprimir tráfico",
+      "Asignar dinámicamente parámetros de red",
+      "Traducir nombres",
+      "Crear sitios web"
+    ],
+    "answer": 1,
+    "explanation": "DHCP proporciona automáticamente IP y otros parámetros de configuración de red."
+  },
+  {
+    "q": "¿Qué hace un agente DHCP relay?",
+    "options": [
+      "Bloquea peticiones DHCP",
+      "Actúa como intermediario entre clientes y servidores DHCP en subredes distintas",
+      "Resuelve DNS",
+      "Cifra las concesiones"
+    ],
+    "answer": 1,
+    "explanation": "El DHCP relay reenvía mensajes entre clientes y servidores DHCP ubicados en distintas subredes."
+  },
+  {
+    "q": "¿Qué tipo de asignación DHCP da siempre la misma IP a una MAC concreta?",
+    "options": [
+      "Dinámica",
+      "Automática",
+      "Estática o reserva",
+      "Temporal"
+    ],
+    "answer": 2,
+    "explanation": "La asignación estática o reserva asocia una MAC con una IP fija."
+  },
+  {
+    "q": "¿Qué tipo de asignación DHCP usa una IP durante un tiempo limitado renovable?",
+    "options": [
+      "Dinámica",
+      "Manual",
+      "Estática",
+      "Permanente"
+    ],
+    "answer": 0,
+    "explanation": "En la asignación dinámica la concesión tiene duración limitada y puede renovarse."
+  },
+  {
+    "q": "¿Qué mensaje envía primero un cliente DHCP para solicitar configuración?",
+    "options": [
+      "ACK",
+      "DISCOVER",
+      "OFFER",
+      "RELEASE"
+    ],
+    "answer": 1,
+    "explanation": "El cliente comienza el proceso enviando un DHCP DISCOVER."
+  },
+  {
+    "q": "¿Qué técnica en switches ayuda a prevenir ataques rogue DHCP?",
+    "options": [
+      "DHCP snooping",
+      "ARP poisoning",
+      "NAT dinámico",
+      "Port mirroring"
+    ],
+    "answer": 0,
+    "explanation": "DHCP snooping bloquea mensajes DHCP Offer/Ack desde puertos no autorizados."
+  },
+  {
+    "q": "¿Qué es una URL?",
+    "options": [
+      "Una secuencia para localizar un recurso",
+      "Un tipo de cookie",
+      "Un archivo de audio",
+      "Una orden de terminal"
+    ],
+    "answer": 0,
+    "explanation": "La URL permite localizar un recurso en Internet o en otra red."
+  },
+  {
+    "q": "¿Qué protocolo usa una versión segura de HTTP?",
+    "options": [
+      "FTP",
+      "HTTPS",
+      "POP3",
+      "DNS"
+    ],
+    "answer": 1,
+    "explanation": "La versión segura de HTTP es HTTPS."
+  },
+  {
+    "q": "¿Qué significa que HTTP sea un protocolo sin estado?",
+    "options": [
+      "No usa puertos",
+      "No recuerda conexiones anteriores",
+      "No devuelve respuestas",
+      "No puede enviar HTML"
+    ],
+    "answer": 1,
+    "explanation": "HTTP no conserva información de sesiones anteriores por sí mismo."
+  },
+  {
+    "q": "¿Qué error HTTP indica que el recurso no se encuentra?",
+    "options": [
+      "403",
+      "500",
+      "503",
+      "404"
+    ],
+    "answer": 3,
+    "explanation": "El código 404 indica recurso no encontrado."
+  },
+  {
+    "q": "¿Cuáles son los métodos HTTP más utilizados en peticiones?",
+    "options": [
+      "GET y POST",
+      "PUT y TRACE",
+      "HEAD y CONNECT",
+      "ARP y DNS"
+    ],
+    "answer": 0,
+    "explanation": "Los métodos más habituales en HTTP son GET y POST."
+  },
+  {
+    "q": "¿Para qué sirven los tipos MIME en HTTP?",
+    "options": [
+      "Para cifrar tráfico",
+      "Para indicar el tipo de datos transferidos",
+      "Para crear usuarios",
+      "Para configurar DNS"
+    ],
+    "answer": 1,
+    "explanation": "Los tipos MIME informan del tipo de contenido que se transfiere."
+  },
+  {
+    "q": "¿Qué son las cookies?",
+    "options": [
+      "Pequeños archivos de texto que guarda el navegador",
+      "Archivos de vídeo",
+      "Certificados digitales",
+      "Mensajes SMTP"
+    ],
+    "answer": 0,
+    "explanation": "Las cookies almacenan información sobre la visita del usuario en el navegador."
+  },
+  {
+    "q": "¿Qué tipo de cookie se elimina al cerrar el navegador?",
+    "options": [
+      "Persistente",
+      "De terceros",
+      "De sesión",
+      "Segura"
+    ],
+    "answer": 2,
+    "explanation": "Las cookies de sesión son temporales y desaparecen al cerrar el navegador."
+  },
+  {
+    "q": "¿Qué comando activa módulos en Apache en Ubuntu?",
+    "options": [
+      "a2enmod",
+      "a2dissite",
+      "systemctl addmod",
+      "modon"
+    ],
+    "answer": 0,
+    "explanation": "a2enmod sirve para habilitar módulos en Apache."
+  },
+  {
+    "q": "¿Dónde están los módulos disponibles de Apache en Ubuntu?",
+    "options": [
+      "/var/www/html",
+      "/etc/apache2/mods-available",
+      "/etc/apache2/sites-enabled",
+      "/usr/share/apache"
+    ],
+    "answer": 1,
+    "explanation": "Apache guarda los módulos disponibles en /etc/apache2/mods-available."
+  },
+  {
+    "q": "¿Qué permiten los hosts virtuales en Apache?",
+    "options": [
+      "Alojar varios sitios web en una sola máquina",
+      "Cifrar el FTP",
+      "Asignar IP por DHCP",
+      "Leer correo"
+    ],
+    "answer": 0,
+    "explanation": "Los hosts virtuales permiten ejecutar varios sitios web en el mismo servidor."
+  },
+  {
+    "q": "¿Qué puerto usa HTTPS por defecto?",
+    "options": [
+      "21",
+      "80",
+      "443",
+      "25"
+    ],
+    "answer": 2,
+    "explanation": "HTTPS usa por defecto el puerto 443."
+  },
+  {
+    "q": "¿Qué módulo debe estar activado en Apache para HTTPS con SSL?",
+    "options": [
+      "proxy",
+      "ssl",
+      "mime",
+      "php"
+    ],
+    "answer": 1,
+    "explanation": "Para HTTPS en Apache debe activarse el módulo ssl."
+  },
+  {
+    "q": "¿Qué garantiza TLS/SSL en HTTPS?",
+    "options": [
+      "Solo velocidad",
+      "Confidencialidad, integridad y autenticación",
+      "Solo almacenamiento",
+      "Solo compresión"
+    ],
+    "answer": 1,
+    "explanation": "TLS/SSL aporta cifrado, integridad de los datos y autenticación."
+  },
+  {
+    "q": "¿Qué archivo registra los errores de Apache?",
+    "options": [
+      "access.log",
+      "error.log",
+      "secure.log",
+      "apache.txt"
+    ],
+    "answer": 1,
+    "explanation": "Apache registra los errores en error.log."
+  },
+  {
+    "q": "¿Qué utilidad rota automáticamente los logs en Linux?",
+    "options": [
+      "grep",
+      "chmod",
+      "logrotate",
+      "tar"
+    ],
+    "answer": 2,
+    "explanation": "Logrotate gestiona la rotación y compresión de archivos de registro."
+  },
+  {
+    "q": "¿Cuál es una debilidad del FTP tradicional?",
+    "options": [
+      "Usa cifrado fuerte siempre",
+      "Transfiere contraseñas en texto plano",
+      "No usa red TCP/IP",
+      "No admite usuarios"
+    ],
+    "answer": 1,
+    "explanation": "FTP transmite credenciales y datos sin cifrar."
+  },
+  {
+    "q": "¿Qué puertos usa FTP tradicional para control y datos en modo activo?",
+    "options": [
+      "20 datos y 21 control",
+      "21 datos y 22 control",
+      "25 y 110",
+      "80 y 443"
+    ],
+    "answer": 0,
+    "explanation": "FTP usa el puerto 21 para control y el 20 para datos en modo activo."
+  },
+  {
+    "q": "¿Qué usuario FTP se conecta como anonymous?",
+    "options": [
+      "Local",
+      "Virtual",
+      "Genérico",
+      "Root"
+    ],
+    "answer": 2,
+    "explanation": "El usuario genérico se conecta como anonymous."
+  },
+  {
+    "q": "¿Qué modo FTP mantiene el servicio activo desde el arranque como proceso autónomo?",
+    "options": [
+      "Modo pasivo",
+      "Modo aislado o standalone",
+      "Modo relay",
+      "Modo cliente"
+    ],
+    "answer": 1,
+    "explanation": "En modo standalone el servidor FTP se ejecuta de forma independiente al arrancar."
+  },
+  {
+    "q": "¿Qué protocolo de transferencia de archivos usa el canal SSH?",
+    "options": [
+      "FTP",
+      "FTPS",
+      "SFTP",
+      "TFTP"
+    ],
+    "answer": 2,
+    "explanation": "SFTP funciona sobre SSH y cifra el canal."
+  },
+  {
+    "q": "¿Quién interactúa directamente con el usuario para redactar y leer correos?",
+    "options": [
+      "MTA",
+      "MDA",
+      "MUA",
+      "MX"
+    ],
+    "answer": 2,
+    "explanation": "El MUA es el cliente de correo con el que interactúa el usuario."
+  },
+  {
+    "q": "¿Qué agente de correo se encarga del transporte entre dominios?",
+    "options": [
+      "MUA",
+      "MTA",
+      "MDA",
+      "PTR"
+    ],
+    "answer": 1,
+    "explanation": "El MTA transporta el correo y se corresponde con el servidor SMTP."
+  },
+  {
+    "q": "¿Qué protocolos se usan habitualmente entre MUA y MDA?",
+    "options": [
+      "POP3 e IMAP4",
+      "DNS y DHCP",
+      "FTP y SFTP",
+      "HTTP y HTTPS"
+    ],
+    "answer": 0,
+    "explanation": "El MDA entrega el correo al cliente mediante POP3 o IMAP4."
+  },
+  {
+    "q": "¿Qué registro DNS indica el servidor de correo de un dominio?",
+    "options": [
+      "A",
+      "CNAME",
+      "MX",
+      "TXT"
+    ],
+    "answer": 2,
+    "explanation": "El registro MX señala el MTA o servidor SMTP del dominio."
+  },
+  {
+    "q": "¿Qué puertos SMTP se usan para envío desde MUA según los apuntes?",
+    "options": [
+      "20 y 21",
+      "465 o 587",
+      "110 y 143",
+      "53 y 25"
+    ],
+    "answer": 1,
+    "explanation": "El envío desde MUA suele usar 465 o 587."
+  },
+  {
+    "q": "¿Qué protocolo permite dejar el correo en el servidor y descargarlo solo al leerlo?",
+    "options": [
+      "POP3",
+      "IMAP4",
+      "SMTP",
+      "FTP"
+    ],
+    "answer": 1,
+    "explanation": "IMAP4 permite trabajar con los mensajes almacenados en el servidor."
+  },
+  {
+    "q": "¿Qué protocolo no es adecuado para acceder al correo desde varios dispositivos?",
+    "options": [
+      "TLS",
+      "IMAP4",
+      "POP3",
+      "HTTPS"
+    ],
+    "answer": 2,
+    "explanation": "POP3 es más limitado y no resulta adecuado para varios dispositivos."
+  },
+  {
+    "q": "¿Qué tres propiedades garantiza TLS en el correo seguro?",
+    "options": [
+      "Velocidad, caché y compresión",
+      "Autenticación, confidencialidad e integridad",
+      "Encaminamiento, NAT y DNS",
+      "Persistencia, copia y borrado"
+    ],
+    "answer": 1,
+    "explanation": "TLS protege la comunicación garantizando autenticación, confidencialidad e integridad."
+  },
+  {
+    "q": "¿Qué busca validar SPF?",
+    "options": [
+      "Que el vídeo use buen códec",
+      "Que el correo procede de un servidor autorizado",
+      "Que el usuario tenga IMAP",
+      "Que la cookie sea persistente"
+    ],
+    "answer": 1,
+    "explanation": "SPF verifica que el correo ha sido enviado desde un servidor autorizado por el dominio."
+  },
+  {
+    "q": "¿Qué hace DKIM?",
+    "options": [
+      "Firma los mensajes con una clave privada",
+      "Asigna IP dinámicas",
+      "Borra spam automáticamente",
+      "Convierte POP3 en IMAP"
+    ],
+    "answer": 0,
+    "explanation": "DKIM añade una firma al mensaje para verificar la autenticidad del dominio remitente."
+  },
+  {
+    "q": "¿Cuándo se recomienda configurar DMARC?",
+    "options": [
+      "Antes de SPF",
+      "Antes de DKIM",
+      "Después de SPF y DKIM",
+      "Solo si no hay DNS"
+    ],
+    "answer": 2,
+    "explanation": "DMARC se configura después de SPF y DKIM para indicar cómo tratar mensajes no autenticados."
+  },
+  {
+    "q": "¿Qué ventaja del audio digital destaca el documento?",
+    "options": [
+      "Pierde calidad con cada copia",
+      "Se puede copiar infinitas veces sin perder calidad",
+      "No necesita almacenamiento",
+      "No tiene latencia"
+    ],
+    "answer": 1,
+    "explanation": "Una gran ventaja del audio digital es que puede copiarse o reproducirse muchas veces sin degradarse."
+  },
+  {
+    "q": "¿Qué codificación sin compresión se usa en CD-ROM según los apuntes?",
+    "options": [
+      "MP3",
+      "AAC",
+      "PCM",
+      "Opus"
+    ],
+    "answer": 2,
+    "explanation": "PCM representa cada muestra y es la codificación usada en CD-ROM."
+  },
+  {
+    "q": "¿Cuál de estos formatos es sin pérdidas?",
+    "options": [
+      "FLAC",
+      "MP3",
+      "AAC",
+      "AC3"
+    ],
+    "answer": 0,
+    "explanation": "FLAC es un formato de audio comprimido sin pérdidas."
+  },
+  {
+    "q": "¿Qué afirmación es correcta sobre los contenedores de audio?",
+    "options": [
+      "La extensión siempre indica el códec",
+      "Un archivo .m4a puede contener distintos códecs",
+      "MP3 es siempre un contenedor",
+      "WAV siempre usa AAC"
+    ],
+    "answer": 1,
+    "explanation": "La extensión no garantiza el códec; un .m4a puede contener distintos formatos de audio."
+  },
+  {
+    "q": "¿Qué es la latencia en redes?",
+    "options": [
+      "La compresión del vídeo",
+      "La suma de retardos en la transmisión",
+      "La velocidad del disco",
+      "El tamaño del paquete"
+    ],
+    "answer": 1,
+    "explanation": "La latencia es la suma de retardos que se producen durante la transmisión."
+  },
+  {
+    "q": "¿Qué códec citado tiene latencia variable entre 5 y 66,5 ms?",
+    "options": [
+      "AAC",
+      "Opus",
+      "MP3",
+      "PCM"
+    ],
+    "answer": 1,
+    "explanation": "Opus está diseñado para minimizar la latencia."
+  },
+  {
+    "q": "¿Cómo se llama el número de imágenes por segundo en vídeo?",
+    "options": [
+      "Bitrate",
+      "Resolución",
+      "FPS",
+      "Codec"
+    ],
+    "answer": 2,
+    "explanation": "La tasa de fotogramas se mide en FPS o cuadros por segundo."
+  },
+  {
+    "q": "¿Qué reproductor se menciona como muy usado y de código abierto?",
+    "options": [
+      "Photoshop",
+      "VLC Media Player",
+      "WinRAR",
+      "Audacity"
+    ],
+    "answer": 1,
+    "explanation": "VLC Media Player se menciona como reproductor libre y muy compatible."
+  },
+  {
+    "q": "¿Qué códecs de vídeo se citan como los más utilizados actualmente?",
+    "options": [
+      "MPEG-4 AVC y H.265",
+      "BMP y PNG",
+      "POP3 y IMAP4",
+      "SPF y DKIM"
+    ],
+    "answer": 0,
+    "explanation": "Los apuntes destacan MPEG-4 AVC y H.265 (HEVC)."
+  },
+  {
+    "q": "¿Qué es el streaming?",
+    "options": [
+      "Un método de compresión sin pérdidas",
+      "Un método de transmisión que permite reproducir mientras se recibe",
+      "Una técnica DNS",
+      "Una copia local del vídeo"
+    ],
+    "answer": 1,
+    "explanation": "El streaming permite empezar la reproducción de audio o vídeo al mismo tiempo que se reciben los datos."
+  }
+];
+const quiz = document.getElementById("quiz");
+
+function renderQuiz(){
+  quiz.innerHTML = "";
+  questions.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "quiz-item";
+    card.id = `question-${index}`;
+
+    const optionsHtml = item.options.map((option, i) => `
+      <label class="option">
+        <input type="radio" name="q${index}" value="${i}" onchange="corregirPregunta(${index}); actualizarResumen();">
+        <span>${option}</span>
+      </label>
+    `).join("");
+
+    card.innerHTML = `
+      <h2 class="question-title">${index + 1}. ${item.q}</h2>
+      <div class="options">${optionsHtml}</div>
+      <div class="feedback" id="feedback-${index}"></div>
+    `;
+    quiz.appendChild(card);
+  });
+}
+
+const frasesAlberto = [
+  "Alberto lo sabía...",
+  "Esto cae fijo en el examen.",
+  "Esa estaba escondida en los apuntes.",
+  "Respira hondo y vuelve a intentarlo.",
+  "Alberto está tomando nota mental.",
+  "Esta dolía más que un 4,9.",
+  "La teoría era fácil... según Alberto."
+];
+
+function corregirPregunta(index){
+  const item = questions[index];
+  const selected = document.querySelector(`input[name="q${index}"]:checked`);
+  const card = document.getElementById(`question-${index}`);
+  const feedback = document.getElementById(`feedback-${index}`);
+
+  card.classList.remove("correct","incorrect");
+  feedback.classList.remove("show","ok","bad");
+
+  if(!selected){
+    feedback.classList.add("show","bad");
+    feedback.innerHTML = `No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div>`;
+    card.classList.add("incorrect");
+    return;
+  }
+
+  const value = Number(selected.value);
+
+  if(value === item.answer){
+    const mensajeOk = scoreEmoji();
+    card.classList.add("correct");
+    feedback.classList.add("show","ok");
+    feedback.innerHTML = `✅ Correcta. ${item.explanation}<div class="correct-answer">${mensajeOk}</div>`;
+  } else {
+    const frase = frasesAlberto[Math.floor(Math.random() * frasesAlberto.length)];
+    card.classList.add("incorrect");
+    feedback.classList.add("show","bad");
+    feedback.innerHTML = `❌ Incorrecta.<div class="correct-answer">"${frase}"</div><div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div><div class="correct-answer">${item.explanation}</div>`;
+  }
+}
+
+function scoreEmoji(){
+  const mensajes = [
+    "Hoy Alberto no puede contigo.",
+    "Esa ha entrado limpita.",
+    "Una pequeña victoria académica.",
+    "Punto para ti y drama para Alberto.",
+    "Bien, así sí se aprueba."
+  ];
+  return mensajes[Math.floor(Math.random() * mensajes.length)];
+}
+
+function actualizarResumen(){
+  let score = 0;
+  let errors = 0;
+  let answered = 0;
+
+  questions.forEach((item, index) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    if(selected){
+      answered++;
+      if(Number(selected.value) === item.answer) score++;
+      else errors++;
+    }
+  });
+
+  document.getElementById("score").textContent = score;
+  document.getElementById("errors").textContent = errors;
+  document.getElementById("answered").textContent = answered;
+}
+
+function corregirTodo(){
+  questions.forEach((_, index) => corregirPregunta(index));
+  actualizarResumen();
+  mensajeFinal();
+}
+
+function mensajeFinal(){
+  const score = Number(document.getElementById("score").textContent);
+  const total = questions.length;
+  let texto = "";
+
+  if(score === total){
+    texto = "🏆 Perfecto. Alberto está orgulloso... aunque probablemente no lo admita.";
+  } else if(score >= Math.ceil(total * 0.7)){
+    texto = "😎 Muy bien. Has sobrevivido bastante bien al universo Alberto.";
+  } else if(score >= Math.ceil(total * 0.5)){
+    texto = "🙂 Vas bien, pero Alberto todavía tiene preguntas escondidas.";
+  } else {
+    texto = "💀 Alberto gana esta ronda... pero la revancha será tuya.";
+  }
+
+  setTimeout(() => alert(texto), 120);
+}
+
+function reiniciarExamen(){
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('.quiz-item').forEach(card => card.classList.remove('correct','incorrect'));
+  document.querySelectorAll('.feedback').forEach(f => {
+    f.classList.remove('show','ok','bad');
+    f.innerHTML = '';
+  });
+  document.getElementById("score").textContent = "0";
+  document.getElementById("errors").textContent = "0";
+  document.getElementById("answered").textContent = "0";
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
