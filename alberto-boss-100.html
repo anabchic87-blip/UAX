@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberto Boss 100</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(135deg,#0f172a 0%,#111827 60%,#1f2937 100%);
+  color:white;
+}
+.wrapper{max-width:1100px;margin:auto;padding:24px 16px 40px}
+.header{
+  background:linear-gradient(135deg,#7f1d1d,#111827);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 0 35px rgba(239,68,68,.25);
+  margin-bottom:20px;
+}
+h1{margin:0 0 8px;font-size:34px}
+.subtitle{color:#f3f4f6;line-height:1.6;margin:0}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.stat{background:rgba(255,255,255,.08);padding:10px 14px;border-radius:12px;min-width:140px}
+.stat small{display:block;color:#d1d5db}
+.stat strong{font-size:24px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+button{
+  padding:12px 18px;
+  font-weight:bold;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+.primary{background:#ef4444;color:white;box-shadow:0 0 18px rgba(239,68,68,.45)}
+.secondary{background:white;color:#111827}
+.card{
+  background:#1f2937;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:14px;
+  border:2px solid transparent;
+  box-shadow:0 8px 20px rgba(0,0,0,.22);
+}
+.correct{background:#052e16;border-color:#22c55e}
+.incorrect{background:#450a0a;border-color:#ef4444}
+.option{display:block;margin:8px 0;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.03)}
+.feedback{margin-top:10px;font-weight:bold;line-height:1.5}
+.progress-wrap{margin-top:16px}
+.progress-bar{height:14px;background:#374151;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#ef4444);transition:width .25s ease}
+.footer{text-align:center;color:#d1d5db;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <h1>🔥 Alberto Boss Final · 100 preguntas</h1>
+    <p class="subtitle">Modo examen real con temporizador, nota sobre 10, penalización de 4 fallos = -1 acierto y ranking final Alumno vs Alberto. Si aciertas aparece 😇 y si fallas aparece 😈.</p>
+    <div class="stats">
+      <div class="stat"><small>Preguntas</small><strong id="totalQuestions">100</strong></div>
+      <div class="stat"><small>Aciertos</small><strong id="score">0</strong></div>
+      <div class="stat"><small>Fallos</small><strong id="errors">0</strong></div>
+      <div class="stat"><small>Respondidas</small><strong id="answered">0</strong></div>
+      <div class="stat"><small>Nota /10</small><strong id="grade">0.00</strong></div>
+      <div class="stat"><small>Tiempo</small><strong id="timer">60:00</strong></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="actions">
+      <button class="primary" onclick="entregarExamen()">Entregar examen 😈</button>
+      <button class="secondary" onclick="reiniciarExamen()">Reiniciar</button>
+    </div>
+  </div>
+
+  <div id="quiz"></div>
+  <div class="footer">Listo para GitHub Pages.</div>
+</div>
+
+<script>
+const questions = [{"q": "¿Qué registro DNS identifica al servidor principal de una zona y su número de serie?", "o": ["NS", "SOA", "MX", "PTR"], "a": 1}, {"q": "¿Qué registro DNS se usa para asociar un nombre con una IPv6?", "o": ["A", "AAAA", "PTR", "TXT"], "a": 1}, {"q": "¿Qué registro DNS define el servidor de correo de un dominio?", "o": ["MX", "CNAME", "SOA", "NS"], "a": 0}, {"q": "¿Qué registro DNS se usa en resolución inversa?", "o": ["PTR", "TXT", "A", "SRV"], "a": 0}, {"q": "¿Qué comando Linux ofrece consultas DNS detalladas?", "o": ["route", "dig", "hostid", "trace"], "a": 1}, {"q": "¿Qué ataque introduce respuestas falsas en caché DNS?", "o": ["DNS flooding", "Cache poisoning", "ARP spoofing", "Port knocking"], "a": 1}, {"q": "¿Qué significa FQDN?", "o": ["Fast Query Domain Name", "Fully Qualified Domain Name", "Full Qualified Dynamic Node", "File Query Domain Network"], "a": 1}, {"q": "¿Qué servidor DNS responde con autoridad sobre una zona concreta?", "o": ["Servidor raíz", "Servidor autoritativo", "Servidor caché", "Relay DNS"], "a": 1}, {"q": "En una resolución recursiva, ¿quién obtiene la respuesta final para el cliente?", "o": ["El cliente", "El servidor recursivo", "El servidor MX", "El switch"], "a": 1}, {"q": "¿Qué elemento de una zona DNS debe aumentar para propagar cambios a secundarias?", "o": ["TTL", "Retry", "Refresh", "Serial"], "a": 3}, {"q": "¿Qué puerto usa el servidor DHCP?", "o": ["67", "68", "69", "53"], "a": 0}, {"q": "¿Qué puerto usa el cliente DHCP?", "o": ["66", "67", "68", "69"], "a": 2}, {"q": "¿Qué mensaje sigue a DHCP DISCOVER en el proceso DORA?", "o": ["ACK", "REQUEST", "OFFER", "RELEASE"], "a": 2}, {"q": "¿Qué tipo de asignación DHCP vincula una MAC a una IP fija?", "o": ["Dinámica", "Reserva", "Automática", "Aleatoria"], "a": 1}, {"q": "¿Qué permite un agente DHCP relay?", "o": ["Cifrar tráfico DHCP", "Reenviar peticiones entre subredes", "Resolver nombres DNS", "Rotar logs"], "a": 1}, {"q": "¿Qué técnica ayuda a bloquear servidores DHCP falsos?", "o": ["DHCP snooping", "DNSSEC", "NAT overload", "Proxy ARP"], "a": 0}, {"q": "¿Cuál es el objetivo principal de DHCP?", "o": ["Traducir dominios", "Asignar parámetros de red automáticamente", "Cifrar páginas", "Sincronizar relojes"], "a": 1}, {"q": "¿Qué parámetro de red permite salir a otras redes?", "o": ["Máscara", "Puerta de enlace", "Hostname", "TTL"], "a": 1}, {"q": "¿Qué opción DHCP suele entregar la dirección del servidor DNS?", "o": ["Opción 3", "Opción 6", "Opción 15", "Opción 66"], "a": 1}, {"q": "¿Qué sucede cuando expira una concesión DHCP no renovada?", "o": ["Se convierte en estática", "Puede ser reasignada", "El host mantiene IP indefinidamente", "Se borra la MAC del switch"], "a": 1}, {"q": "¿Qué puerto usa HTTP por defecto?", "o": ["21", "25", "80", "443"], "a": 2}, {"q": "¿Qué puerto usa HTTPS por defecto?", "o": ["53", "110", "143", "443"], "a": 3}, {"q": "¿Qué código HTTP indica redirección permanente?", "o": ["200", "301", "403", "500"], "a": 1}, {"q": "¿Qué código HTTP indica recurso no encontrado?", "o": ["302", "401", "404", "503"], "a": 2}, {"q": "¿Qué código HTTP indica error interno del servidor?", "o": ["403", "404", "500", "301"], "a": 2}, {"q": "¿Qué significa que HTTP sea sin estado?", "o": ["No usa puertos", "No conserva contexto por sí mismo entre peticiones", "No puede enviar HTML", "No funciona con formularios"], "a": 1}, {"q": "¿Qué cabecera informa del tipo de contenido transferido?", "o": ["Content-Type", "Server-Info", "Transfer-Path", "Mime-Host"], "a": 0}, {"q": "¿Qué método HTTP suele enviar parámetros en la URL?", "o": ["POST", "GET", "PATCH", "CONNECT"], "a": 1}, {"q": "¿Qué método HTTP suele enviar datos en el cuerpo de la petición?", "o": ["GET", "TRACE", "POST", "HEAD"], "a": 2}, {"q": "¿Cuál de estos métodos HTTP es idempotente?", "o": ["POST", "GET", "PATCH", "CONNECT"], "a": 1}, {"q": "¿Qué son las cookies en la web?", "o": ["Certificados TLS", "Pequeños datos almacenados por el navegador", "Servidores proxy", "Métodos HTTP"], "a": 1}, {"q": "¿Qué cookie suele borrarse al cerrar el navegador?", "o": ["Persistente", "Segura", "De sesión", "De terceros"], "a": 2}, {"q": "¿Qué significa CSS?", "o": ["Cascading Style Sheets", "Creative System Sheets", "Control Style Syntax", "Computer Simple Sheets"], "a": 0}, {"q": "¿Qué etiqueta HTML crea un enlace?", "o": ["<url>", "<a>", "<linkto>", "<href>"], "a": 1}, {"q": "¿Qué atributo define el destino de un enlace HTML?", "o": ["src", "href", "action", "targeturl"], "a": 1}, {"q": "¿Qué lenguaje se ejecuta normalmente en el navegador?", "o": ["PHP", "JavaScript", "SQL", "Bash"], "a": 1}, {"q": "¿Qué formato de datos es muy usado en APIs modernas?", "o": ["BMP", "JSON", "CSV", "INI"], "a": 1}, {"q": "¿Qué significa URL?", "o": ["Uniform Resource Locator", "Universal Route Link", "Unified Resource Level", "Uniform Routing Logic"], "a": 0}, {"q": "¿Qué significa CMS en desarrollo web?", "o": ["Content Management System", "Code Markup Service", "Content Mapping Syntax", "Cache Mode Server"], "a": 0}, {"q": "¿Qué tecnología es del lado del servidor?", "o": ["HTML", "CSS", "PHP", "SVG"], "a": 2}, {"q": "¿Cómo comienza un bloque PHP estándar?", "o": ["<php>", "<?php", "<script php>", "<?"], "a": 1}, {"q": "¿Qué superglobal contiene datos recibidos por POST?", "o": ["$_GET", "$_POST", "$_SERVER", "$_COOKIE"], "a": 1}, {"q": "¿Qué superglobal contiene datos recibidos por GET?", "o": ["$_POST", "$_GET", "$_FORM", "$_REQUEST_URI"], "a": 1}, {"q": "¿Qué superglobal permite consultar el método HTTP?", "o": ["$_SERVER['REQUEST_METHOD']", "$_POST['METHOD']", "$_ENV['HTTP']", "$_GET['TYPE']"], "a": 0}, {"q": "¿Qué función ayuda a escapar caracteres HTML en PHP?", "o": ["explode()", "htmlspecialchars()", "implode()", "strlen()"], "a": 1}, {"q": "¿Qué función valida datos como un email en PHP?", "o": ["print_r()", "filter_var()", "isset()", "sort()"], "a": 1}, {"q": "¿Qué símbolo llevan las variables en PHP?", "o": ["#", "$", "@", "&"], "a": 1}, {"q": "¿Qué palabra clave moderna define constantes en PHP?", "o": ["define", "const", "static", "final"], "a": 1}, {"q": "¿Qué operador concatena cadenas en PHP?", "o": ["+", "&", ".", ":"], "a": 2}, {"q": "¿Qué estructura recorre arrays de forma natural en PHP?", "o": ["switch", "foreach", "goto", "const"], "a": 1}, {"q": "¿Qué significa SQL?", "o": ["Structured Query Language", "Server Query Logic", "Simple Query Layer", "Standard Queue Language"], "a": 0}, {"q": "¿Qué instrucción SQL inserta filas?", "o": ["INSERT", "ADD", "NEW", "PUT"], "a": 0}, {"q": "¿Qué instrucción SQL modifica filas existentes?", "o": ["ALTER", "UPDATE", "MODIFYROW", "CHANGE"], "a": 1}, {"q": "¿Qué instrucción SQL elimina filas?", "o": ["REMOVE", "DELETE", "DROP", "CLEAR"], "a": 1}, {"q": "¿Qué instrucción SQL elimina una tabla completa?", "o": ["DELETE TABLE", "DROP TABLE", "REMOVE TABLE", "CLEAR TABLE"], "a": 1}, {"q": "¿Qué cláusula SQL filtra resultados?", "o": ["ORDER BY", "WHERE", "FROM", "INTO"], "a": 1}, {"q": "¿Qué cláusula SQL ordena resultados?", "o": ["SORT", "ORDER BY", "GROUP", "RANK"], "a": 1}, {"q": "¿Qué cláusula agrupa filas por un campo?", "o": ["WHERE", "ORDER BY", "GROUP BY", "LIMIT"], "a": 2}, {"q": "¿Qué función SQL cuenta filas?", "o": ["SUM()", "TOTAL()", "COUNT()", "NUM()"], "a": 2}, {"q": "¿Qué ventaja aporta una consulta preparada?", "o": ["Más velocidad siempre", "Reduce riesgo de inyección SQL", "Elimina índices", "Evita joins"], "a": 1}, {"q": "¿Qué comando Apache habilita módulos en Ubuntu?", "o": ["a2enmod", "mod-on", "apachemod", "enable-module"], "a": 0}, {"q": "¿Qué comando Apache habilita un sitio?", "o": ["a2ensite", "site-enable", "vhoston", "apache-site"], "a": 0}, {"q": "¿Qué módulo debe activarse para HTTPS en Apache?", "o": ["rewrite", "ssl", "mime", "status"], "a": 1}, {"q": "¿Qué directorio contiene sitios disponibles en Apache Ubuntu?", "o": ["/etc/apache2/sites-available", "/var/www/sites", "/usr/apache/sites", "/etc/httpd/www"], "a": 0}, {"q": "¿Qué archivo registra errores de Apache?", "o": ["access.log", "secure.log", "error.log", "apache2.txt"], "a": 2}, {"q": "¿Qué herramienta rota logs en Linux?", "o": ["journalctl", "tar", "logrotate", "rotatefs"], "a": 2}, {"q": "¿Qué permiten los virtual hosts de Apache?", "o": ["Cifrar DNS", "Alojar varios sitios en un mismo servidor", "Asignar IP por DHCP", "Convertir HTTP a FTP"], "a": 1}, {"q": "¿Qué archivo suele contener la página web por defecto en Apache?", "o": ["index.php", "default.conf", "main.html", "site.ini"], "a": 0}, {"q": "¿Qué comando reinicia Apache en sistemas con systemd?", "o": ["restart apache", "systemctl restart apache2", "apache -r", "service2 apache"], "a": 1}, {"q": "¿Qué módulo de Apache permite reglas de reescritura URL?", "o": ["ssl", "alias", "rewrite", "status"], "a": 2}, {"q": "¿Qué significa FTP?", "o": ["File Transfer Protocol", "Fast Transport Process", "File Tracking Program", "Forward Transfer Protocol"], "a": 0}, {"q": "¿Qué puerto usa FTP para control?", "o": ["20", "21", "22", "25"], "a": 1}, {"q": "¿Qué puerto usa FTP activo para datos tradicionalmente?", "o": ["20", "21", "53", "110"], "a": 0}, {"q": "¿Qué protocolo de archivos funciona sobre SSH?", "o": ["FTPS", "SFTP", "TFTP", "NFS"], "a": 1}, {"q": "¿Cuál es la debilidad principal del FTP clásico?", "o": ["No usa TCP", "No cifra credenciales ni datos", "No admite usuarios", "No transfiere binarios"], "a": 1}, {"q": "¿Qué usuario FTP representa acceso anónimo?", "o": ["root", "anonymous", "public", "guest"], "a": 1}, {"q": "¿Qué significa SMTP?", "o": ["Simple Mail Transfer Protocol", "Secure Mail Tunnel Process", "Simple Message Tracking Port", "Server Mail Transfer Path"], "a": 0}, {"q": "¿Qué protocolo descarga correo tradicionalmente al cliente?", "o": ["IMAP", "POP3", "SMTP", "SNMP"], "a": 1}, {"q": "¿Qué protocolo mantiene el correo en servidor y sincroniza dispositivos?", "o": ["POP3", "IMAP4", "SMTP", "FTP"], "a": 1}, {"q": "¿Qué registro DNS indica el servidor de correo de un dominio?", "o": ["A", "PTR", "MX", "SOA"], "a": 2}, {"q": "¿Qué significa MUA en correo electrónico?", "o": ["Mail User Agent", "Main Upload Agent", "Mail Utility Address", "Multi User Account"], "a": 0}, {"q": "¿Qué significa MTA en correo electrónico?", "o": ["Mail Transfer Agent", "Main Transport Access", "Mail Trust Address", "Managed Terminal Agent"], "a": 0}, {"q": "¿Qué objetivo persigue SPF?", "o": ["Firmar mensajes", "Autorizar servidores emisores de un dominio", "Cifrar adjuntos", "Eliminar spam local"], "a": 1}, {"q": "¿Qué objetivo persigue DKIM?", "o": ["Asignar DNS dinámico", "Firmar mensajes para validar autenticidad", "Borrar cabeceras", "Sincronizar buzones"], "a": 1}, {"q": "¿Qué usa DMARC para aplicar políticas de autenticación?", "o": ["Solo IMAP", "SPF y DKIM", "Solo MX", "Solo POP3"], "a": 1}, {"q": "¿Qué puerto usa normalmente el envío autenticado moderno desde cliente?", "o": ["465 o 587", "20 o 21", "110 o 143", "53 o 67"], "a": 0}, {"q": "¿Qué propiedad aporta TLS al correo seguro?", "o": ["Solo compresión", "Confidencialidad e integridad", "Solo velocidad", "Solo enrutamiento"], "a": 1}, {"q": "¿Qué formato de audio es sin pérdidas?", "o": ["MP3", "FLAC", "AAC", "WMA Lossy"], "a": 1}, {"q": "¿Qué significa FPS en vídeo?", "o": ["Frames Per Second", "Files Per Stream", "Fast Pixel Signal", "Frame Packet Size"], "a": 0}, {"q": "¿Qué es el streaming?", "o": ["Reproducir mientras llegan datos", "Descargar antes de ver", "Un tipo de DNS", "Un códec de audio"], "a": 0}, {"q": "¿Qué mide la latencia en una red?", "o": ["Velocidad máxima del disco", "Retardo total en la transmisión", "Número de paquetes", "Resolución de pantalla"], "a": 1}, {"q": "¿Qué protocolo usa ping?", "o": ["TCP", "UDP", "ICMP", "ARP"], "a": 2}, {"q": "¿Qué identifica físicamente a una interfaz de red?", "o": ["IP", "MAC", "MX", "TTL"], "a": 1}, {"q": "¿Qué máscara separa parte de red y de host?", "o": ["Subnet mask", "DNS mask", "Gateway mask", "Route mask"], "a": 0}, {"q": "¿Qué significa LAN?", "o": ["Local Area Network", "Large Access Node", "Logical Array Network", "Link Area Number"], "a": 0}, {"q": "¿Qué significa WAN?", "o": ["Wide Area Network", "Wireless Access Node", "Web Area Number", "Wide Address Network"], "a": 0}, {"q": "¿Qué dispositivo conecta redes distintas y enruta tráfico?", "o": ["Switch", "Hub", "Router", "Bridge"], "a": 2}, {"q": "¿Qué dispositivo trabaja principalmente en capa 2 y usa MAC?", "o": ["Router", "Switch", "Proxy", "DNS recursor"], "a": 1}, {"q": "¿Qué protocolo traduce nombres de dominio a IP?", "o": ["HTTP", "DNS", "FTP", "SMTP"], "a": 1}, {"q": "¿Qué ataque busca engañar al usuario para robar credenciales?", "o": ["Phishing", "Mirroring", "Hashing", "Routing"], "a": 0}];
+const quiz = document.getElementById("quiz");
+let remainingSeconds = 60 * 60;
+let timerEnded = false;
+let intervalId = null;
+
+const frasesAngel = [
+  "😇 Muy bien.",
+  "😇 Alberto no esperaba esta.",
+  "😇 Respuesta impecable.",
+  "😇 Punto para ti.",
+  "😇 Esta suma para el aprobado."
+];
+
+const frasesDiablo = [
+  "😈 Alberto sonríe.",
+  "😈 Esta estaba escondida en los apuntes.",
+  "😈 Dolió más que un 4,9.",
+  "😈 Toca repasar.",
+  "😈 Aquí cae mucha gente."
+];
+
+function randomItem(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function renderQuiz(){
+  quiz.innerHTML = "";
+  questions.forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.id = "q" + i;
+
+    let html = `<h3>${i+1}. ${q.q}</h3>`;
+    q.o.forEach((opt, j) => {
+      html += `<label class="option"><input type="radio" name="q${i}" value="${j}" onchange="check(${i})"> ${opt}</label>`;
+    });
+    html += `<div class="feedback" id="fb${i}"></div>`;
+    div.innerHTML = html;
+    quiz.appendChild(div);
+  });
+}
+
+function check(i){
+  const q = questions[i];
+  const sel = document.querySelector(`input[name=q${i}]:checked`);
+  const card = document.getElementById("q"+i);
+  const fb = document.getElementById("fb"+i);
+  if(!sel) return;
+
+  if(Number(sel.value) === q.a){
+    card.className = "card correct";
+    fb.innerHTML = `😇 Correcto. ${randomItem(frasesAngel)}`;
+  } else {
+    card.className = "card incorrect";
+    fb.innerHTML = `😈 Incorrecto. Respuesta correcta: ${q.o[q.a]}<br>${randomItem(frasesDiablo)}`;
+  }
+  actualizarResumen();
+}
+
+function actualizarResumen(){
+  let aciertos = 0;
+  let fallos = 0;
+  let respondidas = 0;
+
+  questions.forEach((q, i) => {
+    const sel = document.querySelector(`input[name=q${i}]:checked`);
+    if(sel){
+      respondidas++;
+      if(Number(sel.value) === q.a) aciertos++;
+      else fallos++;
+    }
+  });
+
+  const netas = aciertos - (fallos / 4);
+  let nota = (netas / questions.length) * 10;
+  if(nota < 0) nota = 0;
+
+  document.getElementById("score").textContent = aciertos;
+  document.getElementById("errors").textContent = fallos;
+  document.getElementById("answered").textContent = respondidas;
+  document.getElementById("grade").textContent = nota.toFixed(2);
+
+  const progress = (respondidas / questions.length) * 100;
+  document.getElementById("progressFill").style.width = progress + "%";
+}
+
+function entregarExamen(){
+  questions.forEach((_, i) => {
+    const sel = document.querySelector(`input[name=q${i}]:checked`);
+    if(sel) check(i);
+  });
+  actualizarResumen();
+
+  const aciertos = Number(document.getElementById("score").textContent);
+  const fallos = Number(document.getElementById("errors").textContent);
+  const nota = Number(document.getElementById("grade").textContent);
+  let ranking = "";
+
+  if(nota >= 9){
+    ranking = "🏆 Alumno legendario. Alberto ha sido derrotado.";
+  } else if(nota >= 7){
+    ranking = "😇 Victoria clara del alumno sobre Alberto.";
+  } else if(nota >= 5){
+    ranking = "⚖️ Empate técnico: apruebas, pero Alberto sigue vivo.";
+  } else {
+    ranking = "😈 Alberto gana esta ronda. Toca revancha.";
+  }
+
+  alert(`Examen entregado.\nAciertos: ${aciertos}\nFallos: ${fallos}\nNota final: ${nota.toFixed(2)}/10\n${ranking}`);
+}
+
+function reiniciarExamen(){
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  document.querySelectorAll('.card').forEach(c => c.className = 'card');
+  document.querySelectorAll('.feedback').forEach(f => f.innerHTML = '');
+  document.getElementById("score").textContent = "0";
+  document.getElementById("errors").textContent = "0";
+  document.getElementById("answered").textContent = "0";
+  document.getElementById("grade").textContent = "0.00";
+  document.getElementById("progressFill").style.width = "0%";
+  remainingSeconds = 60 * 60;
+  timerEnded = false;
+  updateTimer();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateTimer(){
+  const mins = String(Math.floor(remainingSeconds / 60)).padStart(2,'0');
+  const secs = String(remainingSeconds % 60).padStart(2,'0');
+  document.getElementById("timer").textContent = `${mins}:${secs}`;
+}
+
+function startTimer(){
+  updateTimer();
+  intervalId = setInterval(() => {
+    if(timerEnded) return;
+    remainingSeconds--;
+    updateTimer();
+    if(remainingSeconds <= 0){
+      timerEnded = true;
+      clearInterval(intervalId);
+      alert("⏰ Tiempo terminado. Se entrega el examen.");
+      entregarExamen();
+    }
+  }, 1000);
+}
+
+renderQuiz();
+startTimer();
+</script>
+</body>
+</html>
