@@ -155,7 +155,9 @@ button{
 .bottom-actions{
   display:flex;
   justify-content:center;
-  margin-top:24px;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:28px;
 }
 .grade-box{
   margin-top:18px;
@@ -216,6 +218,7 @@ button{
   <div id="quiz"></div>
 
   <div class="bottom-actions">
+    <button class="primary" onclick="corregirTodo()">Corregir test</button>
     <button class="ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Subir arriba</button>
   </div>
 
@@ -906,16 +909,16 @@ function renderQuiz(){
 
 function corregirPregunta(index){
   const item = questions[index];
-  const selected = document.querySelector(\`input[name="q\${index}"]:checked\`);
-  const card = document.getElementById(\`question-\${index}\`);
-  const feedback = document.getElementById(\`feedback-\${index}\`);
+  const selected = document.querySelector(`input[name="q${index}"]:checked`);
+  const card = document.getElementById(`question-${index}`);
+  const feedback = document.getElementById(`feedback-${index}`);
 
   card.classList.remove('correct','incorrect');
   feedback.classList.remove('show','ok','bad');
 
   if(!selected){
     feedback.classList.add('show','bad');
-    feedback.innerHTML = \`No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>\${item.options[item.answer]}</strong></div>\`;
+    feedback.innerHTML = `No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div>`;
     card.classList.add('incorrect');
     return;
   }
@@ -925,11 +928,11 @@ function corregirPregunta(index){
   if(selectedValue === item.answer){
     card.classList.add('correct');
     feedback.classList.add('show','ok');
-    feedback.innerHTML = \`✅ Correcta.<div class="correct-answer">\${item.explanation}</div>\`;
+    feedback.innerHTML = `✅ Correcta.<div class="correct-answer">${item.explanation}</div>`;
   } else {
     card.classList.add('incorrect');
     feedback.classList.add('show','bad');
-    feedback.innerHTML = \`❌ Incorrecta.<div class="correct-answer">Respuesta correcta: <strong>\${item.options[item.answer]}</strong></div><div class="correct-answer">\${item.explanation}</div>\`;
+    feedback.innerHTML = `❌ Incorrecta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div><div class="correct-answer">${item.explanation}</div>`;
   }
 }
 
@@ -939,7 +942,7 @@ function actualizarResumen(){
   let answered = 0;
 
   questions.forEach((item, index) => {
-    const selected = document.querySelector(\`input[name="q\${index}"]:checked\`);
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
     if(selected){
       answered++;
       if(Number(selected.value) === item.answer) score++;
@@ -962,11 +965,11 @@ function mostrarNota(grade){
   let mensaje = '';
 
   if(grade >= 9){
-    mensaje = \`🌟 Nota final: \${grade.toFixed(2)}/10 · Excelente.\`;
+    mensaje = `🌟 Nota final: ${grade.toFixed(2)}/10 · Excelente.`;
   } else if(grade >= 5){
-    mensaje = \`✅ Nota final: \${grade.toFixed(2)}/10 · Aprobado.\`;
+    mensaje = `✅ Nota final: ${grade.toFixed(2)}/10 · Aprobado.`;
   } else {
-    mensaje = \`📚 Nota final: \${grade.toFixed(2)}/10 · Toca repasar un poco más.\`;
+    mensaje = `📚 Nota final: ${grade.toFixed(2)}/10 · Toca repasar un poco más.`;
   }
 
   gradeBox.textContent = mensaje;
