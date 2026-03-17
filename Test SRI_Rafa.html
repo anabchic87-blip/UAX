@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test SRI_Rafa</title>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=df7fND-M2QOQj_iFC88hdNSahM6tMMoUuc8VZjy56c4_httxj7FiF42XJEFH8BjmoPiXnp8bnVFZWh4VAEvgIUmM6BcADdDQ_079QQALavc1nqcCQy9ArhCw13kXkmXpOZ0RxoHZPMuq4LKz35EyBsWvvVZidK_8lc6tc8sOdcN5_12jE08AUDGHEwV45uDm6FjJ2DSypQ2Ulw62E-9yi1Aj_FHNbon-9XtYpMM87OhZeTaaueSlFJozHN66z1eUa49BIF6u2MaS64EgBhPtrA" charset="UTF-8"></script><style>
+:root{
+  --bg:#0b1020;
+  --bg2:#121a33;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#64748b;
+  --line:#e5e7eb;
+  --ok:#16a34a;
+  --bad:#dc2626;
+  --accent:#7c3aed;
+  --accent2:#06b6d4;
+  --accent3:#f59e0b;
+  --shadow:0 18px 45px rgba(2,6,23,.18);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(124,58,237,.28), transparent 24%),
+    radial-gradient(circle at top right, rgba(6,182,212,.20), transparent 22%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  min-height:100vh;
+}
+.wrap{max-width:1200px;margin:0 auto;padding:22px 16px 90px}
+.hero{
+  position:sticky;top:10px;z-index:30;
+  border-radius:30px;
+  padding:28px;
+  color:#fff;
+  background:linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.08));
+  border:1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+  box-shadow:var(--shadow);
+}
+.hero h1{margin:0 0 10px;font-size:clamp(28px,4vw,46px)}
+.hero p{margin:0;color:rgba(255,255,255,.88);line-height:1.55}
+.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-top:18px}
+.leftStats,.rightStats{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pill{
+  padding:10px 14px;border-radius:999px;font-weight:800;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18)
+}
+.timer{font-size:22px;letter-spacing:.5px}
+.timer.low{background:rgba(220,38,38,.20);border-color:rgba(248,113,113,.35)}
+.timer.done{background:rgba(239,68,68,.35);border-color:rgba(254,202,202,.35)}
+.panel{
+  margin-top:22px;background:#fff;border-radius:30px;padding:22px;box-shadow:var(--shadow)
+}
+.modeTitle{margin:0 0 14px;font-size:24px}
+.modeGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.modeCard{
+  border:2px solid var(--line);border-radius:22px;padding:18px;background:#f8fafc;cursor:pointer;
+  transition:.2s transform,.2s border-color,.2s box-shadow,.2s background;
+}
+.modeCard:hover{transform:translateY(-2px);border-color:#c4b5fd;box-shadow:0 12px 26px rgba(124,58,237,.12)}
+.modeCard.active{border-color:var(--accent);background:linear-gradient(180deg,#faf5ff,#eef2ff)}
+.modeCard h3{margin:0 0 8px;font-size:18px}
+.modeCard p{margin:0;color:var(--muted);line-height:1.5}
+.modeMeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{font-size:12px;font-weight:800;border-radius:999px;padding:7px 10px;background:#eef2ff;color:#4338ca}
+.controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+button,a.btn{
+  border:none;text-decoration:none;cursor:pointer;font-weight:800;font-size:16px;
+  padding:14px 22px;border-radius:16px;transition:.2s transform,.2s opacity,.2s filter
+}
+button:hover,a.btn:hover{transform:translateY(-1px);filter:brightness(1.02)}
+.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.secondary{background:#e2e8f0;color:#0f172a}
+.warning{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff}
+.ghost{background:#f8fafc;color:#111827;border:1px solid var(--line)}
+.quizInfo{display:none;gap:12px;flex-wrap:wrap;margin-top:12px}
+.quizInfo.show{display:flex}
+.infoChip{background:#eef2ff;color:#312e81;padding:10px 12px;border-radius:999px;font-weight:800}
+.main{display:grid;gap:18px;margin-top:22px}
+.question{
+  background:#fff;border-radius:26px;padding:22px;box-shadow:var(--shadow);border:2px solid transparent
+}
+.question.correct{border-color:rgba(22,163,74,.45);background:linear-gradient(180deg,#fff,#f0fdf4)}
+.question.incorrect{border-color:rgba(220,38,38,.45);background:linear-gradient(180deg,#fff,#fef2f2)}
+.qhead{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.num{
+  min-width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900
+}
+.qtext{font-size:18px;font-weight:800;line-height:1.45}
+.options{display:grid;gap:10px}
+.option{
+  display:flex;gap:12px;align-items:flex-start;padding:14px 15px;border-radius:16px;
+  background:#f8fafc;border:2px solid #e2e8f0;cursor:pointer;transition:.2s transform,.2s border-color,.2s background
+}
+.option:hover{transform:translateY(-1px);border-color:#cbd5e1}
+.option input{margin-top:2px;transform:scale(1.1)}
+.option.correct-answer{border-color:rgba(22,163,74,.75);background:#ecfdf5}
+.option.wrong-picked{border-color:rgba(220,38,38,.75);background:#fef2f2}
+.feedback{margin-top:14px;padding:12px 14px;border-radius:14px;font-weight:800;display:none;line-height:1.5}
+.feedback.show{display:block}
+.feedback.ok{background:#ecfdf5;color:#166534;border:1px solid #86efac}
+.feedback.bad{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5}
+.actions{position:sticky;bottom:12px;z-index:25;margin-top:26px}
+.actionbar{
+  background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-radius:24px;padding:14px;
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;box-shadow:var(--shadow)
+}
+.result{display:none;margin-top:24px;background:#fff;border-radius:30px;padding:26px;box-shadow:var(--shadow)}
+.result.show{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:18px 0}
+.card{padding:18px;border-radius:18px;background:#f8fafc;border:1px solid var(--line)}
+.card h3{margin:0 0 8px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.card p{margin:0;font-size:28px;font-weight:900}
+.bigNote{font-size:22px;font-weight:900;margin-top:10px}
+.legend{color:var(--muted);line-height:1.6}
+.backTop{display:none;text-align:center;margin-top:18px}
+.backTop.show{display:block}
+.hidden{display:none !important}
+@media (max-width:700px){
+  .hero{position:relative;top:0}
+  .qtext{font-size:17px}
+  .actionbar button, .actionbar a{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+  <section class="hero">
+    <h1>Test SRI_Rafa</h1>
+    <p>Modo examen real, preguntas aleatorias, cronómetro y corrección automática con penalización por fallos.</p>
+    <div class="stats">
+      <div class="leftStats">
+        <div class="pill">Banco total: <span id="bankTotal">0</span></div>
+        <div class="pill">Modo actual: <span id="currentModeLabel">Sin iniciar</span></div>
+      </div>
+      <div class="rightStats">
+        <div class="pill">Penalización: aciertos - fallos</div>
+        <div class="pill timer" id="timer">60:00</div>
+      </div>
+    </div>
+    <div class="quizInfo" id="quizInfo">
+      <div class="infoChip">Preguntas cargadas: <span id="loadedQuestions">0</span></div>
+      <div class="infoChip">Tiempo del modo: <span id="modeTime">0</span></div>
+      <div class="infoChip">Orden aleatorio activado</div>
+    </div>
+  </section>
+
+  <section class="panel" id="setupPanel">
+    <h2 class="modeTitle">Elige el modo</h2>
+    <div class="modeGrid" id="modeGrid">
+      <article class="modeCard active" data-mode="full">
+        <h3>Examen completo</h3>
+        <p>Todo el banco de preguntas. Ideal para repasar fuerte antes del examen.</p>
+        <div class="modeMeta">
+          <span class="tag">113 preguntas</span>
+          <span class="tag">60 min</span>
+        </div>
+      </article>
+      <article class="modeCard" data-mode="uax">
+        <h3>Modo examen real UAX</h3>
+        <p>Simulación real con preguntas aleatorias del banco, sin saber cuáles te van a salir.</p>
+        <div class="modeMeta">
+          <span class="tag">20 aleatorias</span>
+          <span class="tag">20 min</span>
+        </div>
+      </article>
+      <article class="modeCard" data-mode="practice">
+        <h3>Práctica rápida</h3>
+        <p>Sesión corta para entrenar antes de estudiar otro tema o hacer un repaso express.</p>
+        <div class="modeMeta">
+          <span class="tag">30 aleatorias</span>
+          <span class="tag">30 min</span>
+        </div>
+      </article>
+    </div>
+    <div class="controls">
+      <button class="primary" id="startBtn">Empezar test</button>
+      <button class="ghost" id="reshuffleBtn" type="button">Cambiar selección aleatoria</button>
+    </div>
+  </section>
+
+  <main class="main" id="quiz"></main>
+
+  <section class="result" id="resultBox">
+    <h2>Resultado final</h2>
+    <p class="legend">La puntuación se calcula como <strong>aciertos - fallos</strong>. Las preguntas en blanco no restan. La nota final se transforma a una escala sobre 10. En las respuestas falladas verás marcada tu opción en rojo y la correcta en verde.</p>
+    <div class="grid">
+      <div class="card"><h3>Aciertos</h3><p id="hits">0</p></div>
+      <div class="card"><h3>Fallos</h3><p id="fails">0</p></div>
+      <div class="card"><h3>En blanco</h3><p id="blank">0</p></div>
+      <div class="card"><h3>Puntuación</h3><p id="score">0</p></div>
+      <div class="card"><h3>Nota</h3><p id="grade">0</p></div>
+    </div>
+    <div class="bigNote" id="message"></div>
+    <div class="backTop" id="backTopWrap">
+      <a class="btn primary" href="#top">⬆ Volver arriba</a>
+    </div>
+  </section>
+
+  <div class="actions">
+    <div class="actionbar">
+      <button class="primary" id="correctBtn">Corregir test</button>
+      <button class="secondary" id="restartModeBtn" type="button">Repetir este modo</button>
+      <button class="ghost" id="changeModeBtn" type="button">Cambiar modo</button>
+      <button class="warning" id="finishBtn" type="button">Terminar ahora</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const allQuestions = [
+  {q:"¿Cuál es la misión principal de un agente de transporte de correo (MTA)?", options:["Recibir correos mediante SMTP y hacerlos llegar a sus destinatarios","Redactar y leer correos interactuando con el usuario","Entregar los correos recibidos al MUA por IMAP4","Cifrar la comunicación con el comando STARTTLS"], a:0},
+  {q:"En el audio digital, ¿qué indica la extensión de un archivo contenedor como '.m4a'?", options:["Que el audio siempre está codificado en AAC sin pérdidas","No es indicadora del códec utilizado para comprimir el audio","Que la latencia del archivo es variable entre 5 y 66,5 ms","Que es un formato PCM sin compresión"], a:1},
+  {q:"¿Cuál es la función de un agente de retransmisión DHCP (DHCP relay)?", options:["Asignar IPs estáticas a través de la dirección MAC","Bloquear mensajes falsos mediante DHCP snooping","Actuar como intermediario entre clientes y servidores DHCP en diferentes subredes","Realizar resoluciones inversas de nombres DNS"], a:2},
+  {q:"En el protocolo HTTP, ¿qué código indica un 'Error interno del servidor' que impide completar la solicitud?", options:["Error 403","Error 404","Error 500","Error 503"], a:2},
+  {q:"¿Qué característica define a una zona secundaria en un servidor DNS?", options:["Contiene información de solo lectura y es un espejo de una zona primaria","Permite añadir, modificar o eliminar los registros de la zona","No tiene autoridad y solo almacena consultas temporales","Se encarga únicamente de la resolución inversa (PTR)"], a:0},
+  {q:"¿Cuál es una característica del modo pasivo (PASV) en el servicio FTP?", options:["El servidor abre el puerto 20 obligatoriamente para transferir los datos","El cliente siempre inicia las conexiones, evitando problemas con su cortafuegos","Solo utiliza el puerto 21 de forma aislada para control y datos","Cifra las contraseñas en texto claro de forma automática"], a:1},
+  {q:"¿Qué puertos utiliza SMTP para el envío desde un cliente MUA?", options:["25 y 110","465 y 587","80 y 443","143 y 993"], a:1},
+  {q:"¿Qué elemento del servicio de correo se encarga de entregar los correos recibidos al MUA?", options:["MTA","SMTP","MDA","DNS"], a:2},
+  {q:"¿Qué registro DNS se utiliza para indicar el servidor de transporte de correo (MTA) asociado a cada dominio?", options:["SOA","PTR","MX","CNAME"], a:2},
+  {q:"¿Qué es un relay host o smarthost en una infraestructura de correo electrónico?", options:["Un cliente de correo web","Un MTA intermediario que centraliza y filtra el correo","Un protocolo de lectura de buzones remotos","Un registro DNS de resolución inversa"], a:1},
+  {q:"¿Qué indica la tasa de fotogramas (fps) en un vídeo digital?", options:["El número de imágenes capturadas o reproducidas por unidad de tiempo","La latencia total de la red de distribución","El tipo de formato contenedor utilizado","El nivel de compresión de las pistas de audio"], a:0},
+  {q:"¿Qué dato utiliza el servidor DHCP como identificador para realizar una asignación estática?", options:["El nombre DNS del equipo","La asociación de la dirección MAC del adaptador de red","Un certificado digital de cliente","Una cookie de sesión"], a:1},
+  {q:"¿Qué comprobación hace un servidor DHCP antes de enviar una propuesta (DHCP OFFER) a un cliente?", options:["Envía un mensaje ARP para comprobar si la IP ya se está usando","Bloquea el puerto 21 del cliente temporalmente","Renueva automáticamente la concesión de la puerta de enlace","Cifra la conexión mediante el protocolo TLS"], a:0},
+  {q:"Si un servidor DHCP ilegítimo da información falsa de DNS a los clientes para enviarlos a webs fraudulentas, ¿qué tipo de ataque está realizando?", options:["Ataque de denegación de servicio (DOS)","Ataque de fuerza bruta","Ataque man-in-the-middle","Propagación de gusanos (worms)"], a:2},
+  {q:"En el protocolo HTTP, ¿qué indica el código de error 503?", options:["Recurso no encontrado","Servicio no disponible temporalmente por sobrecarga o mantenimiento","Acceso prohibido","Error interno del código del servidor"], a:1},
+  {q:"¿Qué tipo de cookies son temporales y se eliminan automáticamente cuando el usuario cierra el navegador?", options:["Cookies persistentes","Cookies de terceros","Cookies de sesión","Cookies de estado sólido"], a:2},
+  {q:"En el protocolo HTTPS, ¿qué tipo de criptografía es rápida en el cifrado de datos pero presenta problemas para la gestión y el intercambio seguro de claves?", options:["Criptografía asimétrica","Criptografía de clave pública","Criptografía simétrica","Firma digital de curvas elípticas"], a:2},
+  {q:"¿Qué entidad de confianza se encarga de emitir certificados digitales para garantizar la identidad de usuarios u organizaciones?", options:["El ISP (Proveedor de Servicios de Internet)","Una Autoridad de Certificación (CA)","El servidor DNS Autoritario","El agente MUA"], a:1},
+  {q:"En la resolución de nombres DNS, ¿dónde busca primero el resolutor del cliente antes de contactar con servidores externos?", options:["En los dominios de primer nivel (TLD)","En un servidor DNS secundario de la red","En su caché local DNS y en el archivo local hosts","En la zona de búsqueda inversa"], a:2},
+  {q:"¿Qué parámetro se debe utilizar con la orden de consola 'dig' para realizar una resolución inversa de DNS?", options:["-x","-r","-i","-a"], a:0},
+  {q:"¿Qué tipo de servidor DNS NO tiene autoridad sobre ninguna zona y solo almacena de forma temporal las consultas recientes?", options:["Servidor Primario","Servidor Caché","Servidor Secundario","Servidor Raíz"], a:1},
+  {q:"A diferencia de POP3, ¿qué protocolo de correo permite realizar búsquedas, crear carpetas y etiquetar los mensajes directamente en el servidor?", options:["SMTP","IMAP4","SPF","DMARC"], a:1},
+  {q:"En la codificación de audio, ¿cuál de los siguientes es un formato CON compresión pero SIN pérdidas?", options:["MP3","FLAC","AAC","PCM"], a:1},
+  {q:"¿Qué archivo plano local de nombres consulta el resolutor de DNS del cliente en su propio equipo?", options:["access.log","error.log","hosts","inetd.conf"], a:2},
+  {q:"¿Qué puerto utiliza el protocolo FTP nativo específicamente para la transferencia de órdenes (el canal de control)?", options:["Puerto 20","Puerto 21","Puerto 22","Puerto 443"], a:1},
+  {q:"¿Cómo se denomina al modo de ejecución de un servidor FTP cuando se levanta como un proceso hijo de inetd?", options:["Modo activo","Modo pasivo","Modo aislado (standalone)","Modo superservidor"], a:3},
+  {q:"¿Qué método HTTP se utiliza habitualmente para enviar datos sensibles o extensos desde un formulario al servidor?", options:["GET","POST","HEAD","PUT"], a:1},
+  {q:"En sistemas basados en Debian/Ubuntu, ¿cuál es el directorio principal de configuración del servidor web Apache?", options:["/var/www/html/","/etc/apache2/","/usr/bin/apache/","/opt/httpd/"], a:1},
+  {q:"¿Cuál es el puerto estándar por defecto que utiliza el protocolo seguro HTTPS?", options:["80","8080","443","21"], a:2},
+  {q:"¿Qué ventaja principal ofrece un certificado digital comodín (Wildcard) en un servidor web?", options:["Es gratuito y no caduca nunca","Protege un dominio principal y todos sus subdominios con un solo certificado","Cifra la información el doble de rápido que un certificado normal","Permite usar FTP y HTTP en el mismo puerto"], a:1},
+  {q:"¿Qué indica exactamente el código de estado HTTP 404?", options:["Acceso denegado","Error interno del servidor","Redirección permanente","Recurso no encontrado"], a:3},
+  {q:"En el contexto del servicio DNS, ¿qué significan las siglas FQDN?", options:["Fully Qualified Domain Name","Fast Query Domain Network","Forward Query Data Node","File Queue Domain Naming"], a:0},
+  {q:"¿Qué tipo de registro DNS se encarga de asociar un nombre de dominio con una dirección IPv6?", options:["Registro A","Registro AAAA","Registro CNAME","Registro MX"], a:1},
+  {q:"En DNS, ¿cómo se llama la consulta en la que el servidor local asume la responsabilidad de buscar la IP consultando a otros servidores hasta encontrar la respuesta final para el cliente?", options:["Consulta Iterativa","Consulta Inversa","Consulta Recursiva","Consulta Autoritaria"], a:2},
+  {q:"¿Qué define el parámetro TTL (Time To Live) en un registro de una zona DNS?", options:["El número máximo de routers por los que puede pasar el paquete","El tiempo que la respuesta puede almacenarse en la caché antes de caducar","El tiempo que tarda el servidor primario en encenderse","La prioridad del servidor de correo"], a:1},
+  {q:"¿Qué puerto y protocolo de capa de transporte utiliza por defecto el servicio DNS para las consultas estándar de los clientes?", options:["Puerto 53 UDP","Puerto 80 TCP","Puerto 21 TCP","Puerto 67 UDP"], a:0},
+  {q:"En el proceso DORA de DHCP, ¿cuál es el tercer mensaje que envía el cliente al servidor para confirmar que acepta la IP ofrecida?", options:["DHCP DISCOVER","DHCP OFFER","DHCP REQUEST","DHCP ACK"], a:2},
+  {q:"Si un equipo Windows configurado por DHCP no encuentra ningún servidor en la red, ¿qué rango de direcciones IP automáticas (APIPA) se asignará por defecto?", options:["192.168.1.x","10.0.0.x","169.254.x.x","127.0.0.x"], a:2},
+  {q:"¿En qué puerto escucha peticiones por defecto un servidor DHCP?", options:["Puerto 67","Puerto 68","Puerto 53","Puerto 110"], a:0},
+  {q:"En la configuración DHCP, ¿qué es el tiempo de concesión (Lease time)?", options:["El tiempo que tarda el router en encenderse","El tiempo que el servidor cede una dirección IP a un cliente antes de que este deba renovarla","El retardo máximo permitido en la red","La hora a la que el servidor se reinicia automáticamente"], a:1},
+  {q:"¿Qué nombre de usuario se utiliza convencionalmente para acceder a un servidor FTP público sin necesidad de tener una cuenta registrada?", options:["admin","root","anonymous","guest"], a:2},
+  {q:"¿Qué protocolo de transferencia de archivos utiliza el puerto 22 y funciona encapsulado sobre una conexión segura SSH?", options:["FTPS","FTP","TFTP","SFTP"], a:3},
+  {q:"¿Cuál es la principal diferencia técnica entre FTPS y el FTP tradicional?", options:["FTPS solo permite descargar archivos, no subir","FTPS usa UDP en lugar de TCP para ir más rápido","FTPS añade una capa de cifrado TLS/SSL sobre el protocolo FTP clásico","FTPS no requiere el uso de contraseñas"], a:2},
+  {q:"¿Cuál es el puerto predeterminado para recibir correos mediante el protocolo POP3 sin cifrar?", options:["25","110","143","993"], a:1},
+  {q:"¿Cuál es el puerto predeterminado para sincronizar buzones de correo mediante el protocolo IMAP sin cifrar?", options:["25","110","143","993"], a:2},
+  {q:"En seguridad de correo electrónico, ¿qué mecanismo permite al propietario de un dominio publicar en DNS qué direcciones IP están autorizadas para enviar correos en su nombre?", options:["SPF","DKIM","DMARC","STARTTLS"], a:0},
+  {q:"De las siguientes aplicaciones, ¿cuál actúa como un MUA (Mail User Agent)?", options:["Postfix","Microsoft Outlook","Sendmail","Dovecot"], a:1},
+  {q:"En transmisión multimedia, ¿qué significa que un streaming sea VOD (Video bajo demanda)?", options:["Que se transmite en directo desde un evento","Que el usuario puede iniciar, pausar y reproducir el contenido grabado en cualquier momento","Que solo funciona en redes locales cerradas","Que requiere descargar el archivo entero antes de poder empezar a verlo"], a:1},
+  {q:"¿Qué función realiza un conversor ADC en el tratamiento de audio?", options:["Comprime el archivo para reducir su peso en disco","Convierte la onda de sonido física (analógica) en muestras de datos binarios (digitales)","Añade metadatos con el autor y título a la pista","Distribuye el sonido en tiempo real a través de una CDN"], a:1},
+  {q:"¿Cuál de los siguientes protocolos está diseñado específicamente para controlar la reproducción de flujos multimedia en tiempo real (play, pause, stop)?", options:["HTTP","FTP","RTSP","SMTP"], a:2},
+  {q:"En ciberseguridad, ¿cómo se llama a la técnica de ingeniería social que intenta engañar al usuario haciéndose pasar por un banco o empresa legítima para robar sus credenciales?", options:["Ransomware","Phishing","DDoS","Spyware"], a:1},
+  {q:"¿Qué directiva de Apache se utiliza para definir el directorio principal donde se alojan los archivos de una página web?", options:["DirectoryIndex","DocumentRoot","ServerRoot","VirtualHost"], a:1},
+  {q:"¿Qué archivo oculto permite sobrescribir configuraciones de Apache a nivel de directorio sin necesidad de reiniciar el servidor?", options:[".config",".htpasswd",".htaccess",".apache"], a:2},
+  {q:"En la configuración de un VirtualHost de Apache, ¿para qué sirve la directiva 'ServerName'?", options:["Para indicar la IP física del servidor","Para definir el correo del administrador del sitio","Para indicar el nombre de dominio principal que responderá ese bloque web","Para nombrar la base de datos asociada a la web"], a:2},
+  {q:"Si queremos que nuestro servidor web Apache escuche también peticiones en el puerto 8080, ¿qué directiva debemos añadir o modificar en la configuración global?", options:["Listen 8080","Port 8080","AllowPort 8080","Bind 8080"], a:0},
+  {q:"En el ámbito del vídeo digital, ¿cuál de los siguientes es un estándar de compresión de vídeo de alta eficiencia muy actual (también conocido como HEVC)?", options:["H.264","H.265","MPEG-1","DivX"], a:1},
+  {q:"Según el teorema de Nyquist, para digitalizar correctamente una señal de audio analógica sin perder información, la frecuencia de muestreo debe ser...", options:["Igual a la frecuencia mínima de la señal","Al menos el doble de la frecuencia máxima de la señal original","Exactamente 44.1 kHz en todos los casos","La mitad de la frecuencia original"], a:1},
+  {q:"¿Qué protocolo se encarga específicamente de empaquetar y transportar el flujo de audio/vídeo en tiempo real a través de la red (frecuentemente sobre UDP)?", options:["RTSP","RTP","HTTP","SMTP"], a:1},
+  {q:"¿Qué comando de red en Windows y Linux se utiliza comúnmente de forma interactiva para consultar registros DNS y diagnosticar problemas de resolución de nombres?", options:["ipconfig / traceroute","ping","nslookup","netstat"], a:2},
+  {q:"Si al hacer 'ping www.google.com' da error de host desconocido, pero al hacer 'ping 8.8.8.8' sí hay respuesta, ¿dónde reside probablemente el problema?", options:["En la configuración o el servicio DNS del cliente","En la puerta de enlace (Gateway) del router","En el cable físico de red","En el servidor DHCP que no ha asignado una IP"], a:0},
+  {q:"¿Cómo se denomina el ataque de red donde se inunda al servidor DHCP con peticiones falsas hasta agotar su pool de direcciones IP disponibles?", options:["Rogue DHCP","DHCP Starvation (Agotamiento)","Man-in-the-Middle","Spoofing de IP"], a:1},
+  {q:"¿Qué ocurre cuando expira el tiempo de concesión (lease time) de una IP y el cliente no ha logrado contactar con el servidor DHCP para renovarla?", options:["El cliente mantiene la IP indefinidamente hasta que el servidor despierte","El cliente debe dejar de usar la IP inmediatamente y buscar otra disponible","El servidor le asigna automáticamente la puerta de enlace como IP","El switch bloquea el puerto físico del cliente"], a:1},
+  {q:"En un servidor FTP en Linux (como vsftpd), ¿qué directiva suele controlar si los usuarios dados de alta en el sistema operativo pueden iniciar sesión por FTP?", options:["anonymous_enable","local_enable","chroot_local_user","write_enable"], a:1},
+  {q:"¿Para qué sirve la funcionalidad 'chroot' (jaula) en un servidor FTP?", options:["Para cifrar los archivos del usuario con una clave de 256 bits","Para confinar a los usuarios en su directorio de inicio e impedir que naveguen por el resto del sistema de archivos","Para permitir que el usuario 'anonymous' pueda subir archivos","Para cambiar la contraseña de FTP automáticamente cada mes"], a:1},
+  {q:"Si un cliente FTP se conecta con éxito, pero al pedir el listado de archivos (comando LS) la conexión se queda bloqueada dando un error de 'timeout', ¿cuál suele ser la causa más común?", options:["La contraseña introducida es incorrecta","El servidor FTP está apagado","El cortafuegos del cliente está bloqueando la conexión de datos entrante que abre el servidor en modo Activo","El usuario virtual no tiene permisos de lectura"], a:2},
+  {q:"¿Qué hace la técnica de seguridad antispam 'Greylisting' (Listas grises) en un servidor de correo (MTA)?", options:["Bloquea permanentemente todos los correos que contengan la palabra 'oferta'","Rechaza temporalmente los correos nuevos; los servidores legítimos reintentan el envío, mientras que los spammers suelen desistir","Pide al usuario humano que resuelva un captcha para leer el correo","Comprueba la firma digital DKIM en el servidor DNS"], a:1},
+  {q:"En las cabeceras de un correo electrónico, ¿qué campo se utiliza para enviar una copia a un destinatario de forma que los demás NO vean su dirección?", options:["TO (Para)","CC (Con copia)","BCC / CCO (Copia oculta)","REPLY-TO"], a:2},
+  {q:"¿Qué formato estándar se utiliza para codificar en texto caracteres especiales y archivos binarios (como imágenes adjuntas) dentro del código de un correo electrónico?", options:["Base64 (MIME)","UTF-8","ASCII 7 bits","Hexadecimal"], a:0},
+  {q:"¿Qué tipo de ataque informático consiste en interceptar subrepticiamente la comunicación entre dos partes para escuchar o alterar los datos?", options:["Phishing","Denegación de Servicio (DoS)","Man-in-the-Middle (MitM)","Fuerza Bruta"], a:2},
+  {q:"¿Qué mecanismo se utiliza en HTTPS para asegurar que un certificado digital no ha sido manipulado ni alterado por un tercero?", options:["Una marca de agua digital incrustada en el código HTML","El uso exclusivo de la clave privada del cliente","La firma criptográfica digital de la Autoridad de Certificación (CA)","Un registro CNAME en el DNS"], a:2},
+  {q:"¿Qué tipo de servidor intermediario actúa en nombre de los clientes web de una red interna para realizar las peticiones a Internet, mejorando el rendimiento mediante caché y filtrando contenidos?", options:["Servidor Proxy","Servidor DHCP","Servidor de Base de Datos","Servidor de Nombres (DNS)"], a:0},
+  {q:"¿Qué es el 'Load Balancing' o balanceo de carga en un entorno de servidores web?", options:["Borrar el exceso de logs para liberar espacio en disco duro","Distribuir el tráfico entrante de los clientes entre múltiples servidores para evitar saturaciones","Reducir el peso de las imágenes JPG usando un algoritmo de compresión","Rechazar las peticiones HTTP que vienen de países bloqueados"], a:1},
+  {q:"¿Qué registro DNS se utiliza específicamente para añadir información de texto libre a un dominio, habitualmente usado para configurar políticas de seguridad antispam como SPF o validaciones de propiedad?", options:["Registro A","Registro MX","Registro NS","Registro TXT"], a:3},
+  {q:"En un entorno DNS, ¿qué es un 'Split DNS' o 'DNS dividido' (vistas DNS)?", options:["Configurar respuestas diferentes para el mismo dominio dependiendo de si la consulta proviene de la red interna o desde Internet","Dividir la base de datos DNS en dos discos duros diferentes","Un servidor DNS que responde por los puertos 53 y 80 a la vez","La separación de zonas IPv4 e IPv6"], a:0},
+  {q:"¿Qué mensaje envía el servidor DHCP al cliente si la IP que este solicita (mediante un DHCP REQUEST) ya no está disponible o es inválida para esa red?", options:["DHCP DISCOVER","DHCP ACK","DHCP NAK (Negative Acknowledgment)","DHCP RELEASE"], a:2},
+  {q:"¿Qué significa DRM en el contexto de la distribución de vídeo digital o plataformas de streaming comercial?", options:["Tecnologías de gestión de derechos digitales para prevenir la piratería y copia no autorizada","Un formato de audio multicanal sin pérdidas","Una red de entrega de contenidos acelerada","Un protocolo de enrutamiento dinámico para streaming"], a:0},
+  {q:"¿Qué comando se utiliza en sistemas Debian/Ubuntu para reiniciar el servicio web Apache?", options:["systemctl restart apache2","/etc/init.d/httpd restart","apache2 -restart","systemctl reload httpd"], a:0},
+  {q:"Para comprobar qué puertos están a la escucha en un servidor Linux, ¿qué comando es el más adecuado?", options:["ping -t","ss -tuln (o netstat -tuln)","traceroute","ifconfig"], a:1},
+  {q:"En un sistema Debian/Ubuntu, ¿cuál es el archivo de configuración principal del servidor DNS BIND9?", options:["/etc/resolv.conf","/etc/network/interfaces","/etc/bind/named.conf","/var/cache/bind/db.local"], a:2},
+  {q:"En un archivo de zona DNS, si olvidas poner el punto final al definir un FQDN (ej: 'www.google.com' en vez de 'www.google.com.'), ¿qué ocurre?", options:["El servidor DNS añade automáticamente el nombre del dominio base al final (quedando www.google.com.dominio.com)","Da un error de sintaxis y el servicio no arranca","Lo interpreta como un registro de tipo TXT","Se convierte en un subdominio recursivo infinito"], a:0},
+  {q:"En el servidor FTP vsftpd, ¿qué permite la directiva 'write_enable=YES'?", options:["Permitir conexiones anónimas","Permitir a los usuarios logueados subir, borrar y modificar archivos","Habilitar el cifrado TLS","Limitar el ancho de banda de subida"], a:1},
+  {q:"En Apache, ¿cuál es el propósito de la directiva 'DirectoryIndex'?", options:["Listar el contenido de un directorio si no hay archivos web","Ocultar los archivos del sistema al usuario","Especificar el archivo por defecto que se muestra al acceder a un directorio (ej. index.html)","Proteger con contraseña una carpeta"], a:2},
+  {q:"¿Qué función principal cumple el software 'Dovecot' en un servidor de correo?", options:["Servidor POP3/IMAP (MDA) para que los usuarios lean sus correos","Servidor SMTP (MTA) para enrutar el correo por Internet","Servidor DNS para resolver los registros MX","Filtro antispam que comprueba las firmas DKIM"], a:0},
+  {q:"¿Qué función principal cumple el software 'Postfix' en un entorno Linux?", options:["Servidor web para leer el correo en el navegador","Servidor de envío y transporte de correo (MTA / SMTP)","Servicio de asignación de direcciones IP","Cliente MUA por línea de comandos"], a:1},
+  {q:"En el servicio ISC DHCP de Linux, ¿cuál es el archivo principal donde se configuran los rangos (pools) y concesiones?", options:["/etc/network/interfaces","/etc/resolv.conf","/etc/dhcp/dhcpd.conf","/etc/default/isc-dhcp-server"], a:2},
+  {q:"¿En qué archivo de Linux se suelen guardar los registros temporales de las concesiones IP otorgadas por el servidor DHCP?", options:["/var/lib/dhcp/dhcpd.leases","/var/log/syslog","/etc/dhcp/concesiones.txt","/tmp/dhcp.log"], a:0},
+  {q:"En el servidor web Apache, ¿qué hace el comando 'a2ensite'?", options:["Cifra el tráfico de la página web","Activa un VirtualHost creando un enlace simbólico en la carpeta sites-enabled","Reinicia el servidor de forma forzada","Activa el módulo de reescritura de URLs"], a:1},
+  {q:"¿Cuál de las siguientes opciones define mejor el concepto de 'Bitrate' en un archivo multimedia?", options:["La cantidad de datos procesados por unidad de tiempo (ej. kbps o Mbps)","El número de píxeles de ancho y alto de un vídeo","La frecuencia de muestreo del audio","El retraso en la transmisión por red (latencia)"], a:0},
+  {q:"¿Qué formato contenedor es ampliamente utilizado hoy en día como estándar para la reproducción de vídeo web de forma nativa mediante la etiqueta HTML5?", options:["AVI","FLV","MP4","WMV"], a:2},
+  {q:"En la infraestructura DNS, ¿qué es un 'Glue Record' (Registro de pegamento)?", options:["Un registro MX secundario de respaldo","Un registro A o AAAA que proporciona la IP de un servidor de nombres (NS) para evitar dependencias circulares","Una directiva de Apache para conectar con DNS","El archivo que une la zona directa con la zona inversa"], a:1},
+  {q:"¿Qué es 'Let's Encrypt' en el contexto de la seguridad web?", options:["Una Autoridad de Certificación (CA) abierta y gratuita que automatiza la emisión de certificados TLS","Un software malicioso que encripta los discos duros","Un módulo de Apache para ocultar contraseñas","Un protocolo de correo seguro"], a:0},
+  {q:"¿Qué significa el término 'Open Relay' en un servidor de correo electrónico?", options:["Un servidor que usa software de código abierto","Un servidor web que muestra los correos públicamente","Un servidor SMTP mal configurado que permite a cualquiera en Internet enviar correos a través de él (muy abusado por spammers)","Un servidor que no usa contraseñas para los usuarios locales"], a:2},
+  {q:"¿Qué comando envía el cliente FTP al servidor para indicarle que desea utilizar el Modo Pasivo para la transferencia de datos?", options:["PASV","PORT","LIST","RETR"], a:0},
+  {q:"En el protocolo HTTP, ¿qué indica el código de estado 301?", options:["No autorizado","Redirección permanente (Movido permanentemente)","Petición incorrecta (Bad Request)","Tiempo de espera agotado"], a:1},
+  {q:"Según el modelo de capas OSI, ¿en qué capa operan los protocolos de red como HTTP, FTP, DNS o SMTP?", options:["Capa de Red","Capa de Enlace de Datos","Capa de Transporte","Capa de Aplicación"], a:3},
+  {q:"Para diagnosticar problemas de red básicos, ¿qué protocolo utiliza en sus entrañas el comando 'ping'?", options:["TCP","UDP","ICMP","IGMP"], a:2},
+  {q:"Por defecto en sistemas Debian/Ubuntu, ¿dónde guarda el servidor Apache su registro principal de errores?", options:["/var/log/apache2/error.log","/var/log/syslog","/etc/apache2/logs/error.txt","/var/www/html/error.log"], a:0},
+  {q:"¿En qué consiste un ataque de denegación de servicio distribuido (DDoS)?", options:["Robar contraseñas mediante ingeniería social","Inundar un servidor con peticiones masivas desde múltiples equipos distribuidos e infectados hasta colapsar el servicio","Inyectar código SQL en un formulario web","Falsificar la dirección MAC en una red local"], a:1},
+  {q:"Frente al inminente agotamiento de direcciones de IPv4, ¿cuál es la principal ventaja arquitectónica de IPv6?", options:["Que es mucho más rápido y reduce el ping a cero en todas las conexiones","Que no requiere del uso de servidores DNS","Que proporciona un espacio de direcciones muchísimo mayor (128 bits frente a 32 bits)","Que no permite la encriptación de paquetes"], a:2},
+  {q:"Si un usuario de tu red se queja de que un vídeo en streaming 'se corta constantemente', y verificas que el servidor origen funciona bien, ¿cuál suele ser la causa más común?", options:["El ancho de banda (bitrate) del vídeo supera la capacidad de descarga actual de la conexión a Internet del cliente","El servidor DNS ha borrado su caché temporal","El usuario está usando una IP dinámica en lugar de una estática","El certificado TLS del servidor de correo está caducado"], a:0},
+  {q:"¿Cuáles son los dos tipos principales de zonas en DNS y cuáles son sus características principales?", options:["Primaria y secundaria, la primaria se puede editar y la secundaria es de solo lectura.","Principal y secundaria; la principal es de solo lectura y la secundaria se puede editar.","Primaria y secundaria, ambas se pueden editar."], a:0},
+  {q:"¿Qué es lo primero que hace un resolutor DNS cuando se le solicita un nombre de dominio?", options:["Buscar en la caché local DNS","Consultar el archivo hosts","Enviar un mensaje al servidor DNS primario"], a:0},
+  {q:"¿Dónde se pueden encontrar los registros DNS y qué tipo de información suelen incluir?", options:["En los archivos de zona del servidor DNS, e incluyen registros como A, AAAA, CNAME, MX, NS, TXT, etc.","En la caché DNS, incluyendo consultas DNS, respuestas, errores y eventos relacionados.","En los logs DNS, incluyendo información sobre consultas DNS, respuestas, errores y eventos."], a:0},
+  {q:"Un cliente DHCP debe iniciar el proceso de renovación de la concesión cuando...", options:["Se ha agotado la mitad del tiempo establecido en max-lease-time.","Se ha agotado el tiempo de concesión por defecto.","Se ha agotado la mitad del tiempo de concesión asignado."], a:2},
+  {q:"¿Cuál es la función principal de los tipos MIME en el protocolo HTTP?", options:["Establecer una conexión segura entre el cliente y el servidor.","Limitar el número de solicitudes que pueden ser enviadas al servidor.","Indicar el tipo de contenido que está siendo transmitido."], a:2},
+  {q:"De las siguientes afirmaciones, indica cuál está relacionada con la activación de un módulo de Apache 2.4.", options:["La inclusión de una directiva en el archivo /etc/apache2/apache2.conf.","La inclusión de una directiva en el archivo /etc/apache2/mods-available/000-default.conf.","La creación de un enlace de los archivos de módulos disponibles al directorio de activados."], a:2},
+  {q:"El protocolo SFTP se encarga...", options:["De la transmisión, de la autenticación y del cifrado de la información.","Unicamente de la transmisión.","De la transmisión y de la autenticación.","De la transmisión y del cifrado de la información."], a:0},
+  {q:"Cuando un servidor FTP está en modo activo...", options:["El cliente establece la conexión de datos, y el servidor, la de control.","El cliente establece tanto la conexión de datos como la de control.","El servidor establece tanto la conexión de datos como la de control.","El servidor establece la conexión de datos, y el cliente, la de control."], a:3},
+  {q:"¿Cuál es una debilidad importante del servicio FTP en términos de seguridad?", options:["Que transfiere contraseñas en texto plano.","Que transfiere contraseñas cifradas.","Que utiliza autenticación de dos factores."], a:0},
+  {q:"¿Cuál es el propósito principal del protocolo DKIM (DomainKeys Identified Mail) en el correo electrónico?", options:["Filtrar y bloquear mensajes de correo electrónico no deseado o spam.","Encriptar el contenido del correo electrónico para protegerlo de accesos no autorizados.","Verificar la autenticidad del dominio del remitente y la integridad del mensaje."], a:2},
+  {q:"¿Qué característica diferencia al protocolo IMAP4 del POP3?", options:["La capacidad para realizar búsquedas y manipular carpetas en el servidor.","Su simplicidad y facilidad de uso.","Su preferencia por la descarga de correos a dispositivos locales."], a:0},
+  {q:"¿Cuál es el propósito del protocolo POP3 en el intercambio de correos electrónicos?", options:["Permitir la visualización de cabeceras de mensajes.","Descargar correos del servidor a dispositivos locales.","Facilitar la manipulación de carpetas y el etiquetado de correos."], a:1},
+  {q:"La suma de retardos que se produce durante las transmisiones a través de una red se llama...", options:["Velocidad","Retraso","Latencia"], a:2}
+];
+
+const MODES = {
+  full: { label: 'Examen completo', count: allQuestions.length, minutes: 60 },
+  uax: { label: 'Modo examen real UAX', count: 20, minutes: 20 },
+  practice: { label: 'Práctica rápida', count: 30, minutes: 30 }
+};
+
+const bankTotal = document.getElementById('bankTotal');
+const currentModeLabel = document.getElementById('currentModeLabel');
+const timerEl = document.getElementById('timer');
+const quizInfo = document.getElementById('quizInfo');
+const loadedQuestionsEl = document.getElementById('loadedQuestions');
+const modeTimeEl = document.getElementById('modeTime');
+const setupPanel = document.getElementById('setupPanel');
+const quiz = document.getElementById('quiz');
+const resultBox = document.getElementById('resultBox');
+const hitsEl = document.getElementById('hits');
+const failsEl = document.getElementById('fails');
+const blankEl = document.getElementById('blank');
+const scoreEl = document.getElementById('score');
+const gradeEl = document.getElementById('grade');
+const msgEl = document.getElementById('message');
+const backTopWrap = document.getElementById('backTopWrap');
+const startBtn = document.getElementById('startBtn');
+const reshuffleBtn = document.getElementById('reshuffleBtn');
+const correctBtn = document.getElementById('correctBtn');
+const restartModeBtn = document.getElementById('restartModeBtn');
+const changeModeBtn = document.getElementById('changeModeBtn');
+const finishBtn = document.getElementById('finishBtn');
+const modeCards = [...document.querySelectorAll('.modeCard')];
+
+let selectedMode = 'full';
+let questions = [];
+let corrected = false;
+let remaining = 60 * 60;
+let timer = null;
+
+bankTotal.textContent = allQuestions.length;
+
+function shuffle(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function prepareQuestions(modeKey) {
+  const mode = MODES[modeKey];
+  const pool = shuffle(allQuestions.map(q => {
+    const options = q.options.map((text, index) => ({ text, originalIndex: index }));
+    const shuffledOptions = shuffle(options);
+    return {
+      q: q.q,
+      options: shuffledOptions.map(o => o.text),
+      a: shuffledOptions.findIndex(o => o.originalIndex === q.a)
+    };
+  }));
+  questions = pool.slice(0, mode.count);
+  remaining = mode.minutes * 60;
+  timerEl.textContent = formatTime(remaining);
+  timerEl.classList.remove('low', 'done');
+  currentModeLabel.textContent = mode.label;
+  loadedQuestionsEl.textContent = questions.length;
+  modeTimeEl.textContent = mode.minutes + ' min';
+}
+
+function renderQuiz() {
+  quiz.innerHTML = questions.map((item, i) => `
+    <section class="question" id="q${i}">
+      <div class="qhead">
+        <div class="num">${i+1}</div>
+        <div class="qtext">${item.q}</div>
+      </div>
+      <div class="options">
+        ${item.options.map((opt, j) => `
+          <label class="option" data-q="${i}" data-o="${j}">
+            <input type="radio" name="q${i}" value="${j}">
+            <span><strong>${String.fromCharCode(65+j)})</strong> ${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div class="feedback" id="f${i}"></div>
+    </section>
+  `).join('');
+  resultBox.classList.remove('show');
+  backTopWrap.classList.remove('show');
+  corrected = false;
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function startTimer() {
+  clearInterval(timer);
+  timerEl.textContent = formatTime(remaining);
+  timer = setInterval(() => {
+    remaining--;
+    timerEl.textContent = formatTime(Math.max(remaining, 0));
+    if (remaining <= 300) timerEl.classList.add('low');
+    if (remaining <= 0) {
+      clearInterval(timer);
+      timerEl.classList.add('done');
+      correctExam(true);
+    }
+  }, 1000);
+}
+
+function markSelections() {
+  quiz.addEventListener('change', e => {
+    if (!e.target.matches('input[type="radio"]') || corrected) return;
+    const q = e.target.name.replace('q','');
+    document.querySelectorAll(`label[data-q="${q}"]`).forEach(l => l.style.borderColor = '#e2e8f0');
+    e.target.closest('label').style.borderColor = '#8b5cf6';
+  });
+}
+
+function correctExam(auto = false) {
+  if (corrected || !questions.length) return;
+  corrected = true;
+  clearInterval(timer);
+
+  let hits = 0, fails = 0, blank = 0;
+
+  questions.forEach((item, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const qBox = document.getElementById(`q${i}`);
+    const feedback = document.getElementById(`f${i}`);
+    const labels = document.querySelectorAll(`label[data-q="${i}"]`);
+    labels.forEach((label, idx) => {
+      if (idx === item.a) label.classList.add('correct-answer');
+      if (selected && Number(selected.value) === idx && idx !== item.a) label.classList.add('wrong-picked');
+      const input = label.querySelector('input');
+      input.disabled = true;
+    });
+
+    if (!selected) {
+      blank++;
+      qBox.classList.add('incorrect');
+      feedback.className = 'feedback show bad';
+      feedback.innerHTML = `Sin responder. <br>✅ Correcta: <strong>${String.fromCharCode(65 + item.a)})</strong> ${item.options[item.a]}`;
+      return;
+    }
+
+    const selectedValue = Number(selected.value);
+    if (selectedValue === item.a) {
+      hits++;
+      qBox.classList.add('correct');
+      feedback.className = 'feedback show ok';
+      feedback.innerHTML = '✅ Correcta';
+    } else {
+      fails++;
+      qBox.classList.add('incorrect');
+      feedback.className = 'feedback show bad';
+      feedback.innerHTML = `❌ Fallada. Tu respuesta: <strong>${String.fromCharCode(65 + selectedValue)})</strong>. <br>✅ Correcta: <strong>${String.fromCharCode(65 + item.a)})</strong> ${item.options[item.a]}`;
+    }
+  });
+
+  const score = hits - fails;
+  const max = questions.length;
+  const grade = Math.max(0, ((score / max) * 10)).toFixed(2);
+
+  hitsEl.textContent = hits;
+  failsEl.textContent = fails;
+  blankEl.textContent = blank;
+  scoreEl.textContent = score;
+  gradeEl.textContent = grade;
+
+  let message = 'Sigue repasando, que lo sacas.';
+  if (Number(grade) >= 9) message = '🔥 Sobresaliente. Vas muy fuerte.';
+  else if (Number(grade) >= 7) message = '✅ Notable. Muy buen nivel.';
+  else if (Number(grade) >= 5) message = '👍 Aprobado. Buen trabajo.';
+  else if (Number(grade) < 5) message = '📚 Toca repasar un poco más.';
+
+  msgEl.textContent = auto ? `⏰ Tiempo agotado. ${message}` : message;
+  resultBox.classList.add('show');
+  backTopWrap.classList.add('show');
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function startMode() {
+  prepareQuestions(selectedMode);
+  renderQuiz();
+  quizInfo.classList.add('show');
+  setupPanel.classList.add('hidden');
+  startTimer();
+}
+
+function changeModeUI(modeKey) {
+  selectedMode = modeKey;
+  modeCards.forEach(card => card.classList.toggle('active', card.dataset.mode === modeKey));
+}
+
+modeCards.forEach(card => {
+  card.addEventListener('click', () => changeModeUI(card.dataset.mode));
+});
+
+startBtn.addEventListener('click', startMode);
+reshuffleBtn.addEventListener('click', () => {
+  prepareQuestions(selectedMode);
+  alert('Nueva selección preparada para ese modo. Pulsa "Empezar test".');
+});
+correctBtn.addEventListener('click', () => correctExam(false));
+finishBtn.addEventListener('click', () => correctExam(false));
+restartModeBtn.addEventListener('click', () => startMode());
+changeModeBtn.addEventListener('click', () => {
+  clearInterval(timer);
+  quiz.innerHTML = '';
+  resultBox.classList.remove('show');
+  backTopWrap.classList.remove('show');
+  setupPanel.classList.remove('hidden');
+  quizInfo.classList.remove('show');
+  currentModeLabel.textContent = 'Sin iniciar';
+  timerEl.textContent = '60:00';
+  timerEl.classList.remove('low','done');
+});
+
+markSelections();
+prepareQuestions(selectedMode);
+</script>
+</body>
+</html>
