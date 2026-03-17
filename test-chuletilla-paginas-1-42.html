@@ -100,6 +100,12 @@ button{
   border:1px solid #d8e0ea;
   border-radius:12px;
   background:#f8fafc;
+  cursor:pointer;
+  transition:.2s;
+}
+.option:hover{
+  background:#eef4ff;
+  border-color:#9bb8f0;
 }
 .option input{margin:0; transform:scale(1.1);}
 .feedback{
@@ -154,7 +160,7 @@ button{
 </div>
 
 <script>
-const questions = [
+const originalQuestions = [
   {
     "q": "¿Qué describe mejor una arquitectura web?",
     "options": [
@@ -750,10 +756,43 @@ const questions = [
     "explanation": "fetch_assoc() devuelve una fila como array asociativo."
   }
 ];
+
+let questions = [];
 const quiz = document.getElementById('quiz');
+
+function shuffle(arr){
+  const copy = [...arr];
+  for(let i = copy.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function mezclarOpcionesPregunta(question){
+  const optionsWithIndex = question.options.map((text, index) => ({
+    text,
+    originalIndex: index
+  }));
+
+  const mixedOptions = shuffle(optionsWithIndex);
+  const newAnswer = mixedOptions.findIndex(opt => opt.originalIndex === question.answer);
+
+  return {
+    ...question,
+    options: mixedOptions.map(opt => opt.text),
+    answer: newAnswer
+  };
+}
+
+function prepararPreguntas(){
+  questions = originalQuestions.map(mezclarOpcionesPregunta);
+}
 
 function renderQuiz(){
   quiz.innerHTML = '';
+  const letras = ['A', 'B', 'C', 'D'];
+
   questions.forEach((item, index) => {
     const div = document.createElement('div');
     div.className = 'quiz-item';
@@ -762,7 +801,7 @@ function renderQuiz(){
     const optionsHtml = item.options.map((option, i) => `
       <label class="option">
         <input type="radio" name="q${index}" value="${i}" onchange="corregirPregunta(${index}); actualizarResumen();">
-        <span>${option}</span>
+        <span><strong>${letras[i]}.</strong> ${option}</span>
       </label>
     `).join('');
 
@@ -829,18 +868,15 @@ function corregirTodo(){
 }
 
 function reiniciarExamen(){
-  document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
-  document.querySelectorAll('.quiz-item').forEach(card => card.classList.remove('correct','incorrect'));
-  document.querySelectorAll('.feedback').forEach(box => {
-    box.classList.remove('show','ok','bad');
-    box.innerHTML = '';
-  });
+  prepararPreguntas();
+  renderQuiz();
   document.getElementById('score').textContent = '0';
   document.getElementById('errors').textContent = '0';
   document.getElementById('answered').textContent = '0';
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
+prepararPreguntas();
 renderQuiz();
 </script>
 </body>
