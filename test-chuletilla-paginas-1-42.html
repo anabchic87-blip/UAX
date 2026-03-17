@@ -34,6 +34,26 @@ h1{
   font-size:16px;
   line-height:1.6;
 }
+.blocks{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.block-btn{
+  border:none;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  background:#e0ecff;
+  color:#1d4ed8;
+}
+.block-btn.active{
+  background:#2563eb;
+  color:#fff;
+}
 .stats{
   display:flex;
   gap:12px;
@@ -123,6 +143,33 @@ button{
   margin-top:8px;
   font-weight:600;
 }
+.banner{
+  margin-top:16px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:#eff6ff;
+  color:#1d4ed8;
+  border:1px solid #bfdbfe;
+  font-weight:700;
+}
+.bottom-actions{
+  display:flex;
+  justify-content:center;
+  margin-top:24px;
+}
+.grade-box{
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:#ecfeff;
+  border:1px solid #a5f3fc;
+  color:#155e75;
+  font-weight:700;
+  display:none;
+}
+.grade-box.show{
+  display:block;
+}
 .footer-note{
   text-align:center;
   color:#66707c;
@@ -140,21 +187,37 @@ button{
 <div class="wrapper">
   <div class="header">
     <h1>Test Chuletilla · páginas 1 a 42</h1>
-    <p class="subtitle">50 preguntas tipo test creadas a partir del Word que has subido, centradas en arquitectura web, cloud, WordPress, PHP, formularios y bases de datos. Se corrige automáticamente al marcar cada respuesta y muestra la correcta si fallas.</p>
+    <p class="subtitle">He dividido las 50 preguntas en 2 test de 25 para que te resulte más cómodo estudiar.</p>
+
+    <div class="blocks">
+      <button class="block-btn active" id="btn-bloque-1" onclick="cargarBloque(1)">Test 1 · preguntas 1 a 25</button>
+      <button class="block-btn" id="btn-bloque-2" onclick="cargarBloque(2)">Test 2 · preguntas 26 a 50</button>
+    </div>
+
+    <div class="banner" id="bannerBlock">Estás en el Test 1.</div>
+
     <div class="stats">
-      <div class="stat"><div class="stat-label">Preguntas</div><div class="stat-value" id="totalQuestions">50</div></div>
+      <div class="stat"><div class="stat-label">Preguntas del bloque</div><div class="stat-value" id="totalQuestions">25</div></div>
       <div class="stat"><div class="stat-label">Aciertos</div><div class="stat-value" id="score">0</div></div>
       <div class="stat"><div class="stat-label">Fallos</div><div class="stat-value" id="errors">0</div></div>
       <div class="stat"><div class="stat-label">Respondidas</div><div class="stat-value" id="answered">0</div></div>
+      <div class="stat"><div class="stat-label">Nota / 10</div><div class="stat-value" id="grade">0.00</div></div>
     </div>
+
     <div class="actions">
-      <button class="primary" onclick="corregirTodo()">Corregir examen</button>
-      <button class="secondary" onclick="reiniciarExamen()">Reiniciar</button>
+      <button class="primary" onclick="corregirTodo()">Corregir test</button>
+      <button class="secondary" onclick="reiniciarExamen()">Reiniciar test actual</button>
       <button class="ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">Subir arriba</button>
     </div>
+
+    <div class="grade-box" id="gradeBox"></div>
   </div>
 
   <div id="quiz"></div>
+
+  <div class="bottom-actions">
+    <button class="ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Subir arriba</button>
+  </div>
 
   <p class="footer-note">Archivo listo para Visual Studio Code y GitHub Pages.</p>
 </div>
@@ -757,7 +820,9 @@ const originalQuestions = [
   }
 ];
 
+let allQuestions = [];
 let questions = [];
+let bloqueActual = 1;
 const quiz = document.getElementById('quiz');
 
 function shuffle(arr){
@@ -786,7 +851,30 @@ function mezclarOpcionesPregunta(question){
 }
 
 function prepararPreguntas(){
-  questions = originalQuestions.map(mezclarOpcionesPregunta);
+  allQuestions = originalQuestions.map(mezclarOpcionesPregunta);
+}
+
+function actualizarBotonesBloque(){
+  document.getElementById('btn-bloque-1').classList.toggle('active', bloqueActual === 1);
+  document.getElementById('btn-bloque-2').classList.toggle('active', bloqueActual === 2);
+}
+
+function cargarBloque(numero){
+  bloqueActual = numero;
+
+  if(numero === 1){
+    questions = allQuestions.slice(0, 25);
+    document.getElementById('bannerBlock').textContent = 'Estás en el Test 1.';
+  } else {
+    questions = allQuestions.slice(25, 50);
+    document.getElementById('bannerBlock').textContent = 'Estás en el Test 2.';
+  }
+
+  actualizarBotonesBloque();
+  renderQuiz();
+  resetResumen();
+  ocultarNota();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function renderQuiz(){
@@ -812,20 +900,22 @@ function renderQuiz(){
     `;
     quiz.appendChild(div);
   });
+
+  document.getElementById('totalQuestions').textContent = questions.length;
 }
 
 function corregirPregunta(index){
   const item = questions[index];
-  const selected = document.querySelector(`input[name="q${index}"]:checked`);
-  const card = document.getElementById(`question-${index}`);
-  const feedback = document.getElementById(`feedback-${index}`);
+  const selected = document.querySelector(\`input[name="q\${index}"]:checked\`);
+  const card = document.getElementById(\`question-\${index}\`);
+  const feedback = document.getElementById(\`feedback-\${index}\`);
 
   card.classList.remove('correct','incorrect');
   feedback.classList.remove('show','ok','bad');
 
   if(!selected){
     feedback.classList.add('show','bad');
-    feedback.innerHTML = `No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div>`;
+    feedback.innerHTML = \`No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>\${item.options[item.answer]}</strong></div>\`;
     card.classList.add('incorrect');
     return;
   }
@@ -835,11 +925,11 @@ function corregirPregunta(index){
   if(selectedValue === item.answer){
     card.classList.add('correct');
     feedback.classList.add('show','ok');
-    feedback.innerHTML = `✅ Correcta.<div class="correct-answer">${item.explanation}</div>`;
+    feedback.innerHTML = \`✅ Correcta.<div class="correct-answer">\${item.explanation}</div>\`;
   } else {
     card.classList.add('incorrect');
     feedback.classList.add('show','bad');
-    feedback.innerHTML = `❌ Incorrecta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div><div class="correct-answer">${item.explanation}</div>`;
+    feedback.innerHTML = \`❌ Incorrecta.<div class="correct-answer">Respuesta correcta: <strong>\${item.options[item.answer]}</strong></div><div class="correct-answer">\${item.explanation}</div>\`;
   }
 }
 
@@ -849,7 +939,7 @@ function actualizarResumen(){
   let answered = 0;
 
   questions.forEach((item, index) => {
-    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    const selected = document.querySelector(\`input[name="q\${index}"]:checked\`);
     if(selected){
       answered++;
       if(Number(selected.value) === item.answer) score++;
@@ -857,27 +947,59 @@ function actualizarResumen(){
     }
   });
 
+  const grade = questions.length ? ((score / questions.length) * 10) : 0;
+
   document.getElementById('score').textContent = score;
   document.getElementById('errors').textContent = errors;
   document.getElementById('answered').textContent = answered;
+  document.getElementById('grade').textContent = grade.toFixed(2);
+
+  return grade;
+}
+
+function mostrarNota(grade){
+  const gradeBox = document.getElementById('gradeBox');
+  let mensaje = '';
+
+  if(grade >= 9){
+    mensaje = \`🌟 Nota final: \${grade.toFixed(2)}/10 · Excelente.\`;
+  } else if(grade >= 5){
+    mensaje = \`✅ Nota final: \${grade.toFixed(2)}/10 · Aprobado.\`;
+  } else {
+    mensaje = \`📚 Nota final: \${grade.toFixed(2)}/10 · Toca repasar un poco más.\`;
+  }
+
+  gradeBox.textContent = mensaje;
+  gradeBox.classList.add('show');
+}
+
+function ocultarNota(){
+  const gradeBox = document.getElementById('gradeBox');
+  gradeBox.textContent = '';
+  gradeBox.classList.remove('show');
 }
 
 function corregirTodo(){
   questions.forEach((_, index) => corregirPregunta(index));
-  actualizarResumen();
+  const grade = actualizarResumen();
+  mostrarNota(grade);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function resetResumen(){
+  document.getElementById('score').textContent = '0';
+  document.getElementById('errors').textContent = '0';
+  document.getElementById('answered').textContent = '0';
+  document.getElementById('grade').textContent = '0.00';
 }
 
 function reiniciarExamen(){
   prepararPreguntas();
-  renderQuiz();
-  document.getElementById('score').textContent = '0';
-  document.getElementById('errors').textContent = '0';
-  document.getElementById('answered').textContent = '0';
-  window.scrollTo({top:0, behavior:'smooth'});
+  cargarBloque(bloqueActual);
 }
 
 prepararPreguntas();
-renderQuiz();
+cargarBloque(1);
 </script>
 </body>
 </html>
