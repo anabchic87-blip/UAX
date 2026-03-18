@@ -1,572 +1,324 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Campus de Exámenes ASIR · UAX</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma de exámenes tipo test</title>
   <style>
-    *{box-sizing:border-box}
-
-    :root{
-      --text:#4a2a1a;
-      --title:#2f1b12;
-      --muted:#8a5a44;
-      --primary:#f97316;
-      --primary2:#fb923c;
-      --primary-soft:#fff1e8;
-      --line:#ffd7bf;
-      --card:#fffaf7;
-      --shadow:0 18px 45px rgba(176, 95, 40, .16);
-      --hero1:#ffedd5;
-      --hero2:#fed7aa;
-      --hero3:#fdba74;
-      --boss:#b91c1c;
-      --boss2:#ef4444;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    html{
-      scroll-behavior:smooth;
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #fff4ec, #fde7d7);
+      color: #3b2416;
+      min-height: 100vh;
     }
 
-    body{
-      margin:0;
-      font-family:'Poppins', Arial, Helvetica, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(251,146,60,.18), transparent 26%),
-        radial-gradient(circle at top right, rgba(249,115,22,.14), transparent 24%),
-        linear-gradient(135deg, #fff7f2 0%, #ffefe2 38%, #ffe4cf 100%);
-      min-height:100vh;
+    .header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #f0c9a8;
+      padding: 22px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .page{
-      max-width:1380px;
-      margin:0 auto;
-      padding:28px 18px 48px;
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    .hero{
-      position:relative;
-      overflow:hidden;
-      background:linear-gradient(135deg, #fff7f0, #ffe7d1 55%, #ffd7b4 100%);
-      color:var(--title);
-      border-radius:30px;
-      box-shadow:var(--shadow);
-      padding:42px 34px;
-      margin-bottom:30px;
-      border:1px solid rgba(255,255,255,.7);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
-    .hero::before{
-      content:"";
-      position:absolute;
-      width:360px;
-      height:360px;
-      border-radius:50%;
-      background:rgba(249,115,22,.12);
-      right:-80px;
-      top:-100px;
-      filter:blur(10px);
+    .logo-uax {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ffb36c, #ff7a00);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: 0 8px 18px rgba(255, 122, 0, 0.25);
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      width:260px;
-      height:260px;
-      border-radius:50%;
-      background:rgba(251,146,60,.16);
-      left:-60px;
-      bottom:-80px;
-      filter:blur(10px);
+    .brand-text h1 {
+      font-size: 30px;
+      color: #8a3d00;
+      margin-bottom: 4px;
     }
 
-    .badge{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.55);
-      border:1px solid rgba(249,115,22,.18);
-      font-size:13px;
-      font-weight:700;
-      letter-spacing:.3px;
-      margin-bottom:16px;
-      position:relative;
-      z-index:1;
-      color:#9a4f1e;
+    .brand-text p {
+      color: #8a5b3f;
+      font-size: 15px;
     }
 
-    .hero h1{
-      margin:0 0 12px;
-      font-size:clamp(34px,5vw,56px);
-      line-height:1.05;
-      position:relative;
-      z-index:1;
-      color:var(--title);
+    .badge {
+      background: #fff3e8;
+      border: 1px solid #f4c7a2;
+      color: #b65700;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
     }
 
-    .hero h1 span{
-      background:linear-gradient(90deg, #ea580c, #f97316, #fb923c);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px 40px;
     }
 
-    .hero p{
-      margin:0;
-      max-width:860px;
-      color:#7a4d39;
-      font-size:16px;
-      line-height:1.7;
-      position:relative;
-      z-index:1;
+    .section-title {
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    .stats{
-      margin-top:24px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      position:relative;
-      z-index:1;
+    .section-title h2 {
+      font-size: 32px;
+      color: #8a3d00;
+      margin-bottom: 10px;
     }
 
-    .stat{
-      min-width:160px;
-      padding:14px 16px;
-      border-radius:18px;
-      background:rgba(255,255,255,.55);
-      border:1px solid rgba(249,115,22,.15);
-      backdrop-filter:blur(5px);
+    .section-title p {
+      color: #7a5a45;
+      font-size: 17px;
     }
 
-    .stat strong{
-      display:block;
-      font-size:28px;
-      margin-bottom:4px;
-      color:#9a3412;
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
     }
 
-    .stat span{
-      color:#8a5a44;
-      font-size:14px;
+    .card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid #f0cfb5;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(138, 61, 0, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .section-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin:10px 2px 18px;
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 38px rgba(138, 61, 0, 0.12);
     }
 
-    .section-title h2{
-      margin:0;
-      font-size:30px;
-      color:var(--title);
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 14px;
     }
 
-    .section-title p{
-      margin:0;
-      color:var(--muted);
-      font-size:15px;
+    .icon-box {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ffe0c4, #ffd0a3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:20px;
-      align-items:stretch;
+    .tag {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #fff6ef;
+      border: 1px solid #f0c7a7;
+      color: #b14f00;
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
     }
 
-    .card{
-      background:rgba(255,250,247,.92);
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:0 14px 34px rgba(176,95,40,.10);
-      padding:22px;
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-      display:flex;
-      flex-direction:column;
-      min-height:250px;
+    .card h3 {
+      font-size: 20px;
+      color: #3d220f;
+      margin-bottom: 10px;
     }
 
-    .card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 22px 38px rgba(176,95,40,.16);
-      border-color:#fdba74;
+    .card p {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #734f39;
+      margin-bottom: 22px;
     }
 
-    .card-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      margin-bottom:16px;
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .icon{
-      width:58px;
-      height:58px;
-      border-radius:18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:26px;
-      background:linear-gradient(135deg, #fff1e8, #ffe0c7);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
-      flex-shrink:0;
+    .btn {
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
     }
 
-    .tag{
-      display:inline-block;
-      padding:7px 11px;
-      border-radius:999px;
-      background:#fff1e8;
-      color:#c2410c;
-      font-size:12px;
-      font-weight:700;
-      border:1px solid #ffd7bf;
-      white-space:nowrap;
+    .btn-primary {
+      background: linear-gradient(135deg, #ff7a00, #ff9838);
+      color: white;
+      box-shadow: 0 10px 20px rgba(255, 122, 0, 0.22);
     }
 
-    .card h3{
-      margin:0 0 8px;
-      font-size:24px;
-      color:var(--title);
-      line-height:1.25;
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 16px 28px rgba(255, 122, 0, 0.32);
     }
 
-    .card p{
-      margin:0 0 18px;
-      color:var(--muted);
-      line-height:1.6;
-      flex-grow:1;
+    .btn-secondary {
+      background: #fff8f3;
+      color: #a54800;
+      border: 1px solid #efc29f;
     }
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:auto;
+    .btn-secondary:hover {
+      transform: translateY(-3px) scale(1.03);
+      background: #fff1e7;
+      box-shadow: 0 12px 24px rgba(210, 120, 35, 0.12);
     }
 
-    .btn{
-      flex:1 1 180px;
-      text-decoration:none;
-      text-align:center;
-      padding:13px 16px;
-      border-radius:14px;
-      font-weight:700;
-      transition:.18s ease;
-      border:1px solid transparent;
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #8a674f;
+      font-size: 14px;
+      padding-bottom: 20px;
     }
 
-    .btn-primary{
-      background:linear-gradient(135deg, var(--primary), var(--primary2));
-      color:white;
-      box-shadow:0 10px 20px rgba(249,115,22,.24);
-    }
-
-    .btn-primary:hover{
-      filter:brightness(1.03);
-      transform:translateY(-1px);
-    }
-
-    .btn-secondary{
-      background:#fff7f2;
-      color:#7c2d12;
-      border-color:#ffd7bf;
-    }
-
-    .btn-secondary:hover{
-      background:#fff1e8;
-      border-color:#fdba74;
-      color:#c2410c;
-    }
-
-    .card-sri{
-      background:linear-gradient(135deg, #fff8f3, #ffe8d5);
-      border:1px solid #fdc9a6;
-    }
-
-    .card-sri .icon{
-      background:linear-gradient(135deg, #ffe0c7, #ffd0a8);
-    }
-
-    .boss-alberto{
-      background:linear-gradient(135deg,#450a0a,#7f1d1d);
-      border:2px solid #ef4444;
-      box-shadow:0 0 25px rgba(239,68,68,.22);
-      color:white;
-    }
-
-    .boss-alberto:hover{
-      transform:scale(1.015) translateY(-4px);
-      box-shadow:0 0 38px rgba(239,68,68,.38);
-      border-color:#f87171;
-    }
-
-    .boss-alberto h3,
-    .boss-alberto p{
-      color:white;
-    }
-
-    .boss-alberto .tag{
-      background:rgba(255,255,255,.12);
-      color:white;
-      border:1px solid rgba(255,255,255,.14);
-    }
-
-    .boss-button{
-      background:linear-gradient(135deg,var(--boss2),var(--boss));
-      animation:shake 2s infinite;
-      box-shadow:0 0 16px rgba(255,0,0,.22);
-    }
-
-    .boss-button:hover{
-      box-shadow:0 0 24px rgba(255,0,0,.42);
-    }
-
-    @keyframes shake{
-      0%{transform:translate(0)}
-      25%{transform:translate(1px,-1px)}
-      50%{transform:translate(-1px,1px)}
-      75%{transform:translate(1px,1px)}
-      100%{transform:translate(0)}
-    }
-
-    .footer{
-      margin-top:30px;
-      text-align:center;
-      color:#8a5a44;
-      font-size:14px;
-      padding-bottom:8px;
-    }
-
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
-      .hero{padding:32px 22px}
-    }
-
-    @media (max-width: 560px){
-      .page{padding:18px 14px 34px}
-      .card{padding:18px}
-      .card h3{font-size:21px}
-      .btn{flex-basis:100%}
-      .section-title{
-        flex-direction:column;
-        align-items:flex-start;
+    @media (max-width: 700px) {
+      .brand-text h1 {
+        font-size: 24px;
       }
-      .hero h1{
-        font-size:clamp(28px, 8vw, 42px);
+
+      .section-title h2 {
+        font-size: 26px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .actions {
+        flex-direction: column;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
 
-    <section class="hero">
-      <div class="badge">Campus virtual · UAX · ASIR</div>
-      <h1><span>Plataforma</span> de exámenes y test</h1>
-      <p>
-        Accede a todos tus test en una sola página. Diseño limpio, visual y rápido, pensado para que tengas
-        todo ordenado y bonito en GitHub Pages. Ahora con un estilo más cálido en naranja claro.
-      </p>
-
-      <div class="stats">
-        <div class="stat">
-          <strong>+10</strong>
-          <span>Exámenes disponibles</span>
-        </div>
-        <div class="stat">
-          <strong>UAX</strong>
-          <span>Estilo campus</span>
-        </div>
-        <div class="stat">
-          <strong>Auto</strong>
-          <span>Corrección en varios test</span>
+  <header class="header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="logo-uax">UAX</div>
+        <div class="brand-text">
+          <h1>Plataforma de exámenes tipo test</h1>
+          <p>Práctica de cuestionarios para ASIR y otras asignaturas</p>
         </div>
       </div>
-    </section>
+      <div class="badge">Campus de práctica</div>
+    </div>
+  </header>
 
+  <main class="container">
     <div class="section-title">
-      <div>
-        <h2>Mis exámenes</h2>
-        <p>Haz clic en cualquier tarjeta para abrir el test correspondiente.</p>
-      </div>
+      <h2>Panel de exámenes</h2>
+      <p>Accede a todos tus test organizados por asignatura desde una sola página.</p>
     </div>
 
-    <section class="grid">
+    <div class="cards">
 
-      <article class="card">
+      <!-- TARJETA DNS -->
+      <div class="card">
         <div class="card-top">
-          <div class="icon">🌐</div>
-          <span class="tag">Apache</span>
+          <div class="icon-box">🌐</div>
+          <div class="tag">DNS</div>
         </div>
-        <h3>Examen Apache</h3>
-        <p>Práctica y repaso sobre servidor web Apache en formato de examen.</p>
+        <h3>Examen DNS</h3>
+        <p>Cuestionario principal de DNS para practicar conceptos, configuración y preguntas típicas de examen.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="examen-apache.html">Abrir examen</a>
-          <a class="btn btn-secondary" href="examen-apache-2.html">Abrir test 2</a>
+          <a class="btn btn-primary" href="examen-dns.html">Abrir examen</a>
+          <a class="btn btn-secondary" href="examen-dns-2.html">Abrir test 2</a>
+          <a class="btn btn-secondary" href="examen-dns-3.html">Abrir test 3</a>
         </div>
-      </article>
+      </div>
 
-      <article class="card">
+      <!-- TARJETA PHP -->
+      <div class="card">
         <div class="card-top">
-          <div class="icon">🧭</div>
-          <span class="tag">DNS</span>
+          <div class="icon-box">💻</div>
+          <div class="tag">PHP</div>
         </div>
-       <h3>Examen DNS</h3>
-<p>Cuestionario principal de DNS para practicar conceptos y preguntas típicas.</p>
-<div class="actions">
-  <a class="btn btn-primary" href="examen-dns.html">Abrir examen</a>
-  <a class="btn btn-secondary" href="examen-dns-2.html">Abrir test 2</a>
-  <a class="btn btn-secondary" href="examen-dns-3.html">Abrir test 3</a>
-</div>
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">💻</div>
-          <span class="tag">IAW / PHP</span>
-        </div>
-        <h3>Examen IAW / PHP</h3>
-        <p>Primer examen de IAW y PHP para repasar sintaxis, formularios y conceptos básicos.</p>
+        <h3>Examen PHP</h3>
+        <p>Preguntas tipo test de variables, constantes, formularios, GET, POST, MySQL, CRUD y estructuras de control.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="examen-iaw-php (1).html">Abrir examen</a>
+          <a class="btn btn-primary" href="examen-php.html">Abrir examen</a>
+          <a class="btn btn-secondary" href="examen-php-2.html">Abrir test 2</a>
         </div>
-      </article>
+      </div>
 
-      <article class="card">
+      <!-- TARJETA REDES -->
+      <div class="card">
         <div class="card-top">
-          <div class="icon">⚡</div>
-          <span class="tag">IAW / PHP</span>
+          <div class="icon-box">📡</div>
+          <div class="tag">REDES</div>
         </div>
-        <h3>IAW / PHP · 50 nuevas</h3>
-        <p>Versión ampliada con más preguntas y corrección automática al marcar la respuesta.</p>
+        <h3>Examen Redes</h3>
+        <p>Práctica de conceptos de resolución DNS, DHCP, SMTP, FTP, FTPS, SFTP, Apache y servicios de red.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="examen-iaw-php-50-nuevas-auto (1).html">Abrir examen</a>
+          <a class="btn btn-primary" href="examen-redes.html">Abrir examen</a>
+          <a class="btn btn-secondary" href="examen-redes-2.html">Abrir test 2</a>
         </div>
-      </article>
+      </div>
 
-      <article class="card">
+      <!-- TARJETA ALBERTO BOSS -->
+      <div class="card">
         <div class="card-top">
-          <div class="icon">📘</div>
-          <span class="tag">Chuletilla</span>
+          <div class="icon-box">🏆</div>
+          <div class="tag">FINAL</div>
         </div>
-        <h3>Chuletilla · páginas 1 a 42</h3>
-        <p>Test de 50 preguntas tipo examen sobre arquitectura web, cloud, WordPress, PHP, formularios y base de datos.</p>
+        <h3>Alberto Boss final 100 preguntas</h3>
+        <p>Bloque final de práctica intensiva. Este apartado lo puedes dejar con tu enlace actual exactamente igual que ya lo tienes codificado.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="test-chuletilla-paginas-1-42.html">Abrir examen</a>
+          <a class="btn btn-primary" href="alberto-boss-final-100-preguntas.html">Abrir examen</a>
         </div>
-      </article>
+      </div>
 
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">🎓</div>
-          <span class="tag">IAW / PHP</span>
-        </div>
-        <h3>Batería de preguntas IAW/PHP</h3>
-        <p>3 niveles de dificultad con 25 preguntas aleatorias por nivel y modo examen real.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="bateria-preguntas-iaw-php.html">Abrir examen</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">🧠</div>
-          <span class="tag">Digitalización</span>
-        </div>
-        <h3>Digitalización · Test 1</h3>
-        <p>Primer bloque de preguntas de digitalización en formato test.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="examen_digitalizacion_1.html">Abrir examen</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">📘</div>
-          <span class="tag">Digitalización</span>
-        </div>
-        <h3>Digitalización · Test 2</h3>
-        <p>Segundo bloque de preguntas para seguir practicando digitalización.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="examen_digitalizacion_2.html">Abrir examen</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">📝</div>
-          <span class="tag">ASIR2</span>
-        </div>
-        <h3>ASIR2 · Test general</h3>
-        <p>Recopilación general de preguntas para entrenamiento rápido tipo examen.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="test_asir2_50_preguntas.html">Abrir examen</a>
-          <a class="btn btn-secondary" href="test1-desarrollo-web.html">Abrir test web</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">😈</div>
-          <span class="tag">Especial</span>
-        </div>
-        <h3>Alberto Forever</h3>
-        <p>Test legendario dedicado al profesor Alberto. Solo apto para valientes.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="alberto-forever-gracioso.html">Abrir examen</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="card-top">
-          <div class="icon">🔥</div>
-          <span class="tag">Especial</span>
-        </div>
-        <h3>Test imposible de Alberto</h3>
-        <p>Examen de nivel difícil con 50 preguntas tipo examen. Si aciertas aparece un ángel 😇 y si fallas aparece el diablo 😈.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="alberto-forever-dificil-50.html">🔥 Test imposible de Alberto</a>
-        </div>
-      </article>
-
-      <article class="card boss-alberto">
-        <div class="card-top">
-          <div class="icon">🔥</div>
-          <span class="tag">Boss Final</span>
-        </div>
-        <h3>🔥 Alberto Boss Final · 100 preguntas</h3>
-        <p>
-          El examen definitivo contra el profesor Alberto. 100 preguntas, temporizador, penalización por fallos y ranking final.
-          <strong>Si entras… ya no hay vuelta atrás.</strong>
-        </p>
-        <div class="actions">
-          <a class="btn btn-primary boss-button" href="alberto-boss-100.html">⚠️ Entrar al examen final</a>
-        </div>
-      </article>
-
-      <article class="card card-sri">
-        <div class="card-top">
-          <div class="icon">🧡</div>
-          <span class="tag">SRI</span>
-        </div>
-        <h3>Campus SRI · Test Rafa</h3>
-        <p>Simulador de examen tipo UAX con preguntas aleatorias, cronómetro, corrección automática y modo práctica.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="Test SRI_Rafa.html">Entrar al test</a>
-          <a class="btn btn-secondary" href="#">Ranking próximamente</a>
-        </div>
-      </article>
-
-    </section>
+    </div>
 
     <div class="footer">
-      Archivo principal del campus de exámenes · estilo UAX cálido.
+      Plataforma visual de exámenes · Diseño en tonos naranja claro · UAX
     </div>
-  </div>
+  </main>
+
 </body>
 </html>
