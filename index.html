@@ -5,254 +5,268 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plataforma de exámenes tipo test</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
-    :root {
-      --bg-1: #fff7f0;
-      --bg-2: #ffe8d4;
-      --card: rgba(255, 255, 255, 0.92);
-      --border: #f2c9a6;
-      --orange: #ff7a00;
-      --orange-2: #ff9a3d;
-      --orange-soft: #fff1e4;
-      --text: #3b2416;
-      --text-soft: #7a5b49;
-      --title: #8a3d00;
-      --shadow: rgba(138, 61, 0, 0.12);
+    :root{
+      --bg1:#fff7f0;
+      --bg2:#ffe7d1;
+      --card:#fffaf6;
+      --border:#f1c9a8;
+      --text:#3e2617;
+      --soft:#7c5b45;
+      --title:#8f3f00;
+      --orange:#ff7a00;
+      --orange2:#ff9a3c;
+      --orangeSoft:#fff1e4;
+      --shadow:rgba(143,63,0,0.12);
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
-      color: var(--text);
-      min-height: 100vh;
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      min-height:100vh;
     }
 
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,0.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      box-shadow:0 6px 20px rgba(0,0,0,0.04);
     }
 
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+    .header-content{
+      max-width:1300px;
+      margin:0 auto;
+      padding:18px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:16px;
     }
 
-    .logo-uax {
-      width: 68px;
-      height: 68px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #ffb66f, #ff7a00);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      box-shadow: 0 10px 24px rgba(255, 122, 0, 0.28);
-      border: 2px solid rgba(255,255,255,0.6);
+    .logo-uax{
+      width:70px;
+      height:70px;
+      border-radius:18px;
+      background:linear-gradient(135deg,#ffb56d,#ff7a00);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:24px;
+      letter-spacing:1px;
+      box-shadow:0 10px 24px rgba(255,122,0,0.28);
+      border:2px solid rgba(255,255,255,0.7);
+      flex-shrink:0;
     }
 
-    .brand-text h1 {
-      font-size: 31px;
-      color: var(--title);
-      margin-bottom: 4px;
+    .brand-text h1{
+      font-size:30px;
+      color:var(--title);
+      margin-bottom:4px;
     }
 
-    .brand-text p {
-      color: var(--text-soft);
-      font-size: 15px;
+    .brand-text p{
+      color:var(--soft);
+      font-size:15px;
     }
 
-    .badge {
-      background: var(--orange-soft);
-      color: #b65700;
-      border: 1px solid var(--border);
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 14px;
-      white-space: nowrap;
+    .badge{
+      background:var(--orangeSoft);
+      color:#b85a00;
+      border:1px solid var(--border);
+      padding:10px 16px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:14px;
+      white-space:nowrap;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 34px auto 0;
-      padding: 0 20px 40px;
+    .container{
+      max-width:1300px;
+      margin:34px auto 0;
+      padding:0 20px 40px;
     }
 
-    .hero {
-      text-align: center;
-      margin-bottom: 30px;
+    .hero{
+      text-align:center;
+      margin-bottom:28px;
     }
 
-    .hero h2 {
-      font-size: 34px;
-      color: var(--title);
-      margin-bottom: 10px;
+    .hero h2{
+      font-size:34px;
+      color:var(--title);
+      margin-bottom:10px;
     }
 
-    .hero p {
-      font-size: 17px;
-      color: var(--text-soft);
-      max-width: 760px;
-      margin: 0 auto;
-      line-height: 1.5;
+    .hero p{
+      color:var(--soft);
+      font-size:17px;
+      line-height:1.5;
+      max-width:850px;
+      margin:0 auto;
     }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 24px;
+    .section{
+      margin-bottom:26px;
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 14px 30px var(--shadow);
-      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    .section-title{
+      font-size:22px;
+      color:var(--title);
+      margin-bottom:14px;
+      padding-left:6px;
     }
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(138, 61, 0, 0.16);
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:22px;
     }
 
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
+    .card{
+      background:rgba(255,255,255,0.9);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 14px 30px var(--shadow);
+      transition:transform .28s ease, box-shadow .28s ease;
     }
 
-    .icon-box {
-      width: 68px;
-      height: 68px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #ffe5cb, #ffd1aa);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 31px;
-      box-shadow: inset 0 2px 0 rgba(255,255,255,0.7);
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 20px 40px rgba(143,63,0,0.16);
     }
 
-    .tag {
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: #fff7f1;
-      border: 1px solid var(--border);
-      color: #b14f00;
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
+    .card-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
     }
 
-    .card h3 {
-      font-size: 22px;
-      color: #3d220f;
-      margin-bottom: 10px;
+    .icon-box{
+      width:68px;
+      height:68px;
+      border-radius:20px;
+      background:linear-gradient(135deg,#ffe4c8,#ffd2a9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:31px;
+      box-shadow:inset 0 2px 0 rgba(255,255,255,0.7);
+      flex-shrink:0;
     }
 
-    .card p {
-      font-size: 15.8px;
-      line-height: 1.55;
-      color: #734f39;
-      margin-bottom: 22px;
-      min-height: 72px;
+    .tag{
+      padding:10px 15px;
+      border-radius:999px;
+      background:#fff8f2;
+      border:1px solid var(--border);
+      color:#b24f00;
+      font-size:13px;
+      font-weight:700;
+      white-space:nowrap;
     }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+    .card h3{
+      font-size:22px;
+      color:#3d220f;
+      margin-bottom:10px;
     }
 
-    .btn {
-      text-decoration: none;
-      border-radius: 14px;
-      padding: 14px 20px;
-      font-size: 15px;
-      font-weight: 700;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 145px;
-      text-align: center;
+    .card p{
+      font-size:15.8px;
+      line-height:1.55;
+      color:#734f39;
+      margin-bottom:20px;
+      min-height:70px;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--orange), var(--orange-2));
-      color: #fff;
-      box-shadow: 0 10px 20px rgba(255, 122, 0, 0.24);
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 18px 30px rgba(255, 122, 0, 0.34);
+    .btn{
+      text-decoration:none;
+      border-radius:14px;
+      padding:14px 18px;
+      font-size:15px;
+      font-weight:700;
+      transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:145px;
+      text-align:center;
+      cursor:pointer;
     }
 
-    .btn-secondary {
-      background: #fff8f3;
-      color: #a54800;
-      border: 1px solid var(--border);
+    .btn-primary{
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+      color:#fff;
+      box-shadow:0 10px 20px rgba(255,122,0,0.24);
     }
 
-    .btn-secondary:hover {
-      transform: translateY(-4px) scale(1.03);
-      background: #fff1e7;
-      box-shadow: 0 14px 26px rgba(210, 120, 35, 0.14);
+    .btn-primary:hover{
+      transform:translateY(-4px) scale(1.03);
+      box-shadow:0 18px 30px rgba(255,122,0,0.34);
     }
 
-    .footer {
-      text-align: center;
-      color: #8a674f;
-      font-size: 14px;
-      margin-top: 36px;
-      padding-bottom: 10px;
+    .btn-secondary{
+      background:#fff8f3;
+      color:#a54800;
+      border:1px solid var(--border);
     }
 
-    @media (max-width: 768px) {
-      .brand-text h1 {
-        font-size: 25px;
+    .btn-secondary:hover{
+      transform:translateY(-4px) scale(1.03);
+      background:#fff1e7;
+      box-shadow:0 14px 26px rgba(210,120,35,0.14);
+    }
+
+    .footer{
+      text-align:center;
+      color:#8a674f;
+      font-size:14px;
+      margin-top:36px;
+      padding-bottom:10px;
+    }
+
+    @media (max-width: 768px){
+      .brand-text h1{
+        font-size:24px;
       }
 
-      .hero h2 {
-        font-size: 28px;
+      .hero h2{
+        font-size:28px;
       }
 
-      .btn {
-        width: 100%;
+      .actions{
+        flex-direction:column;
       }
 
-      .actions {
-        flex-direction: column;
+      .btn{
+        width:100%;
       }
     }
   </style>
@@ -265,7 +279,7 @@
         <div class="logo-uax">UAX</div>
         <div class="brand-text">
           <h1>Plataforma de exámenes tipo test</h1>
-          <p>Práctica de cuestionarios para ASIR y otras asignaturas</p>
+          <p>Accede a todos tus cuestionarios organizados por asignatura</p>
         </div>
       </div>
       <div class="badge">Campus de práctica</div>
@@ -273,88 +287,156 @@
   </header>
 
   <main class="container">
+
     <section class="hero">
-      <h2>Panel de exámenes</h2>
+      <h2>Panel principal de exámenes</h2>
       <p>
-        Accede a todos tus cuestionarios desde una sola página, con un diseño visual limpio,
-        organizado y pensado para practicar de forma rápida.
+        Aquí tienes todos tus tests reunidos en una sola página. Los botones enlazan
+        exactamente con los nombres de archivo que aparecen en tu carpeta.
       </p>
     </section>
 
-    <section class="cards">
+    <section class="section">
+      <h3 class="section-title">DNS y SRI</h3>
+      <div class="cards">
 
-      <!-- TARJETA DNS -->
-      <article class="card">
-        <div class="card-top">
-          <div class="icon-box">🌐</div>
-          <div class="tag">DNS</div>
-        </div>
-        <h3>Examen DNS</h3>
-        <p>
-          Cuestionario principal de DNS para practicar conceptos, configuración BIND,
-          consultas, registros y preguntas típicas de examen.
-        </p>
-        <div class="actions">
-          <a class="btn btn-primary" href="examen-dns.html">Abrir examen</a>
-          <a class="btn btn-secondary" href="examen-dns-2.html">Abrir test 2</a>
-          <a class="btn btn-secondary" href="examen-dns-3.html">Abrir test 3</a>
-        </div>
-      </article>
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">🌐</div>
+            <div class="tag">DNS</div>
+          </div>
+          <h3>Exámenes DNS</h3>
+          <p>Cuestionarios de DNS para practicar configuración, registros, recursión, forwarders y preguntas tipo examen.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="examen-dns.html">DNS 1</a>
+            <a class="btn btn-secondary" href="examen-dns-2.html">DNS 2</a>
+            <a class="btn btn-secondary" href="examen-dns-3.html">DNS 3</a>
+          </div>
+        </article>
 
-      <!-- TARJETA PHP -->
-      <article class="card">
-        <div class="card-top">
-          <div class="icon-box">💻</div>
-          <div class="tag">PHP</div>
-        </div>
-        <h3>Examen PHP</h3>
-        <p>
-          Preguntas tipo test sobre variables, constantes, formularios, GET, POST,
-          MySQL, CRUD, estructuras de control y desarrollo web.
-        </p>
-        <div class="actions">
-          <a class="btn btn-primary" href="examen-php.html">Abrir examen</a>
-          <a class="btn btn-secondary" href="examen-php-2.html">Abrir test 2</a>
-        </div>
-      </article>
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">🖧</div>
+            <div class="tag">SRI</div>
+          </div>
+          <h3>Test SRI Rafa</h3>
+          <p>Práctica de servicios de red e infraestructura relacionada con SRI.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="Test SRI Rafa.html">Abrir test</a>
+          </div>
+        </article>
 
-      <!-- TARJETA REDES -->
-      <article class="card">
-        <div class="card-top">
-          <div class="icon-box">📡</div>
-          <div class="tag">REDES</div>
-        </div>
-        <h3>Examen Redes</h3>
-        <p>
-          Práctica de servicios de red, DHCP, SMTP, FTP, FTPS, SFTP, Apache,
-          resolución de nombres y conceptos clave de ASIR.
-        </p>
-        <div class="actions">
-          <a class="btn btn-primary" href="examen-redes.html">Abrir examen</a>
-          <a class="btn btn-secondary" href="examen-redes-2.html">Abrir test 2</a>
-        </div>
-      </article>
+      </div>
+    </section>
 
-      <!-- TARJETA ALBERTO BOSS -->
-      <article class="card">
-        <div class="card-top">
-          <div class="icon-box">🏆</div>
-          <div class="tag">FINAL</div>
-        </div>
-        <h3>Alberto Boss final 100 preguntas</h3>
-        <p>
-          Bloque final de práctica intensiva con preguntas de repaso general.
-          Mantén aquí el enlace tal como lo tengas en tu proyecto.
-        </p>
-        <div class="actions">
-          <a class="btn btn-primary" href="alberto-boss-final-100-preguntas.html">Abrir examen</a>
-        </div>
-      </article>
+    <section class="section">
+      <h3 class="section-title">IAW, PHP y Desarrollo Web</h3>
+      <div class="cards">
 
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">💻</div>
+            <div class="tag">PHP</div>
+          </div>
+          <h3>Exámenes IAW / PHP</h3>
+          <p>Cuestionarios de variables, formularios, GET, POST, MySQL, CRUD y conceptos habituales de IAW.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="bateria-preguntas-iaw-php.html">Batería PHP</a>
+            <a class="btn btn-secondary" href="examen-iaw-php (1).html">Examen IAW PHP</a>
+            <a class="btn btn-secondary" href="examen-iaw-php-50-nuevas-auto (1).html">50 nuevas auto</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">🧩</div>
+            <div class="tag">WEB</div>
+          </div>
+          <h3>Desarrollo web</h3>
+          <p>Preguntas y repaso sobre contenidos de desarrollo web y teoría asociada.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="test1-desarrollo-web.html">Test desarrollo web</a>
+            <a class="btn btn-secondary" href="test-chuletilla-paginas-1-42.html">Chuletilla 1-42</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">Digitalización</h3>
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">📝</div>
+            <div class="tag">DIGI</div>
+          </div>
+          <h3>Exámenes de digitalización</h3>
+          <p>Cuestionarios para practicar contenidos de digitalización y repaso general.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="examen_digitalizacion_1.html">Digitalización 1</a>
+            <a class="btn btn-secondary" href="examen_digitalizacion_2.html">Digitalización 2</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">Apache</h3>
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">🛠️</div>
+            <div class="tag">APACHE</div>
+          </div>
+          <h3>Exámenes Apache</h3>
+          <p>Práctica de configuración, virtual hosts y preguntas típicas del servidor Apache.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="examen-apache.html">Apache 1</a>
+            <a class="btn btn-secondary" href="examen-apache-2.html">Apache 2</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">Finales Alberto</h3>
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">🏆</div>
+            <div class="tag">FINAL</div>
+          </div>
+          <h3>Alberto Boss final 100 preguntas</h3>
+          <p>Bloque intensivo de repaso final con preguntas generales.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="alberto-boss-100.html">Abrir examen</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div class="icon-box">🔥</div>
+            <div class="tag">FOREVER</div>
+          </div>
+          <h3>Alberto Forever</h3>
+          <p>Tests extra de práctica con bloques difíciles y otro modo más gracioso.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="alberto-forever-dificil-50.html">Difícil 50</a>
+            <a class="btn btn-secondary" href="alberto-forever-gracioso.html">Gracioso</a>
+          </div>
+        </article>
+
+      </div>
     </section>
 
     <div class="footer">
-      Plataforma visual de exámenes · Diseño en tonos naranja claro · UAX
+      Plataforma visual de exámenes · Fondo naranja claro · Botones animados · UAX
     </div>
   </main>
 
