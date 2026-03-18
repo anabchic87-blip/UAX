@@ -11,30 +11,45 @@
       padding: 0;
     }
 
+    :root {
+      --bg-1: #fff7f0;
+      --bg-2: #ffe8d4;
+      --card: rgba(255, 255, 255, 0.92);
+      --border: #f2c9a6;
+      --orange: #ff7a00;
+      --orange-2: #ff9a3d;
+      --orange-soft: #fff1e4;
+      --text: #3b2416;
+      --text-soft: #7a5b49;
+      --title: #8a3d00;
+      --shadow: rgba(138, 61, 0, 0.12);
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #fff4ec, #fde7d7);
-      color: #3b2416;
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      color: var(--text);
       min-height: 100vh;
     }
 
     .header {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid #f0c9a8;
-      padding: 22px 20px;
       position: sticky;
       top: 0;
       z-index: 100;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
     }
 
     .header-content {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
@@ -45,183 +60,191 @@
     }
 
     .logo-uax {
-      width: 62px;
-      height: 62px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #ffb36c, #ff7a00);
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ffb66f, #ff7a00);
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
       font-size: 22px;
-      font-weight: bold;
-      box-shadow: 0 8px 18px rgba(255, 122, 0, 0.25);
+      font-weight: 800;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 24px rgba(255, 122, 0, 0.28);
+      border: 2px solid rgba(255,255,255,0.6);
     }
 
     .brand-text h1 {
-      font-size: 30px;
-      color: #8a3d00;
+      font-size: 31px;
+      color: var(--title);
       margin-bottom: 4px;
     }
 
     .brand-text p {
-      color: #8a5b3f;
+      color: var(--text-soft);
       font-size: 15px;
     }
 
     .badge {
-      background: #fff3e8;
-      border: 1px solid #f4c7a2;
+      background: var(--orange-soft);
       color: #b65700;
+      border: 1px solid var(--border);
       padding: 10px 16px;
       border-radius: 999px;
       font-weight: 700;
       font-size: 14px;
+      white-space: nowrap;
     }
 
     .container {
       max-width: 1200px;
-      margin: 40px auto;
+      margin: 34px auto 0;
       padding: 0 20px 40px;
     }
 
-    .section-title {
+    .hero {
       text-align: center;
       margin-bottom: 30px;
     }
 
-    .section-title h2 {
-      font-size: 32px;
-      color: #8a3d00;
+    .hero h2 {
+      font-size: 34px;
+      color: var(--title);
       margin-bottom: 10px;
     }
 
-    .section-title p {
-      color: #7a5a45;
+    .hero p {
       font-size: 17px;
+      color: var(--text-soft);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.5;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
       gap: 24px;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid #f0cfb5;
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 12px 30px rgba(138, 61, 0, 0.08);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 14px 30px var(--shadow);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 18px 38px rgba(138, 61, 0, 0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(138, 61, 0, 0.16);
     }
 
     .card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
       gap: 14px;
+      margin-bottom: 18px;
     }
 
     .icon-box {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #ffe0c4, #ffd0a3);
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffe5cb, #ffd1aa);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+      font-size: 31px;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.7);
     }
 
     .tag {
       padding: 10px 16px;
       border-radius: 999px;
-      background: #fff6ef;
-      border: 1px solid #f0c7a7;
+      background: #fff7f1;
+      border: 1px solid var(--border);
       color: #b14f00;
-      font-weight: 700;
       font-size: 13px;
+      font-weight: 700;
       white-space: nowrap;
     }
 
     .card h3 {
-      font-size: 20px;
+      font-size: 22px;
       color: #3d220f;
       margin-bottom: 10px;
     }
 
     .card p {
-      font-size: 16px;
-      line-height: 1.5;
+      font-size: 15.8px;
+      line-height: 1.55;
       color: #734f39;
       margin-bottom: 22px;
+      min-height: 72px;
     }
 
     .actions {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
+      gap: 12px;
     }
 
     .btn {
       text-decoration: none;
       border-radius: 14px;
       padding: 14px 20px;
-      font-weight: 700;
       font-size: 15px;
-      transition: all 0.25s ease;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 150px;
+      min-width: 145px;
+      text-align: center;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #ff7a00, #ff9838);
-      color: white;
-      box-shadow: 0 10px 20px rgba(255, 122, 0, 0.22);
+      background: linear-gradient(135deg, var(--orange), var(--orange-2));
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(255, 122, 0, 0.24);
     }
 
     .btn-primary:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 16px 28px rgba(255, 122, 0, 0.32);
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 18px 30px rgba(255, 122, 0, 0.34);
     }
 
     .btn-secondary {
       background: #fff8f3;
       color: #a54800;
-      border: 1px solid #efc29f;
+      border: 1px solid var(--border);
     }
 
     .btn-secondary:hover {
-      transform: translateY(-3px) scale(1.03);
+      transform: translateY(-4px) scale(1.03);
       background: #fff1e7;
-      box-shadow: 0 12px 24px rgba(210, 120, 35, 0.12);
+      box-shadow: 0 14px 26px rgba(210, 120, 35, 0.14);
     }
 
     .footer {
-      margin-top: 40px;
       text-align: center;
       color: #8a674f;
       font-size: 14px;
-      padding-bottom: 20px;
+      margin-top: 36px;
+      padding-bottom: 10px;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 768px) {
       .brand-text h1 {
-        font-size: 24px;
+        font-size: 25px;
       }
 
-      .section-title h2 {
-        font-size: 26px;
+      .hero h2 {
+        font-size: 28px;
       }
 
       .btn {
@@ -250,70 +273,85 @@
   </header>
 
   <main class="container">
-    <div class="section-title">
+    <section class="hero">
       <h2>Panel de exámenes</h2>
-      <p>Accede a todos tus test organizados por asignatura desde una sola página.</p>
-    </div>
+      <p>
+        Accede a todos tus cuestionarios desde una sola página, con un diseño visual limpio,
+        organizado y pensado para practicar de forma rápida.
+      </p>
+    </section>
 
-    <div class="cards">
+    <section class="cards">
 
       <!-- TARJETA DNS -->
-      <div class="card">
+      <article class="card">
         <div class="card-top">
           <div class="icon-box">🌐</div>
           <div class="tag">DNS</div>
         </div>
         <h3>Examen DNS</h3>
-        <p>Cuestionario principal de DNS para practicar conceptos, configuración y preguntas típicas de examen.</p>
+        <p>
+          Cuestionario principal de DNS para practicar conceptos, configuración BIND,
+          consultas, registros y preguntas típicas de examen.
+        </p>
         <div class="actions">
           <a class="btn btn-primary" href="examen-dns.html">Abrir examen</a>
           <a class="btn btn-secondary" href="examen-dns-2.html">Abrir test 2</a>
           <a class="btn btn-secondary" href="examen-dns-3.html">Abrir test 3</a>
         </div>
-      </div>
+      </article>
 
       <!-- TARJETA PHP -->
-      <div class="card">
+      <article class="card">
         <div class="card-top">
           <div class="icon-box">💻</div>
           <div class="tag">PHP</div>
         </div>
         <h3>Examen PHP</h3>
-        <p>Preguntas tipo test de variables, constantes, formularios, GET, POST, MySQL, CRUD y estructuras de control.</p>
+        <p>
+          Preguntas tipo test sobre variables, constantes, formularios, GET, POST,
+          MySQL, CRUD, estructuras de control y desarrollo web.
+        </p>
         <div class="actions">
           <a class="btn btn-primary" href="examen-php.html">Abrir examen</a>
           <a class="btn btn-secondary" href="examen-php-2.html">Abrir test 2</a>
         </div>
-      </div>
+      </article>
 
       <!-- TARJETA REDES -->
-      <div class="card">
+      <article class="card">
         <div class="card-top">
           <div class="icon-box">📡</div>
           <div class="tag">REDES</div>
         </div>
         <h3>Examen Redes</h3>
-        <p>Práctica de conceptos de resolución DNS, DHCP, SMTP, FTP, FTPS, SFTP, Apache y servicios de red.</p>
+        <p>
+          Práctica de servicios de red, DHCP, SMTP, FTP, FTPS, SFTP, Apache,
+          resolución de nombres y conceptos clave de ASIR.
+        </p>
         <div class="actions">
           <a class="btn btn-primary" href="examen-redes.html">Abrir examen</a>
           <a class="btn btn-secondary" href="examen-redes-2.html">Abrir test 2</a>
         </div>
-      </div>
+      </article>
 
       <!-- TARJETA ALBERTO BOSS -->
-      <div class="card">
+      <article class="card">
         <div class="card-top">
           <div class="icon-box">🏆</div>
           <div class="tag">FINAL</div>
         </div>
         <h3>Alberto Boss final 100 preguntas</h3>
-        <p>Bloque final de práctica intensiva. Este apartado lo puedes dejar con tu enlace actual exactamente igual que ya lo tienes codificado.</p>
+        <p>
+          Bloque final de práctica intensiva con preguntas de repaso general.
+          Mantén aquí el enlace tal como lo tengas en tu proyecto.
+        </p>
         <div class="actions">
           <a class="btn btn-primary" href="alberto-boss-final-100-preguntas.html">Abrir examen</a>
         </div>
-      </div>
+      </article>
 
-    </div>
+    </section>
 
     <div class="footer">
       Plataforma visual de exámenes · Diseño en tonos naranja claro · UAX
