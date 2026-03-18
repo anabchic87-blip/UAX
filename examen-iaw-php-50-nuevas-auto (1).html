@@ -1,818 +1,372 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Examen IAW / PHP - 50 preguntas nuevas</title>
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#eef2f7;
-  color:#1b1f24;
-}
-.wrapper{
-  max-width:1100px;
-  margin:24px auto;
-  padding:0 16px 40px;
-}
-.header{
-  background:#fff;
-  border-radius:18px;
-  padding:28px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.10);
-  margin-bottom:20px;
-}
-h1{
-  margin:0 0 10px;
-  font-size:32px;
-}
-.subtitle{
-  margin:0;
-  color:#58606b;
-  font-size:16px;
-}
-.stats{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:18px;
-}
-.stat{
-  background:#f6f8fb;
-  border:1px solid #dbe3ee;
-  border-radius:12px;
-  padding:10px 14px;
-  min-width:140px;
-}
-.stat-label{
-  font-size:12px;
-  color:#66707c;
-  margin-bottom:4px;
-}
-.stat-value{
-  font-size:22px;
-  font-weight:700;
-}
-.actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:18px;
-}
-button{
-  border:none;
-  border-radius:10px;
-  padding:12px 18px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-}
-.primary{background:#2563eb;color:#fff;}
-.secondary{background:#111827;color:#fff;}
-.ghost{background:#e5e7eb;color:#111827;}
-.quiz-item{
-  background:#fff;
-  border-radius:18px;
-  padding:22px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.08);
-  margin-bottom:16px;
-  border:2px solid transparent;
-}
-.quiz-item.correct{border-color:#18a957;background:#f3fff8;}
-.quiz-item.incorrect{border-color:#e53935;background:#fff6f6;}
-.question-title{
-  font-size:20px;
-  margin:0 0 14px;
-}
-.options{
-  display:grid;
-  gap:10px;
-}
-.option{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 14px;
-  border:1px solid #d8e0ea;
-  border-radius:12px;
-  background:#f8fafc;
-}
-.option input{margin:0; transform:scale(1.1);}
-.feedback{
-  margin-top:14px;
-  padding:12px 14px;
-  border-radius:12px;
-  font-weight:700;
-  display:none;
-}
-.feedback.show{display:block;}
-.feedback.ok{background:#dcfce7;color:#166534;border:1px solid #86efac;}
-.feedback.bad{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;}
-.correct-answer{
-  margin-top:8px;
-  font-weight:600;
-}
-.footer-note{
-  text-align:center;
-  color:#66707c;
-  margin-top:24px;
-  font-size:14px;
-}
-@media (max-width:700px){
-  h1{font-size:26px}
-  .question-title{font-size:18px}
-  .stat{min-width:unset; flex:1 1 120px;}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examen IAW / PHP - 50 preguntas nuevas</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 950px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .header {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+    }
+    .subtitle {
+      margin: 0;
+      color: #4b5563;
+    }
+    .question {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      border: 2px solid transparent;
+    }
+    .question.correct {
+      border-color: #22c55e;
+      background: #f0fdf4;
+    }
+    .question.incorrect {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+    .question h3 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    label:hover {
+      background: #f9fafb;
+    }
+    .feedback {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    .correct-answer {
+      margin-top: 6px;
+      color: #065f46;
+    }
+    .actions {
+      position: sticky;
+      bottom: 0;
+      background: rgba(243,244,246,0.95);
+      padding: 16px 0;
+      backdrop-filter: blur(4px);
+    }
+    .actions-inner {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .result {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      font-size: 20px;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-<div class="wrapper">
-  <div class="header">
-    <h1>Examen IAW / PHP · 50 preguntas nuevas</h1>
-    <p class="subtitle">Corrige automáticamente cada respuesta. Si fallas, te muestra la opción correcta.</p>
-    <div class="stats">
-      <div class="stat"><div class="stat-label">Preguntas</div><div class="stat-value" id="totalQuestions">50</div></div>
-      <div class="stat"><div class="stat-label">Aciertos</div><div class="stat-value" id="score">0</div></div>
-      <div class="stat"><div class="stat-label">Fallos</div><div class="stat-value" id="errors">0</div></div>
-      <div class="stat"><div class="stat-label">Respondidas</div><div class="stat-value" id="answered">0</div></div>
+  <div class="container">
+    <div class="header">
+      <h1>Test de PHP - 20 preguntas</h1>
+      <p class="subtitle">Formulario tipo examen con corrección automática en verde y rojo.</p>
     </div>
-    <div class="actions">
-      <button class="primary" onclick="corregirTodo()">Corregir examen</button>
-      <button class="secondary" onclick="reiniciarExamen()">Reiniciar</button>
-      <button class="ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">Subir arriba</button>
+
+    <form id="quizForm">
+      <div id="result" class="result"></div>
+
+      <div class="question" data-correct="b">
+        <h3>1. ¿Qué es PHP?</h3>
+        <label><input type="radio" name="q1" value="a"> a) Un sistema operativo</label>
+        <label><input type="radio" name="q1" value="b"> b) Un lenguaje de programación del lado del servidor</label>
+        <label><input type="radio" name="q1" value="c"> c) Un navegador web</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <h3>2. ¿Dónde se ejecuta PHP?</h3>
+        <label><input type="radio" name="q2" value="a"> a) En el teclado</label>
+        <label><input type="radio" name="q2" value="b"> b) En el monitor</label>
+        <label><input type="radio" name="q2" value="c"> c) En el servidor</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>3. ¿Qué devuelve el servidor al navegador después de ejecutar PHP?</h3>
+        <label><input type="radio" name="q3" value="a"> a) HTML</label>
+        <label><input type="radio" name="q3" value="b"> b) Código PHP visible</label>
+        <label><input type="radio" name="q3" value="c"> c) Un archivo .exe</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <h3>4. ¿Cómo empiezan las variables en PHP?</h3>
+        <label><input type="radio" name="q4" value="a"> a) Con #</label>
+        <label><input type="radio" name="q4" value="b"> b) Con $</label>
+        <label><input type="radio" name="q4" value="c"> c) Con &</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <h3>5. ¿Cuál de estas opciones es una constante en PHP?</h3>
+        <label><input type="radio" name="q5" value="a"> a) $edad = 20;</label>
+        <label><input type="radio" name="q5" value="b"> b) $iva = 0.21;</label>
+        <label><input type="radio" name="q5" value="c"> c) define("IVA", 0.21);</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>6. ¿Qué método envía los datos en la URL?</h3>
+        <label><input type="radio" name="q6" value="a"> a) GET</label>
+        <label><input type="radio" name="q6" value="b"> b) POST</label>
+        <label><input type="radio" name="q6" value="c"> c) PUSH</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <h3>7. ¿Qué método es más adecuado para enviar datos sensibles?</h3>
+        <label><input type="radio" name="q7" value="a"> a) GET</label>
+        <label><input type="radio" name="q7" value="b"> b) POST</label>
+        <label><input type="radio" name="q7" value="c"> c) Ninguno</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <h3>8. ¿Qué superglobal se usa normalmente para recoger datos enviados por POST?</h3>
+        <label><input type="radio" name="q8" value="a"> a) $_SERVER</label>
+        <label><input type="radio" name="q8" value="b"> b) $_GET</label>
+        <label><input type="radio" name="q8" value="c"> c) $_POST</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>9. ¿Para qué sirve un array?</h3>
+        <label><input type="radio" name="q9" value="a"> a) Para guardar varios datos en una sola variable</label>
+        <label><input type="radio" name="q9" value="b"> b) Para borrar archivos</label>
+        <label><input type="radio" name="q9" value="c"> c) Para conectarse a internet</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <h3>10. ¿Qué estructura se usa mucho para recorrer arrays?</h3>
+        <label><input type="radio" name="q10" value="a"> a) switch</label>
+        <label><input type="radio" name="q10" value="b"> b) foreach</label>
+        <label><input type="radio" name="q10" value="c"> c) define</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>11. ¿Para qué sirve la estructura if?</h3>
+        <label><input type="radio" name="q11" value="a"> a) Para tomar decisiones según una condición</label>
+        <label><input type="radio" name="q11" value="b"> b) Para crear arrays</label>
+        <label><input type="radio" name="q11" value="c"> c) Para cerrar el navegador</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <h3>12. ¿Qué hacen for y while?</h3>
+        <label><input type="radio" name="q12" value="a"> a) Definen constantes</label>
+        <label><input type="radio" name="q12" value="b"> b) Recogen formularios</label>
+        <label><input type="radio" name="q12" value="c"> c) Repiten código varias veces</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <h3>13. ¿Qué lenguaje se usa para crear formularios en la página?</h3>
+        <label><input type="radio" name="q13" value="a"> a) SQL</label>
+        <label><input type="radio" name="q13" value="b"> b) HTML</label>
+        <label><input type="radio" name="q13" value="c"> c) Python</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>14. ¿Qué hace htmlspecialchars()?</h3>
+        <label><input type="radio" name="q14" value="a"> a) Convierte caracteres especiales para hacer el texto más seguro</label>
+        <label><input type="radio" name="q14" value="b"> b) Suma números</label>
+        <label><input type="radio" name="q14" value="c"> c) Crea una base de datos</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <h3>15. ¿Para qué sirve filter_var()?</h3>
+        <label><input type="radio" name="q15" value="a"> a) Para dibujar formularios</label>
+        <label><input type="radio" name="q15" value="b"> b) Para imprimir pantalla</label>
+        <label><input type="radio" name="q15" value="c"> c) Para validar y sanear datos</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <h3>16. ¿Qué extensión suelen tener los archivos PHP?</h3>
+        <label><input type="radio" name="q16" value="a"> a) .html</label>
+        <label><input type="radio" name="q16" value="b"> b) .php</label>
+        <label><input type="radio" name="q16" value="c"> c) .css</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>17. ¿Cuál de estas etiquetas indica código PHP?</h3>
+        <label><input type="radio" name="q17" value="a"> a) &lt;?php ?&gt;</label>
+        <label><input type="radio" name="q17" value="b"> b) &lt;script&gt;&lt;/script&gt;</label>
+        <label><input type="radio" name="q17" value="c"> c) &lt;style&gt;&lt;/style&gt;</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <h3>18. ¿Qué programa o paquete se recomienda mucho para empezar con PHP?</h3>
+        <label><input type="radio" name="q18" value="a"> a) Paint</label>
+        <label><input type="radio" name="q18" value="b"> b) Excel</label>
+        <label><input type="radio" name="q18" value="c"> c) XAMPP</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <h3>19. ¿Qué permite hacer PHP con una base de datos?</h3>
+        <label><input type="radio" name="q19" value="a"> a) Encender el ordenador</label>
+        <label><input type="radio" name="q19" value="b"> b) Guardar y recuperar información</label>
+        <label><input type="radio" name="q19" value="c"> c) Cambiar el color del teclado</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <h3>20. ¿Cuál es la idea general del funcionamiento de una aplicación PHP?</h3>
+        <label><input type="radio" name="q20" value="a"> a) Usuario envía datos → PHP los procesa → devuelve HTML</label>
+        <label><input type="radio" name="q20" value="b"> b) El navegador ejecuta PHP directamente</label>
+        <label><input type="radio" name="q20" value="c"> c) PHP solo sirve para diseño visual</label>
+        <div class="feedback"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="actions">
+    <div class="actions-inner">
+      <button type="button" class="btn-primary" onclick="corregirExamen()">Corregir examen</button>
+      <button type="button" class="btn-secondary" onclick="reiniciarExamen()">Reiniciar</button>
     </div>
   </div>
 
-  <div id="quiz"></div>
+  <script>
+    const respuestasTexto = {
+      q1: 'b) Un lenguaje de programación del lado del servidor',
+      q2: 'c) En el servidor',
+      q3: 'a) HTML',
+      q4: 'b) Con $',
+      q5: 'c) define("IVA", 0.21);',
+      q6: 'a) GET',
+      q7: 'b) POST',
+      q8: 'c) $_POST',
+      q9: 'a) Para guardar varios datos en una sola variable',
+      q10: 'b) foreach',
+      q11: 'a) Para tomar decisiones según una condición',
+      q12: 'c) Repiten código varias veces',
+      q13: 'b) HTML',
+      q14: 'a) Convierte caracteres especiales para hacer el texto más seguro',
+      q15: 'c) Para validar y sanear datos',
+      q16: 'b) .php',
+      q17: 'a) <?php ?>',
+      q18: 'c) XAMPP',
+      q19: 'b) Guardar y recuperar información',
+      q20: 'a) Usuario envía datos → PHP los procesa → devuelve HTML'
+    };
 
-  <p class="footer-note">Archivo listo para GitHub Pages y Visual Studio Code.</p>
-</div>
+    function corregirExamen() {
+      const questions = document.querySelectorAll('.question');
+      let aciertos = 0;
 
-<script>
-const questions = [
-  {
-    "q": "¿Quién creó PHP en 1994?",
-    "options": [
-      "Tim Berners-Lee",
-      "Rasmus Lerdorf",
-      "Linus Torvalds",
-      "Brendan Eich"
-    ],
-    "answer": 1,
-    "explanation": "Rasmus Lerdorf creó PHP en 1994."
-  },
-  {
-    "q": "¿Qué significaban originalmente las siglas PHP?",
-    "options": [
-      "Personal Home Page Tools",
-      "Private Hypertext Processor",
-      "Programmed Home Protocol",
-      "Page Handler Processor"
-    ],
-    "answer": 0,
-    "explanation": "Al principio PHP significaba “Personal Home Page Tools”."
-  },
-  {
-    "q": "¿Dónde se ejecuta PHP?",
-    "options": [
-      "En el navegador del cliente",
-      "En el servidor",
-      "En la tarjeta gráfica",
-      "Solo en MySQL"
-    ],
-    "answer": 1,
-    "explanation": "PHP es un lenguaje del lado del servidor."
-  },
-  {
-    "q": "¿Cuál de estos usos corresponde a PHP?",
-    "options": [
-      "Editar imágenes 3D",
-      "Procesar formularios",
-      "Diseñar placas base",
-      "Crear drivers del sistema"
-    ],
-    "answer": 1,
-    "explanation": "PHP se usa, entre otras cosas, para procesar formularios."
-  },
-  {
-    "q": "¿Qué componente sirve para almacenar información de forma persistente?",
-    "options": [
-      "DOM",
-      "Servidor web",
-      "Servidor de bases de datos",
-      "CSS"
-    ],
-    "answer": 2,
-    "explanation": "El servidor de bases de datos guarda la información de forma persistente."
-  },
-  {
-    "q": "¿Qué pila significa LAMP?",
-    "options": [
-      "Linux, Apache, MySQL, PHP",
-      "Linux, Angular, MongoDB, Python",
-      "Local, Apache, MariaDB, Perl",
-      "Linux, API, MySQL, Python"
-    ],
-    "answer": 0,
-    "explanation": "LAMP significa Linux, Apache, MySQL y PHP."
-  },
-  {
-    "q": "¿Qué paquete se recomienda para principiantes para montar un entorno local?",
-    "options": [
-      "Kubernetes",
-      "XAMPP",
-      "Ansible",
-      "Redis"
-    ],
-    "answer": 1,
-    "explanation": "XAMPP se presenta como opción recomendada para principiantes."
-  },
-  {
-    "q": "¿Qué incluye XAMPP?",
-    "options": [
-      "Apache, MySQL/MariaDB, PHP y Perl",
-      "Solo PHP",
-      "Solo Apache y Docker",
-      "Apache y Java"
-    ],
-    "answer": 0,
-    "explanation": "XAMPP incluye Apache, MySQL/MariaDB, PHP y Perl."
-  },
-  {
-    "q": "¿Qué herramienta visual se menciona para gestionar bases de datos?",
-    "options": [
-      "Wireshark",
-      "DBeaver",
-      "Postman",
-      "VirtualBox"
-    ],
-    "answer": 1,
-    "explanation": "DBeaver se menciona como cliente visual de bases de datos."
-  },
-  {
-    "q": "¿Qué archivo simple se crea para probar PHP en XAMPP?",
-    "options": [
-      "main.js",
-      "index.php con phpinfo()",
-      "docker-compose.yml",
-      "config.ini"
-    ],
-    "answer": 1,
-    "explanation": "Se propone crear un index.php con phpinfo()."
-  },
-  {
-    "q": "¿Qué comando permite comprobar la instalación de Docker?",
-    "options": [
-      "docker start",
-      "docker ps",
-      "docker --version",
-      "docker php"
-    ],
-    "answer": 2,
-    "explanation": "docker --version comprueba que Docker está instalado."
-  },
-  {
-    "q": "¿Qué archivo define los servicios del entorno Docker?",
-    "options": [
-      "Dockerfile",
-      "docker-compose.yml",
-      "index.php",
-      "php.ini"
-    ],
-    "answer": 1,
-    "explanation": "docker-compose.yml define los servicios del proyecto."
-  },
-  {
-    "q": "¿Qué imagen base aparece en el Dockerfile del ejemplo?",
-    "options": [
-      "nginx:latest",
-      "php:8.2-apache",
-      "mysql:5.7",
-      "ubuntu:22.04"
-    ],
-    "answer": 1,
-    "explanation": "El ejemplo usa FROM php:8.2-apache."
-  },
-  {
-    "q": "¿Qué comando levanta los contenedores en segundo plano?",
-    "options": [
-      "docker-compose up -d",
-      "docker php run",
-      "docker start all",
-      "compose run now"
-    ],
-    "answer": 0,
-    "explanation": "El comando indicado es docker-compose up -d."
-  },
-  {
-    "q": "¿En qué puerto aparece la aplicación PHP del ejemplo Docker?",
-    "options": [
-      "3306",
-      "8081",
-      "8080",
-      "9003"
-    ],
-    "answer": 2,
-    "explanation": "La aplicación PHP se expone en http://localhost:8080."
-  },
-  {
-    "q": "¿En qué puerto aparece phpMyAdmin en el ejemplo Docker?",
-    "options": [
-      "8081",
-      "8080",
-      "3306",
-      "80"
-    ],
-    "answer": 0,
-    "explanation": "phpMyAdmin se expone en http://localhost:8081."
-  },
-  {
-    "q": "¿Qué extensión de VS Code ofrece autocompletado inteligente para PHP?",
-    "options": [
-      "Live Server",
-      "GitLens",
-      "PHP Intelephense",
-      "Material Icon Theme"
-    ],
-    "answer": 2,
-    "explanation": "PHP Intelephense proporciona autocompletado y análisis."
-  },
-  {
-    "q": "¿Qué extensión permite depurar PHP desde VS Code?",
-    "options": [
-      "PHP Debug",
-      "Auto Rename Tag",
-      "Path Intellisense",
-      "Bracket Pair Colorizer 2"
-    ],
-    "answer": 0,
-    "explanation": "PHP Debug permite depurar código PHP con Xdebug."
-  },
-  {
-    "q": "¿Qué extensión genera docblocks automáticamente?",
-    "options": [
-      "PHP Namespace Resolver",
-      "PHP DocBlocker",
-      "Live Server",
-      "PHP CS Fixer"
-    ],
-    "answer": 1,
-    "explanation": "PHP DocBlocker genera bloques de documentación."
-  },
-  {
-    "q": "¿Qué herramienta formatea código PHP según estándares como PSR-12?",
-    "options": [
-      "PHP CS Fixer",
-      "Composer",
-      "Xdebug",
-      "phpMyAdmin"
-    ],
-    "answer": 0,
-    "explanation": "PHP CS Fixer formatea el código siguiendo estándares."
-  },
-  {
-    "q": "¿Qué atajo abre la paleta de comandos en VS Code?",
-    "options": [
-      "Ctrl+P",
-      "Ctrl+Shift+P",
-      "Alt+F4",
-      "F12"
-    ],
-    "answer": 1,
-    "explanation": "Ctrl+Shift+P abre la paleta de comandos."
-  },
-  {
-    "q": "¿Qué atajo va a la definición?",
-    "options": [
-      "Shift+F12",
-      "F12",
-      "Ctrl+D",
-      "Ctrl+/"
-    ],
-    "answer": 1,
-    "explanation": "F12 sirve para ir a la definición."
-  },
-  {
-    "q": "¿Qué símbolo deben llevar siempre las variables en PHP?",
-    "options": [
-      "#",
-      "&",
-      "$",
-      "@"
-    ],
-    "answer": 2,
-    "explanation": "Las variables en PHP empiezan con $."
-  },
-  {
-    "q": "¿Cuál es un tipo de dato principal en PHP?",
-    "options": [
-      "String",
-      "Shader",
-      "Socket Layer",
-      "Kernel"
-    ],
-    "answer": 0,
-    "explanation": "String es uno de los tipos de datos principales."
-  },
-  {
-    "q": "¿Qué operador se usa para concatenar texto en PHP?",
-    "options": [
-      "+",
-      "&",
-      ".",
-      ":"
-    ],
-    "answer": 2,
-    "explanation": "En PHP la concatenación se hace con el punto."
-  },
-  {
-    "q": "¿Cuál de estas reglas de variables es correcta?",
-    "options": [
-      "Pueden empezar por número",
-      "Pueden llevar espacios",
-      "Distinguen mayúsculas y minúsculas",
-      "No pueden llevar guion bajo"
-    ],
-    "answer": 2,
-    "explanation": "PHP distingue mayúsculas y minúsculas en variables."
-  },
-  {
-    "q": "¿Qué es una constante en PHP?",
-    "options": [
-      "Una variable temporal",
-      "Un valor que no cambia durante la ejecución",
-      "Un comentario especial",
-      "Un tipo de bucle"
-    ],
-    "answer": 1,
-    "explanation": "Una constante mantiene su valor durante toda la ejecución."
-  },
-  {
-    "q": "¿Qué función tradicional crea constantes en PHP?",
-    "options": [
-      "make()",
-      "setconst()",
-      "define()",
-      "const()"
-    ],
-    "answer": 2,
-    "explanation": "La función tradicional es define()."
-  },
-  {
-    "q": "¿Cuál es la forma moderna de definir una constante?",
-    "options": [
-      "constant",
-      "final",
-      "const",
-      "static"
-    ],
-    "answer": 2,
-    "explanation": "La palabra clave moderna es const."
-  },
-  {
-    "q": "¿Cuál de estas es una constante predefinida de PHP?",
-    "options": [
-      "PHP_VERSION",
-      "MYSQL_ROOT",
-      "SERVER_PATHS",
-      "FORM_METHOD"
-    ],
-    "answer": 0,
-    "explanation": "PHP_VERSION es una constante predefinida."
-  },
-  {
-    "q": "¿Qué estructura ejecuta código solo si una condición es verdadera?",
-    "options": [
-      "foreach",
-      "switch",
-      "if",
-      "break"
-    ],
-    "answer": 2,
-    "explanation": "if ejecuta un bloque si la condición se cumple."
-  },
-  {
-    "q": "¿Qué estructura permite elegir entre varios casos?",
-    "options": [
-      "switch",
-      "while",
-      "continue",
-      "define"
-    ],
-    "answer": 0,
-    "explanation": "switch permite seleccionar entre varios casos."
-  },
-  {
-    "q": "¿Qué bucle recorre especialmente bien arrays?",
-    "options": [
-      "goto",
-      "foreach",
-      "define",
-      "include"
-    ],
-    "answer": 1,
-    "explanation": "foreach se usa para recorrer arrays."
-  },
-  {
-    "q": "¿Qué instrucción sale de un bucle o switch?",
-    "options": [
-      "continue",
-      "echo",
-      "break",
-      "return"
-    ],
-    "answer": 2,
-    "explanation": "break interrumpe el bucle o el switch."
-  },
-  {
-    "q": "¿Qué instrucción salta a la siguiente iteración de un bucle?",
-    "options": [
-      "continue",
-      "stop",
-      "case",
-      "const"
-    ],
-    "answer": 0,
-    "explanation": "continue pasa a la siguiente vuelta del bucle."
-  },
-  {
-    "q": "¿Qué es un array asociativo?",
-    "options": [
-      "Un array sin índices",
-      "Un array con nombres o claves",
-      "Un número decimal",
-      "Un formulario HTML"
-    ],
-    "answer": 1,
-    "explanation": "Un array asociativo usa claves con nombre."
-  },
-  {
-    "q": "¿Qué es un array multidimensional?",
-    "options": [
-      "Un array con un único valor",
-      "Un array dentro de otro array",
-      "Un array de enteros únicamente",
-      "Una constante global"
-    ],
-    "answer": 1,
-    "explanation": "Un array multidimensional contiene otros arrays."
-  },
-  {
-    "q": "¿Qué es un formulario HTML?",
-    "options": [
-      "Un servicio de red",
-      "Una parte de la página para introducir datos",
-      "Un comando de terminal",
-      "Una tabla SQL"
-    ],
-    "answer": 1,
-    "explanation": "Un formulario HTML permite al usuario introducir datos."
-  },
-  {
-    "q": "¿Qué atributo del formulario indica a qué archivo se envían los datos?",
-    "options": [
-      "method",
-      "name",
-      "action",
-      "value"
-    ],
-    "answer": 2,
-    "explanation": "action indica el destino del formulario."
-  },
-  {
-    "q": "¿Qué método es más adecuado para datos sensibles?",
-    "options": [
-      "GET",
-      "POST",
-      "LINK",
-      "OPEN"
-    ],
-    "answer": 1,
-    "explanation": "POST no muestra los datos en la URL y es más adecuado."
-  },
-  {
-    "q": "¿Con qué superglobal se reciben datos enviados por POST?",
-    "options": [
-      "$_GET",
-      "$_FORM",
-      "$_POST",
-      "$_DATA"
-    ],
-    "answer": 2,
-    "explanation": "Los datos enviados por POST se reciben con $_POST."
-  },
-  {
-    "q": "¿Con qué superglobal se reciben datos enviados por GET?",
-    "options": [
-      "$_GET",
-      "$_URL",
-      "$_POST",
-      "$_SERVER_URL"
-    ],
-    "answer": 0,
-    "explanation": "Los datos enviados por GET se reciben con $_GET."
-  },
-  {
-    "q": "¿Qué variable sirve para comprobar el método de envío del formulario?",
-    "options": [
-      "$_SERVER['PHP_SELF']",
-      "$_SERVER['REQUEST_METHOD']",
-      "$_POST['method']",
-      "$_FORM['type']"
-    ],
-    "answer": 1,
-    "explanation": "$_SERVER['REQUEST_METHOD'] indica cómo se envió la petición."
-  },
-  {
-    "q": "¿Qué función se menciona para escapar caracteres HTML y mejorar la seguridad?",
-    "options": [
-      "implode()",
-      "htmlspecialchars()",
-      "strlen()",
-      "isset()"
-    ],
-    "answer": 1,
-    "explanation": "htmlspecialchars() ayuda a proteger la salida HTML."
-  },
-  {
-    "q": "¿Qué función se menciona para validar datos como un email?",
-    "options": [
-      "filter_var()",
-      "sort()",
-      "print_r()",
-      "strpos()"
-    ],
-    "answer": 0,
-    "explanation": "filter_var() se menciona como función importante de seguridad."
-  },
-  {
-    "q": "¿Qué ventaja tiene enviar el formulario al mismo archivo con PHP_SELF?",
-    "options": [
-      "No hace falta servidor",
-      "Se puede mostrar el mensaje en la misma página",
-      "Convierte GET en POST",
-      "Elimina la validación"
-    ],
-    "answer": 1,
-    "explanation": "Permite procesar y mostrar mensajes en la misma página."
-  },
-  {
-    "q": "¿Cuál es una ventaja de tener todo el formulario en un solo archivo?",
-    "options": [
-      "Obliga a usar Docker",
-      "Es más fácil de mantener",
-      "Hace innecesario HTML",
-      "Evita usar variables"
-    ],
-    "answer": 1,
-    "explanation": "El documento indica que así es más fácil de mantener."
-  },
-  {
-    "q": "¿Qué tipo de campo HTML se usa para un correo electrónico?",
-    "options": [
-      "textmail",
-      "email",
-      "correo",
-      "mailbox"
-    ],
-    "answer": 1,
-    "explanation": "El tipo de campo correcto es email."
-  },
-  {
-    "q": "¿Qué tipo de campo HTML se recomienda para un mensaje largo?",
-    "options": [
-      "radio",
-      "checkbox",
-      "textarea",
-      "hidden"
-    ],
-    "answer": 2,
-    "explanation": "textarea se usa para textos más largos."
-  },
-  {
-    "q": "¿Qué modelo de nube ofrece software listo para usar desde internet?",
-    "options": [
-      "IaaS",
-      "PaaS",
-      "SaaS",
-      "LAN"
-    ],
-    "answer": 2,
-    "explanation": "SaaS ofrece software accesible directamente por internet."
-  },
-  {
-    "q": "¿Qué modelo ofrece infraestructura como servicio?",
-    "options": [
-      "IaaS",
-      "SaaS",
-      "HTML",
-      "DOM"
-    ],
-    "answer": 0,
-    "explanation": "IaaS significa infraestructura como servicio."
-  }
-];
-const quiz = document.getElementById('quiz');
+      questions.forEach((question, index) => {
+        const correct = question.dataset.correct;
+        const qName = 'q' + (index + 1);
+        const selected = document.querySelector(`input[name="${qName}"]:checked`);
+        const feedback = question.querySelector('.feedback');
 
-function renderQuiz(){
-  quiz.innerHTML = '';
-  questions.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'quiz-item';
-    div.id = `question-${index}`;
+        question.classList.remove('correct', 'incorrect');
+        const oldAnswer = question.querySelector('.correct-answer');
+        if (oldAnswer) oldAnswer.remove();
 
-    const optionsHtml = item.options.map((option, i) => `
-      <label class="option">
-        <input type="radio" name="q${index}" value="${i}" onchange="corregirPregunta(${index}); actualizarResumen()">
-        <span>${option}</span>
-      </label>
-    `).join('');
+        if (selected && selected.value === correct) {
+          aciertos++;
+          question.classList.add('correct');
+          feedback.textContent = '✅ Correcta';
+          feedback.style.color = '#166534';
+        } else {
+          question.classList.add('incorrect');
+          feedback.textContent = selected ? '❌ Incorrecta' : '❌ Sin contestar';
+          feedback.style.color = '#991b1b';
 
-    div.innerHTML = `
-      <h2 class="question-title">${index + 1}. ${item.q}</h2>
-      <div class="options">${optionsHtml}</div>
-      <div class="feedback" id="feedback-${index}"></div>
-    `;
-    quiz.appendChild(div);
-  });
-}
+          const correctAnswer = document.createElement('div');
+          correctAnswer.className = 'correct-answer';
+          correctAnswer.textContent = 'Respuesta correcta: ' + respuestasTexto[qName];
+          feedback.insertAdjacentElement('afterend', correctAnswer);
+        }
+      });
 
-function corregirPregunta(index){
-  const item = questions[index];
-  const selected = document.querySelector(`input[name="q${index}"]:checked`);
-  const card = document.getElementById(`question-${index}`);
-  const feedback = document.getElementById(`feedback-${index}`);
-
-  card.classList.remove('correct','incorrect');
-  feedback.classList.remove('show','ok','bad');
-
-  if(!selected){
-    feedback.classList.add('show','bad');
-    feedback.innerHTML = `No has contestado esta pregunta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div>`;
-    card.classList.add('incorrect');
-    return {answered:false, correct:false};
-  }
-
-  const selectedValue = Number(selected.value);
-
-  if(selectedValue === item.answer){
-    card.classList.add('correct');
-    feedback.classList.add('show','ok');
-    feedback.innerHTML = `✅ Correcta. ${item.explanation}`;
-    return {answered:true, correct:true};
-  } else {
-    card.classList.add('incorrect');
-    feedback.classList.add('show','bad');
-    feedback.innerHTML = `❌ Incorrecta.<div class="correct-answer">Respuesta correcta: <strong>${item.options[item.answer]}</strong></div><div class="correct-answer">${item.explanation}</div>`;
-    return {answered:true, correct:false};
-  }
-}
-
-function actualizarResumen(){
-  let score = 0;
-  let errors = 0;
-  let answered = 0;
-
-  questions.forEach((item, index) => {
-    const selected = document.querySelector(`input[name="q${index}"]:checked`);
-    if(selected){
-      answered++;
-      if(Number(selected.value) === item.answer){
-        score++;
-      } else {
-        errors++;
-      }
+      const result = document.getElementById('result');
+      result.style.display = 'block';
+      result.textContent = `Has acertado ${aciertos} de 20 preguntas.`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  });
 
-  document.getElementById('score').textContent = score;
-  document.getElementById('errors').textContent = errors;
-  document.getElementById('answered').textContent = answered;
-}
-
-function corregirTodo(){
-  questions.forEach((_, index) => {
-    corregirPregunta(index);
-  });
-  actualizarResumen();
-}
-
-function reiniciarExamen(){
-  document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
-  document.querySelectorAll('.quiz-item').forEach(card => card.classList.remove('correct','incorrect'));
-  document.querySelectorAll('.feedback').forEach(box => {
-    box.classList.remove('show','ok','bad');
-    box.innerHTML = '';
-  });
-  document.getElementById('score').textContent = '0';
-  document.getElementById('errors').textContent = '0';
-  document.getElementById('answered').textContent = '0';
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-renderQuiz();
-</script>
+    function reiniciarExamen() {
+      document.getElementById('quizForm').reset();
+      document.querySelectorAll('.question').forEach(question => {
+        question.classList.remove('correct', 'incorrect');
+        question.querySelector('.feedback').textContent = '';
+        const oldAnswer = question.querySelector('.correct-answer');
+        if (oldAnswer) oldAnswer.remove();
+      });
+      const result = document.getElementById('result');
+      result.style.display = 'none';
+      result.textContent = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
