@@ -184,7 +184,7 @@
       border:1px solid var(--border);
       border-radius:16px;
       padding:12px 16px;
-      min-width:140px;
+      min-width:150px;
       text-align:center;
     }
 
@@ -388,6 +388,7 @@
       <div class="top-badges">
         <div class="badge">Campus de práctica</div>
         <div class="badge">ASIR · UAX</div>
+        <div class="badge">Visitas en este navegador: <span id="visitCount">1</span></div>
       </div>
     </div>
   </header>
@@ -395,9 +396,7 @@
   <main class="container">
     <section class="hero">
       <h2>Panel principal de exámenes</h2>
-      <p>
-        Busca rápidamente tus tests y accede a todos desde una sola página.
-      </p>
+      <p>Busca rápidamente tus tests y accede a todos desde una sola página.</p>
     </section>
 
     <section class="toolbar">
@@ -419,9 +418,8 @@
     </section>
 
     <section class="section">
-      <h3 class="section-title">DNS y SRI</h3>
+      <h3 class="section-title">DNS</h3>
       <div class="cards">
-
         <article class="card searchable">
           <div class="card-top">
             <div class="icon-box">🌐</div>
@@ -435,26 +433,41 @@
             <a class="btn btn-secondary" href="examen-dns-3.html">DNS 3</a>
           </div>
         </article>
+      </div>
+    </section>
 
+    <section class="section">
+      <h3 class="section-title">Apache</h3>
+      <div class="cards">
         <article class="card searchable">
           <div class="card-top">
-            <div class="icon-box">🖧</div>
-            <div class="tag">SRI</div>
+            <div class="icon-box">🛠️</div>
+            <div class="tag">APACHE</div>
           </div>
-          <h3>Test SRI Rafa</h3>
-          <p>Práctica de servicios de red e infraestructura relacionada con SRI.</p>
+          <h3>Examen Apache</h3>
+          <p>Práctica de configuración, virtual hosts y conceptos habituales de Apache.</p>
           <div class="actions">
-            <a class="btn btn-primary" href="Test SRI Rafa.html">Abrir test</a>
+            <a class="btn btn-primary" href="examen-apache.html">Abrir examen</a>
           </div>
         </article>
 
+        <article class="card searchable">
+          <div class="card-top">
+            <div class="icon-box">⚙️</div>
+            <div class="tag">APACHE</div>
+          </div>
+          <h3>Examen Apache 2</h3>
+          <p>Segundo bloque de preguntas sobre servidor web Apache.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="examen-apache-2.html">Abrir examen</a>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="section">
       <h3 class="section-title">IAW, PHP y Desarrollo Web</h3>
       <div class="cards">
-
         <article class="card searchable">
           <div class="card-top">
             <div class="icon-box">💻</div>
@@ -514,14 +527,12 @@
             <a class="btn btn-primary" href="test-chuletilla-paginas-1-42.html">Abrir test</a>
           </div>
         </article>
-
       </div>
     </section>
 
     <section class="section">
       <h3 class="section-title">Digitalización</h3>
       <div class="cards">
-
         <article class="card searchable">
           <div class="card-top">
             <div class="icon-box">📝</div>
@@ -545,45 +556,12 @@
             <a class="btn btn-primary" href="examen_digitalizacion_2.html">Abrir examen</a>
           </div>
         </article>
-
       </div>
     </section>
 
     <section class="section">
-      <h3 class="section-title">Apache</h3>
+      <h3 class="section-title">Finales Alberto y SRI</h3>
       <div class="cards">
-
-        <article class="card searchable">
-          <div class="card-top">
-            <div class="icon-box">🛠️</div>
-            <div class="tag">APACHE</div>
-          </div>
-          <h3>Examen Apache</h3>
-          <p>Práctica de configuración, virtual hosts y conceptos habituales de Apache.</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="examen-apache.html">Abrir examen</a>
-          </div>
-        </article>
-
-        <article class="card searchable">
-          <div class="card-top">
-            <div class="icon-box">⚙️</div>
-            <div class="tag">APACHE</div>
-          </div>
-          <h3>Examen Apache 2</h3>
-          <p>Segundo bloque de preguntas sobre servidor web Apache.</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="examen-apache-2.html">Abrir examen</a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <section class="section">
-      <h3 class="section-title">Finales Alberto</h3>
-      <div class="cards">
-
         <article class="card searchable">
           <div class="card-top">
             <div class="icon-box">🏆</div>
@@ -620,6 +598,17 @@
           </div>
         </article>
 
+        <article class="card searchable">
+          <div class="card-top">
+            <div class="icon-box">🖧</div>
+            <div class="tag">SRI</div>
+          </div>
+          <h3>Test SRI Rafa</h3>
+          <p>Práctica de servicios de red e infraestructura relacionada con SRI.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="Test SRI Rafa.html">Abrir test</a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -638,9 +627,15 @@
     const visibleExams = document.getElementById('visibleExams');
     const totalExams = document.getElementById('totalExams');
     const emptyState = document.getElementById('emptyState');
+    const visitCount = document.getElementById('visitCount');
 
     totalExams.textContent = cards.length;
     visibleExams.textContent = cards.length;
+
+    let visits = localStorage.getItem('uax_visitas');
+    visits = visits ? parseInt(visits) + 1 : 1;
+    localStorage.setItem('uax_visitas', visits);
+    visitCount.textContent = visits;
 
     searchInput.addEventListener('input', function () {
       const value = this.value.toLowerCase().trim();
