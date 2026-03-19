@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test comandos examen · UAX</title>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=znARthlod5ZKDm7dko4-TWZqmFGHHyuUPw2w69xTnK-tXCXtSapMYwo8OfyV4xdzOO10-M-C_Qwks5hBCLMxRZ4fJCv01YehQSDUQ3CYFWGyt7g5N-qzYpQtwMHr7EOLZQ97746UAXHY1gQ66tAJUBI0XT4BvzlmBue_57FhAnNFRLkPqcoX-nZIABi6ADc3OjackpY06EI0OLAygKqndMfvhciY4yvrpBdt0e9t1RXkYiOca9M4G8F0Gf88OirhU-h_Fbtq2u5b0lQ9GbM9ew" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f3;
+      --bg2:#fff1e4;
+      --card:#ffffff;
+      --text:#2b2b2b;
+      --muted:#6b7280;
+      --primary:#ff7a18;
+      --primary-2:#ff9f43;
+      --accent:#7c3aed;
+      --good:#159947;
+      --bad:#dc2626;
+      --blank:#64748b;
+      --shadow:0 18px 40px rgba(255,122,24,.14);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,159,67,.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(124,58,237,.12), transparent 24%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:26px 18px 60px}
+    .hero{
+      background:rgba(255,255,255,.78);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.9);
+      box-shadow:var(--shadow);
+      border-radius:32px;
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-80px; top:-80px;
+      width:220px; height:220px;
+      background:radial-gradient(circle, rgba(255,122,24,.18), transparent 70%);
+      border-radius:50%;
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 14px; border-radius:999px;
+      background:#fff4ea; color:#b45309; font-weight:700; font-size:13px;
+      margin-bottom:14px;
+    }
+    h1{margin:0;font-size:clamp(30px,4vw,52px);line-height:1.02}
+    .sub{color:var(--muted);font-size:17px;max-width:860px;margin:14px 0 0}
+    .hero-grid{display:grid;grid-template-columns:1.5fr .9fr;gap:20px;align-items:end;margin-top:22px}
+    .mini-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .pill{
+      background:#fff;border:1px solid #fde7d1;border-radius:20px;padding:14px 12px;text-align:center;
+      box-shadow:0 10px 20px rgba(255,122,24,.07)
+    }
+    .pill b{display:block;font-size:20px;margin-bottom:4px}
+    .tabs{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 18px}
+    .tab-btn{
+      border:none;cursor:pointer;padding:14px 18px;border-radius:16px;font-weight:800;
+      background:#fff;color:#7c2d12;box-shadow:0 10px 20px rgba(0,0,0,.05);
+      transition:.2s transform,.2s box-shadow,.2s background;
+    }
+    .tab-btn:hover{transform:translateY(-2px)}
+    .tab-btn.active{
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      color:#fff;box-shadow:0 18px 28px rgba(255,122,24,.26)
+    }
+    .panel{display:none}
+    .panel.active{display:block}
+    .toolbar{
+      position:sticky;top:10px;z-index:20;
+      display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
+      background:rgba(255,255,255,.86);
+      border:1px solid rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      border-radius:22px;padding:14px 16px;margin:14px 0 18px;box-shadow:var(--shadow);
+    }
+    .stats{display:flex;flex-wrap:wrap;gap:10px}
+    .stat{
+      background:#fff;border:1px solid #f1e2d4;border-radius:14px;padding:10px 12px;font-size:14px;font-weight:700
+    }
+    .actions{display:flex;flex-wrap:wrap;gap:10px}
+    button.action,a.action{
+      border:none;text-decoration:none;cursor:pointer;padding:12px 16px;border-radius:14px;font-weight:800;
+      transition:.2s transform,.2s opacity;display:inline-flex;align-items:center;justify-content:center;gap:8px
+    }
+    button.action:hover,a.action:hover{transform:translateY(-2px)}
+    .primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff}
+    .secondary{background:#fff;color:#7c2d12;border:1px solid #f6d3b3}
+    .ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .results{
+      margin:18px 0 22px;background:linear-gradient(180deg,#fff,#fff7f1);border-radius:24px;
+      padding:22px;border:1px solid #f8dcc2;box-shadow:var(--shadow)
+    }
+    .results.hidden{display:none}
+    .results-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+    .result-box{background:#fff;border-radius:18px;padding:15px;border:1px solid #f2e5d8;text-align:center}
+    .result-box b{display:block;font-size:26px;margin-bottom:6px}
+    .result-box.good b{color:var(--good)}
+    .result-box.bad b{color:var(--bad)}
+    .result-box.blank b{color:var(--blank)}
+    .result-box.score b{color:var(--accent)}
+    .questions{display:grid;gap:18px}
+    .q{
+      background:rgba(255,255,255,.9);border:1px solid #f7dfca;border-radius:24px;padding:22px;
+      box-shadow:0 16px 30px rgba(0,0,0,.04)
+    }
+    .q.correct{border-color:rgba(21,153,71,.35); background:linear-gradient(180deg,#fff,#f4fff7)}
+    .q.incorrect{border-color:rgba(220,38,38,.28); background:linear-gradient(180deg,#fff,#fff4f4)}
+    .q.blank{border-color:rgba(100,116,139,.25); background:linear-gradient(180deg,#fff,#f8fafc)}
+    .qhead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:16px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900}
+    .qtitle{font-size:19px;font-weight:900;margin:0 0 6px}
+    .qmeta{font-size:13px;color:var(--muted);font-weight:700}
+    .options{display:grid;gap:10px;margin-top:16px}
+    label.opt{
+      display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #f1e2d4;
+      padding:14px 15px;border-radius:16px;cursor:pointer;transition:.18s transform,.18s border-color,.18s background
+    }
+    label.opt:hover{transform:translateY(-1px);border-color:#f7b77d}
+    label.opt.correct-answer{border-color:rgba(21,153,71,.45); background:#eefcf3}
+    label.opt.wrong-answer{border-color:rgba(220,38,38,.4); background:#fff1f1}
+    label.opt input{margin-top:3px;accent-color:var(--primary)}
+    .explain{display:none;margin-top:12px;padding:13px 14px;border-radius:16px;background:#fff;border:1px dashed #f0c9a7;color:#6b4a2a}
+    .q.show-explain .explain{display:block}
+    .footer-note{margin-top:30px;text-align:center;color:var(--muted);font-size:14px}
+    .tag{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#fff4ea;color:#c2410c;margin-left:8px}
+    @media (max-width: 920px){
+      .hero-grid,.results-grid{grid-template-columns:1fr}
+      .mini-stats{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width: 640px){
+      .wrap{padding:14px 12px 40px}
+      .hero{padding:20px}
+      .toolbar{top:6px}
+      .results-grid{grid-template-columns:repeat(2,1fr)}
+      .q{padding:18px}
+      .qhead{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <section class="hero">
+      <div class="eyebrow">🔥 UAX · comandos tipo examen</div>
+      <h1>Test de comandos de examen</h1>
+      <p class="sub">Diseño parecido a tu web de GitHub: tarjetas claras, fondo naranja suave, botones grandes y corrección automática. La nota se calcula con <b>aciertos - fallos</b>. Las preguntas están separadas en <b>nivel medio</b> y <b>nivel difícil</b>.</p>
+      <div class="hero-grid">
+        <div>
+          <div class="tabs" role="tablist" aria-label="Niveles del test">
+            <button class="tab-btn active" data-tab="medio">Nivel medio</button>
+            <button class="tab-btn" data-tab="dificil">Nivel difícil</button>
+          </div>
+        </div>
+        <div class="mini-stats">
+          <div class="pill"><b>20</b><span>Preguntas medio</span></div>
+          <div class="pill"><b>20</b><span>Preguntas difícil</span></div>
+          <div class="pill"><b>+1 / -1</b><span>Puntuación</span></div>
+          <div class="pill"><b>Auto</b><span>Corrección</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-medio" class="panel active"></section>
+    <section id="panel-dificil" class="panel"></section>
+
+    <p class="footer-note">Preguntas elaboradas a partir del PDF subido, sobre DNS, DHCP, Apache y FTP. No he metido preguntas de cookies o SMTP porque me pediste comandos/configuración de examen. <span class="tag">UAX style</span></p>
+  </div>
+
+  <script>
+    const tests = {
+      medio: {
+        titulo: 'Nivel medio',
+        subtitulo: 'Bloque base para practicar configuración y comandos típicos.',
+        preguntas: [
+          {
+            texto: 'En BIND, ¿qué directiva permite que el servidor DNS realice búsquedas completas fuera de su propia zona cuando el cliente se lo pide?',
+            opciones: ['allow-query', 'allow-recursion', 'listen-on', 'forwarders'],
+            correcta: 1,
+            explicacion: 'allow-recursion controla a quién se le permite usar la recursión del servidor DNS.'
+          },
+          {
+            texto: 'Si quieres permitir consultas DNS desde cualquier origen, ¿qué valor se usa normalmente en allow-query?',
+            opciones: ['localhost', 'any', 'global', 'all granted'],
+            correcta: 1,
+            explicacion: 'En el PDF aparece allow-query { any; }; para permitir consultas desde cualquiera.'
+          },
+          {
+            texto: '¿Qué registro DNS se usa para asociar directamente un nombre con una dirección IPv4?',
+            opciones: ['PTR', 'CNAME', 'A', 'MX'],
+            correcta: 2,
+            explicacion: 'El registro A une un nombre con una dirección IP.'
+          },
+          {
+            texto: 'Si “web” debe apuntar a “srvweb” como alias, ¿qué registro conviene usar?',
+            opciones: ['MX', 'NS', 'CNAME', 'PTR'],
+            correcta: 2,
+            explicacion: 'CNAME se usa para un alias de un nombre hacia otro nombre.'
+          },
+          {
+            texto: 'En una zona inversa, ¿qué registro se usa para relacionar una IP con un nombre?',
+            opciones: ['PTR', 'TXT', 'A', 'SOA'],
+            correcta: 0,
+            explicacion: 'PTR es el registro típico de resolución inversa.'
+          },
+          {
+            texto: 'La zona inversa para la red 10.0.2.0 se escribe como…',
+            opciones: ['10.0.2.in-addr.arpa', '2.0.10.in-addr.arpa', '0.2.10.in-addr.arpa', '10.2.0.in-addr.arpa'],
+            correcta: 1,
+            explicacion: 'Se invierten los octetos de red: 2.0.10.in-addr.arpa.'
+          },
+          {
+            texto: '¿Qué directiva de BIND indica por qué IPs/interfaces debe escuchar el servidor DNS?',
+            opciones: ['listen-on', 'allow-query', 'zone', 'directory'],
+            correcta: 0,
+            explicacion: 'listen-on define las interfaces o IPs en las que el servicio escucha.'
+          },
+          {
+            texto: 'En DHCP, ¿qué palabra indica que el servidor tiene autoridad sobre la red?',
+            opciones: ['master', 'authoritative', 'enabled', 'primary'],
+            correcta: 1,
+            explicacion: 'authoritative señala que ese servidor es la autoridad DHCP de la red.'
+          },
+          {
+            texto: '¿Qué parámetro del archivo dhcpd.conf marca el tiempo de alquiler por defecto?',
+            opciones: ['lease-default', 'default-lease-time', 'max-lease-time', 'option lease'],
+            correcta: 1,
+            explicacion: 'default-lease-time define la duración inicial del préstamo de IP.'
+          },
+          {
+            texto: '¿Qué directiva se usa para indicar el servidor DNS que recibirán los clientes por DHCP?',
+            opciones: ['option domain-name', 'option routers', 'option domain-name-servers', 'option nameserver'],
+            correcta: 2,
+            explicacion: 'option domain-name-servers reparte a los clientes la IP del DNS.'
+          },
+          {
+            texto: '¿Qué línea define el rango de IPs dinámicas que reparte DHCP?',
+            opciones: ['subnet', 'option routers', 'range', 'fixed-address'],
+            correcta: 2,
+            explicacion: 'range establece desde qué IP hasta qué IP se pueden asignar.'
+          },
+          {
+            texto: '¿Qué parámetro DHCP informa de la puerta de enlace a los clientes?',
+            opciones: ['option broadcast-address', 'option routers', 'option gateway', 'router-address'],
+            correcta: 1,
+            explicacion: 'option routers entrega el gateway o puerta de enlace.'
+          },
+          {
+            texto: 'Para reservar una IP fija a un equipo mediante su MAC en DHCP se usa el bloque…',
+            opciones: ['client { }', 'fixed { }', 'host { }', 'device { }'],
+            correcta: 2,
+            explicacion: 'La reserva se hace con host nombre { hardware ethernet ...; fixed-address ...; }'
+          },
+          {
+            texto: 'Dentro del bloque host de DHCP, ¿qué línea identifica la tarjeta de red del equipo?',
+            opciones: ['mac-address', 'hardware ethernet', 'device-id', 'hostid'],
+            correcta: 1,
+            explicacion: 'hardware ethernet usa la MAC del dispositivo.'
+          },
+          {
+            texto: 'En Apache, la directiva que indica la carpeta física de la web es…',
+            opciones: ['ServerAlias', 'DocumentRoot', 'DirectoryRoot', 'SitePath'],
+            correcta: 1,
+            explicacion: 'DocumentRoot indica dónde están los archivos del sitio.'
+          },
+          {
+            texto: 'Si no quieres que Apache muestre el listado de archivos de una carpeta, en Options usas…',
+            opciones: ['+Indexes', '-Indexes', 'NoIndexes', 'HideIndexes'],
+            correcta: 1,
+            explicacion: '-Indexes evita mostrar el listado de directorios.'
+          },
+          {
+            texto: '¿Qué directiva de Apache abre el acceso a todo el mundo dentro de un <Directory>?',
+            opciones: ['Allow from all', 'Open everyone', 'Require all granted', 'Require any'],
+            correcta: 2,
+            explicacion: 'Require all granted deja entrar a cualquiera.'
+          },
+          {
+            texto: 'Para proteger una carpeta con usuario y contraseña básica en Apache se usa…',
+            opciones: ['AuthType Basic', 'LoginType Basic', 'Require password', 'AuthMode Basic'],
+            correcta: 0,
+            explicacion: 'AuthType Basic activa autenticación básica.'
+          },
+          {
+            texto: 'En FTP, si quieres permitir usuarios anónimos, ¿qué pones en vsftpd.conf?',
+            opciones: ['anonymous_enable=YES', 'guest_enable=YES', 'anon_login=YES', 'public_enable=YES'],
+            correcta: 0,
+            explicacion: 'anonymous_enable=YES permite acceso anónimo.'
+          },
+          {
+            texto: 'Si el servidor FTP debe ser solo lectura, ¿qué valor debe tener write_enable?',
+            opciones: ['ON', 'FALSE', 'NO', 'LOCK'],
+            correcta: 2,
+            explicacion: 'write_enable=NO impide subir o modificar archivos.'
+          }
+        ]
+      },
+      dificil: {
+        titulo: 'Nivel difícil',
+        subtitulo: 'Más parecido a examen: detalles finos, huecos y conceptos mezclados.',
+        preguntas: [
+          {
+            texto: 'Un servidor BIND tiene IP 10.0.2.101 y una interfaz LAN 192.168.1.10/24. Si solo localhost y la LAN pueden preguntar y usar recursión, ¿qué red debe aparecer además de 127.0.0.1 en allow-query y allow-recursion?',
+            opciones: ['192.168.1.10/24', '192.168.1.0/24', '192.168.1.255/24', '10.0.2.0/24'],
+            correcta: 1,
+            explicacion: 'Se usa la red completa 192.168.1.0/24, no una IP individual.'
+          },
+          {
+            texto: 'Si un ejercicio indica “no haga recursión”, la línea correcta en named.conf.options es…',
+            opciones: ['allow-recursion { none; };', 'recursion no;', 'recursive off;', 'forward only;'],
+            correcta: 1,
+            explicacion: 'El PDF usa recursion no; cuando el servidor no debe hacer recursión.'
+          },
+          {
+            texto: 'Cuando el DNS debe usar forwarders y, si fallan, resolver por su cuenta, ¿qué valor encaja en la directiva forward?',
+            opciones: ['auto', 'retry', 'first', 'mixed'],
+            correcta: 2,
+            explicacion: 'forward first prueba primero forwarders y luego resuelve él mismo.'
+          },
+          {
+            texto: 'En una zona directa, para indicar que el correo del dominio va a mail.sri.local., el registro correcto es…',
+            opciones: ['@ IN MX mail.sri.local.', '@ IN A mail.sri.local.', '@ IN PTR mail.sri.local.', '@ IN NS mail.sri.local.'],
+            correcta: 0,
+            explicacion: 'MX se usa para correo y en el PDF se muestra apuntando a mail.sri.local.'
+          },
+          {
+            texto: 'En la zona inversa 10.0.2, si la IP 10.0.2.211 debe resolver a web.sri.local., ¿qué entrada sería correcta?',
+            opciones: ['211 IN PTR web.sri.local.', '10.0.2.211 IN PTR web.sri.local.', '211 IN A web.sri.local.', 'web IN PTR 10.0.2.211'],
+            correcta: 0,
+            explicacion: 'Dentro de la zona ya solo se pone el último octeto: 211 IN PTR web.sri.local.'
+          },
+          {
+            texto: 'En DHCP para la red de la cafetería, si el dominio es cafe.libre, ¿qué línea completa es correcta?',
+            opciones: ['option domain-name cafe.libre;', 'option domain-name = cafe.libre;', 'option domain-name "cafe.libre";', 'domain-name "cafe.libre";'],
+            correcta: 2,
+            explicacion: 'El nombre de dominio va entre comillas: option domain-name "cafe.libre";'
+          },
+          {
+            texto: 'En esa misma práctica DHCP, si el router es 192.168.1.254, la línea correcta es…',
+            opciones: ['option gateway 192.168.1.254;', 'option routers 192.168.1.254;', 'routers 192.168.1.254;', 'default-router 192.168.1.254;'],
+            correcta: 1,
+            explicacion: 'La directiva correcta es option routers 192.168.1.254;'
+          },
+          {
+            texto: 'Para reservar a la impresora VIP la IP 192.168.1.200 usando la MAC 00:11:22:33:44:55, ¿qué combinación es correcta?',
+            opciones: [
+              'host impresora-vip { hardware ethernet 00:11:22:33:44:55; fixed-address 192.168.1.200; }',
+              'device impresora-vip { mac 00:11:22:33:44:55; ip 192.168.1.200; }',
+              'host impresora-vip { hardware mac 00:11:22:33:44:55; reserve 192.168.1.200; }',
+              'reservation impresora-vip { ethernet 00:11:22:33:44:55; fixed 192.168.1.200; }'
+            ],
+            correcta: 0,
+            explicacion: 'Esa es justo la estructura correcta mostrada en el PDF.'
+          },
+          {
+            texto: 'En Apache, si la web principal de la tienda está en la IP 10.0.2.50 por el puerto web estándar, el inicio del VirtualHost sería…',
+            opciones: ['<VirtualHost *:8080>', '<VirtualHost 10.0.2.50:80>', '<VirtualHost mascotas.local:80>', '<VirtualHost 80:10.0.2.50>'],
+            correcta: 1,
+            explicacion: 'El PDF resuelve ese ejercicio con <VirtualHost 10.0.2.50:80>.'
+          },
+          {
+            texto: 'Si la misma web también debe responder a tienda.mascotas.local, ¿qué directiva se utiliza?',
+            opciones: ['AliasName', 'ServerLink', 'ServerAlias', 'HostAlias'],
+            correcta: 2,
+            explicacion: 'ServerAlias añade nombres alternativos para el mismo sitio.'
+          },
+          {
+            texto: 'Para proteger /var/www/mascotas/empleados y dejar pasar solo al usuario jefe, la línea final de acceso correcta es…',
+            opciones: ['Require all denied', 'Require valid-user', 'Require user jefe', 'Allow user jefe'],
+            correcta: 2,
+            explicacion: 'Require user jefe limita el acceso a ese usuario concreto.'
+          },
+          {
+            texto: '¿Qué directiva de Apache le indica dónde está el archivo con las contraseñas de autenticación básica?',
+            opciones: ['AuthFile', 'PasswordFile', 'AuthUserFile', 'AuthBasicFile'],
+            correcta: 2,
+            explicacion: 'AuthUserFile señala el fichero tipo .htpasswd o similar.'
+          },
+          {
+            texto: 'En la explicación del PDF, ¿para qué sirve ProxyPass en un VirtualHost?',
+            opciones: ['Para cifrar HTTPS sin certificado', 'Para reenviar peticiones a otro servidor interno', 'Para bloquear consultas DNS', 'Para crear usuarios de Apache'],
+            correcta: 1,
+            explicacion: 'ProxyPass se usa como proxy inverso enviando tráfico a otro servidor.'
+          },
+          {
+            texto: 'En un bloque <Location "/server-status">, una forma de restringir el acceso solo a red local según el PDF es…',
+            opciones: ['Require auth local', 'Require local o Require ip 192.168.1.0/24', 'Allow local yes', 'Only localhost on'],
+            correcta: 1,
+            explicacion: 'El PDF menciona Require local o Require ip 192.168.1.0/24.'
+          },
+          {
+            texto: 'Para un FTP público donde cualquiera pueda descargar pero nadie subir y los usuarios locales no puedan entrar, la combinación correcta es…',
+            opciones: [
+              'anonymous_enable=YES, local_enable=NO, write_enable=NO',
+              'anonymous_enable=YES, local_enable=YES, write_enable=NO',
+              'anonymous_enable=NO, local_enable=NO, write_enable=YES',
+              'anonymous_enable=NO, local_enable=YES, write_enable=NO'
+            ],
+            correcta: 0,
+            explicacion: 'Esa es la solución exacta del ejercicio 1 de FTP.'
+          },
+          {
+            texto: 'Para el FTP de empresa donde solo entran usuarios locales, pueden escribir y deben quedar “enjaulados”, ¿qué directiva activa la jaula?',
+            opciones: ['secure_local_user=YES', 'chroot_local_user=YES', 'jailed_user=YES', 'root_local_user=YES'],
+            correcta: 1,
+            explicacion: 'chroot_local_user=YES encierra al usuario en su directorio.'
+          },
+          {
+            texto: 'Si además esos usuarios enjaulados necesitan escribir en su carpeta, ¿qué ajuste extra se añade?',
+            opciones: ['allow_writeable_chroot=YES', 'write_chroot=YES', 'chroot_write=YES', 'local_writeable_user=YES'],
+            correcta: 0,
+            explicacion: 'El PDF remarca allow_writeable_chroot=YES como parche necesario.'
+          },
+          {
+            texto: '¿Qué directiva activa el modo pasivo en vsftpd?',
+            opciones: ['port_enable=YES', 'passive=ON', 'pasv_enable=YES', 'ftp_passive=YES'],
+            correcta: 2,
+            explicacion: 'El modo pasivo se habilita con pasv_enable=YES.'
+          },
+          {
+            texto: 'Si el rango pasivo debe ir de 50000 a 50050, ¿qué pareja es correcta?',
+            opciones: ['pasv_min_port=50000 y pasv_max_port=50050', 'pasv_port_start=50000 y pasv_port_end=50050', 'min_pasv=50000 y max_pasv=50050', 'passive_range=50000-50050'],
+            correcta: 0,
+            explicacion: 'vsftpd usa pasv_min_port y pasv_max_port.'
+          },
+          {
+            texto: '¿Qué afirmación encaja mejor con un agente DHCP relay?',
+            opciones: [
+              'Hace que DHCP funcione solo dentro de la misma subred.',
+              'Reenvía peticiones broadcast de clientes hacia un servidor DHCP en otra subred.',
+              'Sustituye al router y al DNS al mismo tiempo.',
+              'Convierte unicast en broadcast para toda Internet.'
+            ],
+            correcta: 1,
+            explicacion: 'El relay escucha las peticiones locales y las reenvía al servidor DHCP remoto.'
+          }
+        ]
+      }
+    };
+
+    function shuffle(arr){ return arr.map(v=>({v, s:Math.random()})).sort((a,b)=>a.s-b.s).map(x=>x.v); }
+
+    function renderPanel(key){
+      const data = tests[key];
+      const panel = document.getElementById(`panel-${key}`);
+      panel.innerHTML = `
+        <div class="toolbar">
+          <div>
+            <div style="font-weight:900;font-size:22px">${data.titulo}</div>
+            <div style="color:var(--muted);font-weight:700">${data.subtitulo}</div>
+          </div>
+          <div class="stats">
+            <div class="stat">📝 ${data.preguntas.length} preguntas</div>
+            <div class="stat">✅ +1 acierto</div>
+            <div class="stat">❌ -1 error</div>
+            <div class="stat">⚪ 0 en blanco</div>
+          </div>
+        </div>
+        <div class="results hidden" id="results-${key}">
+          <h2 style="margin:0">Resultado final · ${data.titulo}</h2>
+          <p style="margin:8px 0 0;color:var(--muted)">Cuando pulses <b>Corregir test</b> te llevaré arriba automáticamente para que veas la nota.</p>
+          <div class="results-grid">
+            <div class="result-box good"><b id="ok-${key}">0</b><span>Aciertos</span></div>
+            <div class="result-box bad"><b id="bad-${key}">0</b><span>Fallos</span></div>
+            <div class="result-box blank"><b id="blank-${key}">0</b><span>En blanco</span></div>
+            <div class="result-box score"><b id="score-${key}">0</b><span>Puntuación</span></div>
+            <div class="result-box"><b id="percent-${key}">0%</b><span>Porcentaje de acierto</span></div>
+          </div>
+        </div>
+        <div class="questions" id="questions-${key}"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px">
+          <button class="action primary" onclick="gradeTest('${key}')">✅ Corregir test</button>
+          <button class="action secondary" onclick="resetTest('${key}')">↺ Reiniciar</button>
+          <a class="action ghost" href="#top">↑ Subir arriba</a>
+        </div>
+      `;
+
+      const qWrap = panel.querySelector(`#questions-${key}`);
+      data.preguntas.forEach((q, idx) => {
+        const name = `${key}-q-${idx}`;
+        const opts = q.opciones.map((op, i) => `
+          <label class="opt" data-option="${i}">
+            <input type="radio" name="${name}" value="${i}">
+            <span>${op}</span>
+          </label>
+        `).join('');
+        qWrap.insertAdjacentHTML('beforeend', `
+          <article class="q" id="${name}">
+            <div class="qhead">
+              <div style="display:flex;gap:14px;align-items:flex-start">
+                <div class="badge">${idx+1}</div>
+                <div>
+                  <h3 class="qtitle">${q.texto}</h3>
+                  <div class="qmeta">Tema de comandos/configuración · ${key === 'medio' ? 'nivel medio' : 'nivel difícil'}</div>
+                </div>
+              </div>
+            </div>
+            <div class="options">${opts}</div>
+            <div class="explain"><b>Explicación:</b> ${q.explicacion}</div>
+          </article>
+        `);
+      });
+    }
+
+    function gradeTest(key){
+      const panel = document.getElementById(`panel-${key}`);
+      const data = tests[key];
+      let ok = 0, bad = 0, blank = 0;
+      data.preguntas.forEach((q, idx) => {
+        const qEl = panel.querySelector(`#${key}-q-${idx}`);
+        qEl.classList.remove('correct','incorrect','blank','show-explain');
+        qEl.querySelectorAll('.opt').forEach(o => o.classList.remove('correct-answer','wrong-answer'));
+        const checked = panel.querySelector(`input[name="${key}-q-${idx}"]:checked`);
+        if(!checked){
+          blank++;
+          qEl.classList.add('blank','show-explain');
+          qEl.querySelector(`.opt[data-option="${q.correcta}"]`).classList.add('correct-answer');
+          return;
+        }
+        const value = Number(checked.value);
+        if(value === q.correcta){
+          ok++;
+          qEl.classList.add('correct','show-explain');
+          qEl.querySelector(`.opt[data-option="${q.correcta}"]`).classList.add('correct-answer');
+        } else {
+          bad++;
+          qEl.classList.add('incorrect','show-explain');
+          qEl.querySelector(`.opt[data-option="${q.correcta}"]`).classList.add('correct-answer');
+          qEl.querySelector(`.opt[data-option="${value}"]`).classList.add('wrong-answer');
+        }
+      });
+      const score = ok - bad;
+      const percent = Math.round((ok / data.preguntas.length) * 100);
+      document.getElementById(`ok-${key}`).textContent = ok;
+      document.getElementById(`bad-${key}`).textContent = bad;
+      document.getElementById(`blank-${key}`).textContent = blank;
+      document.getElementById(`score-${key}`).textContent = score;
+      document.getElementById(`percent-${key}`).textContent = percent + '%';
+      document.getElementById(`results-${key}`).classList.remove('hidden');
+      document.getElementById('top').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function resetTest(key){
+      const panel = document.getElementById(`panel-${key}`);
+      panel.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+      panel.querySelectorAll('.q').forEach(q => q.classList.remove('correct','incorrect','blank','show-explain'));
+      panel.querySelectorAll('.opt').forEach(o => o.classList.remove('correct-answer','wrong-answer'));
+      document.getElementById(`results-${key}`).classList.add('hidden');
+      document.getElementById('top').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`panel-${btn.dataset.tab}`).classList.add('active');
+        document.getElementById('top').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    renderPanel('medio');
+    renderPanel('dificil');
+  </script>
+</body>
+</html>
