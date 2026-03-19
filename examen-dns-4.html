@@ -225,12 +225,12 @@
   <div class="container">
     <div class="intro">
       <h2>Práctica de DNS</h2>
-      <p>Este examen contiene solo las preguntas 21-40 en un único bloque.</p>
+      <p>Este examen contiene 20 preguntas en un único bloque.</p>
       <p class="muted">Se corrige al instante, no permite cambiar la respuesta una vez marcada y tiene temporizador.</p>
     </div>
 
     <div class="exam-box">
-      <p class="panel-info">Bloque único · Preguntas 21-40</p>
+      <p class="panel-info">Bloque único · Preguntas 1-20</p>
       <div id="exam"></div>
     </div>
 
@@ -245,102 +245,102 @@
   <script>
     const allQuestions = [
       {
-        q: '21. ¿Qué significa "allow-query { 192.168.20.0/24; 127.0.0.1; };"?',
+        q: '1. ¿Qué significa "allow-query { 192.168.20.0/24; 127.0.0.1; };"?',
         options: ['Pueden consultar localhost y la red 192.168.20.0/24', 'Puede consultar cualquiera', 'No puede consultar nadie', 'Solo puede consultar 10.0.2.70'],
         answer: 0
       },
       {
-        q: '22. ¿Qué archivo suele contener opciones globales como recursion o forwarders en BIND?',
+        q: '2. ¿Qué archivo suele contener opciones globales como recursion o forwarders en BIND?',
         options: ['named.conf.options', 'db.local', 'hosts', 'resolv.conf'],
         answer: 0
       },
       {
-        q: '23. ¿Qué archivo suele declarar las zonas en BIND?',
+        q: '3. ¿Qué archivo suele declarar las zonas en BIND?',
         options: ['named.conf.local', 'passwd', 'fstab', 'interfaces'],
         answer: 0
       },
       {
-        q: '24. ¿Qué hace un registro MX?',
+        q: '4. ¿Qué hace un registro MX?',
         options: ['Indica el servidor de correo del dominio', 'Asocia nombre con IP', 'Crea una zona inversa', 'Desactiva la recursión'],
         answer: 0
       },
       {
-        q: '25. ¿Qué pasa si un servidor tiene recursion yes pero allow-recursion restringido?',
+        q: '5. ¿Qué pasa si un servidor tiene recursion yes pero allow-recursion restringido?',
         options: ['Solo algunos clientes podrán usar la recursión', 'Todos podrán usarla', 'Nadie podrá consultar', 'Se desactiva la zona'],
         answer: 0
       },
       {
-        q: '26. ¿Qué es un servidor autoritativo?',
+        q: '6. ¿Qué es un servidor autoritativo?',
         options: ['El que tiene los datos oficiales de la zona', 'El que siempre usa forwarders', 'El que solo hace DHCP', 'El que solo responde por IPv6'],
         answer: 0
       },
       {
-        q: '27. ¿Qué es la resolución recursiva?',
+        q: '7. ¿Qué es la resolución recursiva?',
         options: ['El servidor busca la respuesta completa por el cliente', 'El cliente pregunta a todos los servidores', 'Solo sirve para zonas inversas', 'Es lo mismo que CNAME'],
         answer: 0
       },
       {
-        q: '28. ¿Qué es la resolución iterativa?',
+        q: '8. ¿Qué es la resolución iterativa?',
         options: ['El servidor va indicando a qué servidor preguntar después', 'El servidor resuelve todo por el cliente', 'Es un tipo de PTR', 'Es exclusiva de IPv6'],
         answer: 0
       },
       {
-        q: '29. ¿Qué hace un registro NS dentro de una zona?',
+        q: '9. ¿Qué hace un registro NS dentro de una zona?',
         options: ['Define el servidor de nombres de la zona', 'Define la IP de un host', 'Define un alias', 'Define el router'],
         answer: 0
       },
       {
-        q: '30. ¿Qué parámetro del SOA se incrementa cuando cambias una zona?',
+        q: '10. ¿Qué parámetro del SOA se incrementa cuando cambias una zona?',
         options: ['El serial', 'El refresh', 'El retry', 'El expire'],
         answer: 0
       },
       {
-        q: '31. ¿Qué función tiene el campo refresh del SOA?',
+        q: '11. ¿Qué función tiene el campo refresh del SOA?',
         options: ['Indica cada cuánto revisan la zona los servidores secundarios', 'Marca el TTL del navegador', 'Marca el puerto DNS', 'Marca el tiempo del DHCP'],
         answer: 0
       },
       {
-        q: '32. ¿Qué función tiene el campo retry del SOA?',
+        q: '12. ¿Qué función tiene el campo retry del SOA?',
         options: ['Indica cuándo volver a intentar la transferencia si falla', 'Indica el tiempo de vida de un registro A', 'Indica quién puede consultar', 'Indica el alias principal'],
         answer: 0
       },
       {
-        q: '33. ¿Qué función tiene el campo expire del SOA?',
+        q: '13. ¿Qué función tiene el campo expire del SOA?',
         options: ['Indica cuánto tiempo puede seguir usando la zona un secundario sin actualizar', 'Indica el tiempo del examen', 'Indica el tiempo de caché del cliente', 'Indica el tiempo del CNAME'],
         answer: 0
       },
       {
-        q: '34. ¿Qué suele representar el punto final en "ns1.sri.local."?',
+        q: '14. ¿Qué suele representar el punto final en "ns1.sri.local."?',
         options: ['Que es un nombre absoluto completo', 'Que es un alias', 'Que es IPv6', 'Que pertenece a una zona inversa'],
         answer: 0
       },
       {
-        q: '35. En DNS, ¿qué ocurre si preguntas por un nombre que no existe en una zona autoritativa?',
+        q: '15. En DNS, ¿qué ocurre si preguntas por un nombre que no existe en una zona autoritativa?',
         options: ['El servidor puede responder que no existe ese nombre', 'Crea el registro automáticamente', 'Lo convierte en CNAME', 'Lo manda a DHCP'],
         answer: 0
       },
       {
-        q: '36. ¿Qué relación hay entre nombre y dirección IP en una zona directa?',
+        q: '16. ¿Qué relación hay entre nombre y dirección IP en una zona directa?',
         options: ['Se resuelve de nombre a IP', 'Se resuelve de IP a nombre', 'No hay ninguna', 'Solo se usa con PTR'],
         answer: 0
       },
       {
-        q: '37. ¿Qué relación hay entre dirección IP y nombre en una zona inversa?',
+        q: '17. ¿Qué relación hay entre dirección IP y nombre en una zona inversa?',
         options: ['Se resuelve de IP a nombre', 'Se resuelve de nombre a IP', 'Es igual que un MX', 'Solo vale para CNAME'],
         answer: 0
       },
       {
-        q: '38. ¿Qué se recomienda hacer tras modificar una zona DNS?',
+        q: '18. ¿Qué se recomienda hacer tras modificar una zona DNS?',
         options: ['Incrementar el serial y recargar el servicio', 'Borrar el SOA', 'Eliminar el NS', 'Desactivar listen-on'],
         answer: 0
       },
       {
-        q: '39. ¿Qué hace "allow-query { localhost; };"?',
+        q: '19. ¿Qué hace "allow-query { localhost; };"?',
         options: ['Solo el propio servidor puede consultar', 'Puede consultar toda la red', 'Activa forward only', 'Desactiva el servicio'],
         answer: 0
       },
       {
-        q: '40. ¿Qué directiva usarías para decir en qué IP escucha BIND?',
+        q: '20. ¿Qué directiva usarías para decir en qué IP escucha BIND?',
         options: ['listen-on', 'allow-query', 'allow-recursion', 'forwarders'],
         answer: 0
       }
