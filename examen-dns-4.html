@@ -69,42 +69,6 @@
       line-height: 1.5;
     }
 
-    .tabs {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .tab-btn {
-      background: #fff7f1;
-      border: 1px solid #e8c9b3;
-      color: #7a2f00;
-      padding: 12px 18px;
-      border-radius: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .tab-btn:hover {
-      background: #fff1e8;
-    }
-
-    .tab-btn.active {
-      background: linear-gradient(135deg, #ff7a18, #ff9b3d);
-      color: white;
-      border-color: transparent;
-    }
-
-    .exam-panel {
-      display: none;
-    }
-
-    .exam-panel.active {
-      display: block;
-    }
-
     .exam-box {
       background: #fff;
       border: 1px solid #edd7ca;
@@ -261,27 +225,13 @@
   <div class="container">
     <div class="intro">
       <h2>Práctica de DNS</h2>
-      <p>Este examen tiene 40 preguntas divididas en 2 pestañas de 20 preguntas cada una.</p>
+      <p>Este examen contiene solo las preguntas 21-40 en un único bloque.</p>
       <p class="muted">Se corrige al instante, no permite cambiar la respuesta una vez marcada y tiene temporizador.</p>
     </div>
 
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab(0)">Bloque 1 · Preguntas 1-20</button>
-      <button class="tab-btn" onclick="showTab(1)">Bloque 2 · Preguntas 21-40</button>
-    </div>
-
-    <div class="exam-panel active" id="panel0">
-      <div class="exam-box">
-        <p class="panel-info">Bloque 1 de DNS</p>
-        <div id="exam0"></div>
-      </div>
-    </div>
-
-    <div class="exam-panel" id="panel1">
-      <div class="exam-box">
-        <p class="panel-info">Bloque 2 de DNS</p>
-        <div id="exam1"></div>
-      </div>
+    <div class="exam-box">
+      <p class="panel-info">Bloque único · Preguntas 21-40</p>
+      <div id="exam"></div>
     </div>
 
     <div class="controls">
@@ -294,107 +244,6 @@
 
   <script>
     const allQuestions = [
-      {
-        q: '1. ¿Qué directiva controla quién puede hacer consultas DNS al servidor?',
-        options: ['allow-recursion', 'allow-query', 'forwarders', 'listen-on'],
-        answer: 1
-      },
-      {
-        q: '2. ¿Qué significa "allow-query { any; };"?',
-        options: ['Que nadie puede consultar', 'Que cualquiera puede consultar', 'Que solo localhost puede consultar', 'Que solo la red local puede consultar'],
-        answer: 1
-      },
-      {
-        q: '3. ¿Qué directiva controla quién puede usar la recursión?',
-        options: ['allow-query', 'allow-recursion', 'forwarders', 'zone'],
-        answer: 1
-      },
-      {
-        q: '4. Si aparece "recursion no;", significa que...',
-        options: ['El servidor no resolverá consultas recursivas', 'El servidor no escucha', 'El servidor no tiene zona', 'El servidor solo usa IPv6'],
-        answer: 0
-      },
-      {
-        q: '5. ¿Para qué sirve "forwarders { 8.8.8.8; 1.1.1.1; };"?',
-        options: ['Para definir DNS externos a los que reenviar consultas', 'Para asignar IP a hosts', 'Para activar CNAME', 'Para limitar clientes'],
-        answer: 0
-      },
-      {
-        q: '6. ¿Qué significa "forward only;"?',
-        options: ['Solo reenvía a los forwarders y si fallan, falla', 'Reenvía y si falla resuelve él mismo', 'No usa nunca forwarders', 'Solo resuelve zonas inversas'],
-        answer: 0
-      },
-      {
-        q: '7. ¿Qué significa "forward first;"?',
-        options: ['Primero reenvía y si falla intenta resolver él mismo', 'Solo usa localhost', 'Desactiva la recursión', 'Hace consultas solo IPv6'],
-        answer: 0
-      },
-      {
-        q: '8. ¿Qué hace "listen-on { 127.0.0.1; 10.0.2.50; };"?',
-        options: ['Define en qué IP escucha el servidor DNS', 'Define quién puede consultar', 'Define el servidor maestro', 'Define las zonas'],
-        answer: 0
-      },
-      {
-        q: '9. ¿Qué hace un registro A?',
-        options: ['Asocia un nombre con una IP', 'Asocia una IP con un alias', 'Crea una delegación', 'Activa la recursión'],
-        answer: 0
-      },
-      {
-        q: '10. ¿Qué hace un registro CNAME?',
-        options: ['Asigna una IP directamente', 'Define un alias hacia otro nombre', 'Define el servidor NS', 'Define el correo'],
-        answer: 1
-      },
-      {
-        q: '11. Si "web IN CNAME app" y "app IN A 10.0.2.60", la IP de web será...',
-        options: ['10.0.2.60', '127.0.0.1', 'Depende del NS', 'Dará error siempre'],
-        answer: 0
-      },
-      {
-        q: '12. ¿Qué registro indica el servidor DNS autoritativo de la zona?',
-        options: ['A', 'MX', 'NS', 'PTR'],
-        answer: 2
-      },
-      {
-        q: '13. El registro SOA contiene información principal de la zona, como...',
-        options: ['Servidor maestro y contacto administrativo', 'Solo la IP del host', 'Solo alias', 'Solo forwarders'],
-        answer: 0
-      },
-      {
-        q: '14. ¿Qué significa TTL en una zona DNS?',
-        options: ['Tiempo de vida de la caché de los registros', 'Tipo de tráfico local', 'Tiempo de transferencia de zona', 'Tabla de logs temporales'],
-        answer: 0
-      },
-      {
-        q: '15. ¿Qué hace un registro PTR?',
-        options: ['Relaciona IP con nombre', 'Relaciona nombre con IP', 'Define alias', 'Define la recursión'],
-        answer: 0
-      },
-      {
-        q: '16. ¿Qué es una zona inversa?',
-        options: ['La que resuelve IP a nombre', 'La que resuelve nombre a IP', 'La que solo usa IPv6', 'La que contiene CNAME'],
-        answer: 0
-      },
-      {
-        q: '17. Si un nombre tiene CNAME, para saber su IP final hay que...',
-        options: ['Seguir el alias hasta encontrar un registro A', 'Mirar el SOA', 'Mirar los forwarders', 'Mirar listen-on'],
-        answer: 0
-      },
-      {
-        q: '18. ¿Qué diferencia clave hay entre allow-query y allow-recursion?',
-        options: ['Una controla quién pregunta y la otra quién puede resolver recursivamente', 'No hay diferencia', 'Una es para IPv4 y otra para IPv6', 'Una es para Apache y otra para DNS'],
-        answer: 0
-      },
-      {
-        q: '19. Si el servidor es autoritativo para una zona...',
-        options: ['No necesita forwarders para responder registros de esa zona', 'Siempre usará 8.8.8.8', 'Solo responde si recursion=yes', 'No puede tener SOA'],
-        answer: 0
-      },
-      {
-        q: '20. ¿Qué significa "listen-on-v6 { none; };"?',
-        options: ['Desactiva IPv6 para el servicio DNS', 'Activa IPv6 en todas las interfaces', 'Bloquea localhost', 'Impide usar CNAME'],
-        answer: 0
-      },
-
       {
         q: '21. ¿Qué significa "allow-query { 192.168.20.0/24; 127.0.0.1; };"?',
         options: ['Pueden consultar localhost y la red 192.168.20.0/24', 'Puede consultar cualquiera', 'No puede consultar nadie', 'Solo puede consultar 10.0.2.70'],
@@ -497,41 +346,34 @@
       }
     ];
 
-    const blocks = [
-      allQuestions.slice(0, 20),
-      allQuestions.slice(20, 40)
-    ];
-
     let score = 0;
     let answered = 0;
     let examFinished = false;
 
-    function renderBlock(blockQuestions, containerId, blockIndex) {
-      const exam = document.getElementById(containerId);
+    function renderExam() {
+      const exam = document.getElementById('exam');
 
-      blockQuestions.forEach((item, index) => {
-        const globalIndex = blockIndex * 20 + index;
+      allQuestions.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'question';
-        div.dataset.index = globalIndex;
+        div.dataset.index = index;
 
         let html = `<h3>${item.q}</h3>`;
         item.options.forEach((opt, i) => {
           html += `
-            <label class="option" id="q${globalIndex}_opt${i}">
-              <input type="radio" name="q${globalIndex}" value="${i}">
+            <label class="option" id="q${index}_opt${i}">
+              <input type="radio" name="q${index}" value="${i}">
               ${String.fromCharCode(65 + i)}) ${opt}
             </label>
           `;
         });
-        html += `<div class="feedback" id="feedback${globalIndex}"></div>`;
+        html += `<div class="feedback" id="feedback${index}"></div>`;
         div.innerHTML = html;
         exam.appendChild(div);
       });
     }
 
-    renderBlock(blocks[0], 'exam0', 0);
-    renderBlock(blocks[1], 'exam1', 1);
+    renderExam();
 
     document.body.addEventListener('change', function(e) {
       if (examFinished) return;
@@ -571,21 +413,6 @@
         finishExam();
       }
     });
-
-    function showTab(tabIndex) {
-      const panels = document.querySelectorAll('.exam-panel');
-      const buttons = document.querySelectorAll('.tab-btn');
-
-      panels.forEach((panel, i) => {
-        panel.classList.toggle('active', i === tabIndex);
-      });
-
-      buttons.forEach((btn, i) => {
-        btn.classList.toggle('active', i === tabIndex);
-      });
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
     function finishExam() {
       if (examFinished) return;
