@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat en directo · UAX</title>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ly2ndPtQFpqdfCqgARhlmFx7XpM5N4LTKItpBp-gN01ulEwZrXW-45gIEJxvhczUZ9v3KaiJ3tmI9EmDkK5EAU9VcVOvJWcekxqq_oM3monmQDAc_APowooRT7qzI3Nln9TJ_DGfcGWMqj9IlrtqwyH-tKCU04YIF_5qeOOV9WS-XS78A7IJgderpHsaob1SJklGCDwhjR5Ez0GbuepQcxQHiqFe0Xh7xXlNS4Arr8cK36LQY9_XRtkG5j_lc8PP8AUTMWWf4U-AB719qIWqTw" charset="UTF-8"></script><style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg1:#fff8f2;
+      --bg2:#ffe8d6;
+      --card:#fffdfb;
+      --border:#f2ccb0;
+      --text:#3e2617;
+      --soft:#7c5d48;
+      --title:#8e3d00;
+      --orange:#ff7a00;
+      --orange2:#ff9e44;
+      --orangeSoft:#fff2e6;
+      --shadow:rgba(143,63,0,0.10);
+      --ok:#15803d;
+      --okbg:#dcfce7;
+      --bad:#b91c1c;
+      --badbg:#fee2e2;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      background:rgba(255,255,255,0.92);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 12px 24px rgba(143,63,0,0.08);
+    }
+
+    .topbar h1{
+      color:var(--title);
+      font-size:30px;
+      margin-bottom:4px;
+    }
+
+    .topbar p{
+      color:var(--soft);
+      font-size:15px;
+      line-height:1.5;
+    }
+
+    .top-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      text-decoration:none;
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:120px;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+      color:#fff;
+      box-shadow:0 10px 20px rgba(255,122,0,0.23);
+    }
+
+    .btn-secondary{
+      background:#fff8f3;
+      color:#a54800;
+      border:1px solid var(--border);
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:300px 1fr;
+      gap:18px;
+    }
+
+    .panel{
+      background:rgba(255,255,255,0.92);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 12px 24px rgba(143,63,0,0.08);
+    }
+
+    .panel h2{
+      color:var(--title);
+      font-size:22px;
+      margin-bottom:10px;
+    }
+
+    .panel p{
+      color:var(--soft);
+      font-size:14px;
+      line-height:1.55;
+      margin-bottom:12px;
+    }
+
+    .status-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff3e8;
+      border:1px solid var(--border);
+      color:#a34b00;
+      font-weight:800;
+      font-size:13px;
+      margin-bottom:14px;
+    }
+
+    .users-list{
+      display:grid;
+      gap:10px;
+      max-height:540px;
+      overflow:auto;
+      padding-right:4px;
+    }
+
+    .user-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#fff8f2;
+      border:1px solid var(--border);
+    }
+
+    .user-main{
+      min-width:0;
+    }
+
+    .user-email{
+      font-weight:800;
+      color:#8a3f00;
+      word-break:break-word;
+      font-size:14px;
+    }
+
+    .user-role{
+      color:#a87b5c;
+      font-size:12px;
+      margin-top:4px;
+    }
+
+    .online-badge{
+      background:#ecfdf5;
+      color:#15803d;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      border:1px solid #bbf7d0;
+      white-space:nowrap;
+    }
+
+    .chat-panel{
+      display:flex;
+      flex-direction:column;
+      min-height:720px;
+    }
+
+    .chat-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+
+    .chat-head-left h2{
+      margin-bottom:6px;
+    }
+
+    .chat-head-left p{
+      margin-bottom:0;
+    }
+
+    .chat-info{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .messages-box{
+      flex:1;
+      min-height:420px;
+      max-height:520px;
+      overflow:auto;
+      padding:14px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg,#fffaf6,#fff4ea);
+      border-radius:20px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      box-shadow:inset 0 2px 8px rgba(143,63,0,0.04);
+    }
+
+    .chat-empty{
+      text-align:center;
+      color:var(--soft);
+      font-weight:700;
+      padding:28px 12px;
+    }
+
+    .message-row{
+      display:flex;
+      flex-direction:column;
+      max-width:80%;
+      gap:5px;
+    }
+
+    .message-row.mine{
+      align-self:flex-end;
+    }
+
+    .message-row.other{
+      align-self:flex-start;
+    }
+
+    .message-meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      font-size:12px;
+      color:#8a674f;
+      padding:0 6px;
+    }
+
+    .message-author{
+      font-weight:800;
+      color:#8e3d00;
+    }
+
+    .message-bubble{
+      padding:12px 14px;
+      border-radius:18px;
+      line-height:1.55;
+      font-size:14px;
+      word-break:break-word;
+      white-space:pre-wrap;
+      box-shadow:0 8px 18px rgba(143,63,0,0.06);
+      border:1px solid var(--border);
+    }
+
+    .message-row.mine .message-bubble{
+      background:linear-gradient(135deg,#ffe7d0,#fff6ef);
+      border-color:#efbb92;
+      color:#532f17;
+      border-bottom-right-radius:6px;
+    }
+
+    .message-row.other .message-bubble{
+      background:#fff;
+      color:#4d2f18;
+      border-bottom-left-radius:6px;
+    }
+
+    .typing{
+      min-height:22px;
+      padding:8px 4px 0;
+      color:#8a674f;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .composer{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      align-items:end;
+    }
+
+    .composer textarea{
+      width:100%;
+      min-height:82px;
+      max-height:180px;
+      resize:vertical;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      color:var(--text);
+      outline:none;
+    }
+
+    .composer textarea:focus{
+      border-color:#f0a96d;
+      box-shadow:0 0 0 4px rgba(255,122,0,0.08);
+    }
+
+    .helper{
+      margin-top:10px;
+      color:#8a674f;
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .toast{
+      position:fixed;
+      top:20px;
+      right:20px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-left:6px solid var(--orange);
+      border-radius:16px;
+      padding:14px 16px;
+      box-shadow:0 16px 28px rgba(0,0,0,0.12);
+      color:#6c3d1a;
+      font-weight:700;
+      z-index:1000;
+      display:none;
+      max-width:320px;
+    }
+
+    .toast.show{
+      display:block;
+    }
+
+    @media (max-width:900px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+
+      .chat-panel{
+        min-height:auto;
+      }
+
+      .messages-box{
+        max-height:460px;
+      }
+    }
+
+    @media (max-width:640px){
+      .wrap{
+        padding:12px;
+      }
+
+      .topbar{
+        padding:16px;
+      }
+
+      .topbar h1{
+        font-size:24px;
+      }
+
+      .composer{
+        grid-template-columns:1fr;
+      }
+
+      .message-row{
+        max-width:100%;
+      }
+
+      .btn{
+        width:100%;
+      }
+
+      .top-actions{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="topbar">
+      <div>
+        <h1>💬 Chat en directo</h1>
+        <p>Mensajes en tiempo real, usuarios conectados, aviso de escritura y notificaciones estilo app.</p>
+      </div>
+
+      <div class="top-actions">
+        <a class="btn btn-secondary" href="index.html">⬅ Volver al index</a>
+        <button class="btn btn-primary" id="clearTypingBtn" type="button">Limpiar escritura</button>
+      </div>
+    </section>
+
+    <section class="layout">
+      <aside class="panel">
+        <h2>Usuarios conectados</h2>
+        <p>Listado live de personas conectadas ahora mismo en la plataforma.</p>
+        <div class="status-chip" id="onlineSummary">🟢 Cargando conectados...</div>
+        <div class="users-list" id="onlineUsersList">
+          <div class="user-item">
+            <div class="user-main">
+              <div class="user-email">Esperando datos...</div>
+              <div class="user-role">Conectando con Firebase</div>
+            </div>
+            <div class="online-badge">LIVE</div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel chat-panel">
+        <div class="chat-head">
+          <div class="chat-head-left">
+            <h2>Chat general UAX</h2>
+            <p>Habla con otros usuarios en tiempo real.</p>
+          </div>
+
+          <div class="chat-info">
+            <div class="status-chip" id="chatStatus">💬 Conectando chat...</div>
+            <div class="status-chip" id="newMessageStatus">🔔 Notificaciones activas</div>
+          </div>
+        </div>
+
+        <div class="messages-box" id="chatMessages">
+          <div class="chat-empty">Todavía no hay mensajes. Escribe el primero 👇</div>
+        </div>
+
+        <div class="typing" id="typingIndicator"></div>
+
+        <div class="composer">
+          <textarea id="chatInput" placeholder="Escribe tu mensaje..."></textarea>
+          <button class="btn btn-primary" id="sendChatBtn" type="button">Enviar</button>
+        </div>
+
+        <div class="helper">
+          Pulsa <strong>Enviar</strong> o <strong>Enter</strong>. Para salto de línea usa <strong>Shift + Enter</strong>.
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      push,
+      query,
+      limitToLast,
+      onValue,
+      remove
+    } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkk4qjA7ziNF79bm418N9J_qKZ6R2O7dQ",
+      authDomain: "uax-tests.firebaseapp.com",
+      projectId: "uax-tests",
+      databaseURL: "https://uax-tests-default-rtdb.firebaseio.com",
+      storageBucket: "uax-tests.firebasestorage.app",
+      messagingSenderId: "422011199894",
+      appId: "1:422011199894:web:906ceb1a9ae9a5e58cfdb7",
+      measurementId: "G-06KL27WT6W"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const rtdb = getDatabase(app);
+
+    const onlineSummary = document.getElementById("onlineSummary");
+    const onlineUsersList = document.getElementById("onlineUsersList");
+    const chatMessagesBox = document.getElementById("chatMessages");
+    const chatInput = document.getElementById("chatInput");
+    const sendChatBtn = document.getElementById("sendChatBtn");
+    const chatStatus = document.getElementById("chatStatus");
+    const typingIndicator = document.getElementById("typingIndicator");
+    const toast = document.getElementById("toast");
+    const clearTypingBtn = document.getElementById("clearTypingBtn");
+    const newMessageStatus = document.getElementById("newMessageStatus");
+
+    let connectedUsersStop = null;
+    let chatStop = null;
+    let typingStop = null;
+    let typingTimeout = null;
+    let lastSeenMessageId = null;
+    let audioUnlocked = false;
+    let currentUserEmail = "";
+    let currentUserUid = "";
+
+    function escapeHtml(value){
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatPresenceTime(timestamp){
+      if (!timestamp) return "Activo ahora";
+      const date = new Date(timestamp);
+      if (Number.isNaN(date.getTime())) return "Activo ahora";
+
+      const now = Date.now();
+      const diffSec = Math.max(0, Math.floor((now - date.getTime()) / 1000));
+
+      if (diffSec < 60) return "Activo hace unos segundos";
+      if (diffSec < 3600) return `Activo hace ${Math.floor(diffSec / 60)} min`;
+      if (diffSec < 86400) return `Activo hace ${Math.floor(diffSec / 3600)} h`;
+      return "Última conexión " + date.toLocaleString("es-ES");
+    }
+
+    function formatChatTime(value){
+      if (!value) return "ahora";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "ahora";
+      return date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
+    }
+
+    function unlockAudio(){
+      audioUnlocked = true;
+      newMessageStatus.textContent = "🔔 Sonido activado";
+    }
+
+    document.addEventListener("click", unlockAudio, { once: true });
+    document.addEventListener("keydown", unlockAudio, { once: true });
+
+    function playChatSound(){
+      if (!audioUnlocked) {
+        newMessageStatus.textContent = "🔕 Haz un clic para activar sonido";
+        return;
+      }
+
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const ctx = new AudioContextClass();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.2);
+
+        setTimeout(() => {
+          if (ctx.state !== "closed") ctx.close();
+        }, 300);
+      } catch (error) {
+        console.warn("No se pudo reproducir sonido:", error);
+      }
+    }
+
+    async function getAccessData(email){
+      const emailKey = email.trim().toLowerCase().replaceAll(".", ",");
+      const refDoc = doc(db, "usuarios_autorizados", emailKey);
+      const snap = await getDoc(refDoc);
+      return snap.exists() ? snap.data() : null;
+    }
+
+    function renderOnlineUsers(users){
+      onlineSummary.textContent = `🟢 ${users.length} usuario${users.length === 1 ? "" : "s"} conectado${users.length === 1 ? "" : "s"}`;
+
+      if (!users.length) {
+        onlineUsersList.innerHTML = `
+          <div class="user-item">
+            <div class="user-main">
+              <div class="user-email">No hay usuarios conectados</div>
+              <div class="user-role">El panel se actualizará automáticamente</div>
+            </div>
+            <div class="online-badge">VACÍO</div>
+          </div>
+        `;
+        return;
+      }
+
+      onlineUsersList.innerHTML = users.map(item => `
+        <div class="user-item">
+          <div class="user-main">
+            <div class="user-email">${escapeHtml(item.email || "Sin correo")}</div>
+            <div class="user-role">${escapeHtml(item.role || "alumno")} · ${escapeHtml(formatPresenceTime(item.lastChanged))}</div>
+          </div>
+          <div class="online-badge">ONLINE</div>
+        </div>
+      `).join("");
+    }
+
+    function escucharUsuariosConectados(){
+      if (connectedUsersStop) connectedUsersStop();
+
+      connectedUsersStop = onValue(ref(rtdb, "presence"), (snapshot) => {
+        const data = snapshot.val() || {};
+        const users = Object.values(data)
+          .filter(item => item && item.online)
+          .sort((a, b) => (a.email || "").localeCompare(b.email || ""));
+        renderOnlineUsers(users);
+      }, () => {
+        onlineSummary.textContent = "⚠️ Error cargando usuarios";
+      });
+    }
+
+    function scrollChatToBottom(){
+      chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+    }
+
+    function renderChatMessages(messages){
+      if (!messages.length) {
+        chatMessagesBox.innerHTML = '<div class="chat-empty">Todavía no hay mensajes. Escribe el primero 👇</div>';
+        return;
+      }
+
+      chatMessagesBox.innerHTML = messages.map(msg => {
+        const mine = currentUserEmail && (msg.email || "").toLowerCase() === currentUserEmail.toLowerCase();
+        return `
+          <div class="message-row ${mine ? "mine" : "other"}">
+            <div class="message-meta">
+              <span class="message-author">${escapeHtml(msg.email || "Usuario")}</span>
+              <span>${escapeHtml(msg.role || "alumno")}</span>
+              <span>${escapeHtml(formatChatTime(msg.createdAt))}</span>
+            </div>
+            <div class="message-bubble">${escapeHtml(msg.text || "")}</div>
+          </div>
+        `;
+      }).join("");
+
+      scrollChatToBottom();
+    }
+
+    function escucharChat(){
+      if (chatStop) chatStop();
+
+      const chatRef = query(ref(rtdb, "chat/general"), limitToLast(100));
+
+      chatStop = onValue(chatRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        const messages = Object.entries(data)
+          .map(([id, value]) => ({ id, ...value }))
+          .sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
+
+        const latest = messages[messages.length - 1];
+        if (latest) {
+          if (lastSeenMessageId && latest.id !== lastSeenMessageId && latest.uid !== currentUserUid) {
+            playChatSound();
+            showToast(`Nuevo mensaje de ${latest.email || "usuario"}`);
+          }
+          lastSeenMessageId = latest.id;
+        }
+
+        renderChatMessages(messages);
+        chatStatus.textContent = `💬 Chat activo · ${messages.length} mensaje${messages.length === 1 ? "" : "s"}`;
+      }, () => {
+        chatStatus.textContent = "⚠️ Error cargando el chat";
+      });
+    }
+
+    async function setTypingState(isTyping){
+      const user = auth.currentUser;
+      if (!user) return;
+
+      try {
+        const access = await getAccessData(user.email);
+        const typingRef = ref(rtdb, `chatTyping/general/${user.uid}`);
+
+        if (isTyping) {
+          await set(typingRef, {
+            uid: user.uid,
+            email: user.email || "Sin correo",
+            role: access?.role || "alumno",
+            typing: true,
+            updatedAt: new Date().toISOString()
+          });
+        } else {
+          await remove(typingRef);
+        }
+      } catch (error) {
+        console.warn("No se pudo actualizar typing:", error);
+      }
+    }
+
+    function escucharTyping(){
+      if (typingStop) typingStop();
+
+      typingStop = onValue(ref(rtdb, "chatTyping/general"), (snapshot) => {
+        const data = snapshot.val() || {};
+        const items = Object.values(data).filter(item => item && item.typing && item.uid !== currentUserUid);
+
+        if (!items.length) {
+          typingIndicator.textContent = "";
+          return;
+        }
+
+        const names = items.map(item => item.email || "Usuario");
+        if (names.length === 1) {
+          typingIndicator.textContent = `✍️ ${names[0]} está escribiendo...`;
+        } else if (names.length === 2) {
+          typingIndicator.textContent = `✍️ ${names[0]} y ${names[1]} están escribiendo...`;
+        } else {
+          typingIndicator.textContent = "✍️ Varias personas están escribiendo...";
+        }
+      }, () => {
+        typingIndicator.textContent = "";
+      });
+    }
+
+    async function enviarMensajeChat(){
+      const user = auth.currentUser;
+      if (!user) {
+        showToast("Debes iniciar sesión");
+        return;
+      }
+
+      const access = await getAccessData(user.email);
+      const text = chatInput.value.trim();
+
+      if (!text) return;
+      if (text.length > 500) {
+        showToast("Máximo 500 caracteres");
+        return;
+      }
+
+      sendChatBtn.disabled = true;
+
+      try {
+        await push(ref(rtdb, "chat/general"), {
+          uid: user.uid,
+          email: user.email || "Sin correo",
+          role: access?.role || "alumno",
+          text,
+          createdAt: new Date().toISOString()
+        });
+
+        chatInput.value = "";
+        await setTypingState(false);
+        newMessageStatus.textContent = "✅ Mensaje enviado";
+        setTimeout(() => {
+          newMessageStatus.textContent = audioUnlocked ? "🔔 Sonido activado" : "🔕 Haz un clic para activar sonido";
+        }, 1400);
+      } catch (error) {
+        showToast("No se ha podido enviar");
+      } finally {
+        sendChatBtn.disabled = false;
+        chatInput.focus();
+      }
+    }
+
+    sendChatBtn.addEventListener("click", enviarMensajeChat);
+
+    chatInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        enviarMensajeChat();
+      }
+    });
+
+    chatInput.addEventListener("input", async () => {
+      const hasText = chatInput.value.trim().length > 0;
+      await setTypingState(hasText);
+
+      if (typingTimeout) clearTimeout(typingTimeout);
+      typingTimeout = setTimeout(() => {
+        setTypingState(false);
+      }, 1800);
+    });
+
+    chatInput.addEventListener("blur", () => {
+      setTypingState(false);
+    });
+
+    clearTypingBtn.addEventListener("click", () => {
+      setTypingState(false);
+      typingIndicator.textContent = "";
+      showToast("Indicador de escritura limpiado");
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      currentUserEmail = user.email || "";
+      currentUserUid = user.uid;
+
+      escucharUsuariosConectados();
+      escucharChat();
+      escucharTyping();
+      chatInput.focus();
+    });
+
+    window.addEventListener("beforeunload", () => {
+      if (currentUserUid) {
+        remove(ref(rtdb, `chatTyping/general/${currentUserUid}`));
+      }
+    });
+  </script>
+</body>
+</html>
