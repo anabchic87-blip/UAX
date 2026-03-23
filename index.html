@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plataforma de exámenes tipo test</title>
-  
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=oFwcyF4l8g6tEkBSVQHY2doOq7AeCZeGigoFw2AZ4X2ZXvKq0_lGfbDEc5jRA5cncnil5uOXWvBjIWKXkDwQVc80O0-7aTy7PmBm_fJAT83PKN7nx1KO4p0LtTVieg-vi9sdOucnOn6X4avHaAw1db2uUvVh0G8LciqPCTyLETGcnPxA0rMziiBpbdXfPRdEYrrwwhqe8MWCycK6skVMe6UgRrc5bENHrc_x7FMjldMPiXwFedFVORO0vnJzjLN985Bg045gFAtQcHaHBajacw" charset="UTF-8"></script><style>
     *{box-sizing:border-box;margin:0;padding:0}
 
     :root{
@@ -1471,6 +1471,22 @@
           box.innerHTML += `<div class="table-row"><div>No hay correos autorizados</div><div>--</div><div>--</div></div>`;
           return;
         }
+
+        box.innerHTML += items.map(item => `
+          <div class="table-row">
+            <div>${item.email}</div>
+            <div><span class="role-pill">${item.role || "alumno"}</span></div>
+            <div>
+              ${item.email === DEFAULT_ADMIN_EMAIL.toLowerCase()
+                ? '<span class="role-pill">protegido</span>'
+                : `<button class="danger-btn" onclick="eliminarAutorizado('${item.email}')">Quitar</button>`}
+            </div>
+          </div>
+        `).join("");
+      } catch (error) {
+        box.innerHTML += `<div class="table-row"><div>Error cargando accesos</div><div>--</div><div>--</div></div>`;
+      }
+    }
 
     window.agregarAutorizado = async function(){
       const current = auth.currentUser;
