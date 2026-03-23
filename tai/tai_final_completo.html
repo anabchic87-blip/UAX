@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAI final completo · UAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=yRZFHWGaCwyr_VXZT9K9xSa92PEeOANlZ4XcUFeYYtQiHK-ilB7HKWyphY5kqTTqnustELaUuI1-J0qxQFaRsS2aov4R-TT88Jn3D8BJNBRQf96fMeGDSyHou8u2CmmI4h3_VPL56Xd8X70M6Gn6zYdqJcI2l7zmliHa_tL__fveS83Dp8z3NLMxCksjXf17Fy_22Bky44jePmLjkSRCt-oW1bDUazGh48RLhP8N3rCRrS3qr6GPlwIru7bnwBnB8gF-P2KsBEsrBbJVXVYZuA" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --card:#fffdfb; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --warn:#a16207; --warnbg:#fef3c7;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+    .hero{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:28px;padding:24px;box-shadow:var(--shadow);margin-bottom:18px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    .hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.6}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .notice{margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--warnbg);color:var(--warn);border:1px solid #f59e0b;font-weight:700;line-height:1.6}
+    .toolbar{position:sticky;top:10px;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:22px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:var(--shadow);margin-bottom:18px}
+    .counter{display:flex;gap:10px;flex-wrap:wrap}
+    .counter-card{background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;min-width:140px;text-align:center}
+    .counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+    .counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+    .btn{text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease, box-shadow .2s ease, background .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .questions{display:grid;gap:16px}
+    .question{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;transition:border-color .2s ease, background .2s ease}
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .result-box{margin-top:22px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+    .result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+    .helper{color:var(--soft);line-height:1.6}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+    .result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+    .result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+    .result-card span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+    .feedback-note.show{display:block}
+    @media (max-width:700px){.btn{width:100%} .counter-card{flex:1 1 120px} .qhead{flex-direction:column} .badge{width:48px}}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <section class="hero">
+      <div class="eyebrow">📝 TAI · examen oficial autocorregible</div>
+      <h1>TAI · Cuestionario 25/TAI-LI</h1>
+      <p>Test final completo con preguntas reales, temporizador, corrección automática, penalización de 1/3 por fallo y resultado final sobre 10.</p>
+      <div class="stats">
+        <div class="pill">⏱️ 80 minutos</div>
+        <div class="pill">📚 80 preguntas</div>
+        <div class="pill">🎯 Corrección real</div>
+        <div class="pill">☁️ Guarda nota automática</div>
+      </div>
+      <div class="notice">La puntuación se calcula como: aciertos - (fallos × 1/3). Después se transforma a nota sobre 10 según el total de preguntas del examen.</div>
+    </section>
+
+    <section class="toolbar">
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">80</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="totalCount">80</strong><span>Total</span></div>
+        <div class="counter-card"><strong id="timerText">80:00</strong><span>Tiempo restante</span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" id="submitBtn">✅ Entregar examen</button>
+        <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar</button>
+        <a class="btn btn-ghost" href="../index.html">🏠 Home</a>
+      </div>
+    </section>
+
+    <form id="quizForm">
+      <section class="questions" id="questions"></section>
+    </form>
+
+    <section class="result-box">
+      <h2>Resultado del examen</h2>
+      <div class="helper" id="resultText">Aún no has entregado el examen.</div>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+        <a class="btn btn-ghost" href="../index.html">🏠 Home</a>
+      </div>
+    </section>
+  </div>
+
+  
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkk4qjA7ziNF79bm418N9J_qKZ6R2O7dQ",
+      authDomain: "uax-tests.firebaseapp.com",
+      projectId: "uax-tests",
+      databaseURL: "https://uax-tests-default-rtdb.firebaseio.com",
+      storageBucket: "uax-tests.firebasestorage.app",
+      messagingSenderId: "42201199894",
+      appId: "1:42201199894:web:906ceb1a9ae9a5e58cfdb7",
+      measurementId: "G-06KL27WT6W"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const EXAM_KEY = "tai_final_completo";
+    const EXAM_CONFIG = {
+      minutes: 80,
+      penaltyPerWrong: 1/3,
+      passingScore: 5
+    };
+
+    const QUESTIONS = [{"question": "¿En qué fecha fue sancionada la Constitución Española por el Rey Juan Carlos I?", "options": ["31/10/1978", "6/12/1978", "27/12/1978", "29/12/1978"], "correct": "c"}, {"question": "Según el Artículo 9.1 de la Constitución Española, ¿quiénes están sujetos a la Constitución y al resto del Ordenamiento Jurídico?", "options": ["Exclusivamente los poderes público", "Solamente los ciudadanos", "Los ciudadanos y los poderes públicos", "Únicamente el poder judicial"], "correct": "c"}, {"question": "Sobre la composición del Congreso de los Diputados, ¿cuál es el rango de diputados que puede tener?", "options": ["Entre 250 y 350 Diputados", "Entre 300 y 400 Diputados", "Mínimo 350 y máximo 400 Diputados", "El número es fijo en 350"], "correct": "b"}, {"question": "¿Cuál de los siguientes cargos está contemplado como causa de inelegibilidad e incompatibilidad para ser Diputado o Senador, según el artículo 70 de la Constitución Española?", "options": ["El Defensor del Pueblo.", "Los Magistrados, Jueces y Fiscales en activo.", "Los Altos cargos de la Administración del Estado, excepto los miembros del Gobierno.", "Militares profesionales y miembros de las Fuerzas y Cuerpos de Seguridad y Policía en activo."], "correct": "b"}, {"question": "¿Quién nombra y separa a los miembros del Gobierno?", "options": ["El Presidente del Gobierno", "El Rey, a propuesta de su Presidente", "Las Cortes Generales", "El Consejo de Ministros"], "correct": "b"}, {"question": "¿Cuántos Objetivos de Desarrollo Sostenible (ODS) forman la Agenda 2030?", "options": ["15", "16", "17", "169"], "correct": "c"}, {"question": "¿Cuál de los siguientes es un objeto de la Ley de Transparencia, Acceso a la Información Pública y Buen Gobierno?", "options": ["Regular y garantizar el derecho de acceso a la información de la actividad privada.", "Ampliar y reforzar la transparencia de la actividad pública.", "Establecer las obligaciones del buen gobierno solo para los Ministros.", "Regular el derecho a la desconexión digital."], "correct": "b"}, {"question": "¿El TREBEP es de aplicación al personal laboral de la AGE?", "options": ["Sí, en su totalidad.", "Sí, solo en lo que proceda.", "No, se rigen solo por la legislación laboral.", "No, solo al personal funcionario."], "correct": "b"}, {"question": "¿Cuál es el objetivo de la Ley Orgánica 1/2004, de 28 de diciembre, de medidas de protección integral contra la violencia de genero?", "options": ["Prevenir, sancionar y erradicar esta violencia.", "Prevenir, castigar y erradicar esta violencia.", "Evitar, sancionar y perseguir esta violencia.", "Prevenir, sancionar y limitar esta violencia."], "correct": "a"}, {"question": "¿Cuál es la denominación actual de la agenda de transformación digital de España que se desarrolla a partir de 2022?", "options": ["Agenda Digital 2025.", "España Digital 2030.", "Agenda Digital de España 2022-2026.", "España Digital 2026."], "correct": "b"}, {"question": "La Ley 6/2020 tiene por objeto complementar el Reglamento (UE) 910/2014, conocido como eIDAS. ¿Cuál es el principal objetivo de esta Ley española en relación con la normativa anterior?", "options": ["Derogar íntegramente el Reglamento eIDAS en el ámbito nacional.", "Complementar el Reglamento (UE) 910/2014 y derogar la Ley 59/2003 de firma electrónica.", "Regular exclusivamente la identificación electrónica, dejando la firma al ámbito autonómico.", "Establecer un régimen sancionador para la firma electrónica simple."], "correct": "b"}, {"question": "El Reglamento (UE) 910/2014 (eIDAS) busca armonizar el uso de los servicios electrónicos de confianza. ¿Qué principio fundamental instaura este Reglamento en relación con los sistemas nacionales de identificación electrónica?", "options": ["La obligatoriedad de usar el DNIe como único sistema.", "La aceptación mutua para el acceso a servicios públicos en línea de los sistemas nacionales notificados a la Comisión Europea.", "La creación de un sistema de identificación europeo único y centralizado.", "La prohibición de usar cualquier sistema no basado en certificados cualificados."], "correct": "b"}, {"question": "Según los principios relativos al tratamiento de datos de carácter personal, la Responsabilidad Proactiva implica que el responsable del tratamiento será responsable del cumplimiento de las disposiciones y debe ser capaz de:", "options": ["Delegar toda la responsabilidad en el Encargado del tratamiento.", "Demostrar dicho cumplimiento.", "Solicitar autorización previa a la AEPD para cualquier tratamiento.", "Informar de forma reactiva, solo si el interesado lo solicita."], "correct": "b"}, {"question": "En el contexto de la protección de datos de carácter personal, el principio de Minimización de datos establece que los datos personales deben ser:", "options": ["Recogidos con fines determinados, explícitos y legítimos.", "Mantenidos durante no más tiempo del necesario.", "Adecuados, pertinentes y limitados a lo necesario en relación con los fines.", "Tratados de manera lícita, leal y transparente."], "correct": "c"}, {"question": "¿Cuál es el objetivo principal del Esquema Nacional de Seguridad (ENS)?", "options": ["Promover la gestión de riesgos en el ámbito privado.", "Determinar la política de seguridad en la utilización de los medios electrónicos por las AAPP.", "Asegurar la reutilización de la información del sector público (RISP).", "Regular exclusivamente la firma electrónica en la nube."], "correct": "b"}, {"question": "Según el Real Decreto 311/2022, el ENS se aplica a los sistemas de información de entidades privadas cuando:", "options": ["Tengan más de 250 empleados.", "Presten servicios a entidades públicas.", "Su facturación anual supere los 100.000€.", "Únicamente cuando sean organismos autónomos."], "correct": "b"}, {"question": "Cada Administración Pública determinará las condiciones e instrumentos de creación de las sedes electrónicas, con sujeción a los principios de", "options": ["Transparencia, publicidad, responsabilidad, calidad, seguridad, disponibilidad, accesibilidad, neutralidad e interoperabilidad.", "Transparencia, periodicidad, responsabilidad, calidad, seguridad, disponibilidad, accesibilidad, neutralidad e interoperabilidad.", "Transparencia, publicidad, responsabilidad, calidad, seguridad, disposición, accesibilidad, neutralidad e interoperabilidad.", "Transparencia, publicidad, respeto, calidad, seguridad, disponibilidad, accesibilidad, neutralidad e interoperabilidad."], "correct": "a"}, {"question": "¿Cuál de los siguientes no es un contenido mínimo de una sedes electrónicas de una Administración Pública?", "options": ["Mapa de la sede electrónica.", "Verificación de los certificados de la sede.", "Información relacionada con la protección de datos de carácter personal, incluyendo un enlace con la sede electrónica de la AEPD.", "Página de consultas frecuentes (FAQs)"], "correct": "d"}, {"question": "En el ámbito de la Administración General del Estado, la utilización de los medios y servicios compartidos será:", "options": ["De carácter obligatorio y sustitutivo respecto a los medios y servicios particulares empleados por las distintas unidades.", "De carácter obligatorio y preceptivo respecto a los medios y servicios particulares empleados por las distintas unidades.", "De carácter prioritario y sustitutivo respecto a los medios y servicios particulares empleados por las distintas unidades.", "de carácter recomendable y sustitutivo respecto a los medios y servicios particulares empleados por las distintas unidades."], "correct": "b"}, {"question": "Los medios y servicios TIC de la Administración General del Estado y sus Organismos Públicos serán declarados de uso compartido cuando, en razón de su naturaleza o del interés común:", "options": ["Respondan a necesidades específicas de alguna unidad administrativa.", "Respondan a necesidades transversales de alguna unidad administrativa.", "Respondan a necesidades transversales de un número significativo de unidades administrativas.", "Respondan a necesidades transversales de un número significativo de Entidades Locales."], "correct": "c"}, {"question": "Unidad de información que se corresponde con 1024 bytes", "options": ["1 Gigabit", "1 KiB", "1 MiB", "1 Megabit"], "correct": "b"}, {"question": "En el sistema binario, un nibble está formado por:", "options": ["2 bits", "4 bits", "8 bits", "16 bits"], "correct": "b"}, {"question": "El código BCD (8421) se utiliza para:", "options": ["Representar letras", "Representar números binarios en coma flotante", "Codificar dígitos decimales individualmente", "Detectar errores de transmisión"], "correct": "c"}, {"question": "¿Cuál de las siguientes afirmaciones es correcta según el Sistema Internacional ISO/IEC 80000-13?", "options": ["1 KB = 1024 bytes", "1 KiB = 1000 bytes", "1 KB = 1000 bytes", "1 KiB = 100 bytes"], "correct": "c"}, {"question": "¿Qué método de sincronización requiere que la CPU revise continuamente si el dispositivo está listo?", "options": ["DMA", "Interrupciones", "Buffering", "Polling"], "correct": "d"}, {"question": "¿Qué instrucción se utiliza para leer datos desde un puerto de E/S?", "options": ["OUT", "IN", "MOV", "READ"], "correct": "b"}, {"question": "¿Qué formato de sistema de archivos se usa comúnmente en CD-ROM?", "options": ["FAT32", "NTFS", "ISO9660", "EXT4"], "correct": "c"}, {"question": "El formato UDF se emplea principalmente en:", "options": ["Discos SSD", "Discos ópticos como DVD", "Discos magnéticos", "Memorias EEPROM"], "correct": "b"}, {"question": "¿Qué diferencia principal existe entre un tipo abstracto de datos (TAD) y una estructura de datos?", "options": ["El TAD define qué hace y la estructura cómo se implementa", "El TAD define cómo se implementa y la estructura qué hace", "Son sinónimos", "El TAD se usa solo en bases de datos"], "correct": "a"}, {"question": "¿Qué estructura implementa el comportamiento LIFO?", "options": ["Lista", "Cola", "Árbol", "Pila"], "correct": "d"}, {"question": "¿Qué operación pertenece a una cola (Queue)?", "options": ["dequeue", "pop", "insert", "enqueue"], "correct": "d"}, {"question": "En Linux, ¿cual de las siguientes opciones es correcta respecto a los hard-links?", "options": ["Pueden enlazar archivos situados en distintos sistemas de archivos", "Dejan de funcionar si se borra el archivo original", "Comparten el mismo contenido y el mismo inodo", "Son exactamente iguales que los enlaces simbólicos"], "correct": "c"}, {"question": "¿Qué hace la opción -v cuando se usa con tar?", "options": ["Verifica la integridad del archivo", "Muestra en pantalla los archivos que se van procesando", "Activa la compresión gzip", "Cambia el formato del archivo"], "correct": "b"}, {"question": "¿Cuál de las siguientes afirmaciones sobre el archivo /etc/shadow es correcta?", "options": ["Puede ser leído por cualquier usuario", "Contiene las contraseñas en texto plano", "Solo es accesible por el usuario root", "Sustituye completamente a /etc/passwd"], "correct": "c"}, {"question": "¿Que elementos forman parte de una direccion lógica en la paginación?", "options": ["Nº de marco + Nº de pagina", "Nº de pagina + desplazamiento", "Nº de marco + desplazamiento", "Direccion pagina + desplazamiento"], "correct": "b"}, {"question": "¿Cuál es el parámetro clave que determina el funcionamiento del algoritmo Round Robin?", "options": ["La prioridad del proceso", "El tamaño del quantum de tiempo", "El número de procesos en espera", "El proceso más pequeño"], "correct": "b"}, {"question": "¿Cuál de las siguientes afirmaciones sobre la base de datos SAM es correcta?", "options": ["Almacena las contraseñas de los usuarios en texto plano", "Solo existe en controladores de dominio", "Contiene información de cuentas locales y grupos locales", "Puede ser modificada libremente por cualquier usuario"], "correct": "c"}, {"question": "¿Con cual de las siguientes opciones podemos monitorizar un equipo de Windows?", "options": ["WSUS", "SMTP", "WMI", "CMM"], "correct": "c"}, {"question": "Considerando los sistemas NoSQL, una de las principales ventajas es su capacidad para aumentar la productividad en el desarrollo, lo cual se atribuye a:", "options": ["Un estricto cumplimiento del modelo relacional RDBMS.", "Un esquema de datos fijo y predefinido, inmutable tras la creación de la base de datos.", "Permitir esquemas flexibles y la agregación de datos, mejor ajustados al desarrollo.", "La garantía completa de las propiedades ACID."], "correct": "c"}, {"question": "El modelo de consistencia al que se orientan los sistemas NoSQL que no garantizan completamente ACID se denomina BASE. ¿Qué significan las siglas BASE, asociadas a la Consistencia eventual?", "options": ["Block Access Secured Environment.", "Binary and System-Engineered.", "Basically Available, Strong State, Eventually Consistent.", "Basically Available, Soft State, Eventually Consistent."], "correct": "d"}, {"question": "La arquitectura ANSI/SPARC proporciona:", "options": ["Mayor velocidad de consulta", "Independencia entre nivel físico y lógico", "Control de concurrencia", "Optimización automática de índices"], "correct": "b"}, {"question": "El modelo conceptual se caracteriza por ser:", "options": ["Dependiente del motor de base de datos", "Independiente de todo y abstracto", "Específico del modelo relacional", "El encargado de definir índices y tablas físicas"], "correct": "b"}, {"question": "El modelo relacional está basado en:", "options": ["Grafos dirigidos", "Conjuntos jerárquicos", "Relaciones matemáticas", "Clases y objetos"], "correct": "c"}, {"question": "Un lenguaje de programación compilado se caracteriza porque:", "options": ["El código fuente se traduce a código máquina antes de ejecutarse, generando normalmente un ejecutable", "El código se traduce instrucción a instrucción en tiempo de ejecución", "Necesita siempre una máquina virtual para ejecutarse", "Solo puede ejecutarse en sistemas Unix"], "correct": "a"}, {"question": "¿Qué característica introduce el estándar SQL:1999 (SQL 3)?", "options": ["Soporte nativo para XML", "Objeto SEQUENCE", "Compatibilidad con JSON", "Triggers"], "correct": "b"}, {"question": "¿Qué sublenguaje SQL se utiliza principalmente para crear o modificar la estructura de la base de datos (tablas, índices, vistas…)?", "options": ["DDL", "DML", "DCL", "TCL"], "correct": "a"}, {"question": "¿Cual de los siguientes patrones GoF corresponde a uno de comportamiento?", "options": ["Facade", "Proxy", "Prototype", "State"], "correct": "d"}, {"question": "¿Cuál de las siguientes afirmaciones describe mejor a UML según la especificación mostrada?", "options": ["Es un lenguaje de programación orientado a objetos", "Es un estándar solo de ISO para bases de datos relacionales", "Es un estándar de la OMG e ISO/IEC 19505 para modelado", "Es un estándar exclusivo para diagramas de clases"], "correct": "c"}, {"question": "En un proyecto Java gestionado con Maven, ¿dónde se declaran las dependencias de librerías externas?", "options": ["En el archivo package.json", "En el archivo build.xml", "En el archivo pom.xml", "En el archivo module-info.java"], "correct": "c"}, {"question": "¿Cuál de las siguientes afirmaciones sobre interfaces en Java es correcta?", "options": ["Pueden contener solo métodos abstractos", "No pueden contener constantes", "Pueden tener métodos default y static", "No pueden ser implementadas por clases abstractas"], "correct": "c"}, {"question": "¿Cuál de las siguientes tecnologías forma parte de Jakarta EE?", "options": ["Spring Boot", "Hibernate Core", "Apache Maven", "Jakarta Servlet"], "correct": "d"}, {"question": "¿Cuál es la función principal del CLR (Common Language Runtime) en .NET?", "options": ["Compilar el código fuente a lenguaje máquina", "Proporcionar interfaces gráficas", "Sustituir al sistema operativo", "Gestionar la ejecución del código, memoria y seguridad"], "correct": "d"}, {"question": "¿Cuál es la principal diferencia entre un servicio web SOAP y un servicio web REST?", "options": ["SOAP está basado en estándares estrictos, REST es más ligero", "SOAP no usa XML", "REST es un protocolo y SOAP no", "REST solo funciona sobre HTTPS"], "correct": "a"}, {"question": "¿Cuál de las siguientes unidades en CSS es relativa al tamaño de la fuente del elemento raíz (html)?", "options": ["em", "px", "no existe tal unidad", "rem"], "correct": "d"}, {"question": "¿Cuál de las siguientes etiquetas NO es semántica en HTML5?", "options": ["<section>", "<div>", "<nav>", "<table>"], "correct": "b"}, {"question": "¿Qué ventaja principal aporta PHP-FPM en entornos PHP?", "options": ["Mejora el rendimiento gestionando procesos PHP de forma eficiente", "Sustituye al servidor web", "Permite ejecutar PHP en el navegador", "Elimina la necesidad de un intérprete PHP"], "correct": "a"}, {"question": "¿Qué método se utiliza para evitar el comportamiento por defecto de un evento?", "options": ["stopPropagation()", "preventDefault()", "cancelEvent()", "return false"], "correct": "b"}, {"question": "¿Qué indica el atributo standalone=\"yes\" en la cabecera de un documento XML?", "options": ["Que la gramática (DTD/XSD) está contenida en el propio XML y no necesita fichero externo", "Que el documento no está bien formado", "Que el XML usa codificación UTF-16", "Que el documento siempre es válido respecto a cualquier XSD"], "correct": "a"}, {"question": "Una página web se considera accesible cuando:", "options": ["Utiliza exclusivamente tecnologías más recientes", "Se visualiza correctamente solo en pantallas grandes", "Puede ser usada por el mayor número posible de personas, incluidas personas con discapacidad, con diferentes dispositivos y configuraciones", "Solo requiere el uso de ratón para navegar"], "correct": "c"}, {"question": "El modelo RUP (Rational Unified Process) se define como un proceso de desarrollo dirigido por los casos de uso. ¿Cuál es el elemento vital del desarrollo en RUP que debe fijarse al inicio del proyecto?", "options": ["El equipo de desarrollo y sus roles.", "La arquitectura.", "El Product Backlog completo.", "El plan de pruebas unitarias."], "correct": "b"}, {"question": "En administración de sistemas, el enfoque Infrastructure as Code (IaC) implica:", "options": ["Ejecutar copias de seguridad con scripts en lugar de herramientas gráficas", "Configurar solo las redes mediante ficheros de texto", "Definir la infraestructura y su configuración en ficheros de código que se aplican de forma automatizada", "Desplegar máquinas virtuales exclusivamente desde la consola del hipervisor"], "correct": "c"}, {"question": "¿Qué dirección MAC se utiliza para enviar un mensaje a todos los equipos de la LAN?", "options": ["FF:FF:FF:FF:FF:FF", "255.255.255.255", "0.0.0.0", "No es posible en el nivel 2"], "correct": "a"}, {"question": "¿Cual de los siguientes no es un puerto del SGBBDD de Oracle?", "options": ["1533", "1521", "2483", "2484"], "correct": "a"}, {"question": "La virtualización de máquinas permite:", "options": ["Multiplexar recursos físicos (CPU, RAM, red) entre varias máquinas virtuales aisladas", "Ejecutar varias aplicaciones en el mismo proceso sin aislamiento", "Sustituir el sistema operativo por firmware", "Eliminar la necesidad de hardware físico en el CPD"], "correct": "a"}, {"question": "¿Qué afirmación describe mejor la virtualización del almacenamiento a nivel de bloque?", "options": ["Se basa exclusivamente en compartir carpetas mediante NFS o CIFS", "Solo se aplica a discos locales de un único servidor", "Incluye tecnologías como NAS y RAID por software", "Incluye soluciones como LVM, RAID y SAN/vSAN"], "correct": "d"}, {"question": "¿Qué componente de una infraestructura de correo se encarga de transferir mensajes entre servidores hasta llegar al dominio de destino?", "options": ["MUA (Mail User Agent)", "MAA (Mail Access Agent)", "MTA (Mail Transfer Agent)", "MDA (Mail Delivery Agent)"], "correct": "c"}, {"question": "Los microservicios se caracterizan principalmente por:", "options": ["Ser servicios pequeños que pueden desplegarse y escalarse de forma independiente alrededor de un dominio de negocio", "Exigir siempre el mismo lenguaje de programación en toda la plataforma", "Compartir la misma base de datos monolítica sin separación de responsabilidades", "Ejecutarse siempre en la misma máquina física"], "correct": "a"}, {"question": "SNMP utiliza como protocolo de transporte principalmente:", "options": ["UDP", "TCP", "ICMP", "HTTP"], "correct": "a"}, {"question": "En una consulta estándar de SNMP desde el gestor hacia un agente, el gestor envía las peticiones al puerto:", "options": ["25/UDP", "80/TCP", "162/UDP", "161/UDP"], "correct": "d"}, {"question": "¿Cual es la solucion del CCN que muestra en tiempo real el estado de la ciberseguridad del sector público y a nivel nacional?", "options": ["CLARA", "LUCIA", "IRIS", "AMPARO"], "correct": "b"}, {"question": "¿Cuál de los siguientes principios forma parte del triángulo de la seguridad de la información (CIA)?", "options": ["Autenticación", "Confidencialidad", "Auditoría", "No repudio"], "correct": "b"}, {"question": "¿Qué característica define a la conmutación de paquetes frente a la conmutación de circuitos?", "options": ["Utiliza un camino físico dedicado durante toda la comunicación", "Divide la información en paquetes que pueden seguir rutas distintas", "Garantiza ancho de banda fijo", "Requiere establecimiento previo de un circuito"], "correct": "b"}, {"question": "¿Cuál es la banda de frecuencia más utilizada tradicionalmente por las redes Wi-Fi?", "options": ["700 MHz", "900 MHz", "2,4 GHz", "2,4 MHz"], "correct": "c"}, {"question": "¿Qué mecanismo utiliza TCP para controlar el flujo de datos entre emisor y receptor?", "options": ["NAT", "Ventana deslizante", "TTL", "Bit URG"], "correct": "b"}, {"question": "¿Qué mecanismo sustituye a ARP en IPv6?", "options": ["ICMPv6 Neighbor Discovery", "SLAAC", "No existe equivalente", "ARPv6"], "correct": "a"}, {"question": "¿Cuál de las siguientes afirmaciones sobre IPv6 es correcta?", "options": ["Utiliza direcciones broadcast", "Elimina la fragmentación en routers", "Usa NAT obligatoriamente", "No admite autoconfiguración"], "correct": "b"}, {"question": "¿Cuál es la función principal del campo TTL (Time To Live) en IPv4?", "options": ["Indicar el tamaño del paquete", "Controlar la velocidad de transmisión", "Evitar bucles infinitos de enrutamiento", "Cifrar los datos"], "correct": "c"}, {"question": "¿Qué protocolo de transporte utiliza HTTP/3?", "options": ["TCP", "SCTP", "UDP (a través de QUIC)", "ICMP"], "correct": "c"}, {"question": "¿Cuál de las siguientes afirmaciones sobre HTTP es correcta?", "options": ["HTTP mantiene estado entre peticiones por defecto", "HTTP es un protocolo orientado a conexión", "HTTP no puede funcionar sobre TLS", "HTTP es un protocolo sin estado (stateless)"], "correct": "d"}, {"question": "¿Qué tipo de VPN conecta dos redes completas a través de Internet de forma segura?", "options": ["VPN site-to-site", "VPN acceso remoto", "VPN cliente-servidor", "VPN extendida"], "correct": "a"}];
+
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const timerText = document.getElementById("timerText");
+    const resultText = document.getElementById("resultText");
+    const resultBanner = document.getElementById("resultBanner");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+
+    let remainingSeconds = EXAM_CONFIG.minutes * 60;
+    let timerId = null;
+    let submitted = false;
+    let currentUser = null;
+    let autoSaveTimer = null;
+
+    function renderQuestions() {
+      questionsBox.innerHTML = "";
+      QUESTIONS.forEach((item, index) => {
+        const q = document.createElement("article");
+        q.className = "question";
+        q.innerHTML = `
+          <div class="qhead">
+            <div class="badge">${index + 1}</div>
+            <h3 class="qtitle">${item.question}</h3>
+          </div>
+          <div class="options">
+            ${item.options.map((opt, i) => {
+              const value = String.fromCharCode(97 + i);
+              return `
+                <label class="opt" data-question="${index}" data-value="${value}">
+                  <input type="radio" name="q${index}" value="${value}">
+                  <span><strong>${value})</strong> ${opt}</span>
+                </label>
+              `;
+            }).join("")}
+          </div>
+          <div class="feedback-note" id="feedback-${index}"></div>
+        `;
+        questionsBox.appendChild(q);
+      });
+      restoreProgress();
+      updateProgress();
+    }
+
+    function updateProgress() {
+      let answered = 0;
+      QUESTIONS.forEach((_, index) => {
+        if (document.querySelector(`input[name="q${index}"]:checked`)) answered++;
+      });
+      answeredCount.textContent = answered;
+      blankCount.textContent = QUESTIONS.length - answered;
+    }
+
+    function formatTime(totalSeconds) {
+      const min = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+      const sec = String(totalSeconds % 60).padStart(2, "0");
+      return `${min}:${sec}`;
+    }
+
+    function getAnswersSnapshot() {
+      const answers = {};
+      QUESTIONS.forEach((_, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) answers[`q${index}`] = selected.value;
+      });
+      return answers;
+    }
+
+    function saveLocalProgress() {
+      const payload = {
+        answers: getAnswersSnapshot(),
+        remainingSeconds,
+        submitted
+      };
+      localStorage.setItem(`${EXAM_KEY}_progress`, JSON.stringify(payload));
+    }
+
+    function restoreProgress() {
+      try {
+        const raw = localStorage.getItem(`${EXAM_KEY}_progress`);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (data && data.answers) {
+          Object.entries(data.answers).forEach(([name, value]) => {
+            const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+            if (input) {
+              input.checked = true;
+              input.closest('.opt').classList.add('selected');
+            }
+          });
+        }
+        if (typeof data.remainingSeconds === "number" && data.remainingSeconds > 0) {
+          remainingSeconds = data.remainingSeconds;
+        }
+      } catch (error) {
+        console.error("No se pudo restaurar el progreso local:", error);
+      }
+    }
+
+    async function saveRemoteProgress(force = false) {
+      if (!currentUser || submitted) return;
+      try {
+        await setDoc(doc(db, "usuarios", currentUser.uid), {
+          uid: currentUser.uid,
+          email: currentUser.email,
+          [`${EXAM_KEY}_progreso`]: {
+            respondidas: Number(answeredCount.textContent),
+            total: QUESTIONS.length,
+            remainingSeconds,
+            updatedAt: new Date().toISOString()
+          },
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+
+        if (force) {
+          localStorage.setItem("resultado_pendiente", JSON.stringify({
+            test: `${EXAM_KEY}_progreso`,
+            nota: Number(((Number(answeredCount.textContent) / QUESTIONS.length) * 10).toFixed(2))
+          }));
+        }
+      } catch (error) {
+        console.error("No se pudo guardar el progreso remoto:", error);
+      }
+    }
+
+    async function saveFinalResult(score) {
+      try {
+        const pendingPayload = {
+          test: EXAM_KEY,
+          nota: Number(score.toFixed(2))
+        };
+        localStorage.setItem("resultado_pendiente", JSON.stringify(pendingPayload));
+
+        if (typeof window.opener?.guardarResultado === "function") {
+          await window.opener.guardarResultado(EXAM_KEY, Number(score.toFixed(2)));
+        }
+
+        if (typeof window.parent?.guardarResultado === "function" && window.parent !== window) {
+          await window.parent.guardarResultado(EXAM_KEY, Number(score.toFixed(2)));
+        }
+
+        if (currentUser) {
+          await setDoc(doc(db, "usuarios", currentUser.uid), {
+            uid: currentUser.uid,
+            email: currentUser.email,
+            [EXAM_KEY]: Number(score.toFixed(2)),
+            [`${EXAM_KEY}_progreso`]: {
+              respondidas: QUESTIONS.length,
+              total: QUESTIONS.length,
+              remainingSeconds,
+              updatedAt: new Date().toISOString(),
+              finalizado: true
+            },
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+        }
+      } catch (error) {
+        console.error("No se pudo guardar la nota final automáticamente:", error);
+      }
+    }
+
+    function applyInstantCorrection(index) {
+      const item = QUESTIONS[index];
+      const labels = document.querySelectorAll(`[data-question="${index}"]`);
+      const selected = document.querySelector(`input[name="q${index}"]:checked`);
+      const feedback = document.getElementById(`feedback-${index}`);
+
+      labels.forEach(label => {
+        const value = label.getAttribute("data-value");
+        label.classList.remove("selected", "correct", "wrong");
+        if (selected && selected.value === value) label.classList.add("selected");
+        if (selected && value === item.correct) label.classList.add("correct");
+        if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+      });
+
+      if (selected) {
+        feedback.classList.add("show");
+        feedback.textContent = selected.value === item.correct
+          ? `✅ Correcta: ${item.correct.toUpperCase()}`
+          : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`;
+      }
+    }
+
+    function startTimer() {
+      timerText.textContent = formatTime(remainingSeconds);
+      timerId = setInterval(() => {
+        remainingSeconds--;
+        timerText.textContent = formatTime(remainingSeconds);
+        saveLocalProgress();
+        if (remainingSeconds <= 0) {
+          clearInterval(timerId);
+          timerText.textContent = "00:00";
+          submitExam(true);
+        }
+      }, 1000);
+
+      autoSaveTimer = setInterval(() => {
+        saveRemoteProgress(false);
+      }, 15000);
+    }
+
+    function calculateResult() {
+      let answered = 0;
+      let correct = 0;
+      let wrong = 0;
+
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+          answered++;
+          if (selected.value === item.correct) correct++;
+          else wrong++;
+        }
+      });
+
+      const blank = QUESTIONS.length - answered;
+      const rawScore = correct - (wrong * EXAM_CONFIG.penaltyPerWrong);
+      const normalized = Math.max(0, (rawScore / QUESTIONS.length) * 10);
+
+      return {
+        answered,
+        blank,
+        correct,
+        wrong,
+        rawScore,
+        normalized: Number(normalized.toFixed(2))
+      };
+    }
+
+    function revealCorrections() {
+      QUESTIONS.forEach((item, index) => {
+        const labels = document.querySelectorAll(`[data-question="${index}"]`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feedback-${index}`);
+
+        labels.forEach(label => {
+          const value = label.getAttribute("data-value");
+          label.classList.remove("selected");
+          if (value === item.correct) label.classList.add("correct");
+          if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+        });
+
+        if (selected) {
+          feedback.classList.add("show");
+          feedback.textContent = selected.value === item.correct
+            ? `✅ Correcta: ${item.correct.toUpperCase()}`
+            : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`;
+        } else {
+          feedback.classList.add("show");
+          feedback.textContent = `⚪ En blanco · Correcta: ${item.correct.toUpperCase()}`;
+        }
+      });
+    }
+
+    async function submitExam(timeout = false) {
+      if (submitted) return;
+      submitted = true;
+      if (timerId) clearInterval(timerId);
+      if (autoSaveTimer) clearInterval(autoSaveTimer);
+
+      const result = calculateResult();
+      resAnswered.textContent = result.answered;
+      resBlank.textContent = result.blank;
+      resCorrect.textContent = result.correct;
+      resWrong.textContent = result.wrong;
+      resScore.textContent = result.normalized.toFixed(2);
+
+      resultText.textContent =
+        `Has respondido ${result.answered} de ${QUESTIONS.length} preguntas. ` +
+        `Aciertos: ${result.correct}. Fallos: ${result.wrong}. ` +
+        `Penalización aplicada: 1/3 por error. Resultado final: ${result.normalized.toFixed(2)} sobre 10.`;
+
+      resultBanner.className = "result-banner show " + (result.normalized >= EXAM_CONFIG.passingScore ? "ok" : "bad");
+      resultBanner.textContent = timeout
+        ? `⏱️ Tiempo terminado. Examen entregado automáticamente. Resultado final: ${result.normalized.toFixed(2)} / 10`
+        : (result.normalized >= EXAM_CONFIG.passingScore
+            ? `✅ Examen entregado. Has superado el umbral configurado con un ${result.normalized.toFixed(2)} / 10`
+            : `⚠️ Examen entregado. Resultado final: ${result.normalized.toFixed(2)} / 10`);
+
+      quizForm.querySelectorAll("input").forEach(input => input.disabled = true);
+      submitBtn.disabled = true;
+      revealCorrections();
+      localStorage.removeItem(`${EXAM_KEY}_progress`);
+      await saveFinalResult(result.normalized);
+    }
+
+    function resetExam() {
+      if (timerId) clearInterval(timerId);
+      if (autoSaveTimer) clearInterval(autoSaveTimer);
+      submitted = false;
+      remainingSeconds = EXAM_CONFIG.minutes * 60;
+      resultBanner.className = "result-banner";
+      resultBanner.textContent = "";
+      resultText.textContent = "Aún no has entregado el examen.";
+      resAnswered.textContent = "0";
+      resBlank.textContent = "0";
+      resCorrect.textContent = "0";
+      resWrong.textContent = "0";
+      resScore.textContent = "0.00";
+      localStorage.removeItem(`${EXAM_KEY}_progress`);
+      renderQuestions();
+      startTimer();
+      document.getElementById("top").scrollIntoView({behavior:"smooth"});
+      submitBtn.disabled = false;
+    }
+
+    quizForm.addEventListener("change", (event) => {
+      const radio = event.target;
+      if (!radio.matches('input[type="radio"]')) return;
+      const index = Number(radio.name.replace("q", ""));
+      applyInstantCorrection(index);
+      updateProgress();
+      saveLocalProgress();
+      saveRemoteProgress(false);
+    });
+
+    submitBtn.addEventListener("click", () => submitExam(false));
+    resetBtn.addEventListener("click", resetExam);
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user || null;
+    });
+
+    renderQuestions();
+    startTimer();
+  </script>
+
+</body>
+</html>
