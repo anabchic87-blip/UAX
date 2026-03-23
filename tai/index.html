@@ -8,6 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+  
+  <script>
+const path = window.location.pathname.toLowerCase();
+
+let texto = "Inicio";
+
+if(path.includes("tai")) texto = "Inicio > TAI";
+if(path.includes("bdd")) texto = "Inicio > BBDD";
+if(path.includes("ciberseguridad")) texto = "Inicio > Ciberseguridad";
+if(path.includes("sostenibilidad")) texto = "Inicio > Sostenibilidad";
+
+if(path.includes("test")) texto += " > Test";
+
+document.getElementById("breadcrumb").innerText = texto;
+</script>
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
