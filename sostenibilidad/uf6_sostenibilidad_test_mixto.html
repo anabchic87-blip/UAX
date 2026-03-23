@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sostenibilidad · UF6</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=SMggqTSIYcS4XVsAgFueEyMzSlfUnVdJnZPyS-3WNRCXkJcvFtG8GHNDAVW5lIcjZhDRQuD0hYJmAvw4Ghi-ktwhxI_y0JNiY54-mHQoQkFH5ekveNV3edJzFacH4pjfl2sf8EnGRPdVqxMuT8bpUFSXbOpNAHHPwVlgcBdHaVhsvKkqD7TL8e8N8gPIpUinfmcRt61IU3iTbP3QapQPVGG2JYgB6MekOHzIZqHt01C5wz263m1a1IE0Iygcq2iiniV4VJtttGk9f-dWJjj3RA" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --ia:#7c3aed; --iabg:#f3e8ff;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.toolbar,.question,.result-box{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-bottom:18px}
+    .hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.6}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .toolbar{position:sticky;top:10px;z-index:20;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .counter{display:flex;gap:10px;flex-wrap:wrap}
+    .counter-card{background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;min-width:140px;text-align:center}
+    .counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+    .counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+    .btn{text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .btn-ia{background:var(--iabg);color:var(--ia);border:1px solid #d8b4fe}
+    .questions{display:grid;gap:16px}
+    .question{padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff}
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    textarea{width:100%;min-height:110px;border:1px solid var(--border);border-radius:16px;padding:14px;font:inherit;color:var(--text);resize:vertical;background:#fff}
+    textarea:focus{outline:none;border-color:#f0a96d;box-shadow:0 0 0 4px rgba(255,122,0,0.08)}
+    .ai-box{display:none;margin-top:12px;padding:14px 16px;border-radius:16px;background:var(--iabg);border:1px solid #d8b4fe;color:#5b21b6;line-height:1.6}
+    .ai-box.show{display:block}
+    .result-box{margin-top:22px;padding:20px}
+    .result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+    .helper{color:var(--soft);line-height:1.6}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+    .result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+    .result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+    .result-card span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+    .feedback-note.show{display:block}
+    .bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    @media (max-width:700px){.btn{width:100%} .counter-card{flex:1 1 120px} .qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <section class="hero">
+      <div class="eyebrow">🌱 Sostenibilidad · UF6</div>
+      <h1>Sostenibilidad · UF6</h1>
+      <p>Cuestionario mixto basado en tu PDF UF6, con preguntas tipo test y preguntas de desarrollo con botón RESPUESTA IA.</p>
+      <div class="stats">
+        <div class="pill">📚 11 preguntas</div>
+        <div class="pill">✅ 10 autocorregibles</div>
+        <div class="pill">✍️ 1 de desarrollo</div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">11</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="mcqAnswered">0</strong><span>Tipo test</span></div>
+        <div class="counter-card"><strong id="openAnswered">0</strong><span>Desarrollo</span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" id="submitBtn">✅ Corregir test</button>
+        <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar</button>
+        <a class="btn btn-ghost" href="../index.html">🏠 Home</a>
+      </div>
+    </section>
+
+    <form id="quizForm">
+      <section class="questions" id="questions"></section>
+    </form>
+
+    <section class="result-box">
+      <h2>Resultado del test</h2>
+      <div class="helper" id="resultText">Aún no has corregido el test.</div>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Total respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos tipo test</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos tipo test</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota sobre 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+        <a class="btn btn-ghost" href="../index.html">🏠 Home</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const QUESTIONS = [{"type": "mcq", "question": "El documento empresarial sobre sostenibilidad que da cuenta a la autoridad de la evolución de determinados aspectos ASG se llama:", "options": ["Estado no financiero.", "Plan de sostenibilidad.", "Informe o memoria de sostenibilidad.", "Informe de impacto ambiental."], "correct": "a"}, {"type": "mcq", "question": "El documento empresarial que valora los efectos medioambientales asociados a un proyecto para tomar decisiones para evitarlos, minimizarlos o compensarlos se llama:", "options": ["Estado no financiero.", "Plan de sostenibilidad.", "Informe o memoria de sostenibilidad.", "Informe de impacto ambiental."], "correct": "d"}, {"type": "mcq", "question": "El documento empresarial que refleja los resultados de una organización en materia de sostenibilidad durante un año se llama:", "options": ["Estado no financiero.", "Plan de sostenibilidad.", "Informe o memoria de sostenibilidad.", "Informe de impacto ambiental."], "correct": "c"}, {"type": "mcq", "question": "El documento empresarial que guía las acciones de una organización en materia de sostenibilidad a medio y largo plazo se llama:", "options": ["Estado no financiero.", "Plan de sostenibilidad.", "Informe o memoria de sostenibilidad.", "Informe de impacto ambiental."], "correct": "b"}, {"type": "mcq", "question": "El estado no financiero es un documento:", "options": ["Voluntario para todas las empresas.", "Obligatorio para todas las empresas.", "Obligatorio para grandes empresas.", "Obligatorio para pequeñas empresas."], "correct": "c"}, {"type": "mcq", "question": "El plan de sostenibilidad es un documento", "options": ["Voluntario para todas las empresas.", "Obligatorio para todas las empresas.", "Obligatorio para grandes empresas.", "Obligatorio para pequeñas empresas."], "correct": "a"}, {"type": "mcq", "question": "La declaración de impacto ambiental es un documento", "options": ["Voluntario para un proyecto, obra o actividad de cualquier empresa.", "Obligatorio para un proyecto, obra o actividad de cualquier empresa.", "Obligatorio para un proyecto, obra o actividad de determinadas empresas y las administraciones públicas.", "Obligatorio para un proyecto, obra o actividad de las administraciones públicas."], "correct": "c"}, {"type": "mcq", "question": "La finalidad del plan de sostenibilidad es informar de sostenibilidad a…", "options": ["Los grupos internos de interés de la empresa.", "Los grupos externos de interés de la empresa.", "Los grupos internos y externos de interés de la empresa.", "Las administraciones públicas."], "correct": "c"}, {"type": "open", "question": "¿Qué es un análisis de doble materialidad?", "answer_model": "Es el estudio que analiza los aspectos de las empresas o instituciones que son significativos en materia de personas, medioambiente y finanzas."}, {"type": "mcq", "question": "La diferencia principal entre el estado no financiero y la memoria de sostenibilidad es…", "options": ["Que el estado no financiero es más sencillo de transmitir que la memoria de sostenibilidad.", "Que el estado no financiero es más complejo de transmitir que la memoria de sostenibilidad.", "Que el estado no financiero es un documento voluntario y la memoria de sostenibilidad es obligatoria.", "Es el mismo documento pero se puede llamar de las dos maneras."], "correct": "a"}, {"type": "mcq", "question": "¿Quién tiene que hacer el estudio de impacto medioambiental de un proyecto?", "options": ["Las Administraciones Públicas.", "El inversor del proyecto.", "Los grupos de interés del proyecto.", "El promotor del proyecto."], "correct": "d"}];
+    const MCQ_TOTAL = 10;
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const mcqAnswered = document.getElementById("mcqAnswered");
+    const openAnswered = document.getElementById("openAnswered");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultText = document.getElementById("resultText");
+    const resultBanner = document.getElementById("resultBanner");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+    let submitted = false;
+
+    function renderQuestions() {
+      questionsBox.innerHTML = "";
+      QUESTIONS.forEach((item, index) => {
+        const q = document.createElement("article");
+        q.className = "question";
+        if (item.type === "mcq") {
+          q.innerHTML = `
+            <div class="qhead">
+              <div class="badge">${index + 1}</div>
+              <h3 class="qtitle">${item.question}</h3>
+            </div>
+            <div class="options">
+              ${item.options.map((opt, i) => {
+                const value = String.fromCharCode(97 + i);
+                return `
+                  <label class="opt" data-question="${index}" data-value="${value}">
+                    <input type="radio" name="q${index}" value="${value}">
+                    <span><strong>${value})</strong> ${opt}</span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+            <div class="feedback-note" id="feedback-${index}"></div>
+          `;
+        } else {
+          q.innerHTML = `
+            <div class="qhead">
+              <div class="badge">${index + 1}</div>
+              <h3 class="qtitle">${item.question}</h3>
+            </div>
+            <textarea id="open-${index}" placeholder="Escribe aquí tu respuesta..."></textarea>
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-ia" type="button" onclick="toggleAI(${index})">🤖 RESPUESTA IA</button>
+            </div>
+            <div class="ai-box" id="ai-${index}">${item.answer_model}</div>
+          `;
+        }
+        questionsBox.appendChild(q);
+      });
+      updateProgress();
+    }
+
+    function toggleAI(index) {
+      const box = document.getElementById(`ai-${index}`);
+      if (box) box.classList.toggle("show");
+    }
+    window.toggleAI = toggleAI;
+
+    function updateProgress() {
+      let answered = 0, blank = 0, mcqCount = 0, openCount = 0;
+      QUESTIONS.forEach((item, index) => {
+        if (item.type === "mcq") {
+          const checked = document.querySelector(`input[name="q${index}"]:checked`);
+          if (checked) { answered++; mcqCount++; } else { blank++; }
+        } else {
+          const value = (document.getElementById(`open-${index}`)?.value || "").trim();
+          if (value) { answered++; openCount++; } else { blank++; }
+        }
+      });
+      answeredCount.textContent = answered;
+      blankCount.textContent = blank;
+      mcqAnswered.textContent = mcqCount;
+      openAnswered.textContent = openCount;
+    }
+
+    function calculateResult() {
+      let correct = 0, wrong = 0;
+      QUESTIONS.forEach((item, index) => {
+        if (item.type !== "mcq") return;
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+          if (selected.value === item.correct) correct++;
+          else wrong++;
+        }
+      });
+      const score = MCQ_TOTAL ? (correct / MCQ_TOTAL) * 10 : 0;
+      return {
+        totalAnswered: Number(answeredCount.textContent),
+        blank: Number(blankCount.textContent),
+        correct,
+        wrong,
+        score: Number(score.toFixed(2))
+      };
+    }
+
+    function revealCorrections() {
+      QUESTIONS.forEach((item, index) => {
+        if (item.type !== "mcq") return;
+        const labels = document.querySelectorAll(`[data-question="${index}"]`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feedback-${index}`);
+        labels.forEach(label => {
+          const value = label.getAttribute("data-value");
+          label.classList.remove("selected");
+          if (value === item.correct) label.classList.add("correct");
+          if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+        });
+        if (selected) {
+          feedback.classList.add("show");
+          feedback.textContent = selected.value === item.correct
+            ? `✅ Correcta: ${item.correct.toUpperCase()}`
+            : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`;
+        } else {
+          feedback.classList.add("show");
+          feedback.textContent = `⚪ En blanco · Correcta: ${item.correct.toUpperCase()}`;
+        }
+      });
+    }
+
+    function submitQuiz() {
+      if (submitted) return;
+      submitted = true;
+      updateProgress();
+      const result = calculateResult();
+      resAnswered.textContent = result.totalAnswered;
+      resBlank.textContent = result.blank;
+      resCorrect.textContent = result.correct;
+      resWrong.textContent = result.wrong;
+      resScore.textContent = result.score.toFixed(2);
+      resultText.textContent =
+        `Has respondido ${result.totalAnswered} de 11 preguntas. En la parte tipo test tienes ${result.correct} aciertos y ${result.wrong} fallos. Las preguntas de desarrollo se revisan comparando tu texto con el botón RESPUESTA IA.`;
+      resultBanner.className = "result-banner show " + (result.score >= 5 ? "ok" : "bad");
+      resultBanner.textContent =
+        result.score >= 5
+          ? `✅ Parte tipo test superada con un ${result.score.toFixed(2)} sobre 10`
+          : `⚠️ Parte tipo test en ${result.score.toFixed(2)} sobre 10. Revisa también las preguntas de desarrollo.`;
+      quizForm.querySelectorAll('input[type="radio"], textarea').forEach(el => el.disabled = true);
+      submitBtn.disabled = true;
+      revealCorrections();
+    }
+
+    function resetQuiz() {
+      submitted = false;
+      resultText.textContent = "Aún no has corregido el test.";
+      resultBanner.className = "result-banner";
+      resultBanner.textContent = "";
+      resAnswered.textContent = "0";
+      resBlank.textContent = "0";
+      resCorrect.textContent = "0";
+      resWrong.textContent = "0";
+      resScore.textContent = "0.00";
+      renderQuestions();
+      document.getElementById("top").scrollIntoView({behavior:"smooth"});
+      submitBtn.disabled = false;
+    }
+
+    quizForm.addEventListener("change", (event) => {
+      const radio = event.target;
+      if (!radio.matches('input[type="radio"]')) return;
+      const name = radio.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(inp => inp.closest('.opt').classList.remove('selected'));
+      radio.closest('.opt').classList.add('selected');
+      updateProgress();
+    });
+
+    quizForm.addEventListener("input", updateProgress);
+    submitBtn.addEventListener("click", submitQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+
+    renderQuestions();
+  </script>
+</body>
+</html>
