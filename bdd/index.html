@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bases de Datos · UAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:#f7efe5;
+    }
 
+    .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:40px 20px 70px;
+    }
+
+    .back{
+      margin-bottom:20px;
+    }
+
+    .back a{
+      text-decoration:none;
+      color:#7c2d12;
+      font-weight:700;
+    }
+
+    .header{
+      text-align:center;
+      margin-bottom:35px;
+    }
+
+    .header h1{
+      font-size:38px;
+      color:#7c2d12;
+      margin:0 0 10px;
+    }
+
+    .header p{
+      color:#9a6a4f;
+      margin:0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:20px;
+      padding:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.05);
+      transition:0.2s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    .card-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+    }
+
+    .icon-box{
+      font-size:26px;
+    }
+
+    .tag{
+      background:#fff4ea;
+      padding:5px 10px;
+      border-radius:12px;
+      font-size:12px;
+      font-weight:700;
+      color:#c2410c;
+    }
+
+    .card h3{
+      margin:10px 0;
+      color:#3d220f;
+    }
+
+    .card p{
+      color:#734f39;
+      line-height:1.5;
+    }
+
+    .actions{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:10px 15px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,#ff7a18,#ff9f43);
+      color:white;
+    }
+
+    .btn-secondary{
+      background:#f1f5f9;
+      color:#334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="back">
+      <a href="../index.html">⬅ Volver al index</a>
+    </div>
+
+    <div class="header">
+      <h1>🗄️ Bases de Datos</h1>
+      <p>Selecciona un test o unidad de la asignatura</p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="card-top">
+          <div class="icon-box">📝</div>
+          <div class="tag">UF1</div>
+        </div>
+
+        <h3>UF1 · Conceptos, instalación y gestión</h3>
+        <p>Test autocorregible de fundamentos de SGBD, MariaDB, instalación, administración, variables, logs, usuarios y permisos.</p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="test_sgbd_uf1_60_preguntas_autocorreccion_real.html">Abrir test</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="icon-box">📝</div>
+          <div class="tag">UF2</div>
+        </div>
+
+        <h3>UF2 · Automatización, optimización y monitorización</h3>
+        <p>Test autocorregible sobre scripts, variables, funciones, procedimientos, triggers, mantenimiento, copias y monitorización.</p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="test_sgbd_uf2_60_preguntas_autocorreccion_ok.html">Abrir test</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="icon-box">📝</div>
+          <div class="tag">UF3</div>
+        </div>
+
+        <h3>UF3 · Bases de datos y big data en la nube</h3>
+        <p>Test autocorregible de RDS, snapshots, monitorización, migración, escalado, Aurora, Redshift, Athena, ETL y Glue.</p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="test_sgbd_uf3_60_preguntas_autocorreccion_ok.html">Abrir test</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</body>
+</html>
