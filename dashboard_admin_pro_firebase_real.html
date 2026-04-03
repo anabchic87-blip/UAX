@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin Pro · UAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=naEV8MHcDFVO1gM6NdGf2f_sueA9UvpZ1M-XCgasBmBYt55TWCXwAKSW3GWQDmjjQajN1e7XBkO3XT2_9US18N7F7gUVaNhjfJGhdaJtsOwITpaRQ6ksDgTaqJYW4wrFwNThizHlnVXEmpY4eILuSEtgx8qGlbNvxv-HyL4y8UsleXjN5bxf18JdE6j_NVP-i5cm9K_CVW9sTwFC1vCT3uaVu-4JoN0z8hGo3593dkMadNJwovb24e2zpl4_070R6xDqHiLixcpJ22imnW086Q" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2;
+      --bg2:#ffe8d6;
+      --card:#ffffff;
+      --text:#3e2617;
+      --soft:#7c5d48;
+      --title:#8e3d00;
+      --orange:#ff7a00;
+      --orange2:#ff9e44;
+      --border:#f2ccb0;
+      --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d;
+      --okbg:#dcfce7;
+      --mid:#b45309;
+      --midbg:#ffedd5;
+      --bad:#b91c1c;
+      --badbg:#fee2e2;
+      --slate:#334155;
+      --slatebg:#f8fafc;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      color:var(--text);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+
+    .guard-screen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .guard-card,
+    .hero,
+    .panel,
+    .table-card{
+      background:rgba(255,255,255,.96);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .guard-card{
+      width:min(620px,100%);
+      padding:28px;
+      text-align:center;
+    }
+
+    .guard-card h1{
+      margin:0 0 8px;
+      color:var(--title);
+      font-size:32px;
+    }
+
+    .guard-card p{
+      margin:0 0 16px;
+      color:var(--soft);
+      line-height:1.6;
+    }
+
+    .wrap{
+      max-width:1240px;
+      margin:0 auto;
+      padding:24px 16px 80px;
+      display:none;
+    }
+
+    .hero{
+      padding:26px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#fff3e8;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:8px 14px;
+      color:#a54800;
+      font-size:13px;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      color:var(--title);
+      font-size:clamp(28px,4vw,44px);
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--soft);
+      line-height:1.6;
+      max-width:760px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-decoration:none;
+      border:none;
+      border-radius:16px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2)); color:#fff;}
+    .btn-secondary{background:#fff8f3; color:#a54800; border:1px solid var(--border);}
+    .btn-ghost{background:var(--slatebg); color:var(--slate); border:1px solid #e2e8f0;}
+    .btn-danger{background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;}
+
+    .quick-stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .stat{
+      background:#fff9f5;
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:18px;
+    }
+
+    .stat .label{color:var(--soft); font-size:13px; font-weight:700; margin-bottom:8px;}
+    .stat .value{color:var(--title); font-size:30px; font-weight:800; line-height:1; margin-bottom:8px;}
+    .stat .sub{color:var(--soft); font-size:13px; line-height:1.4;}
+
+    .dashboard{
+      display:grid;
+      grid-template-columns:1.25fr .95fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .column{display:grid; gap:18px;}
+
+    .panel{
+      padding:22px;
+    }
+
+    .panel h2{
+      margin:0 0 6px;
+      color:var(--title);
+      font-size:24px;
+    }
+
+    .panel p.lead{
+      margin:0 0 16px;
+      color:var(--soft);
+      line-height:1.5;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .mini-card{
+      border:1px solid var(--border);
+      background:#fffaf7;
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .mini-card h3{
+      margin:0 0 8px;
+      font-size:16px;
+      color:#5a2d0c;
+    }
+
+    .mini-card .number{
+      font-size:28px;
+      font-weight:800;
+      color:var(--title);
+      line-height:1;
+      margin-bottom:6px;
+    }
+
+    .mini-card .meta{
+      color:var(--soft);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .user-list,.result-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .user-item,.result-item{
+      border:1px solid var(--border);
+      background:#fffaf7;
+      border-radius:18px;
+      padding:16px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .user-main strong,.result-main strong{
+      display:block;
+      color:#4b250b;
+      font-size:15px;
+      margin-bottom:4px;
+      word-break:break-word;
+    }
+
+    .user-main span,.result-main span{
+      color:var(--soft);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .badge.ok{background:var(--okbg); color:var(--ok); border:1px solid #86efac;}
+    .badge.mid{background:var(--midbg); color:var(--mid); border:1px solid #fdba74;}
+    .badge.bad{background:var(--badbg); color:var(--bad); border:1px solid #fca5a5;}
+    .badge.neutral{background:#f1f5f9; color:#334155; border:1px solid #cbd5e1;}
+
+    .table-card{overflow:hidden;}
+    table{width:100%; border-collapse:collapse; background:#fff;}
+    th, td{padding:14px 16px; text-align:left; border-bottom:1px solid #f5dfcf; font-size:14px;}
+    th{background:#fff7ef; color:#8e3d00; font-size:13px; text-transform:uppercase; letter-spacing:.04em;}
+    tr:hover td{background:#fffaf7;}
+
+    .progress{
+      height:10px;
+      background:#fde7d5;
+      border-radius:999px;
+      overflow:hidden;
+      min-width:130px;
+    }
+    .bar{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+    }
+
+    .field{margin-bottom:12px;}
+    .field label{
+      display:block;
+      font-size:14px;
+      font-weight:700;
+      color:#7c4a25;
+      margin-bottom:8px;
+    }
+    .field input{
+      width:100%;
+      padding:13px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size:14px;
+      color:var(--text);
+      outline:none;
+    }
+    .field input:focus{
+      border-color:#f0a96d;
+      box-shadow:0 0 0 4px rgba(255,122,0,0.08);
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:2fr 1fr auto;
+      gap:12px;
+      align-items:end;
+      margin-bottom:16px;
+    }
+
+    .table-box{
+      border:1px solid var(--border);
+      border-radius:18px;
+      overflow:hidden;
+      background:#fffaf6;
+    }
+
+    .table-row{
+      display:grid;
+      grid-template-columns:2fr 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .table-row:last-child{border-bottom:none;}
+    .table-head{background:#fff1e7; font-weight:800; color:#8e3d00;}
+    .role-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:88px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fff3e8;
+      border:1px solid var(--border);
+      color:#a54800;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .message{
+      display:none;
+      margin-bottom:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      font-size:14px;
+      font-weight:700;
+      line-height:1.5;
+    }
+    .message.ok{display:block; background:var(--okbg); color:var(--ok); border:1px solid #86efac;}
+    .message.bad{display:block; background:var(--badbg); color:var(--bad); border:1px solid #fca5a5;}
+
+    .footer-note{
+      color:var(--soft);
+      font-size:13px;
+      line-height:1.5;
+      margin-top:14px;
+    }
+
+    @media (max-width:980px){
+      .dashboard{grid-template-columns:1fr;}
+    }
+
+    @media (max-width:680px){
+      .grid-2,.form-grid{grid-template-columns:1fr;}
+      .hero-top{flex-direction:column;}
+      .btn{width:100%;}
+      .table-row{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <section class="guard-screen" id="guardScreen">
+    <div class="guard-card">
+      <h1>Protegiendo dashboard…</h1>
+      <p id="guardText">Comprobando si has iniciado sesión y si tienes rol de administrador.</p>
+      <a class="btn btn-secondary" href="index.html">⬅ Volver al index</a>
+    </div>
+  </section>
+
+  <main class="wrap" id="dashboardApp">
+    <section class="hero">
+      <div class="eyebrow">👑 Administración · dashboard pro real</div>
+      <div class="hero-top">
+        <div>
+          <h1>Panel admin conectado a Firebase</h1>
+          <p>Esta versión ya no es de muestra. Está protegida por rol admin, lee usuarios conectados desde Realtime Database y calcula notas reales desde Firestore.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="index.html">🏠 Volver al index</a>
+          <button class="btn btn-secondary" id="refreshBtn">🔄 Actualizar</button>
+          <button class="btn btn-ghost" id="logoutBtn">🚪 Cerrar sesión</button>
+        </div>
+      </div>
+
+      <div class="quick-stats">
+        <div class="stat">
+          <div class="label">Usuarios conectados</div>
+          <div class="value" id="connectedCount">0</div>
+          <div class="sub">Lectura en tiempo real desde presence.</div>
+        </div>
+        <div class="stat">
+          <div class="label">Alumnos autorizados</div>
+          <div class="value" id="authorizedCount">0</div>
+          <div class="sub">Correos con acceso activo a la plataforma.</div>
+        </div>
+        <div class="stat">
+          <div class="label">Resultados guardados</div>
+          <div class="value" id="resultsCount">0</div>
+          <div class="sub">Notas detectadas en Firestore.</div>
+        </div>
+        <div class="stat">
+          <div class="label">Media global</div>
+          <div class="value" id="globalAverage">0.0</div>
+          <div class="sub">Promedio automático de todos los resultados.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="message" id="msgBox"></div>
+
+    <section class="dashboard">
+      <div class="column">
+        <section class="panel">
+          <h2>Resumen rápido</h2>
+          <p class="lead">Indicadores automáticos del estado general del campus.</p>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>Mejor nota</h3>
+              <div class="number" id="bestScoreValue">--</div>
+              <div class="meta" id="bestScoreMeta">Aún sin datos</div>
+            </div>
+            <div class="mini-card">
+              <h3>Peor nota</h3>
+              <div class="number" id="worstScoreValue">--</div>
+              <div class="meta" id="worstScoreMeta">Aún sin datos</div>
+            </div>
+            <div class="mini-card">
+              <h3>Último acceso</h3>
+              <div class="number" id="lastAccessValue">--</div>
+              <div class="meta">Se actualiza desde presence en tiempo real</div>
+            </div>
+            <div class="mini-card">
+              <h3>Admin activo</h3>
+              <div class="number" id="adminEmailShort">OK</div>
+              <div class="meta" id="adminEmailMeta">Panel protegido correctamente</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Ranking por media</h2>
+          <p class="lead">Tabla real de usuarios con sus medias, número de tests y estado visual.</p>
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Media</th>
+                  <th>Tests</th>
+                  <th>Progreso</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="rankingBody">
+                <tr>
+                  <td>Cargando datos…</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td><div class="progress"><div class="bar" style="width:0%"></div></div></td>
+                  <td><span class="badge neutral">Esperando</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Gestión de accesos</h2>
+          <p class="lead">Añade o elimina correos autorizados y define su rol.</p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="nuevoCorreo">Correo autorizado</label>
+              <input type="email" id="nuevoCorreo" placeholder="usuario@correo.com" />
+            </div>
+            <div class="field">
+              <label for="nuevoRol">Rol</label>
+              <input type="text" id="nuevoRol" placeholder="alumno o admin" value="alumno" />
+            </div>
+            <button class="btn btn-primary" id="addAccessBtn">Añadir acceso</button>
+          </div>
+
+          <div class="table-box" id="authorizedTable">
+            <div class="table-row table-head">
+              <div>Correo</div>
+              <div>Rol</div>
+              <div>Acción</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="column">
+        <section class="panel">
+          <h2>Usuarios conectados ahora</h2>
+          <p class="lead">Lectura live desde Realtime Database. Solo visible para admin.</p>
+          <div class="user-list" id="connectedUsersList">
+            <div class="user-item">
+              <div class="user-main">
+                <strong>Esperando datos…</strong>
+                <span>Conectando con Firebase</span>
+              </div>
+              <span class="badge neutral">LIVE</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Últimos resultados</h2>
+          <p class="lead">Resultados recientes reales con color según la nota.</p>
+          <div class="result-list" id="recentResultsList">
+            <div class="result-item">
+              <div class="result-main">
+                <strong>Aún no hay resultados</strong>
+                <span>Se mostrarán aquí cuando haya notas guardadas</span>
+              </div>
+              <span class="badge neutral">--</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Notas</h2>
+          <p class="lead">Este dashboard usa el mismo proyecto de Firebase que tu index principal: autenticación, Firestore para notas y accesos, y Realtime Database para presencia y conectados. Tu index principal ya guarda resultados con `guardarResultado(...)` y controla el rol con `usuarios_autorizados`. fileciteturn7file0turn7file3</p>
+          <div class="footer-note">Si un usuario intenta entrar aquí sin ser admin, lo redirigimos automáticamente al index principal.</div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkk4qjA7ziNF79bm418N9J_qKZ6R2O7dQ",
+      authDomain: "uax-tests.firebaseapp.com",
+      projectId: "uax-tests",
+      databaseURL: "https://uax-tests-default-rtdb.firebaseio.com",
+      storageBucket: "uax-tests.firebasestorage.app",
+      messagingSenderId: "42201199894",
+      appId: "1:42201199894:web:906ceb1a9ae9a5e58cfdb7",
+      measurementId: "G-06KL27WT6W"
+    };
+
+    const DEFAULT_ADMIN_EMAIL = "anabchic87@hotmail.com";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const rtdb = getDatabase(app);
+
+    let connectedUsersStop = null;
+    let currentAdmin = null;
+
+    const guardScreen = document.getElementById("guardScreen");
+    const dashboardApp = document.getElementById("dashboardApp");
+    const guardText = document.getElementById("guardText");
+    const msgBox = document.getElementById("msgBox");
+
+    function showMessage(text, type="ok"){
+      msgBox.className = "message " + type;
+      msgBox.textContent = text;
+    }
+
+    function hideMessage(){
+      msgBox.className = "message";
+      msgBox.textContent = "";
+    }
+
+    function emailKey(email){
+      return String(email || "").trim().toLowerCase().replace(/[.#$/[\]]/g, "_");
+    }
+
+    function escapeHtml(value){
+      return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    function getBadgeClass(score){
+      if (score >= 8) return "ok";
+      if (score >= 5) return "mid";
+      return "bad";
+    }
+
+    function getStatusLabel(score){
+      if (score >= 8) return "Excelente";
+      if (score >= 5) return "Bien";
+      return "Refuerzo";
+    }
+
+    function formatRelativeTime(raw){
+      if (!raw) return "Sin actividad";
+      if (typeof raw === "object" && typeof raw.seconds === "number") {
+        raw = raw.seconds * 1000;
+      }
+      const time = Number(raw);
+      if (!Number.isFinite(time)) return "Hace un momento";
+      const diff = Math.max(0, Date.now() - time);
+      const sec = Math.floor(diff / 1000);
+      if (sec < 60) return `Activo hace ${sec}s`;
+      const min = Math.floor(sec / 60);
+      if (min < 60) return `Activo hace ${min} min`;
+      const hrs = Math.floor(min / 60);
+      if (hrs < 24) return `Activo hace ${hrs} h`;
+      const days = Math.floor(hrs / 24);
+      return `Activo hace ${days} día${days === 1 ? "" : "s"}`;
+    }
+
+    async function asegurarAdminBase(){
+      await setDoc(doc(db, "usuarios_autorizados", emailKey(DEFAULT_ADMIN_EMAIL)), {
+        email: DEFAULT_ADMIN_EMAIL.toLowerCase(),
+        role: "admin",
+        activo: true
+      }, { merge: true });
+    }
+
+    async function getAccessData(email){
+      if (!email) return null;
+      const snap = await getDoc(doc(db, "usuarios_autorizados", emailKey(email)));
+      return snap.exists() ? snap.data() : null;
+    }
+
+    function openDashboard(user){
+      currentAdmin = user;
+      guardScreen.style.display = "none";
+      dashboardApp.style.display = "block";
+      document.getElementById("adminEmailShort").textContent = "OK";
+      document.getElementById("adminEmailMeta").textContent = user.email || "Administrador";
+      hideMessage();
+    }
+
+    async function renderAuthorizedList(){
+      const box = document.getElementById("authorizedTable");
+      box.innerHTML = `
+        <div class="table-row table-head">
+          <div>Correo</div>
+          <div>Rol</div>
+          <div>Acción</div>
+        </div>
+      `;
+      const snap = await getDocs(collection(db, "usuarios_autorizados"));
+      const items = [];
+      snap.forEach(docSnap => items.push(docSnap.data()));
+      items.sort((a,b) => (a.email || "").localeCompare(b.email || ""));
+      document.getElementById("authorizedCount").textContent = items.length;
+
+      if (!items.length){
+        box.innerHTML += `<div class="table-row"><div>No hay correos autorizados</div><div>--</div><div>--</div></div>`;
+        return;
+      }
+
+      box.innerHTML += items.map(item => `
+        <div class="table-row">
+          <div>${escapeHtml(item.email || "")}</div>
+          <div><span class="role-pill">${escapeHtml(item.role || "alumno")}</span></div>
+          <div>
+            ${String(item.email || "").toLowerCase() === DEFAULT_ADMIN_EMAIL.toLowerCase()
+              ? '<span class="role-pill">protegido</span>'
+              : `<button class="btn btn-danger" data-remove="${escapeHtml(item.email || "")}">Quitar</button>`}
+          </div>
+        </div>
+      `).join("");
+
+      box.querySelectorAll("[data-remove]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const email = btn.getAttribute("data-remove");
+          try {
+            await deleteDoc(doc(db, "usuarios_autorizados", emailKey(email)));
+            showMessage(`Acceso eliminado: ${email}`, "ok");
+            await renderAuthorizedList();
+          } catch (error) {
+            showMessage("No se ha podido quitar el acceso.", "bad");
+          }
+        });
+      });
+    }
+
+    async function addAuthorized(){
+      const email = document.getElementById("nuevoCorreo").value.trim().toLowerCase();
+      const role = (document.getElementById("nuevoRol").value.trim().toLowerCase() || "alumno");
+
+      if (!email){
+        showMessage("Escribe un correo válido.", "bad");
+        return;
+      }
+
+      try {
+        await setDoc(doc(db, "usuarios_autorizados", emailKey(email)), {
+          email, role, activo: true
+        }, { merge: true });
+
+        document.getElementById("nuevoCorreo").value = "";
+        document.getElementById("nuevoRol").value = "alumno";
+        showMessage(`Acceso concedido a ${email}`, "ok");
+        await renderAuthorizedList();
+      } catch (error) {
+        showMessage("No se ha podido añadir el acceso.", "bad");
+      }
+    }
+
+    async function cargarResultadosDashboard(){
+      const rankingBody = document.getElementById("rankingBody");
+      const recentResultsList = document.getElementById("recentResultsList");
+
+      const snap = await getDocs(collection(db, "usuarios"));
+      const usersData = [];
+      const recent = [];
+      let totalScores = 0;
+      let totalEntries = 0;
+      let bestEntry = null;
+      let worstEntry = null;
+
+      snap.forEach(docSnap => {
+        const data = docSnap.data() || {};
+        const email = data.email || "Sin correo";
+        const entries = Object.entries(data).filter(([key, value]) =>
+          !["uid","email","updatedAt"].includes(key) && typeof value === "number"
+        );
+
+        if (!entries.length) return;
+
+        const scores = entries.map(([, value]) => Number(value)).filter(v => !Number.isNaN(v));
+        if (!scores.length) return;
+
+        const avg = scores.reduce((a,b) => a + b, 0) / scores.length;
+        usersData.push({ email, avg, tests: scores.length });
+
+        entries.forEach(([exam, value]) => {
+          const score = Number(value);
+          recent.push({
+            email,
+            exam,
+            score,
+            updatedAt: data.updatedAt || ""
+          });
+          totalScores += score;
+          totalEntries += 1;
+
+          if (!bestEntry || score > bestEntry.score) bestEntry = { email, exam, score };
+          if (!worstEntry || score < worstEntry.score) worstEntry = { email, exam, score };
+        });
+      });
+
+      usersData.sort((a,b) => b.avg - a.avg);
+      recent.sort((a,b) => b.score - a.score);
+
+      document.getElementById("resultsCount").textContent = totalEntries;
+      document.getElementById("globalAverage").textContent = totalEntries ? (totalScores / totalEntries).toFixed(1) : "0.0";
+
+      document.getElementById("bestScoreValue").textContent = bestEntry ? bestEntry.score.toFixed(2) : "--";
+      document.getElementById("bestScoreMeta").textContent = bestEntry ? `${bestEntry.email} · ${bestEntry.exam.replaceAll("_"," ")}` : "Aún sin datos";
+      document.getElementById("worstScoreValue").textContent = worstEntry ? worstEntry.score.toFixed(2) : "--";
+      document.getElementById("worstScoreMeta").textContent = worstEntry ? `${worstEntry.email} · ${worstEntry.exam.replaceAll("_"," ")}` : "Aún sin datos";
+
+      if (!usersData.length){
+        rankingBody.innerHTML = `
+          <tr>
+            <td>Sin datos todavía</td>
+            <td>--</td>
+            <td>--</td>
+            <td><div class="progress"><div class="bar" style="width:0%"></div></div></td>
+            <td><span class="badge neutral">Esperando</span></td>
+          </tr>
+        `;
+      } else {
+        rankingBody.innerHTML = usersData.map(user => {
+          const pct = Math.max(0, Math.min(100, user.avg * 10));
+          return `
+            <tr>
+              <td>${escapeHtml(user.email)}</td>
+              <td>${user.avg.toFixed(2)}</td>
+              <td>${user.tests}</td>
+              <td><div class="progress"><div class="bar" style="width:${pct}%"></div></div></td>
+              <td><span class="badge ${getBadgeClass(user.avg)}">${getStatusLabel(user.avg)}</span></td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      if (!recent.length){
+        recentResultsList.innerHTML = `
+          <div class="result-item">
+            <div class="result-main">
+              <strong>Aún no hay resultados</strong>
+              <span>Se mostrarán aquí cuando haya notas guardadas</span>
+            </div>
+            <span class="badge neutral">--</span>
+          </div>
+        `;
+      } else {
+        recentResultsList.innerHTML = recent.slice(0, 8).map(item => `
+          <div class="result-item">
+            <div class="result-main">
+              <strong>${escapeHtml(item.email)} · ${escapeHtml(item.exam.replaceAll("_"," "))}</strong>
+              <span>Resultado guardado en Firestore</span>
+            </div>
+            <span class="badge ${getBadgeClass(item.score)}">${item.score.toFixed(2)}</span>
+          </div>
+        `).join("");
+      }
+    }
+
+    function escucharConectados(){
+      if (connectedUsersStop) {
+        connectedUsersStop();
+        connectedUsersStop = null;
+      }
+
+      const list = document.getElementById("connectedUsersList");
+      const presenceRoot = ref(rtdb, "presence");
+
+      connectedUsersStop = onValue(presenceRoot, (snapshot) => {
+        const data = snapshot.val() || {};
+        const users = Object.values(data)
+          .filter(item => item && item.online)
+          .sort((a, b) => (a.email || "").localeCompare(b.email || ""));
+
+        document.getElementById("connectedCount").textContent = users.length;
+        document.getElementById("lastAccessValue").textContent = users.length ? "Ahora" : "--";
+
+        if (!users.length){
+          list.innerHTML = `
+            <div class="user-item">
+              <div class="user-main">
+                <strong>No hay usuarios conectados ahora mismo</strong>
+                <span>El panel se actualizará automáticamente</span>
+              </div>
+              <span class="badge neutral">VACÍO</span>
+            </div>
+          `;
+          return;
+        }
+
+        list.innerHTML = users.map(item => `
+          <div class="user-item">
+            <div class="user-main">
+              <strong>${escapeHtml(item.email || "Sin correo")}</strong>
+              <span>${escapeHtml(item.role || "alumno")} · ${escapeHtml(formatRelativeTime(item.lastChanged))}</span>
+            </div>
+            <span class="badge ${item.role === "admin" ? "neutral" : "ok"}">${item.role === "admin" ? "ADMIN" : "ONLINE"}</span>
+          </div>
+        `).join("");
+      }, () => {
+        list.innerHTML = `
+          <div class="user-item">
+            <div class="user-main">
+              <strong>Error cargando conectados</strong>
+              <span>Revisa Realtime Database y la databaseURL</span>
+            </div>
+            <span class="badge bad">ERROR</span>
+          </div>
+        `;
+      });
+    }
+
+    async function refreshAll(){
+      await renderAuthorizedList();
+      await cargarResultadosDashboard();
+      escucharConectados();
+      hideMessage();
+    }
+
+    document.getElementById("addAccessBtn").addEventListener("click", addAuthorized);
+    document.getElementById("refreshBtn").addEventListener("click", refreshAll);
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        await asegurarAdminBase();
+
+        if (!user){
+          guardText.textContent = "No hay sesión iniciada. Te devolvemos al index principal.";
+          setTimeout(() => window.location.href = "index.html", 1200);
+          return;
+        }
+
+        const access = await getAccessData(user.email);
+        if (!access || access.activo === false || access.role !== "admin"){
+          guardText.textContent = "Tu cuenta no tiene rol de admin. Te devolvemos al index principal.";
+          setTimeout(() => window.location.href = "index.html", 1400);
+          return;
+        }
+
+        openDashboard(user);
+        await refreshAll();
+      } catch (error) {
+        guardText.textContent = "Ha ocurrido un error comprobando el acceso. Vuelve al index.";
+      }
+    });
+  </script>
+</body>
+</html>
