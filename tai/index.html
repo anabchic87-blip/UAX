@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAI · Plataforma</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=p_AN0Z39rLbGchWkLSh8GSfriOOiGGkREj7kTBkx-aDNt5Zwe7zUaucMqOirEuuLcdLY9PpPRWoCuoXeu95Y4oKEHZyyUKdXo11Qh-4cFrr24f-PsOQPzZaQn7mQ5Lufff_QoFi6X0KNlup0ynjLFW-jTKg2jIj-RUpiSZDD9bnRl8NjX6bPrKxqYoL9fKnf6_OR-iK3p4cobJg8RvSzS7AscNGoS_w9RFZJgkEndo-USJviP7yO6dgYFwc8BZfqgDFrjGUgpKkw7hfvB6ThZA" charset="UTF-8"></script><style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#f8efe6 0%, #fdf6ef 50%, #fde7d4 100%);
+}
+.pro-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+  padding:14px 16px;
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(255,159,67,0.16);
+  border-radius:18px;
+  box-shadow:0 10px 24px rgba(0,0,0,0.05);
+}
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  color:#7c2d12;
+  font-weight:700;
+  font-size:14px;
+}
+.breadcrumb span{
+  color:#9a6a4f;
+}
+.pro-nav-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px 70px;
+}
+.back{
+  margin-bottom:20px;
+}
+.back a{
+  text-decoration:none;
+  color:#7c2d12;
+  font-weight:700;
+}
+.header{
+  text-align:center;
+  margin-bottom:35px;
+}
+.header h1{
+  font-size:38px;
+  color:#7c2d12;
+  margin:0 0 10px;
+}
+.header p{
+  color:#9a6a4f;
+  margin:0;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+.card{
+  background:rgba(255,255,255,0.96);
+  border-radius:20px;
+  padding:20px;
+  border:1px solid rgba(255,159,67,0.10);
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  transition:all 0.25s ease;
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 0.6s ease forwards;
+}
+.card:nth-child(1){animation-delay:.03s;}
+.card:nth-child(2){animation-delay:.07s;}
+.card:nth-child(3){animation-delay:.11s;}
+.card:nth-child(4){animation-delay:.15s;}
+.card:nth-child(5){animation-delay:.19s;}
+.card:nth-child(6){animation-delay:.23s;}
+.card:nth-child(7){animation-delay:.27s;}
+.card:nth-child(8){animation-delay:.31s;}
+.card:hover{
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 18px 35px rgba(0,0,0,0.12);
+  border:1px solid #ff9f43;
+}
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.icon-box{
+  font-size:26px;
+}
+.tag{
+  background:#fff4ea;
+  padding:5px 10px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:700;
+  color:#c2410c;
+  border:1px solid rgba(255,122,24,0.10);
+}
+.card h3{
+  margin:10px 0;
+  color:#3d220f;
+}
+.card p{
+  color:#734f39;
+  line-height:1.5;
+}
+.actions{
+  margin-top:16px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-block;
+  padding:10px 15px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:700;
+  transition:all 0.2s ease;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#ff7a18,#ff9f43);
+  color:white;
+  box-shadow:0 8px 18px rgba(255,122,24,0.18);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(255,122,24,0.4);
+}
+.btn-primary:active{
+  transform:scale(0.96);
+}
+.btn-secondary{
+  background:#f1f5f9;
+  color:#334155;
+  box-shadow:0 6px 14px rgba(0,0,0,0.04);
+}
+.btn-secondary:hover{
+  transform:translateY(-2px);
+}
+.floating-home{
+  position:fixed;
+  left:22px;
+  bottom:22px;
+  z-index:999;
+  box-shadow:0 14px 28px rgba(0,0,0,0.16);
+}
+@media (max-width:700px){
+  .btn{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="pro-nav">
+    <div class="breadcrumb">
+      <a href="../index.html" class="btn btn-secondary">🏠 Panel principal</a>
+      <span>›</span>
+      <span>TAI</span>
+    </div>
+    <div class="pro-nav-actions">
+      <a href="../index.html" class="btn btn-secondary">⬅ Volver</a>
+      <a href="#top-exams" class="btn btn-primary">🚀 Ir a tests</a>
+    </div>
+  </div>
+
+  <div class="header">
+    <h1>📝 Plataforma TAI</h1>
+    <p>Acceso rápido a simulacros y packs de temas con estilo app</p>
+  </div>
+
+  <div class="grid" id="top-exams">
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">📚</div>
+        <div class="tag">GLOBAL</div>
+      </div>
+      <h3>Pack de temas I</h3>
+      <p>Pack de temas relacionado con diferentes bloques y contenidos.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_test_completo_pestanas_bloqueo_tiempo_global.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">🧩</div>
+        <div class="tag">6T</div>
+      </div>
+      <h3>Pack de temas II</h3>
+      <p>SQL, Java, algoritmos y más.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_nuevos_6_temas_pestanas_bloqueo.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">🚀</div>
+        <div class="tag">7T</div>
+      </div>
+      <h3>Pack de temas III</h3>
+      <p>Correo, VPN, HTTP, Windows…</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_7_temas_nuevos_final.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">💡</div>
+        <div class="tag">PACK</div>
+      </div>
+      <h3>Pack temas IV</h3>
+      <p>Virtualización, redes, microservicios…</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_temas_nuevos_pack_final.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">💥</div>
+        <div class="tag">TOP</div>
+      </div>
+      <h3>Pack temas V</h3>
+      <p>eIDAS, ENS, NoSQL, SSOO…</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_pack_nuevos_temas_2_final.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">📝</div>
+        <div class="tag">FINAL</div>
+      </div>
+      <h3>Examen real 2025 TAI</h3>
+      <p>Simulacro real tipo oposición con temporizador.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_final_completo.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">🎯</div>
+        <div class="tag">80Q</div>
+      </div>
+      <h3>Test de Constitución</h3>
+      <p>Modo oposición por bloques.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_oposicion_2026_80_aleatorias_bloques.html">Abrir</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <div class="icon-box">⚡</div>
+        <div class="tag">LIVE</div>
+      </div>
+      <h3>Test de Constitución 2</h3>
+      <p>Corrección al instante al marcar.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tai_oposicion_2026_feedback_inmediato.html">Abrir</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+  <a class="btn btn-secondary floating-home" href="../index.html">🏠 Inicio</a>
+</body>
+</html>
