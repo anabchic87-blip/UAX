@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAI · 7 temas nuevos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=UBZo8Wc5SVg0siiYklYRk_uNPDumHD2_MthsE0irHEzn3JhxjN5INUERjU7UgFJpcPvVBi3v3aHCLrRSWPZpIwZ4pNRmsM9knSfA6gF1JncWPdL3DApW7Vt6-AFHMGN9TvWc4J7XFpYuIozbw9aytn8IES9qi7pJJL58hsobN_Yb8MEEjdva61D3B2tx9z0KqYTUt47OrksJ5ozHPRECo26hQ0AJY33zTVmC6NnTJSXAUDK73MsqGr27o0ucs1G4sV85xyP9zbw9KGMlbdH0CQ" charset="UTF-8"></script><style>
+    :root {
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'Poppins',sans-serif; background:linear-gradient(135deg,var(--bg1),var(--bg2)); color:var(--text); }
+    .wrap { max-width:1200px; margin:0 auto; padding:22px 16px 60px; }
+    .hero,.tabs-panel,.question,.result-box {
+      background:rgba(255,255,255,.95); border:1px solid var(--border); box-shadow:var(--shadow); border-radius:24px;
+    }
+    .hero { padding:24px; margin-bottom:18px; }
+    .eyebrow {
+      display:inline-flex; align-items:center; gap:8px; background:#fff3e8; border:1px solid var(--border);
+      border-radius:999px; padding:8px 14px; color:#a54800; font-size:13px; font-weight:800; margin-bottom:14px;
+    }
+    h1 { margin:0 0 10px; color:var(--title); font-size:clamp(28px,4vw,42px); }
+    .hero p { margin:0; color:var(--soft); line-height:1.65; }
+    .notice {
+      margin-top:14px; padding:14px 16px; border-radius:16px; font-weight:700; line-height:1.6;
+      background:#fef3c7; color:#a16207; border:1px solid #f59e0b;
+    }
+    .tabs-panel { padding:18px; }
+    .tab-bar { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+    .tab-btn {
+      border:none; cursor:pointer; border-radius:14px; padding:12px 16px; font-weight:700; font-size:14px;
+      background:#fff8f3; color:#a54800; border:1px solid var(--border);
+    }
+    .tab-btn.active {
+      background:linear-gradient(135deg,var(--orange),var(--orange2)); color:#fff; box-shadow:0 10px 20px rgba(255,122,0,.23);
+    }
+    .toolbar {
+      display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; margin-bottom:14px;
+      background:#fff9f5; border:1px solid var(--border); border-radius:18px; padding:14px;
+    }
+    .counter { display:flex; gap:10px; flex-wrap:wrap; }
+    .counter-card {
+      background:#fff; border:1px solid var(--border); border-radius:14px; padding:10px 14px; min-width:130px; text-align:center;
+    }
+    .counter-card strong { display:block; font-size:22px; color:var(--title); }
+    .counter-card span { color:var(--soft); font-size:12px; font-weight:700; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .btn {
+      border:none; border-radius:14px; padding:12px 16px; font-size:14px; font-weight:700; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .btn-primary { background:linear-gradient(135deg,var(--orange),var(--orange2)); color:#fff; box-shadow:0 10px 20px rgba(255,122,0,.23); }
+    .btn-secondary { background:#fff8f3; color:#a54800; border:1px solid var(--border); }
+    .questions { display:grid; gap:16px; }
+    .question { padding:18px; }
+    .qhead { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; }
+    .badge {
+      min-width:48px; height:48px; border-radius:14px; background:#fff4ea; color:#c2410c;
+      display:grid; place-items:center; font-weight:900; flex-shrink:0;
+    }
+    .qtitle { margin:0; color:#3d220f; font-size:18px; line-height:1.45; }
+    .options { display:grid; gap:10px; }
+    .opt {
+      display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border:1px solid #f1e2d4; border-radius:16px; background:#fff;
+    }
+    .opt.correct { border-color:#16a34a; background:#ecfdf5; }
+    .opt.wrong { border-color:#dc2626; background:#fef2f2; }
+    .opt.locked { opacity:.96; }
+    .opt input { margin-top:4px; }
+    .lock-badge {
+      display:inline-block; margin-top:10px; padding:7px 10px; border-radius:999px; background:#fff4ea;
+      border:1px solid var(--border); color:#a54800; font-size:12px; font-weight:800;
+    }
+    .feedback-note {
+      font-size:12px; color:#8b5e3c; margin-top:8px; display:none; line-height:1.5; font-weight:700;
+    }
+    .feedback-note.show { display:block; }
+    .desc { color:var(--soft); line-height:1.6; margin:6px 0 0; }
+    .result-box { margin-top:18px; padding:20px; }
+    .result-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-top:16px; }
+    .result-card { background:#fff9f5; border:1px solid var(--border); border-radius:16px; padding:12px 16px; text-align:center; }
+    .result-card strong { display:block; font-size:22px; color:var(--title); }
+    .result-card span { font-size:13px; color:var(--soft); font-weight:700; }
+    .result-banner { margin-top:16px; padding:14px 16px; border-radius:16px; font-weight:800; display:none; }
+    .result-banner.show { display:block; }
+    .result-banner.ok { background:var(--okbg); color:var(--ok); border:1px solid #86efac; }
+    .result-banner.bad { background:var(--badbg); color:var(--bad); border:1px solid #fca5a5; }
+    @media (max-width:700px) {
+      .toolbar { flex-direction:column; align-items:stretch; }
+      .actions .btn { width:100%; }
+      .counter-card { flex:1 1 120px; }
+      .qhead { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">📝 TAI · 7 temas nuevos</div>
+      <h1>Correo + Windows + UML + Admin Sistemas + HTTP/HTTPS + VPN + Cliente/Servidor</h1>
+      <p>Mismo sistema que el anterior: pestañas por tema, mix final, bloqueo al marcar, corrección debajo, temporizador total y nota global.</p>
+      <div class="notice">🔒 En cuanto señales una respuesta, se bloquea y ya no puedes cambiarla.</div>
+    </section>
+
+    <section class="tabs-panel">
+      <div class="tab-bar" id="tabBar"></div>
+      <div class="toolbar">
+        <div>
+          <strong id="tabTitle" style="color:var(--title); font-size:22px;">Tema</strong>
+          <p class="desc" id="tabDescription"></p>
+        </div>
+        <div class="counter">
+          <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+          <div class="counter-card"><strong id="blankCount">0</strong><span>En blanco</span></div>
+          <div class="counter-card"><strong id="totalCount">0</strong><span>Total</span></div>
+          <div class="counter-card"><strong id="timerText">00:00:00</strong><span>Tiempo total</span></div>
+          <div class="counter-card"><strong id="globalAvg">0.00</strong><span>Nota global</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="finishBtn" type="button">✅ Corregir pestaña</button>
+          <button class="btn btn-secondary" id="resetBtn" type="button">↺ Reiniciar pestaña</button>
+          <button class="btn btn-secondary" id="resetAllBtn" type="button">🗑 Reiniciar todo</button>
+        </div>
+      </div>
+
+      <section class="questions" id="questions"></section>
+
+      <section class="result-box" id="resultBox">
+        <h2 style="margin:0; color:var(--title);">Resultado de la pestaña</h2>
+        <p class="desc" id="resultText">Al marcar una respuesta se bloquea, te dice si has acertado o fallado y la corrección queda debajo de cada pregunta.</p>
+        <div class="result-grid">
+          <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+          <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+          <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+          <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+          <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+        </div>
+        <div class="result-banner" id="resultBanner"></div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const TOPICS = {"correo_dns": {"label": "Correo + DNS", "description": "20 preguntas sobre arquitectura de correo, RFC 822, MIME, POP3, IMAP, SMTP y securización del correo.", "questions": [{"q": "¿Qué componente actúa como cliente de correo en la arquitectura mostrada?", "options": ["MTA", "MDA", "MUA", "MAA"], "correct": 2}, {"q": "¿Qué protocolo se usa para el envío de correo entre clientes/servidores?", "options": ["POP3", "IMAP", "SMTP", "LDAP"], "correct": 2}, {"q": "¿Qué consulta realiza el MTA/MSA al DNS para localizar el servidor destino?", "options": ["Registro A", "Registro PTR", "Registro MX", "Registro TXT"], "correct": 2}, {"q": "RFC 822 describe principalmente el formato del:", "options": ["DNS", "mensaje de correo", "handshake TLS", "registro MX"], "correct": 1}, {"q": "En RFC 822, el cuerpo del mensaje se separa de las cabeceras mediante:", "options": ["LF", "CRLF y línea en blanco", "solo ;", "tabulación"], "correct": 1}, {"q": "¿Cuál de estas cabeceras aparece en el tema?", "options": ["Route:", "Subject:", "Server:", "Host:"], "correct": 1}, {"q": "La extensión MIME añade, entre otros, el campo:", "options": ["Content-Type", "TTL", "Record-Type", "Port"], "correct": 0}, {"q": "¿Qué Content-Transfer-Encoding se cita para adjuntos binarios?", "options": ["ASCII", "quoted-ip", "Base64", "hex-xml"], "correct": 2}, {"q": "POP3 está orientado a:", "options": ["carpetas en servidor", "descarga de mensajes", "envío autenticado", "resolución DNS"], "correct": 1}, {"q": "El puerto seguro de POP3 indicado es:", "options": ["110", "143", "465", "995"], "correct": 3}, {"q": "IMAP está orientado a:", "options": ["descarga y borrado local", "carpetas en servidor", "relay SMTP", "firmas DKIM"], "correct": 1}, {"q": "El puerto seguro de IMAP indicado es:", "options": ["110", "143", "587", "993"], "correct": 3}, {"q": "¿Qué comando IMAP borra definitivamente mensajes marcados como \\Deleted?", "options": ["FETCH", "STATUS", "EXPUNGE", "STORE"], "correct": 2}, {"q": "En SMTP clásico para relay se cita el puerto:", "options": ["25", "110", "143", "2525"], "correct": 0}, {"q": "Según el tema, el puerto 587 se usa con:", "options": ["POP3 sin seguridad", "TLS explícito", "TLS implícito obsoleto", "solo IMAP"], "correct": 1}, {"q": "STARTTLS en ESMTP se describe como TLS:", "options": ["implícito", "oportunista", "obligatorio por hardware", "binario"], "correct": 1}, {"q": "SPF sirve para:", "options": ["firmar digitalmente el cuerpo", "indicar qué MTAs están autorizados a enviar por tu dominio", "cifrar adjuntos PDF", "resolver consultas MX"], "correct": 1}, {"q": "DKIM añade al correo:", "options": ["una compresión ZIP", "una firma digital", "una cabecera POP3", "un registro PTR"], "correct": 1}, {"q": "DMARC complementa a:", "options": ["POP3 e IMAP", "SPF y DKIM", "SMTP y MIME", "ARC y TLSA"], "correct": 1}, {"q": "DANE usa registros protegidos por DNSSEC de tipo:", "options": ["MX", "SOA", "TLSA", "CNAME"], "correct": 2}]}, "windows_moviles": {"label": "Windows y móviles", "description": "20 preguntas sobre versiones, arquitectura NT, Active Directory, GPO, SAM, firewall y arranque.", "questions": [{"q": "¿Qué interfaz gráfica se asocia a Windows XP?", "options": ["Aero", "Luna", "Fluent Design", "Metro"], "correct": 1}, {"q": "¿Qué interfaz se asocia a Vista y Windows 7?", "options": ["Luna", "Aero", "Continuum", "WinUI 3"], "correct": 1}, {"q": "Windows 10 incorpora, según el tema:", "options": ["solo IIS", "Edge, Cortana y WSL", "solo Hyper-V", "solo MMC"], "correct": 1}, {"q": "La arquitectura NT incluye una capa HAL que significa:", "options": ["High Access Layer", "Hardware Abstraction Layer", "Host Application Link", "Hybrid Admin Layer"], "correct": 1}, {"q": "¿Cuál de estos es un rol típico de Windows Server?", "options": ["Hyper-V", "JAX-WS", "Postfix", "Squid"], "correct": 0}, {"q": "Server Core y Nano Server se caracterizan por:", "options": ["tener más interfaz gráfica", "ser tipo Linux, con menos funcionalidades", "ser exclusivos de móviles", "no soportar nube"], "correct": 1}, {"q": "Active Directory se resume en el tema como:", "options": ["DNS + IIS", "DC + SAM", "MMC + LDAP", "NTFS + SID"], "correct": 1}, {"q": "Active Directory usa autenticación:", "options": ["CHAP", "Kerberos", "PAP", "OAuth"], "correct": 1}, {"q": "Un Security Principal en AD puede ser:", "options": ["solo impresora", "usuario, grupo o PC", "solo OU", "solo dominio"], "correct": 1}, {"q": "A los Security Principal se les asigna un:", "options": ["UUID opcional", "SID único", "WWN", "GUID de BIOS"], "correct": 1}, {"q": "Una Unidad Organizativa (OU) sirve para:", "options": ["particionar discos", "organizar objetos jerárquicamente y aplicar políticas", "hacer NAT", "gestionar solo DNS"], "correct": 1}, {"q": "El controlador de dominio (DC) asume el rol de:", "options": ["cliente POP3", "servidor con base de datos, SAM y autenticación centralizada", "firewall físico", "servidor SMTP saliente"], "correct": 1}, {"q": "¿Cuál de estos niveles pertenece a la estructura de AD?", "options": ["Bosque", "LUN", "Heap", "RAID"], "correct": 0}, {"q": "Una relación de confianza entre dominios permite:", "options": ["replicar discos", "acceder a recursos del otro dominio", "hacer boot PXE", "montar una VPN IPSec"], "correct": 1}, {"q": "Las GPO pueden vincularse a nivel de:", "options": ["solo dominio", "dominio, sitio u OU", "solo OU", "solo equipo local"], "correct": 1}, {"q": "¿Qué herramienta consulta el resultado del procesamiento de directivas?", "options": ["gpupdate", "gpresult", "regedit", "mmc"], "correct": 1}, {"q": "¿Qué comando fuerza la actualización de directivas?", "options": ["gpedit /force", "gpupdate /force", "gpmc /r", "gpresult /force"], "correct": 1}, {"q": "El fichero de la SAM está en:", "options": ["%SystemRoot%/system32/Config/SAM", "C:/bootmgr", "HKCU/Software/SAM", "/etc/shadow"], "correct": 0}, {"q": "BitLocker se describe como cifrado de:", "options": ["ficheros individuales", "volúmenes", "solo contraseñas SAM", "tráfico HTTP"], "correct": 1}, {"q": "Desde Vista, el nuevo gestor de arranque es:", "options": ["NTLDR", "bootmgr", "grub", "syslinux"], "correct": 1}]}, "uml_poo": {"label": "UML y POO", "description": "20 preguntas sobre UML, mecanismos de extensión, POO y diagramas.", "questions": [{"q": "UML significa:", "options": ["Universal Method Language", "Unified Modeling Language", "Unified Markup Logic", "User Modeling Language"], "correct": 1}, {"q": "UML es un estándar de:", "options": ["W3C", "OMG / ISO-IEC 19505", "ECMA", "OASIS"], "correct": 1}, {"q": "La superestructura de UML define:", "options": ["solo el metamodelo", "notación y semántica de los diagramas", "el compilador UML", "la máquina virtual"], "correct": 1}, {"q": "La infraestructura de UML es el:", "options": ["repositorio XML", "metamodelo de soporte", "driver gráfico", "árbol de despliegue"], "correct": 1}, {"q": "OCL se usa para:", "options": ["cifrar diagramas", "definir restricciones y reglas", "compilar Java", "gestionar versiones"], "correct": 1}, {"q": "XMI en UML se asocia con:", "options": ["intercambio entre herramientas", "control de acceso", "diagramas de tiempos", "base de datos"], "correct": 0}, {"q": "Un estereotipo UML permite:", "options": ["añadir semántica a un elemento", "cambiar el color del diagrama", "cifrar mensajes SOAP", "crear un árbol B+"], "correct": 0}, {"q": "Un perfil UML es:", "options": ["solo un diagrama de clases", "un conjunto de estereotipos y restricciones de un tema", "una instancia de objeto", "una tabla hash"], "correct": 1}, {"q": "En POO, una clase define:", "options": ["solo datos", "estructura y comportamiento de una entidad", "solo mensajes", "solo herencia"], "correct": 1}, {"q": "Un objeto tiene:", "options": ["solo identidad", "identidad y estado", "solo estado", "solo atributos estáticos"], "correct": 1}, {"q": "Sobrecarga significa:", "options": ["mismo método con distinto número y/o tipo de parámetros", "heredar de varias clases", "ocultar atributos con private", "invocar métodos remotos"], "correct": 0}, {"q": "La abstracción consiste en:", "options": ["compilar más rápido", "capturar los detalles de negocio a modelar", "evitar el uso de clases", "forzar acoplamiento"], "correct": 1}, {"q": "El encapsulamiento busca:", "options": ["aumentar acoplamiento", "ocultar detalles internos y reducir acoplamiento", "solo usar atributos públicos", "reemplazar herencia"], "correct": 1}, {"q": "El polimorfismo permite que:", "options": ["objetos de distintas clases se hagan pasar por el mismo tipo", "solo exista una clase", "se elimine late binding", "no haya mensajes"], "correct": 0}, {"q": "¿Cómo sabe el sistema a qué objeto enviar el mensaje, según la nota?", "options": ["enlace estático", "ligadura dinámica o late binding", "hashing", "pila LIFO"], "correct": 1}, {"q": "La herencia es la capacidad de:", "options": ["definir unas clases en términos de otras", "evitar relaciones entre clases", "crear solo interfaces", "reducir un árbol a lista"], "correct": 0}, {"q": "Los diagramas UML se agrupan en:", "options": ["físicos y lógicos", "estructura y comportamiento", "clase y objeto", "SOAP y REST"], "correct": 1}, {"q": "Una agregación en el diagrama de clases representa:", "options": ["contención lógica", "contención física", "una dependencia temporal", "un deployment"], "correct": 0}, {"q": "Una composición en el diagrama de clases representa:", "options": ["contención lógica", "contención física, todo/parte", "solo una referencia débil", "un actor de caso de uso"], "correct": 1}, {"q": "El diagrama de despliegue representa:", "options": ["la arquitectura física donde se distribuyen artefactos", "solo el estado de los objetos", "un heap en memoria", "el catálogo global"], "correct": 0}]}, "admin_sistemas": {"label": "Administración de sistemas", "description": "20 preguntas sobre IaC, gestión de configuración, LVM, SAN/NAS/DAS y backups.", "questions": [{"q": "IaC significa:", "options": ["Internet as Code", "Infrastructure as Code", "Internal access control", "Indexed application cache"], "correct": 1}, {"q": "CCA se expande como:", "options": ["Continuous Configuration Automation", "Centralized Cache Access", "Common Control Architecture", "Code Check Automation"], "correct": 0}, {"q": "¿Qué herramienta de configuración se describe como sin agentes y usando SSH?", "options": ["Chef", "Puppet", "Ansible", "SCCM"], "correct": 2}, {"q": "El inventario de nodos de Ansible se cita en:", "options": ["/etc/ssh/hosts", "/etc/ansible/hosts", "/var/ansible/nodes", "/opt/ansible/list"], "correct": 1}, {"q": "Los PlayBooks de Ansible se escriben en:", "options": ["JSON", "XML", "YAML", "CSV"], "correct": 2}, {"q": "¿Cuál de estos comandos crea un volumen lógico?", "options": ["pvcreate", "vgcreate", "lvcreate", "resize2fs"], "correct": 2}, {"q": "PV significa:", "options": ["Physical Volume", "Primary Volume", "Partitioned Volume", "Private Volume"], "correct": 0}, {"q": "VG significa:", "options": ["Volume Group", "Virtual Grid", "Verified Group", "Volume Graph"], "correct": 0}, {"q": "LV significa:", "options": ["Linked Volume", "Logical Volume", "Linear Volume", "Local Variant"], "correct": 1}, {"q": "Según las notas, cada PV se divide en:", "options": ["LE", "PE", "LUN", "SID"], "correct": 1}, {"q": "Cada LV se divide en:", "options": ["PE", "LE", "WWN", "CRC"], "correct": 1}, {"q": "El comando lvdisplay -m muestra:", "options": ["usuarios del sistema", "tabla de mapeo entre PE y LE", "zonas FC", "políticas GPO"], "correct": 1}, {"q": "DAS proporciona acceso modo:", "options": ["fichero", "bloque", "objeto", "mensaje"], "correct": 1}, {"q": "NAS proporciona acceso modo:", "options": ["bloque", "fichero", "bit", "trama FC"], "correct": 1}, {"q": "En SAN, LUN Masking sirve para:", "options": ["definir qué hosts ven determinados LUN", "comprimir backups", "replicar OU", "crear triggers"], "correct": 0}, {"q": "Zoning en SAN se hace a nivel de:", "options": ["cliente POP3", "switch FC", "servidor DNS", "WAF"], "correct": 1}, {"q": "Cada host que accede al switch FC necesita típicamente una:", "options": ["NIC WiFi", "HBA", "GPU", "MMC"], "correct": 1}, {"q": "El identificador único de la HBA se llama:", "options": ["SID", "WWN", "GUID", "OID"], "correct": 1}, {"q": "La estrategia 3-2-1 de backup consiste en:", "options": ["3 discos RAID 1", "3 copias, 2 medios y 1 fuera", "3 incrementales y 2 diferenciales", "3 snapshots locales"], "correct": 1}, {"q": "Para restaurar una copia diferencial se necesita:", "options": ["solo la última diferencial", "última completa y todos los incrementales", "última completa y última diferencial", "solo la copia completa"], "correct": 2}]}, "https_http": {"label": "HTTP / HTTPS", "description": "20 preguntas sobre arquitectura de Internet, HTTP/1.1, headers, códigos, seguridad y HTTP/2 y 3.", "questions": [{"q": "¿Cuál de estos IXP en España se cita en el tema?", "options": ["DE-CIX", "ESPANIX", "LINX", "AMS-IX"], "correct": 1}, {"q": "Todo ISP tiene asignado un número de sistema autónomo por:", "options": ["W3C", "IANA / RIR", "ICANN Root CA", "OASIS"], "correct": 1}, {"q": "HTTP/1.1 se describe como protocolo:", "options": ["con estado", "orientado a carácter y sin estado", "binario y orientado a objetos", "solo UDP"], "correct": 1}, {"q": "El modelo básico de HTTP es:", "options": ["Publish/Subscribe", "Request-Response", "Store-and-Forward", "RPC síncrono con UDP"], "correct": 1}, {"q": "¿Qué método HTTP obtiene solo las cabeceras?", "options": ["GET", "HEAD", "TRACE", "OPTIONS"], "correct": 1}, {"q": "¿Qué método crea o reemplaza un recurso en una URL?", "options": ["POST", "PUT", "TRACE", "CONNECT"], "correct": 1}, {"q": "¿Qué método se usa para modificaciones parciales?", "options": ["PATCH", "HEAD", "DELETE", "OPTIONS"], "correct": 0}, {"q": "¿Cuál de estos métodos se cita como no idempotente?", "options": ["GET", "DELETE", "POST", "PUT"], "correct": 2}, {"q": "El header que identifica al navegador es:", "options": ["Host", "Server", "User-Agent", "Range"], "correct": 2}, {"q": "El header de respuesta usado para redirecciones es:", "options": ["Location", "Set-Cookie", "Server", "Date"], "correct": 0}, {"q": "Set-Cookie es un header de:", "options": ["request", "response", "TLS", "DNS"], "correct": 1}, {"q": "Access-Control-Allow-Origin pertenece a la política de seguridad:", "options": ["HSTS", "CORS", "CSP", "DKIM"], "correct": 1}, {"q": "El código HTTP 201 significa:", "options": ["Accepted", "Created", "Moved Permanently", "Not Found"], "correct": 1}, {"q": "El código 401 indica:", "options": ["no autorizado y requiere autenticación", "prohibido sin posibilidad de login", "recurso no encontrado", "error interno"], "correct": 0}, {"q": "El código 403 indica:", "options": ["el servidor no sabe quién eres", "el usuario no tiene permiso", "petición demasiado grande", "servicio no disponible"], "correct": 1}, {"q": "La autenticación BASIC envía:", "options": ["token JWT firmado", "user:password en Base64", "hash SHA256 del body", "certificado cliente X.509"], "correct": 1}, {"q": "HSTS sirve para:", "options": ["comprimir headers", "forzar canal HTTPS", "permitir iframes externos", "hacer NAT"], "correct": 1}, {"q": "CSP sirve para:", "options": ["definir el AS del ISP", "restringir fuentes de recursos como scripts o imágenes", "redirigir 301", "hacer multiplexación TCP"], "correct": 1}, {"q": "HTTP/2 usa:", "options": ["múltiples conexiones TCP independientes", "una única conexión TCP", "solo UDP", "solo TLS implícito"], "correct": 1}, {"q": "HTTP/2 introduce, entre otras, la característica de:", "options": ["compresión de headers y multiplexación", "SPF y DKIM", "polling y DMA", "LUN masking"], "correct": 0}]}, "vpn": {"label": "VPN y seguridad en redes", "description": "20 preguntas sobre cortafuegos, IDS/IPS, arquitecturas perimetrales y VPN/IPSec.", "questions": [{"q": "El filtrado de paquetes opera en el nivel de:", "options": ["aplicación", "sesión", "red", "presentación"], "correct": 2}, {"q": "Un Circuit-Level Gateway opera en nivel de:", "options": ["enlace", "red", "sesión", "físico"], "correct": 2}, {"q": "Application Level Gateway se conoce también como:", "options": ["proxy", "router", "bridge", "hub"], "correct": 0}, {"q": "Stateful Inspection se ejemplifica con:", "options": ["DNSSEC", "iptables conntrack", "Kerberos", "BPEL"], "correct": 1}, {"q": "¿Cuál de estos elementos forma parte de los Next Generation firewalls?", "options": ["WAF", "BCD", "MFT", "GPO"], "correct": 0}, {"q": "CVE significa:", "options": ["Common Vulnerabilities and Exposures", "Common Verified Encryption", "Central Vulnerability Engine", "Client Validation Extension"], "correct": 0}, {"q": "CWE significa:", "options": ["Common Web Engine", "Common Weakness Enumeration", "Central Wireless Exchange", "Ciphered WAN Endpoint"], "correct": 1}, {"q": "Un NIDS:", "options": ["analiza eventos del host", "captura tráfico de red para detectar intrusiones", "solo bloquea WiFi", "es un catálogo de CVEs"], "correct": 1}, {"q": "¿Cuál de estos productos se cita como NIDS?", "options": ["Tripwire", "Suricata", "OSSEC", "QRadar"], "correct": 1}, {"q": "Un HIDS analiza:", "options": ["eventos que suceden en un equipo", "solo tráfico FC", "solo DNS", "solo paquetes GRE"], "correct": 0}, {"q": "¿Cuál de estos productos se cita como HIDS?", "options": ["OSSEC", "HAProxy", "Varnish", "Mule ESB"], "correct": 0}, {"q": "Los IPS se describen como sistemas:", "options": ["pasivos", "activos", "solo estadísticos", "de backup"], "correct": 1}, {"q": "Un SIEM recopila información de:", "options": ["un solo host", "múltiples orígenes", "solo firewalls físicos", "solo sondas NTP"], "correct": 1}, {"q": "Un honeypot es:", "options": ["un disco espejo", "un sistema separado con vulnerabilidades evidentes para atraer atacantes", "un tipo de VPN sitio a sitio", "un WAF ligero"], "correct": 1}, {"q": "En un Dual-Homed Host está prohibido:", "options": ["el uso de proxy", "el routing", "tener varios interfaces", "el hardening"], "correct": 1}, {"q": "DMZ significa en el tema:", "options": ["red interior desconectada / screened subnet", "DNS Management Zone", "Data Multiplex Zone", "Device Mirror Zone"], "correct": 0}, {"q": "¿Cuál de estos servicios se cita como típico en una DMZ?", "options": ["Servidor de VPN", "Controlador de dominio interno", "SAM local", "LVM"], "correct": 0}, {"q": "Una VPN sirve para:", "options": ["reemplazar RAM", "extender una LAN a través de una red pública", "crear OU", "montar RAID 5"], "correct": 1}, {"q": "Una VPN debe ofrecer autenticación, integridad y:", "options": ["latencia baja", "confidencialidad", "compresión", "slicing"], "correct": 1}, {"q": "¿Qué protocolo de tunneling de nivel de transporte se cita como ejemplo?", "options": ["SSH", "SSL/TLS (OpenVPN)", "PPTP", "MACsec"], "correct": 1}]}, "cliente_servidor": {"label": "Cliente / Servidor", "description": "20 preguntas sobre modelo cliente-servidor, middleware, SOA, ESB, SOAP y servicios web.", "questions": [{"q": "Una característica general del modelo cliente/servidor es:", "options": ["ausencia de concurrencia", "compartición de recursos", "solo escalabilidad horizontal", "prohibición de heterogeneidad"], "correct": 1}, {"q": "El modelo C/S pone especial énfasis en la concurrencia de:", "options": ["sprites", "transacciones", "píxeles", "LUN"], "correct": 1}, {"q": "Separar funciones en más nodos conduce a una arquitectura:", "options": ["monolítica", "n-capas", "P2P puro", "solo hardware"], "correct": 1}, {"q": "Middleware es software que permite:", "options": ["solo gráficos 3D", "comunicación o conectividad entre aplicaciones/componentes distribuidos", "formatear discos", "generar GPO"], "correct": 1}, {"q": "¿Cuál de estos es un tipo de middleware citado?", "options": ["MOM", "NTFS", "LVM", "BCD"], "correct": 0}, {"q": "RPC en middleware significa:", "options": ["Remote Procedure Call", "Random Process Control", "Redundant Proxy Chain", "Rapid Packet Counter"], "correct": 0}, {"q": "ESB se define como:", "options": ["Enterprise Service Bus", "Extended Security Bridge", "External Session Broker", "Embedded Storage Bus"], "correct": 0}, {"q": "SOA favorece la:", "options": ["reutilización de servicios", "dependencia fuerte de ubicación", "gestión local sin metadatos", "eliminación de estándares"], "correct": 0}, {"q": "Un principio SOA es que los servicios sean:", "options": ["siempre con estado", "sin estado en la medida de lo posible", "solo síncronos", "solo Java"], "correct": 1}, {"q": "La transparencia de ubicación de servicios significa:", "options": ["que el consumidor invoca sin importar la ubicación en red", "que todos están en localhost", "que deben ser FTP", "que no usan metadatos"], "correct": 0}, {"q": "El ESB es una pieza fundamental de integración en:", "options": ["DNSSEC", "arquitectura orientada a servicios", "LVM", "árboles B+"], "correct": 1}, {"q": "¿Cuál de estos productos se cita como ejemplo de ESB?", "options": ["Mule ESB", "Suricata", "BitLocker", "Thunderbolt"], "correct": 0}, {"q": "La orquestación de servicios web sigue un modelo:", "options": ["distribuido sin director", "centralizado", "peer to peer puro", "solo asíncrono"], "correct": 1}, {"q": "El lenguaje representativo de la orquestación citado es:", "options": ["WSDL", "BPEL", "OCL", "XPath"], "correct": 1}, {"q": "La coreografía de servicios web se describe como modelo:", "options": ["centralizado", "distribuido", "jerárquico", "monohilo"], "correct": 1}, {"q": "El estándar de referencia citado para coreografía es:", "options": ["WSCI", "JDBC", "JAX-WS", "SOAP-Fault"], "correct": 0}, {"q": "SOAP está basado en:", "options": ["JSON", "XML", "YAML", "CSV"], "correct": 1}, {"q": "WSDL describe:", "options": ["las operaciones del servicio", "el sistema de ficheros", "los permisos DCL", "la tabla hash"], "correct": 0}, {"q": "El estándar de seguridad en SOAP citado es:", "options": ["WS-Security", "SPF", "CSP", "HSTS"], "correct": 0}, {"q": "Cuando falla la ejecución del servicio SOAP se envía un mensaje:", "options": ["<SOAP-Fault>", "<SOAP-ErrorFree>", "HTTP 204 fijo", "DKIM"], "correct": 0}]}};
+    TOPICS.mix = {
+      label: "Mix 30",
+      description: "30 preguntas mezcladas de los 7 temas nuevos.",
+      questions: [{"q": "¿Qué componente actúa como cliente de correo en la arquitectura mostrada?", "options": ["MTA", "MDA", "MUA", "MAA"], "correct": 2}, {"q": "¿Qué protocolo se usa para el envío de correo entre clientes/servidores?", "options": ["POP3", "IMAP", "SMTP", "LDAP"], "correct": 2}, {"q": "¿Qué consulta realiza el MTA/MSA al DNS para localizar el servidor destino?", "options": ["Registro A", "Registro PTR", "Registro MX", "Registro TXT"], "correct": 2}, {"q": "RFC 822 describe principalmente el formato del:", "options": ["DNS", "mensaje de correo", "handshake TLS", "registro MX"], "correct": 1}, {"q": "¿Qué interfaz gráfica se asocia a Windows XP?", "options": ["Aero", "Luna", "Fluent Design", "Metro"], "correct": 1}, {"q": "¿Qué interfaz se asocia a Vista y Windows 7?", "options": ["Luna", "Aero", "Continuum", "WinUI 3"], "correct": 1}, {"q": "Windows 10 incorpora, según el tema:", "options": ["solo IIS", "Edge, Cortana y WSL", "solo Hyper-V", "solo MMC"], "correct": 1}, {"q": "La arquitectura NT incluye una capa HAL que significa:", "options": ["High Access Layer", "Hardware Abstraction Layer", "Host Application Link", "Hybrid Admin Layer"], "correct": 1}, {"q": "UML significa:", "options": ["Universal Method Language", "Unified Modeling Language", "Unified Markup Logic", "User Modeling Language"], "correct": 1}, {"q": "UML es un estándar de:", "options": ["W3C", "OMG / ISO-IEC 19505", "ECMA", "OASIS"], "correct": 1}, {"q": "La superestructura de UML define:", "options": ["solo el metamodelo", "notación y semántica de los diagramas", "el compilador UML", "la máquina virtual"], "correct": 1}, {"q": "La infraestructura de UML es el:", "options": ["repositorio XML", "metamodelo de soporte", "driver gráfico", "árbol de despliegue"], "correct": 1}, {"q": "IaC significa:", "options": ["Internet as Code", "Infrastructure as Code", "Internal access control", "Indexed application cache"], "correct": 1}, {"q": "CCA se expande como:", "options": ["Continuous Configuration Automation", "Centralized Cache Access", "Common Control Architecture", "Code Check Automation"], "correct": 0}, {"q": "¿Qué herramienta de configuración se describe como sin agentes y usando SSH?", "options": ["Chef", "Puppet", "Ansible", "SCCM"], "correct": 2}, {"q": "El inventario de nodos de Ansible se cita en:", "options": ["/etc/ssh/hosts", "/etc/ansible/hosts", "/var/ansible/nodes", "/opt/ansible/list"], "correct": 1}, {"q": "¿Cuál de estos IXP en España se cita en el tema?", "options": ["DE-CIX", "ESPANIX", "LINX", "AMS-IX"], "correct": 1}, {"q": "Todo ISP tiene asignado un número de sistema autónomo por:", "options": ["W3C", "IANA / RIR", "ICANN Root CA", "OASIS"], "correct": 1}, {"q": "HTTP/1.1 se describe como protocolo:", "options": ["con estado", "orientado a carácter y sin estado", "binario y orientado a objetos", "solo UDP"], "correct": 1}, {"q": "El modelo básico de HTTP es:", "options": ["Publish/Subscribe", "Request-Response", "Store-and-Forward", "RPC síncrono con UDP"], "correct": 1}, {"q": "El filtrado de paquetes opera en el nivel de:", "options": ["aplicación", "sesión", "red", "presentación"], "correct": 2}, {"q": "Un Circuit-Level Gateway opera en nivel de:", "options": ["enlace", "red", "sesión", "físico"], "correct": 2}, {"q": "Application Level Gateway se conoce también como:", "options": ["proxy", "router", "bridge", "hub"], "correct": 0}, {"q": "Stateful Inspection se ejemplifica con:", "options": ["DNSSEC", "iptables conntrack", "Kerberos", "BPEL"], "correct": 1}, {"q": "Una característica general del modelo cliente/servidor es:", "options": ["ausencia de concurrencia", "compartición de recursos", "solo escalabilidad horizontal", "prohibición de heterogeneidad"], "correct": 1}, {"q": "El modelo C/S pone especial énfasis en la concurrencia de:", "options": ["sprites", "transacciones", "píxeles", "LUN"], "correct": 1}, {"q": "Separar funciones en más nodos conduce a una arquitectura:", "options": ["monolítica", "n-capas", "P2P puro", "solo hardware"], "correct": 1}, {"q": "Middleware es software que permite:", "options": ["solo gráficos 3D", "comunicación o conectividad entre aplicaciones/componentes distribuidos", "formatear discos", "generar GPO"], "correct": 1}, {"q": "En RFC 822, el cuerpo del mensaje se separa de las cabeceras mediante:", "options": ["LF", "CRLF y línea en blanco", "solo ;", "tabulación"], "correct": 1}, {"q": "¿Cuál de estas cabeceras aparece en el tema?", "options": ["Route:", "Subject:", "Server:", "Host:"], "correct": 1}]
+    };
+
+    const STORAGE_KEY = "tai_7_temas_nuevos_v1";
+    let currentTab = "correo_dns";
+    let timerInterval = null;
+    const tabOrder = ["correo_dns","windows_moviles","uml_poo","admin_sistemas","https_http","vpn","cliente_servidor","mix"];
+
+    const tabBar = document.getElementById("tabBar");
+    const tabTitle = document.getElementById("tabTitle");
+    const tabDescription = document.getElementById("tabDescription");
+    const questionsEl = document.getElementById("questions");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const totalCount = document.getElementById("totalCount");
+    const timerText = document.getElementById("timerText");
+    const globalAvg = document.getElementById("globalAvg");
+    const finishBtn = document.getElementById("finishBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resetAllBtn = document.getElementById("resetAllBtn");
+    const resultText = document.getElementById("resultText");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+    const resultBanner = document.getElementById("resultBanner");
+
+    function defaultState() {
+      const tabs = {};
+      tabOrder.forEach(tab => tabs[tab] = { answers: {}, submitted: false, score: null });
+      return { startedAt: Date.now(), tabs };
+    }
+
+    function loadState() {
+      try {
+        const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        if (!state || !state.tabs) return defaultState();
+        tabOrder.forEach(tab => {
+          if (!state.tabs[tab]) state.tabs[tab] = { answers: {}, submitted: false, score: null };
+        });
+        if (!state.startedAt) state.startedAt = Date.now();
+        return state;
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function formatDuration(ms) {
+      const total = Math.floor(ms / 1000);
+      const h = String(Math.floor(total / 3600)).padStart(2, "0");
+      const m = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
+      const s = String(total % 60).padStart(2, "0");
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimer() {
+      const state = loadState();
+      timerText.textContent = formatDuration(Date.now() - state.startedAt);
+    }
+
+    function startTimer() {
+      updateTimer();
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function computeGlobalAverage() {
+      const state = loadState();
+      const scores = tabOrder.map(tab => state.tabs[tab].score).filter(s => typeof s === "number");
+      const avg = scores.length ? scores.reduce((a,b)=>a+b,0) / scores.length : 0;
+      globalAvg.textContent = avg.toFixed(2);
+    }
+
+    function buildTabs() {
+      const state = loadState();
+      tabBar.innerHTML = tabOrder.map(key => `
+        <button class="tab-btn ${key === currentTab ? 'active' : ''}" data-tab="${key}">
+          ${TOPICS[key].label} ${state.tabs[key].submitted ? '✅' : ''}
+        </button>
+      `).join("");
+
+      tabBar.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentTab = btn.dataset.tab;
+          render();
+        });
+      });
+    }
+
+    function render() {
+      buildTabs();
+      const state = loadState();
+      const tabState = state.tabs[currentTab];
+      const topic = TOPICS[currentTab];
+      tabTitle.textContent = topic.label;
+      tabDescription.textContent = topic.description;
+      totalCount.textContent = topic.questions.length;
+
+      questionsEl.innerHTML = topic.questions.map((item, index) => {
+        const answer = tabState.answers[`q${index}`];
+        return `
+          <article class="question">
+            <div class="qhead">
+              <div class="badge">${index + 1}</div>
+              <div><h3 class="qtitle">${item.q}</h3></div>
+            </div>
+            <div class="options">
+              ${item.options.map((opt, i) => `
+                <label class="opt" data-q="${index}" data-opt="${i}">
+                  <input type="radio" name="q${index}" value="${i}" ${answer === i ? 'checked' : ''} ${answer !== undefined ? 'disabled' : ''}>
+                  <span><strong>${String.fromCharCode(97+i)})</strong> ${opt}</span>
+                </label>
+              `).join("")}
+            </div>
+            <div class="lock-badge" id="lock-${index}">${answer !== undefined ? '🔒 Respuesta bloqueada' : '🔓 Sin bloquear'}</div>
+            <div class="feedback-note" id="feedback-${index}"></div>
+          </article>
+        `;
+      }).join("");
+
+      questionsEl.querySelectorAll('input[type="radio"]').forEach(input => input.addEventListener("change", onAnswer));
+
+      if (tabState.submitted) {
+        revealCorrections(false);
+      } else {
+        topic.questions.forEach((item, index) => {
+          const selected = tabState.answers[`q${index}`];
+          const feedback = document.getElementById(`feedback-${index}`);
+          const labels = document.querySelectorAll(`.opt[data-q="${index}"]`);
+          labels.forEach(label => {
+            const idx = Number(label.dataset.opt);
+            label.classList.remove("correct", "wrong", "locked");
+            if (selected !== undefined) {
+              label.classList.add("locked");
+              if (idx === item.correct) label.classList.add("correct");
+              if (idx === selected && selected !== item.correct) label.classList.add("wrong");
+            }
+          });
+          if (selected !== undefined) {
+            feedback.textContent = selected === item.correct ? "✅ Correcta" : `❌ Incorrecta · Correcta: ${String.fromCharCode(65 + item.correct)}`;
+            feedback.classList.add("show");
+          } else {
+            feedback.textContent = "";
+            feedback.classList.remove("show");
+          }
+        });
+        if (typeof tabState.score === "number") {
+          calculateAndPaint(false);
+        } else {
+          resAnswered.textContent = "0";
+          resBlank.textContent = "0";
+          resCorrect.textContent = "0";
+          resWrong.textContent = "0";
+          resScore.textContent = "0.00";
+          resultBanner.className = "result-banner";
+          resultBanner.textContent = "";
+        }
+      }
+
+      updateCounters();
+      computeGlobalAverage();
+    }
+
+    function onAnswer(event) {
+      const input = event.target;
+      const qIndex = Number(input.name.replace("q",""));
+      const selected = Number(input.value);
+      const state = loadState();
+      state.tabs[currentTab].answers[`q${qIndex}`] = selected;
+      saveState(state);
+
+      document.querySelectorAll(`input[name="q${qIndex}"]`).forEach(r => r.disabled = true);
+      document.querySelectorAll(`.opt[data-q="${qIndex}"]`).forEach(el => el.classList.add("locked"));
+      document.getElementById(`lock-${qIndex}`).textContent = "🔒 Respuesta bloqueada";
+
+      const question = TOPICS[currentTab].questions[qIndex];
+      const feedback = document.getElementById(`feedback-${qIndex}`);
+      const labels = document.querySelectorAll(`.opt[data-q="${qIndex}"]`);
+      labels.forEach(label => {
+        label.classList.remove("correct", "wrong");
+        const idx = Number(label.dataset.opt);
+        if (idx === question.correct) label.classList.add("correct");
+        if (idx === selected && selected !== question.correct) label.classList.add("wrong");
+      });
+
+      feedback.textContent = selected === question.correct ? "✅ Correcta" : `❌ Incorrecta · Correcta: ${String.fromCharCode(65 + question.correct)}`;
+      feedback.classList.add("show");
+
+      calculateAndPaint(false);
+      updateCounters();
+      computeGlobalAverage();
+    }
+
+    function calculateAndPaint(markSubmitted) {
+      const state = loadState();
+      const tabState = state.tabs[currentTab];
+      const topic = TOPICS[currentTab];
+      let answered = 0, correct = 0, wrong = 0;
+
+      topic.questions.forEach((item, index) => {
+        const selected = tabState.answers[`q${index}`];
+        if (selected !== undefined) {
+          answered++;
+          if (selected === item.correct) correct++;
+          else wrong++;
+        }
+      });
+
+      const blank = topic.questions.length - answered;
+      const score = Math.max(0, (correct / topic.questions.length) * 10);
+      tabState.score = score;
+      if (markSubmitted) tabState.submitted = true;
+      saveState(state);
+
+      resultText.textContent = `Has respondido ${answered} de ${topic.questions.length} preguntas. La corrección detallada queda debajo de cada pregunta.`;
+      resAnswered.textContent = answered;
+      resBlank.textContent = blank;
+      resCorrect.textContent = correct;
+      resWrong.textContent = wrong;
+      resScore.textContent = score.toFixed(2);
+      resultBanner.className = "result-banner show " + (score >= 5 ? "ok" : "bad");
+      resultBanner.textContent = score >= 5 ? `✅ Vas bien en esta pestaña: ${score.toFixed(2)} / 10` : `⚠️ Llevas ${score.toFixed(2)} / 10 en esta pestaña`;
+    }
+
+    function updateCounters() {
+      const tabState = loadState().tabs[currentTab];
+      const total = TOPICS[currentTab].questions.length;
+      const answered = Object.keys(tabState.answers).length;
+      answeredCount.textContent = answered;
+      blankCount.textContent = total - answered;
+      totalCount.textContent = total;
+    }
+
+    function revealCorrections(scrollResult=true) {
+      const state = loadState();
+      state.tabs[currentTab].submitted = true;
+      saveState(state);
+      calculateAndPaint(true);
+      buildTabs();
+      computeGlobalAverage();
+      if (scrollResult) resultBanner.scrollIntoView({behavior:"smooth", block:"nearest"});
+    }
+
+    function resetTab() {
+      const state = loadState();
+      state.tabs[currentTab] = { answers: {}, submitted: false, score: null };
+      saveState(state);
+      render();
+    }
+
+    function resetAll() {
+      localStorage.removeItem(STORAGE_KEY);
+      currentTab = "correo_dns";
+      render();
+      startTimer();
+    }
+
+    finishBtn.addEventListener("click", () => revealCorrections(true));
+    resetBtn.addEventListener("click", resetTab);
+    resetAllBtn.addEventListener("click", resetAll);
+
+    render();
+    startTimer();
+  </script>
+</body>
+</html>

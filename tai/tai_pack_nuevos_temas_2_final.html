@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAI · Nuevos temas por pestañas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=rJHTvP2EbYDGIskHaHgF5k1r-SR71oI4asMLZHFinPwvez3ueQAXQCU6Lp0tP50kLobn9YR6WSOeQVdlr3h1hsD4k9nx3RwkS-F9YEp9repQFY8NjOPt7DMbfyxTF8Ah6Ka5SgFvUVhYzKyO3gUmTdLb7DrRXbdBtXVozR2z3NA6Na04reNZLjUoJeCRxAYQCQE-ysnMPrck_8ABZ7EQWP4FX__hZ2m0bPjXE49C2KXj8H8M35tYu2SGWZtatq4ZV07y3YzJpLauR_kVny3XVw" charset="UTF-8"></script><style>
+    :root {
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'Poppins',sans-serif; background:linear-gradient(135deg,var(--bg1),var(--bg2)); color:var(--text); }
+    .wrap { max-width:1260px; margin:0 auto; padding:22px 16px 60px; }
+    .hero,.tabs-panel,.question,.result-box {
+      background:rgba(255,255,255,.95); border:1px solid var(--border); box-shadow:var(--shadow); border-radius:24px;
+    }
+    .hero { padding:24px; margin-bottom:18px; }
+    .eyebrow {
+      display:inline-flex; align-items:center; gap:8px; background:#fff3e8; border:1px solid var(--border);
+      border-radius:999px; padding:8px 14px; color:#a54800; font-size:13px; font-weight:800; margin-bottom:14px;
+    }
+    h1 { margin:0 0 10px; color:var(--title); font-size:clamp(28px,4vw,42px); }
+    .hero p { margin:0; color:var(--soft); line-height:1.65; }
+    .notice {
+      margin-top:14px; padding:14px 16px; border-radius:16px; font-weight:700; line-height:1.6;
+      background:#fef3c7; color:#a16207; border:1px solid #f59e0b;
+    }
+    .tabs-panel { padding:18px; }
+    .tab-bar { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+    .tab-btn {
+      border:none; cursor:pointer; border-radius:14px; padding:12px 16px; font-weight:700; font-size:14px;
+      background:#fff8f3; color:#a54800; border:1px solid var(--border);
+    }
+    .tab-btn.active {
+      background:linear-gradient(135deg,var(--orange),var(--orange2)); color:#fff; box-shadow:0 10px 20px rgba(255,122,0,.23);
+    }
+    .toolbar {
+      display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; margin-bottom:14px;
+      background:#fff9f5; border:1px solid var(--border); border-radius:18px; padding:14px;
+    }
+    .counter { display:flex; gap:10px; flex-wrap:wrap; }
+    .counter-card {
+      background:#fff; border:1px solid var(--border); border-radius:14px; padding:10px 14px; min-width:130px; text-align:center;
+    }
+    .counter-card strong { display:block; font-size:22px; color:var(--title); }
+    .counter-card span { color:var(--soft); font-size:12px; font-weight:700; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .btn {
+      border:none; border-radius:14px; padding:12px 16px; font-size:14px; font-weight:700; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .btn-primary { background:linear-gradient(135deg,var(--orange),var(--orange2)); color:#fff; box-shadow:0 10px 20px rgba(255,122,0,.23); }
+    .btn-secondary { background:#fff8f3; color:#a54800; border:1px solid var(--border); }
+    .questions { display:grid; gap:16px; }
+    .question { padding:18px; }
+    .qhead { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; }
+    .badge {
+      min-width:48px; height:48px; border-radius:14px; background:#fff4ea; color:#c2410c;
+      display:grid; place-items:center; font-weight:900; flex-shrink:0;
+    }
+    .qtitle { margin:0; color:#3d220f; font-size:18px; line-height:1.45; }
+    .options { display:grid; gap:10px; }
+    .opt {
+      display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border:1px solid #f1e2d4; border-radius:16px; background:#fff;
+    }
+    .opt.correct { border-color:#16a34a; background:#ecfdf5; }
+    .opt.wrong { border-color:#dc2626; background:#fef2f2; }
+    .opt.locked { opacity:.96; }
+    .opt input { margin-top:4px; }
+    .lock-badge {
+      display:inline-block; margin-top:10px; padding:7px 10px; border-radius:999px; background:#fff4ea;
+      border:1px solid var(--border); color:#a54800; font-size:12px; font-weight:800;
+    }
+    .feedback-note {
+      font-size:12px; color:#8b5e3c; margin-top:8px; display:none; line-height:1.5; font-weight:700;
+    }
+    .feedback-note.show { display:block; }
+    .desc { color:var(--soft); line-height:1.6; margin:6px 0 0; }
+    .result-box { margin-top:18px; padding:20px; }
+    .result-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-top:16px; }
+    .result-card { background:#fff9f5; border:1px solid var(--border); border-radius:16px; padding:12px 16px; text-align:center; }
+    .result-card strong { display:block; font-size:22px; color:var(--title); }
+    .result-card span { font-size:13px; color:var(--soft); font-weight:700; }
+    .result-banner { margin-top:16px; padding:14px 16px; border-radius:16px; font-weight:800; display:none; }
+    .result-banner.show { display:block; }
+    .result-banner.ok { background:var(--okbg); color:var(--ok); border:1px solid #86efac; }
+    .result-banner.bad { background:var(--badbg); color:var(--bad); border:1px solid #fca5a5; }
+    @media (max-width:700px) {
+      .toolbar { flex-direction:column; align-items:stretch; }
+      .actions .btn { width:100%; }
+      .counter-card { flex:1 1 120px; }
+      .qhead { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">📝 TAI · nuevos temas por pestañas</div>
+      <h1>eIDAS + ENI/ENS + Redes móviles + Metodologías + Front/Back + SSOO + Accesibilidad + NoSQL + Admin BBDD</h1>
+      <p>Te lo he montado igual que los anteriores: pestañas por tema, mix final, bloqueo al marcar, corrección debajo, temporizador total y nota global.</p>
+      <div class="notice">🔒 En cuanto señales una respuesta, se bloquea y ya no puedes cambiarla.</div>
+    </section>
+
+    <section class="tabs-panel">
+      <div class="tab-bar" id="tabBar"></div>
+      <div class="toolbar">
+        <div>
+          <strong id="tabTitle" style="color:var(--title); font-size:22px;">Tema</strong>
+          <p class="desc" id="tabDescription"></p>
+        </div>
+        <div class="counter">
+          <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+          <div class="counter-card"><strong id="blankCount">0</strong><span>En blanco</span></div>
+          <div class="counter-card"><strong id="totalCount">0</strong><span>Total</span></div>
+          <div class="counter-card"><strong id="timerText">00:00:00</strong><span>Tiempo total</span></div>
+          <div class="counter-card"><strong id="globalAvg">0.00</strong><span>Nota global</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="finishBtn" type="button">✅ Corregir pestaña</button>
+          <button class="btn btn-secondary" id="resetBtn" type="button">↺ Reiniciar pestaña</button>
+          <button class="btn btn-secondary" id="resetAllBtn" type="button">🗑 Reiniciar todo</button>
+        </div>
+      </div>
+
+      <section class="questions" id="questions"></section>
+
+      <section class="result-box" id="resultBox">
+        <h2 style="margin:0; color:var(--title);">Resultado de la pestaña</h2>
+        <p class="desc" id="resultText">Al marcar una respuesta se bloquea, te dice si has acertado o fallado y la corrección queda debajo de cada pregunta.</p>
+        <div class="result-grid">
+          <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+          <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+          <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+          <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+          <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+        </div>
+        <div class="result-banner" id="resultBanner"></div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const TOPICS = {"sociedad_eidas": {"label": "Sociedad Info + eIDAS", "description": "20 preguntas sobre eIDAS, firmas, certificados, PSC, nodo eIDAS y DNIe.", "questions": [{"q": "eIDAS significa:", "options": ["electronic IDentification, Authentication and trust Services", "electronic Internal Data and Signature", "European Internet Data Access Service", "electronic Identity Data Access Standard"], "correct": 0}, {"q": "eIDAS permite a ciudadanos de un país UE:", "options": ["Usar su eID nacional para acceder a servicios públicos de otros países miembros", "Solo firmar correos internos", "Emitir certificados raíz", "Crear redes privadas"], "correct": 0}, {"q": "¿Cuál es la única firma con el mismo valor que la manuscrita?", "options": ["Básica", "Avanzada", "Cualificada", "Simple"], "correct": 2}, {"q": "La firma cualificada es una firma avanzada basada en:", "options": ["Un certificado cualificado y un dispositivo cualificado de creación de firma", "Solo una contraseña", "Un hash MD5", "Un certificado no cualificado"], "correct": 0}, {"q": "QSCD son las siglas de:", "options": ["Qualified Signature Creation Device", "Quick Secure Certificate Device", "Qualified Site Control Data", "Quantum Signature Crypto Device"], "correct": 0}, {"q": "Según las notas, un dispositivo certificado como QSCD es:", "options": ["El DNIe", "Una SIM", "Un router", "Un HBA"], "correct": 0}, {"q": "Los sellos de tiempo demuestran que unos datos:", "options": ["Han existido y no han sido modificados desde un momento específico", "Se han comprimido", "Son públicos", "Están en formato XML"], "correct": 0}, {"q": "Los certificados cualificados los expide un:", "options": ["PSC cualificado", "MUA", "MTA", "ISP"], "correct": 0}, {"q": "¿Cuál de estos es un certificado cualificado citado?", "options": ["De firma para personas físicas", "Solo de VPN", "Solo de correo POP3", "Solo de DNS"], "correct": 0}, {"q": "Los formatos de firma avanzada AdES tienen sabores técnicos:", "options": ["X, C y P", "A, B y C", "JSON, YAML y XML", "TXT, BIN y CSV"], "correct": 0}, {"q": "Los organismos citados que llevan el estándar AdES son:", "options": ["W3C y ETSI", "IETF y IEEE", "OMG y ISO", "OASIS y ECMA"], "correct": 0}, {"q": "Los niveles de seguridad relacionados con autenticación en eIDAS son:", "options": ["Bajo, sustancial y alto", "A, B y C", "Simple, media y fuerte", "Bajo y alto"], "correct": 0}, {"q": "Los PSC deben conservar la información relativa a los servicios prestados durante:", "options": ["5 años", "10 años", "15 años", "20 años"], "correct": 2}, {"q": "El nodo eIDAS integra a los países de la UE para:", "options": ["La identificación electrónica transfronteriza", "La replicación de BBDD", "La traducción de XML", "El control de versiones"], "correct": 0}, {"q": "eIDAS2 introduce una cartera de identidad digital llamada:", "options": ["EDIW / European Digital Identity Wallet", "EPC Wallet", "EU Token Box", "QWAC Wallet"], "correct": 0}, {"q": "eIDAS2 introduce un cuarto nivel de seguridad:", "options": ["Muy alto", "Crítico", "Muy bajo", "Cualificado"], "correct": 0}, {"q": "eIDAS2 propone que los navegadores acepten certificados cualificados de autenticación de sitio web llamados:", "options": ["QWAC", "QDNS", "QTLS", "QWIF"], "correct": 0}, {"q": "El DNIe contiene certificados x509v3 de autenticación, firma y:", "options": ["De componente", "De backup", "De cifrado SSL", "De correo"], "correct": 0}, {"q": "La CA que expide los certificados del DNIe es:", "options": ["La DGP", "La FNMT", "El MINHAP", "La Comisión Europea"], "correct": 0}, {"q": "Según las notas, el nuevo RD 255/2025 fija la validez de los certificados electrónicos del DNIe en:", "options": ["1 año", "2 años", "5 años", "10 años"], "correct": 1}]}, "eni_ens": {"label": "ENI + ENS", "description": "20 preguntas sobre servicios comunes, Red SARA, ENI, interoperabilidad y ENS.", "questions": [{"q": "Los medios y servicios TIC declarados de uso compartido tienen utilización:", "options": ["Obligatoria y sustitutiva", "Voluntaria", "Solo para CCAA", "Solo para entidades privadas"], "correct": 0}, {"q": "La Red SARA conecta:", "options": ["Las redes de las AAPP españolas e instituciones europeas", "Solo universidades", "Solo redes militares", "Solo redes privadas"], "correct": 0}, {"q": "El acceso a la red SARA se efectúa a través de:", "options": ["Puntos de Presencia (PdP)", "Únicamente VPNs IPSec", "Exclusivamente WiFi", "Brokers"], "correct": 0}, {"q": "La conexión de una organización a SARA suele realizarse a través de:", "options": ["PAS, Proveedores de Acceso a la Red SARA", "MTA", "PSP", "VDI"], "correct": 0}, {"q": "Cl@ve sirve para:", "options": ["Identificación digital del ciudadano frente a las AAPP", "Cifrado de discos", "Gestión SNMP", "Control de versiones"], "correct": 0}, {"q": "@firma es una plataforma de:", "options": ["Validación de certificados y firmas de uso interno", "Streaming de vídeo", "Mensajería móvil", "Virtualización"], "correct": 0}, {"q": "TS@ es una:", "options": ["Autoridad de sellado electrónico", "Base de datos distribuida", "Herramienta CASE", "VPN"], "correct": 0}, {"q": "SIR significa:", "options": ["Sistema de Interconexión de Registros", "Servicio Integral de Red", "Sistema Interno de Respaldo", "Servicio de Integración Registral"], "correct": 0}, {"q": "GEISER y ORVE permiten, entre otras cosas:", "options": ["Digitalización de documentos e intercambio de asientos registrales por SIR", "Gestión de hipervisores", "Routing BGP", "Análisis estático"], "correct": 0}, {"q": "REA significa:", "options": ["Registro Electrónico de Apoderamientos", "Red Electrónica Administrativa", "Repositorio de Expedientes Abiertos", "Registro Estatal de Archivos"], "correct": 0}, {"q": "DIR3 es:", "options": ["Inventario unificado de unidades orgánicas, oficinas y unidades de gestión económica-presupuestaria", "Un protocolo de red", "Un algoritmo de backup", "Una autoridad de certificación"], "correct": 0}, {"q": "DEHú es:", "options": ["El punto único de notificaciones para las AAPP", "Un servicio DNS", "Una red móvil privada", "Un estándar XML"], "correct": 0}, {"q": "El ENI está regulado en:", "options": ["RD 4/2010 y Ley 40/2015 art.156", "Solo Ley 39/2015", "Solo RD 311/2022", "RD 203/2021 únicamente"], "correct": 0}, {"q": "Interoperabilidad es la capacidad de los SI y procedimientos de:", "options": ["Compartir datos e intercambiar información y conocimiento", "Solo generar PDFs", "Solo firmar documentos", "Aislar redes"], "correct": 0}, {"q": "Las dimensiones de la interoperabilidad citadas son:", "options": ["Organizativa, semántica y técnica", "Física, lógica y virtual", "Administrativa, jurídica y financiera", "Temporal, local y global"], "correct": 0}, {"q": "La Norma Técnica de Catálogo de estándares forma parte del desarrollo del:", "options": ["ENI", "ENS", "RGPD", "eIDAS2"], "correct": 0}, {"q": "La NTI de Documento electrónico trata, entre otras cosas, los:", "options": ["Metadatos mínimos obligatorios y formatos de documento", "Canales GSM", "Pivotes de QuickSort", "Motores de almacenamiento"], "correct": 0}, {"q": "El ENS se asocia en las notas a:", "options": ["RD 311/2022 y guías CCN", "Solo una NTI", "Únicamente SARA", "Solo Cl@ve"], "correct": 0}, {"q": "La finalidad del ENI es garantizar el adecuado nivel de interoperabilidad:", "options": ["Técnica, semántica y organizativa", "Solo técnica", "Solo organizativa", "Solo semántica"], "correct": 0}, {"q": "El ámbito de aplicación del ENI incluye:", "options": ["AGE, CCAA, EELL y sector público institucional", "Solo AGE", "Solo sector privado", "Solo la UE"], "correct": 0}]}, "redes_moviles": {"label": "Redes móviles", "description": "20 preguntas sobre generaciones móviles, acceso múltiple, handover, WiFi y comunicaciones inalámbricas.", "questions": [{"q": "Las órbitas GEO están aproximadamente a:", "options": ["3.000 km", "10.000-15.000 km", "36.000 km", "100 km"], "correct": 2}, {"q": "Radiomensajería o paging es una transmisión:", "options": ["Bidireccional cifrada", "Unidireccional al dispositivo", "Por circuito virtual", "Solo por satélite"], "correct": 1}, {"q": "FDMA significa:", "options": ["Acceso múltiple por división de frecuencias", "Acceso fijo por dominio analógico", "Fast data mobile access", "Frequency digital medium architecture"], "correct": 0}, {"q": "TDMA significa:", "options": ["Acceso múltiple por división de tiempo", "Tiempo de transmisión dinámico adaptativo", "Top domain mobile access", "Túnel de datos multiplexado"], "correct": 0}, {"q": "CDMA asigna a cada emisor:", "options": ["Un código aleatorio único (chip)", "Una VLAN", "Un puerto TCP", "Una tabla hash"], "correct": 0}, {"q": "La SIM contiene, entre otros, ICCID, IMSI, PIN y:", "options": ["Clave de autenticación", "BSSID", "CRC", "UUID"], "correct": 0}, {"q": "Cuando un terminal cambia de operador se produce:", "options": ["Roaming", "Handover", "Paging", "Sharding"], "correct": 0}, {"q": "Cuando un terminal cambia de una celda a otra se produce:", "options": ["Handover/Handoff", "Swap", "Snapshot", "Polling"], "correct": 0}, {"q": "GSM pertenece a:", "options": ["2G", "2.5G", "3G", "4G"], "correct": 0}, {"q": "GPRS pertenece a:", "options": ["2G", "2.5G", "3G", "5G"], "correct": 1}, {"q": "EDGE se cita como:", "options": ["2.75G", "3.5G", "4G+", "5G NSA"], "correct": 0}, {"q": "UMTS pertenece a:", "options": ["3G", "2G", "4G", "5G"], "correct": 0}, {"q": "En 3G la red de acceso es:", "options": ["UTRAN", "E-UTRAN", "NGCN", "RDSI"], "correct": 0}, {"q": "LTE utiliza como técnica de acceso:", "options": ["OFDMA", "FDMA", "CDMA puro", "Token Passing"], "correct": 0}, {"q": "La red de acceso de LTE es:", "options": ["E-UTRAN con eNodo B", "UTRAN con Nodo B", "NGCN con gNodo B", "BSS con BTS"], "correct": 0}, {"q": "En 5G, eMBB significa:", "options": ["Gran ancho de banda", "Baja latencia", "Muchos dispositivos", "Baja potencia"], "correct": 0}, {"q": "En 5G, uRLLC significa:", "options": ["Baja latencia", "Gran ancho de banda", "Solo voz", "Roaming universal"], "correct": 0}, {"q": "En despliegue 5G NSA se aprovecha la infraestructura:", "options": ["LTE existente", "RDSI", "ATM", "Frame Relay"], "correct": 0}, {"q": "WWAN según la nota corresponde a:", "options": ["802.20", "802.16", "802.11", "802.15"], "correct": 0}, {"q": "WLAN corresponde a:", "options": ["802.11", "802.15", "802.20", "802.5"], "correct": 0}]}, "metodologias": {"label": "Metodologías + pruebas", "description": "20 preguntas sobre SCRUM, XP, Métrica v3, integración continua, CASE y control de versiones.", "questions": [{"q": "¿Cuál de estas metodologías se cita como ágil?", "options": ["SCRUM", "SSADM", "Merise", "OOSE"], "correct": 0}, {"q": "El Manifiesto Ágil tiene:", "options": ["4 principios", "12 principios", "10 principios", "3 principios"], "correct": 1}, {"q": "RUP se describe como:", "options": ["Iterativo e incremental", "Secuencial puro", "Solo estructurado", "Solo de testing"], "correct": 0}, {"q": "En Métrica v3, EVS significa:", "options": ["Estudio de Viabilidad del Sistema", "Evaluación de Versiones Seguras", "Entorno Virtual de Sistemas", "Esquema de Validación Semántica"], "correct": 0}, {"q": "En Métrica v3, ASI significa:", "options": ["Análisis del Sistema de Información", "Administración de Seguridad Interna", "Acceso a Servicios Integrados", "Algoritmo de Sincronización"], "correct": 0}, {"q": "En Métrica v3, DSI significa:", "options": ["Diseño del Sistema de Información", "Desarrollo Seguro Integrado", "Directorio de Sistemas Internos", "Datos y Servicios Interoperables"], "correct": 0}, {"q": "El Product Owner en Scrum:", "options": ["Representa la voz del cliente", "Es el tester", "Es el administrador de sistemas", "Es el único desarrollador"], "correct": 0}, {"q": "El Scrum Master es:", "options": ["Facilitador y hace que Scrum se cumpla", "El responsable de despliegues", "El propietario de la BD", "El auditor externo"], "correct": 0}, {"q": "El Product Backlog es:", "options": ["Catálogo de requisitos priorizado", "La compilación del proyecto", "La batería de pruebas unitarias", "El plan de backups"], "correct": 0}, {"q": "El Sprint Backlog es:", "options": ["Subconjunto del Product Backlog", "La retrospectiva", "El repositorio Git", "El burn down chart"], "correct": 0}, {"q": "La Daily Scrum dura como máximo:", "options": ["15 minutos", "30 minutos", "1 hora", "2 horas"], "correct": 0}, {"q": "El burn down chart mide:", "options": ["La cantidad de requisitos pendientes en el backlog", "La cobertura WiFi", "El uso de CPU", "La capacidad del disco"], "correct": 0}, {"q": "En XP, pair programming significa:", "options": ["Programación en parejas", "Pruebas por parejas de usuarios", "Backups duplicados", "Dos sprints simultáneos"], "correct": 0}, {"q": "XP recomienda:", "options": ["Pruebas unitarias primero (TDD)", "Eliminar integración continua", "No refactorizar", "No hablar con el cliente"], "correct": 0}, {"q": "En integración continua, Jenkins coge el código fuente, los artefactos y:", "options": ["Lo compila", "Lo firma con DKIM", "Lo enruta por SARA", "Lo convierte en XML"], "correct": 0}, {"q": "SonarQube realiza:", "options": ["Análisis estático de código", "Pruebas de carga", "Virtualización", "Replicación"], "correct": 0}, {"q": "Según la nota, CI llega hasta:", "options": ["Los tests", "El despliegue", "Producción siempre", "Solo el repositorio"], "correct": 0}, {"q": "Una prueba de caja negra se centra en:", "options": ["Entradas y salidas", "El detalle del algoritmo", "La PCB del proceso", "La MMU"], "correct": 0}, {"q": "Selenium se cita para:", "options": ["Pruebas funcionales", "Pruebas de carga", "Control de versiones", "Backups"], "correct": 0}, {"q": "Git es un sistema de control de versiones:", "options": ["Distribuido", "Centralizado", "Monolítico", "Sin repositorio local"], "correct": 0}]}, "front_back": {"label": "Tecnologías Front y Back", "description": "20 preguntas sobre scripting backend, bundles, MEAN/MERN/MEVN, PHP y tooling frontend.", "questions": [{"q": "Los lenguajes de scripting se describen como:", "options": ["Interpretados", "Compilados siempre a nativo", "Exclusivos de servidor", "Exclusivos de cliente"], "correct": 0}, {"q": "El backend se ejecuta en:", "options": ["El servidor", "El navegador siempre", "La GPU", "La BIOS"], "correct": 0}, {"q": "Composer es el package manager típico de:", "options": ["PHP", "Ruby", "Python", "Node"], "correct": 0}, {"q": "Ruby usa como package manager:", "options": ["Gems", "Pip", "npm", "PPM"], "correct": 0}, {"q": "Python usa como package manager:", "options": ["Pip", "Composer", "Gems", "NuGet"], "correct": 0}, {"q": "npm se asocia a:", "options": ["JavaScript/Node", "PHP", "Perl", "Oracle"], "correct": 0}, {"q": "XAMPP es un:", "options": ["Software bundle de infraestructura", "Motor JS", "Framework CSS", "ORM de PHP"], "correct": 0}, {"q": "En LAMP, la A significa:", "options": ["Apache", "Angular", "Access", "Ajax"], "correct": 0}, {"q": "En LEMP, la E significa:", "options": ["Nginx", "Express", "Erlang", "Elastic"], "correct": 0}, {"q": "La arquitectura MEAN está formada por MongoDB, Express, Angular y:", "options": ["Node", "Nginx", "Neo4J", "NuGet"], "correct": 0}, {"q": "Si sustituyes Angular por React obtienes:", "options": ["MERN", "MEVN", "LAMP", "WAMP"], "correct": 0}, {"q": "Si sustituyes Angular/React por Vue obtienes:", "options": ["MEVN", "MERN", "MAMP", "WIMP"], "correct": 0}, {"q": "Estas arquitecturas se describen como JavaScript:", "options": ["End-To-End", "Solo backend", "Solo frontend", "Legacy"], "correct": 0}, {"q": "PHP es un lenguaje:", "options": ["Puramente interpretado", "Solo compilado", "Solo funcional", "De bajo nivel"], "correct": 0}, {"q": "mod_php hace un fork de:", "options": ["Apache", "MySQL", "El navegador", "El DNS"], "correct": 0}, {"q": "Una variable superglobal de PHP es:", "options": ["$_POST", "$POST", "@POST", "%POST"], "correct": 0}, {"q": "En PHP, la concatenación se hace con:", "options": [".", "+", "&", "::"], "correct": 0}, {"q": "En PHP, === compara:", "options": ["Valor y tipo", "Solo valor", "Solo tipo", "Solo referencia"], "correct": 0}, {"q": "Node es como la JRE de JS y V8 es como:", "options": ["La JVM", "El compilador C", "La BIOS", "El ORM"], "correct": 0}, {"q": "Webpack, Browserify y Parcel son:", "options": ["Empaquetadores/bundlers", "Motores SQL", "Hipervisores", "Frameworks PHP"], "correct": 0}]}, "ssoo": {"label": "Teoría de SSOO", "description": "20 preguntas sobre conceptos básicos, memoria, procesos, planificación y ficheros.", "questions": [{"q": "Un sistema operativo tiene como objetivo:", "options": ["Aprovechar el hardware de forma segura y eficiente", "Sustituir al hardware", "Eliminar periféricos", "Compilar siempre aplicaciones"], "correct": 0}, {"q": "¿Cuál de estos es un servicio/componente básico del SO?", "options": ["Gestión de procesos", "Firma DKIM", "Nodo eIDAS", "WAI-ARIA"], "correct": 0}, {"q": "Un SO multiusuario implica que:", "options": ["Varios usuarios pueden usar simultáneamente los recursos del sistema", "Tiene varios usuarios dados de alta aunque no simultáneos", "Siempre es de tiempo real", "Solo funciona en red"], "correct": 0}, {"q": "El procesamiento por lotes se caracteriza porque:", "options": ["El tiempo de respuesta no es importante y suele ser alto", "Exige interacción constante", "Es siempre tiempo real", "Solo vale para móviles"], "correct": 0}, {"q": "Un sistema multitarea o multiprogramación:", "options": ["Puede ejecutar varios programas a la vez", "Solo ejecuta uno", "No usa memoria", "No tiene planificador"], "correct": 0}, {"q": "En multiprocesador simétrico, los procesos:", "options": ["Se envían indistintamente a cualquiera de los procesadores disponibles", "Van siempre al mismo procesador", "No pueden ejecutarse en paralelo", "Solo son de usuario"], "correct": 0}, {"q": "La segmentación divide el programa en segmentos:", "options": ["Variables", "Fijos", "De red", "Lógicos sin memoria"], "correct": 0}, {"q": "La segmentación produce fragmentación:", "options": ["Externa", "Interna únicamente", "Ninguna", "Temporal"], "correct": 0}, {"q": "La paginación divide el programa en bloques de tamaño:", "options": ["Fijo", "Variable", "Dependiente del usuario", "Ilimitado"], "correct": 0}, {"q": "La paginación no produce fragmentación externa pero sí:", "options": ["Interna", "Lógica", "De proceso", "Semántica"], "correct": 0}, {"q": "La TLB es una caché de la:", "options": ["Page Table", "PCB", "Ready Queue", "Device Queue"], "correct": 0}, {"q": "Un fallo de página se produce cuando una página solicitada:", "options": ["No se encuentra en memoria principal", "No está en la TLB solamente", "Está corrupta siempre", "Se ejecuta dos veces"], "correct": 0}, {"q": "FIFO como algoritmo de reemplazo sustituye la página que:", "options": ["Lleva más tiempo en memoria principal", "Se usó hace menos tiempo", "Fue modificada última", "Tiene más tamaño"], "correct": 0}, {"q": "LRU significa:", "options": ["Least Recently Used", "Last Ready User", "Logical Resource Unit", "Low Response Update"], "correct": 0}, {"q": "Un proceso es:", "options": ["Un programa en ejecución", "Un archivo binario inactivo", "Una página de memoria", "Un dispositivo de E/S"], "correct": 0}, {"q": "La estructura de datos que guarda el SO por proceso es el:", "options": ["PCB", "MIB", "DTD", "ACL"], "correct": 0}, {"q": "El estado preparado significa que el proceso:", "options": ["Está listo para ejecutar, solo necesita procesador", "Está terminado", "Es nuevo", "Es un hilo"], "correct": 0}, {"q": "El dispatcher es también el:", "options": ["Planificador a corto plazo", "Planificador a largo plazo", "Planificador a medio plazo", "Gestor de ficheros"], "correct": 0}, {"q": "El planificador a medio plazo decide qué proceso pasa de memoria principal a secundaria o viceversa, es decir:", "options": ["Memoria virtual", "Entrada/salida", "Directorio activo", "Compilación"], "correct": 0}, {"q": "FCFS significa:", "options": ["First Come First Served", "Fast Context First Scheduling", "File Control First System", "Fixed CPU Frame Sharing"], "correct": 0}]}, "accesibilidad": {"label": "Accesibilidad web", "description": "20 preguntas sobre WAI, WCAG, UAAG, ATAG, ARIA y niveles de conformidad.", "questions": [{"q": "Una web accesible es aquella cuyos contenidos y servicios están disponibles para:", "options": ["Cualquier persona, con independencia de capacidades y tecnología utilizada", "Solo usuarios sin discapacidad", "Solo navegadores modernos", "Solo dispositivos móviles"], "correct": 0}, {"q": "WAI pertenece a:", "options": ["W3C", "IETF", "ISO", "ECMA"], "correct": 0}, {"q": "WAI significa:", "options": ["Web Accessibility Initiative", "Web Authoring Interface", "Wide Access Internet", "Web Application Interchange"], "correct": 0}, {"q": "¿Cuál de estas es una norma WAI?", "options": ["WCAG", "DKIM", "MPLS", "RMON"], "correct": 0}, {"q": "UAAG está destinada principalmente a desarrolladores de:", "options": ["Navegadores y aplicaciones que renderizan contenido web", "Motores SQL", "Hipervisores", "Repositorios Git"], "correct": 0}, {"q": "UAAG se compone de niveles de conformidad:", "options": ["A, AA y AAA", "1,2 y 3", "Bajo y alto", "Simple y cualificada"], "correct": 0}, {"q": "ATAG está pensada para:", "options": ["Herramientas de autor como editores HTML, CMS, blogs y wikis", "Routers", "SGBD distribuidos", "Herramientas de backup"], "correct": 0}, {"q": "ACT sirve para:", "options": ["Establecer reglas y normas para evaluar conformidad de accesibilidad", "Crear hojas de estilo", "Firmar XML", "Hacer replicación"], "correct": 0}, {"q": "EARL está basado en:", "options": ["RDF", "JSON", "YAML", "CSV"], "correct": 0}, {"q": "ARIA está destinada a hacer más accesibles:", "options": ["Aplicaciones y webs con contenido dinámico e interfaces avanzadas", "Solo documentos PDF", "Solo imágenes", "Solo correo electrónico"], "correct": 0}, {"q": "ARIA se basa en:", "options": ["Roles, estados y propiedades", "Solo colores", "Solo etiquetas H1-H6", "Solo CSS"], "correct": 0}, {"q": "Un ejemplo de landmark ARIA citado es:", "options": ["navigation", "tablespace", "relaylog", "handover"], "correct": 0}, {"q": "aria-live informa de:", "options": ["Áreas que se actualizan dinámicamente", "El tamaño de las imágenes", "La versión del navegador", "El nivel AA"], "correct": 0}, {"q": "WCAG son las guías destinadas principalmente a:", "options": ["Creadores de contenidos web", "Fabricantes de CPUs", "Administradores SNMP", "Editores de vídeo"], "correct": 0}, {"q": "La versión actual citada de WCAG es:", "options": ["2.1", "1.0", "3.0", "2.0 exacta"], "correct": 0}, {"q": "WCAG fue aprobada como estándar ISO/IEC:", "options": ["40500:2012", "27001", "19505", "23271"], "correct": 0}, {"q": "Las WCAG establecen niveles de conformidad:", "options": ["A, AA y AAA", "A y B", "Bajo y alto", "1 a 5"], "correct": 0}, {"q": "Los 4 principios WCAG son:", "options": ["Perceptible, Operable, Comprensible y Robusto", "Rápido, Seguro, Flexible y Portátil", "Escalable, Modular, Ágil y Sólido", "Visible, Audible, Táctil y Robusto"], "correct": 0}, {"q": "Para nivel AA la página debe satisfacer todos los criterios de:", "options": ["A y AA", "Solo AA", "A, AA y AAA", "Solo A"], "correct": 0}, {"q": "WCAG 2.0 nivel AAA requiere satisfacer los criterios de:", "options": ["A, AA y AAA", "Solo AAA", "Solo A y AAA", "Ninguno, es opcional"], "correct": 0}]}, "nosql": {"label": "NoSQL", "description": "20 preguntas sobre características, CAP, modelos y Big Data.", "questions": [{"q": "Una ventaja de NoSQL es:", "options": ["Esquemas flexibles y agregación", "Cumplimiento total de ACID siempre", "Estándares universales maduros", "Modelo rígido"], "correct": 0}, {"q": "Otra ventaja citada es:", "options": ["Sistemas altamente distribuidos y sharding", "Eliminar la partición horizontal", "No usar nodos", "No usar JSON"], "correct": 0}, {"q": "Una desventaja de NoSQL es que:", "options": ["No garantizan completamente ACID", "No pueden escalar", "No sirven para documentos", "No admiten claves"], "correct": 0}, {"q": "BASE significa:", "options": ["Basically Available, Soft State, Eventually Consistent", "Binary Access, Strong Encoding", "Basic Atomic Storage Engine", "Broad Available Secure Entities"], "correct": 0}, {"q": "En el teorema CAP, la C significa:", "options": ["Consistency", "Concurrency", "Compression", "Compatibility"], "correct": 0}, {"q": "En CAP, la A significa:", "options": ["Availability", "Atomicity", "Aggregation", "Access"], "correct": 0}, {"q": "En CAP, la P significa:", "options": ["Partition Tolerance", "Primary key", "Performance", "Persistence"], "correct": 0}, {"q": "Según Brewer, un sistema no puede asegurar más de:", "options": ["Dos características a la vez", "Una característica", "Tres características", "Cuatro características"], "correct": 0}, {"q": "MongoDB se clasifica principalmente como:", "options": ["Base de datos documental", "Familia de columnas", "Clave-valor pura", "Grafo"], "correct": 0}, {"q": "Cassandra se clasifica como:", "options": ["Familia de columnas", "Grafo", "Documental", "Relacional"], "correct": 0}, {"q": "Redis se clasifica como:", "options": ["Clave-valor", "Documental", "Grafo", "Solo XML"], "correct": 0}, {"q": "Neo4J es una base de datos de:", "options": ["Grafos", "Documentos", "Columnas", "Objetos"], "correct": 0}, {"q": "En Redis, un tipo de dato citado es:", "options": ["Hashes", "Tablespaces", "Triggers", "Joins"], "correct": 0}, {"q": "En Neo4J existen properties en:", "options": ["Nodos y relaciones", "Solo nodos", "Solo relaciones", "Solo índices"], "correct": 0}, {"q": "Un algoritmo citado para grafos es:", "options": ["PageRank", "Round Robin", "FCFS", "FIFO"], "correct": 0}, {"q": "El modelo documental maneja colecciones de documentos con formato:", "options": ["JSON", "CSV", "BIN", "XLS"], "correct": 0}, {"q": "MongoDB no necesita definir:", "options": ["Un esquema fijo", "Una colección", "Un documento", "Un campo id"], "correct": 0}, {"q": "Cassandra se describe con arquitectura basada en:", "options": ["Anillos P2P", "Cliente-servidor monolítico", "Árboles B", "PVCs"], "correct": 0}, {"q": "Big Data se relaciona con la gestión y análisis de:", "options": ["Grandes volúmenes de datos que no pueden tratarse de manera convencional", "Solo pequeñas tablas", "Solo ficheros XML", "Solo datos relacionales"], "correct": 0}, {"q": "Mahout se cita relacionado con:", "options": ["Machine Learning", "Virtualización", "Accesibilidad", "DNS"], "correct": 0}]}, "admin_bbdd": {"label": "Administración de BBDD", "description": "20 preguntas sobre funciones del DBA y administración de Oracle, SQL Server, MySQL/MariaDB y PostgreSQL.", "questions": [{"q": "Una función del DBA es:", "options": ["Instalación y actualización del SGBD", "Diseñar campañas de marketing", "Gestionar satélites", "Programar microcontroladores"], "correct": 0}, {"q": "Otra función del DBA es establecer políticas de:", "options": ["Backup y restauración", "ARP", "MIME", "WCAG"], "correct": 0}, {"q": "El DBA también se encarga de:", "options": ["Monitorización y optimización del rendimiento", "Crear CSS responsive", "Administrar WAI", "Gestionar paginación GSM"], "correct": 0}, {"q": "Oracle escucha tradicionalmente en el puerto:", "options": ["1521", "1433", "3306", "5432"], "correct": 0}, {"q": "Según las notas, Oracle ahora se cita reemplazado por:", "options": ["2483 y 2484 para TLS", "80 y 443", "161 y 162", "25 y 587"], "correct": 0}, {"q": "En Oracle, el proceso que escribe en BD es:", "options": ["DBWn", "LGWR", "Listener", "PGA"], "correct": 0}, {"q": "En Oracle, el proceso que escribe logs es:", "options": ["LGWR", "DBWn", "SMI", "SGA"], "correct": 0}, {"q": "En Oracle, un tablespace agrupa:", "options": ["Segmentos/objetos", "Usuarios únicamente", "Solo bloques físicos", "Solo logs"], "correct": 0}, {"q": "Un tablespace por defecto de Oracle citado es:", "options": ["SYSTEM", "MASTER", "tempdb", "mysql"], "correct": 0}, {"q": "RMAN es una herramienta de:", "options": ["Backup Oracle", "Control de versiones", "Monitorización SNMP", "Virtualización"], "correct": 0}, {"q": "RAC en Oracle significa:", "options": ["Real Application Clusters", "Remote Access Cache", "Rapid Admin Console", "Ready Application Control"], "correct": 0}, {"q": "SQL Server usa el puerto:", "options": ["1433", "1521", "3306", "389"], "correct": 0}, {"q": "En SQL Server, el fichero primario es:", "options": [".mdf", ".ndf", ".ldf", ".dbf"], "correct": 0}, {"q": "En SQL Server, las columnas autoincrementales son de tipo:", "options": ["identity", "serial", "auto_increment", "sequence"], "correct": 0}, {"q": "El cliente de administración de SQL Server citado es:", "options": ["SSMS", "RMAN", "phpMyAdmin", "pgAdmin"], "correct": 0}, {"q": "MySQL/MariaDB usa el puerto:", "options": ["3306", "1433", "1521", "636"], "correct": 0}, {"q": "InnoDB asegura:", "options": ["ACID", "Solo lectura", "Solo hash", "Solo XML"], "correct": 0}, {"q": "MyISAM se caracteriza porque:", "options": ["No asegura ACID", "Es el nuevo InnoDB", "Es solo en memoria", "Es un cluster de nodos"], "correct": 0}, {"q": "En MySQL/MariaDB, .myd contiene:", "options": ["Datos", "Índices", "Estructura de tabla", "Logs"], "correct": 0}, {"q": "mysqldump se usa para:", "options": ["Copia de seguridad", "Balanceo de carga", "Análisis estático", "Planificación de procesos"], "correct": 0}]}};
+    TOPICS.mix = {
+      label: "Mix 30",
+      description: "30 preguntas mezcladas de todos los temas nuevos.",
+      questions: [{"q": "eIDAS significa:", "options": ["electronic IDentification, Authentication and trust Services", "electronic Internal Data and Signature", "European Internet Data Access Service", "electronic Identity Data Access Standard"], "correct": 0}, {"q": "eIDAS permite a ciudadanos de un país UE:", "options": ["Usar su eID nacional para acceder a servicios públicos de otros países miembros", "Solo firmar correos internos", "Emitir certificados raíz", "Crear redes privadas"], "correct": 0}, {"q": "¿Cuál es la única firma con el mismo valor que la manuscrita?", "options": ["Básica", "Avanzada", "Cualificada", "Simple"], "correct": 2}, {"q": "Los medios y servicios TIC declarados de uso compartido tienen utilización:", "options": ["Obligatoria y sustitutiva", "Voluntaria", "Solo para CCAA", "Solo para entidades privadas"], "correct": 0}, {"q": "La Red SARA conecta:", "options": ["Las redes de las AAPP españolas e instituciones europeas", "Solo universidades", "Solo redes militares", "Solo redes privadas"], "correct": 0}, {"q": "El acceso a la red SARA se efectúa a través de:", "options": ["Puntos de Presencia (PdP)", "Únicamente VPNs IPSec", "Exclusivamente WiFi", "Brokers"], "correct": 0}, {"q": "Las órbitas GEO están aproximadamente a:", "options": ["3.000 km", "10.000-15.000 km", "36.000 km", "100 km"], "correct": 2}, {"q": "Radiomensajería o paging es una transmisión:", "options": ["Bidireccional cifrada", "Unidireccional al dispositivo", "Por circuito virtual", "Solo por satélite"], "correct": 1}, {"q": "FDMA significa:", "options": ["Acceso múltiple por división de frecuencias", "Acceso fijo por dominio analógico", "Fast data mobile access", "Frequency digital medium architecture"], "correct": 0}, {"q": "¿Cuál de estas metodologías se cita como ágil?", "options": ["SCRUM", "SSADM", "Merise", "OOSE"], "correct": 0}, {"q": "El Manifiesto Ágil tiene:", "options": ["4 principios", "12 principios", "10 principios", "3 principios"], "correct": 1}, {"q": "RUP se describe como:", "options": ["Iterativo e incremental", "Secuencial puro", "Solo estructurado", "Solo de testing"], "correct": 0}, {"q": "Los lenguajes de scripting se describen como:", "options": ["Interpretados", "Compilados siempre a nativo", "Exclusivos de servidor", "Exclusivos de cliente"], "correct": 0}, {"q": "El backend se ejecuta en:", "options": ["El servidor", "El navegador siempre", "La GPU", "La BIOS"], "correct": 0}, {"q": "Composer es el package manager típico de:", "options": ["PHP", "Ruby", "Python", "Node"], "correct": 0}, {"q": "Un sistema operativo tiene como objetivo:", "options": ["Aprovechar el hardware de forma segura y eficiente", "Sustituir al hardware", "Eliminar periféricos", "Compilar siempre aplicaciones"], "correct": 0}, {"q": "¿Cuál de estos es un servicio/componente básico del SO?", "options": ["Gestión de procesos", "Firma DKIM", "Nodo eIDAS", "WAI-ARIA"], "correct": 0}, {"q": "Un SO multiusuario implica que:", "options": ["Varios usuarios pueden usar simultáneamente los recursos del sistema", "Tiene varios usuarios dados de alta aunque no simultáneos", "Siempre es de tiempo real", "Solo funciona en red"], "correct": 0}, {"q": "Una web accesible es aquella cuyos contenidos y servicios están disponibles para:", "options": ["Cualquier persona, con independencia de capacidades y tecnología utilizada", "Solo usuarios sin discapacidad", "Solo navegadores modernos", "Solo dispositivos móviles"], "correct": 0}, {"q": "WAI pertenece a:", "options": ["W3C", "IETF", "ISO", "ECMA"], "correct": 0}, {"q": "WAI significa:", "options": ["Web Accessibility Initiative", "Web Authoring Interface", "Wide Access Internet", "Web Application Interchange"], "correct": 0}, {"q": "Una ventaja de NoSQL es:", "options": ["Esquemas flexibles y agregación", "Cumplimiento total de ACID siempre", "Estándares universales maduros", "Modelo rígido"], "correct": 0}, {"q": "Otra ventaja citada es:", "options": ["Sistemas altamente distribuidos y sharding", "Eliminar la partición horizontal", "No usar nodos", "No usar JSON"], "correct": 0}, {"q": "Una desventaja de NoSQL es que:", "options": ["No garantizan completamente ACID", "No pueden escalar", "No sirven para documentos", "No admiten claves"], "correct": 0}, {"q": "Una función del DBA es:", "options": ["Instalación y actualización del SGBD", "Diseñar campañas de marketing", "Gestionar satélites", "Programar microcontroladores"], "correct": 0}, {"q": "Otra función del DBA es establecer políticas de:", "options": ["Backup y restauración", "ARP", "MIME", "WCAG"], "correct": 0}, {"q": "El DBA también se encarga de:", "options": ["Monitorización y optimización del rendimiento", "Crear CSS responsive", "Administrar WAI", "Gestionar paginación GSM"], "correct": 0}, {"q": "La firma cualificada es una firma avanzada basada en:", "options": ["Un certificado cualificado y un dispositivo cualificado de creación de firma", "Solo una contraseña", "Un hash MD5", "Un certificado no cualificado"], "correct": 0}, {"q": "QSCD son las siglas de:", "options": ["Qualified Signature Creation Device", "Quick Secure Certificate Device", "Qualified Site Control Data", "Quantum Signature Crypto Device"], "correct": 0}, {"q": "Según las notas, un dispositivo certificado como QSCD es:", "options": ["El DNIe", "Una SIM", "Un router", "Un HBA"], "correct": 0}]
+    };
+
+    const STORAGE_KEY = "tai_pack_nuevo_ultimos_temas_v1";
+    let currentTab = "sociedad_eidas";
+    let timerInterval = null;
+    const tabOrder = ["sociedad_eidas","eni_ens","redes_moviles","metodologias","front_back","ssoo","accesibilidad","nosql","admin_bbdd","mix"];
+
+    const tabBar = document.getElementById("tabBar");
+    const tabTitle = document.getElementById("tabTitle");
+    const tabDescription = document.getElementById("tabDescription");
+    const questionsEl = document.getElementById("questions");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const totalCount = document.getElementById("totalCount");
+    const timerText = document.getElementById("timerText");
+    const globalAvg = document.getElementById("globalAvg");
+    const finishBtn = document.getElementById("finishBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resetAllBtn = document.getElementById("resetAllBtn");
+    const resultText = document.getElementById("resultText");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+    const resultBanner = document.getElementById("resultBanner");
+
+    function defaultState() {
+      const tabs = {};
+      tabOrder.forEach(tab => tabs[tab] = { answers: {}, submitted: false, score: null });
+      return { startedAt: Date.now(), tabs };
+    }
+
+    function loadState() {
+      try {
+        const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        if (!state || !state.tabs) return defaultState();
+        tabOrder.forEach(tab => {
+          if (!state.tabs[tab]) state.tabs[tab] = { answers: {}, submitted: false, score: null };
+        });
+        if (!state.startedAt) state.startedAt = Date.now();
+        return state;
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function formatDuration(ms) {
+      const total = Math.floor(ms / 1000);
+      const h = String(Math.floor(total / 3600)).padStart(2, "0");
+      const m = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
+      const s = String(total % 60).padStart(2, "0");
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimer() {
+      const state = loadState();
+      timerText.textContent = formatDuration(Date.now() - state.startedAt);
+    }
+
+    function startTimer() {
+      updateTimer();
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function computeGlobalAverage() {
+      const state = loadState();
+      const scores = tabOrder.map(tab => state.tabs[tab].score).filter(s => typeof s === "number");
+      const avg = scores.length ? scores.reduce((a,b)=>a+b,0) / scores.length : 0;
+      globalAvg.textContent = avg.toFixed(2);
+    }
+
+    function buildTabs() {
+      const state = loadState();
+      tabBar.innerHTML = tabOrder.map(key => `
+        <button class="tab-btn ${key === currentTab ? 'active' : ''}" data-tab="${key}">
+          ${TOPICS[key].label} ${state.tabs[key].submitted ? '✅' : ''}
+        </button>
+      `).join("");
+
+      tabBar.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentTab = btn.dataset.tab;
+          render();
+        });
+      });
+    }
+
+    function render() {
+      buildTabs();
+      const state = loadState();
+      const tabState = state.tabs[currentTab];
+      const topic = TOPICS[currentTab];
+      tabTitle.textContent = topic.label;
+      tabDescription.textContent = topic.description;
+      totalCount.textContent = topic.questions.length;
+
+      questionsEl.innerHTML = topic.questions.map((item, index) => {
+        const answer = tabState.answers[`q${index}`];
+        return `
+          <article class="question">
+            <div class="qhead">
+              <div class="badge">${index + 1}</div>
+              <div><h3 class="qtitle">${item.q}</h3></div>
+            </div>
+            <div class="options">
+              ${item.options.map((opt, i) => `
+                <label class="opt" data-q="${index}" data-opt="${i}">
+                  <input type="radio" name="q${index}" value="${i}" ${answer === i ? 'checked' : ''} ${answer !== undefined ? 'disabled' : ''}>
+                  <span><strong>${String.fromCharCode(97+i)})</strong> ${opt}</span>
+                </label>
+              `).join("")}
+            </div>
+            <div class="lock-badge" id="lock-${index}">${answer !== undefined ? '🔒 Respuesta bloqueada' : '🔓 Sin bloquear'}</div>
+            <div class="feedback-note" id="feedback-${index}"></div>
+          </article>
+        `;
+      }).join("");
+
+      questionsEl.querySelectorAll('input[type="radio"]').forEach(input => input.addEventListener("change", onAnswer));
+
+      if (tabState.submitted) {
+        revealCorrections(false);
+      } else {
+        topic.questions.forEach((item, index) => {
+          const selected = tabState.answers[`q${index}`];
+          const feedback = document.getElementById(`feedback-${index}`);
+          const labels = document.querySelectorAll(`.opt[data-q="${index}"]`);
+          labels.forEach(label => {
+            const idx = Number(label.dataset.opt);
+            label.classList.remove("correct", "wrong", "locked");
+            if (selected !== undefined) {
+              label.classList.add("locked");
+              if (idx === item.correct) label.classList.add("correct");
+              if (idx === selected && selected !== item.correct) label.classList.add("wrong");
+            }
+          });
+          if (selected !== undefined) {
+            feedback.textContent = selected === item.correct ? "✅ Correcta" : `❌ Incorrecta · Correcta: ${String.fromCharCode(65 + item.correct)}`;
+            feedback.classList.add("show");
+          } else {
+            feedback.textContent = "";
+            feedback.classList.remove("show");
+          }
+        });
+        if (typeof tabState.score === "number") {
+          calculateAndPaint(false);
+        } else {
+          resAnswered.textContent = "0";
+          resBlank.textContent = "0";
+          resCorrect.textContent = "0";
+          resWrong.textContent = "0";
+          resScore.textContent = "0.00";
+          resultBanner.className = "result-banner";
+          resultBanner.textContent = "";
+        }
+      }
+
+      updateCounters();
+      computeGlobalAverage();
+    }
+
+    function onAnswer(event) {
+      const input = event.target;
+      const qIndex = Number(input.name.replace("q",""));
+      const selected = Number(input.value);
+      const state = loadState();
+      state.tabs[currentTab].answers[`q${qIndex}`] = selected;
+      saveState(state);
+
+      document.querySelectorAll(`input[name="q${qIndex}"]`).forEach(r => r.disabled = true);
+      document.querySelectorAll(`.opt[data-q="${qIndex}"]`).forEach(el => el.classList.add("locked"));
+      document.getElementById(`lock-${qIndex}`).textContent = "🔒 Respuesta bloqueada";
+
+      const question = TOPICS[currentTab].questions[qIndex];
+      const feedback = document.getElementById(`feedback-${qIndex}`);
+      const labels = document.querySelectorAll(`.opt[data-q="${qIndex}"]`);
+      labels.forEach(label => {
+        label.classList.remove("correct", "wrong");
+        const idx = Number(label.dataset.opt);
+        if (idx === question.correct) label.classList.add("correct");
+        if (idx === selected && selected !== question.correct) label.classList.add("wrong");
+      });
+
+      feedback.textContent = selected === question.correct ? "✅ Correcta" : `❌ Incorrecta · Correcta: ${String.fromCharCode(65 + question.correct)}`;
+      feedback.classList.add("show");
+
+      calculateAndPaint(false);
+      updateCounters();
+      computeGlobalAverage();
+    }
+
+    function calculateAndPaint(markSubmitted) {
+      const state = loadState();
+      const tabState = state.tabs[currentTab];
+      const topic = TOPICS[currentTab];
+      let answered = 0, correct = 0, wrong = 0;
+
+      topic.questions.forEach((item, index) => {
+        const selected = tabState.answers[`q${index}`];
+        if (selected !== undefined) {
+          answered++;
+          if (selected === item.correct) correct++;
+          else wrong++;
+        }
+      });
+
+      const blank = topic.questions.length - answered;
+      const score = Math.max(0, (correct / topic.questions.length) * 10);
+      tabState.score = score;
+      if (markSubmitted) tabState.submitted = true;
+      saveState(state);
+
+      resultText.textContent = `Has respondido ${answered} de ${topic.questions.length} preguntas. La corrección detallada queda debajo de cada pregunta.`;
+      resAnswered.textContent = answered;
+      resBlank.textContent = blank;
+      resCorrect.textContent = correct;
+      resWrong.textContent = wrong;
+      resScore.textContent = score.toFixed(2);
+      resultBanner.className = "result-banner show " + (score >= 5 ? "ok" : "bad");
+      resultBanner.textContent = score >= 5 ? `✅ Vas bien en esta pestaña: ${score.toFixed(2)} / 10` : `⚠️ Llevas ${score.toFixed(2)} / 10 en esta pestaña`;
+    }
+
+    function updateCounters() {
+      const tabState = loadState().tabs[currentTab];
+      const total = TOPICS[currentTab].questions.length;
+      const answered = Object.keys(tabState.answers).length;
+      answeredCount.textContent = answered;
+      blankCount.textContent = total - answered;
+      totalCount.textContent = total;
+    }
+
+    function revealCorrections(scrollResult=true) {
+      const state = loadState();
+      state.tabs[currentTab].submitted = true;
+      saveState(state);
+      calculateAndPaint(true);
+      buildTabs();
+      computeGlobalAverage();
+      if (scrollResult) resultBanner.scrollIntoView({behavior:"smooth", block:"nearest"});
+    }
+
+    function resetTab() {
+      const state = loadState();
+      state.tabs[currentTab] = { answers: {}, submitted: false, score: null };
+      saveState(state);
+      render();
+    }
+
+    function resetAll() {
+      localStorage.removeItem(STORAGE_KEY);
+      currentTab = "sociedad_eidas";
+      render();
+      startTimer();
+    }
+
+    finishBtn.addEventListener("click", () => revealCorrections(true));
+    resetBtn.addEventListener("click", resetTab);
+    resetAllBtn.addEventListener("click", resetAll);
+
+    render();
+    startTimer();
+  </script>
+</body>
+</html>
