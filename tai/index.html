@@ -1,175 +1,131 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asignatura</title>
+  <meta charset="UTF-8">
+  <title>TAI · Plataforma de tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
-<style>
-  
-  <script>
-const path = window.location.pathname.toLowerCase();
+  <style>
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#fff8f2,#ffe8d6);
+    }
 
-let texto = "Inicio";
+    .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:30px;
+    }
 
-if(path.includes("tai")) texto = "Inicio > TAI";
-if(path.includes("bdd")) texto = "Inicio > BBDD";
-if(path.includes("ciberseguridad")) texto = "Inicio > Ciberseguridad";
-if(path.includes("sostenibilidad")) texto = "Inicio > Sostenibilidad";
+    h1{
+      text-align:center;
+      color:#8e3d00;
+      margin-bottom:30px;
+    }
 
-if(path.includes("test")) texto += " > Test";
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
+    }
 
-document.getElementById("breadcrumb").innerText = texto;
-</script>
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#f7efe5;
-}
+    .card{
+      background:white;
+      padding:20px;
+      border-radius:20px;
+      box-shadow:0 10px 20px rgba(0,0,0,0.1);
+      border:1px solid #f2ccb0;
+    }
 
-/* HEADER */
-.header{
-  text-align:center;
-  padding:50px 20px 20px;
-}
+    .card h3{
+      margin:0 0 10px;
+      color:#a54800;
+    }
 
-.header h1{
-  font-size:32px;
-  color:#7c2d12;
-}
+    .card p{
+      font-size:14px;
+      color:#6b4b35;
+      margin-bottom:15px;
+    }
 
-.header p{
-  color:#9a6a4f;
-}
+    .btn{
+      display:block;
+      text-align:center;
+      padding:12px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      background:linear-gradient(135deg,#ff7a00,#ff9e44);
+      color:white;
+    }
 
-/* BOTÓN VOLVER */
-.back{
-  position:absolute;
-  top:20px;
-  left:20px;
-}
+    .btn:hover{
+      opacity:0.9;
+    }
 
-.back a{
-  text-decoration:none;
-  font-weight:600;
-  color:#7c2d12;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-  padding:30px;
-  max-width:1100px;
-  margin:auto;
-}
-
-/* CARD */
-.card{
-  background:#fff;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
-  transition:0.2s;
-}
-
-.card:hover{
-  transform:translateY(-5px);
-}
-
-/* TOP */
-.card-top{
-  display:flex;
-  justify-content:space-between;
-}
-
-.icon-box{
-  font-size:22px;
-}
-
-.tag{
-  background:#fff4ea;
-  padding:5px 10px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:700;
-  color:#c2410c;
-}
-
-/* BOTONES */
-.actions{
-  margin-top:15px;
-}
-
-.btn{
-  display:inline-block;
-  padding:10px 15px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,#ff7a18,#ff9f43);
-  color:white;
-}
-
-.btn-secondary{
-  background:#f1f5f9;
-  color:#334155;
-}
-</style>
+  </style>
 </head>
 
 <body>
 
-<div class="back">
-  <a href="../index.html">⬅ Volver</a>
-</div>
+<div class="wrap">
 
-<div class="header">
-  <h1>💻 TAI</h1>
-  <p>Selecciona un test para practicar</p>
-</div>
+<h1>📝 Plataforma TAI · Tests completos</h1>
 
 <div class="grid">
 
-  <!-- TEST 1 -->
-  <article class="card">
-    <div class="card-top">
-      <div class="icon-box">🧪</div>
-      <div class="tag">TEST</div>
-    </div>
+  <div class="card">
+    <h3>🔥 Examen oficial completo</h3>
+    <p>Simulacro real con penalización tipo oposición.</p>
+    <a class="btn" href="tai_final_completo.html">Entrar</a>
+  </div>
 
-    <h3>Test 1</h3>
+  <div class="card">
+    <h3>🎯 Simulacros por bloques</h3>
+    <p>Modo oposición con preguntas aleatorias y bloques.</p>
+    <a class="btn" href="tai_oposicion_2026_80_aleatorias_bloques.html">Entrar</a>
+  </div>
 
-    <p>Descripción del test.</p>
+  <div class="card">
+    <h3>⚡ Feedback inmediato</h3>
+    <p>Modo entrenamiento con corrección instantánea.</p>
+    <a class="btn" href="tai_oposicion_2026_feedback_inmediato.html">Entrar</a>
+  </div>
 
-    <div class="actions">
-   <a class="btn btn-primary" href="tai_final_completo.html">
-  📝 Examen final TAI
-</a>
-    </div>
-  </article>
+  <div class="card">
+    <h3>📚 Test por pestañas (global)</h3>
+    <p>6 unidades + mix final con nota global.</p>
+    <a class="btn" href="tai_test_completo_pestanas_bloqueo_tiempo_global.html">Entrar</a>
+  </div>
 
-  <!-- TEST 2 -->
-  <article class="card">
-    <div class="card-top">
-      <div class="icon-box">🧪</div>
-      <div class="tag">TEST</div>
-    </div>
+  <div class="card">
+    <h3>🧩 Nuevos 6 temas</h3>
+    <p>SQL, Java, algoritmos, periféricos…</p>
+    <a class="btn" href="tai_nuevos_6_temas_pestanas_bloqueo.html">Entrar</a>
+  </div>
 
-    <h3>Test 2</h3>
+  <div class="card">
+    <h3>🚀 Nuevos 7 temas</h3>
+    <p>Correo, HTTP, VPN, cliente/servidor…</p>
+    <a class="btn" href="tai_7_temas_nuevos_final.html">Entrar</a>
+  </div>
 
-    <p>Próximamente disponible.</p>
+  <div class="card">
+    <h3>🧠 Pack nuevos temas</h3>
+    <p>Patrones, virtualización, redes, microservicios…</p>
+    <a class="btn" href="tai_temas_nuevos_pack_final.html">Entrar</a>
+  </div>
 
-    <div class="actions">
-      <a class="btn btn-secondary">No disponible</a>
-    </div>
-  </article>
+  <div class="card">
+    <h3>💥 Último pack TOP</h3>
+    <p>eIDAS, ENS, NoSQL, SSOO, accesibilidad…</p>
+    <a class="btn" href="tai_pack_nuevos_temas_2_final.html">Entrar</a>
+  </div>
+
+</div>
 
 </div>
 
