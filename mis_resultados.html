@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis resultados</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=co9UZPiSbybFcbxwfWNNWybOV3IY5WfBy5HA4g8XnJvDBimBduNH3QdxWXWpT3_bt9eNkRDkPnVHL3EHv1wNmoeJXSEAF2wkLtrsA317V7WQeNC2qlEOtQtS3klSRF75lahaqo5-xZ1WvjQCZ7vzcXTvETspOdzd87EIag_6y0k4vuMufIhhagZPZ6psumoyvrQvQ2Hgxscv1MVWLQ1ZHWoIEyRKr86EM9DFgVjyudU80uTjq2yIWvFFMAP-TDY6zGaSpj1Sh1epd7ozYXLqOg" charset="UTF-8"></script><style>
+    :root{--bg1:#fff8f2;--bg2:#ffe8d6;--border:#f2ccb0;--text:#3e2617;--soft:#7c5d48;--title:#8e3d00;--orange:#ff7a00;--orange2:#ff9e44;--shadow:rgba(143,63,0,.10);--ok:#15803d;--okbg:#dcfce7;--bad:#b91c1c;--badbg:#fee2e2}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Poppins,Arial,Helvetica,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);min-height:100vh}
+    .wrap{max-width:980px;margin:0 auto;padding:24px 14px 50px}
+    .hero,.panel,.auth-box{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:24px;box-shadow:0 14px 28px var(--shadow)}
+    .hero{padding:24px;margin-bottom:18px}.panel{padding:20px}.auth-box{max-width:520px;margin:40px auto 0;padding:22px}
+    .hero-top{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:14px}.brand img{width:68px;height:68px;border-radius:18px;object-fit:cover;box-shadow:0 10px 24px rgba(255,122,0,.24)}
+    h1{color:var(--title);font-size:32px;margin-bottom:6px}.sub{color:var(--soft);line-height:1.55}
+    .btn{text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}.btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .message{display:none;margin-top:14px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:700}.message.ok{display:block;background:var(--okbg);color:var(--ok);border:1px solid #86efac}.message.bad{display:block;background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .field{margin-bottom:14px}.field label{display:block;font-size:14px;font-weight:700;color:#7c4a25;margin-bottom:8px}.field input{width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:#fff;font-size:15px;color:var(--text);outline:none}
+    .field input:focus{border-color:#f0a96d;box-shadow:0 0 0 4px rgba(255,122,0,.08)}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
+    .stat{background:#fff8f2;border:1px solid var(--border);border-radius:18px;padding:16px}.stat strong{display:block;color:var(--title);font-size:28px;line-height:1;margin-bottom:6px}.stat span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-list{display:grid;gap:12px}.result-item{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--border);background:#fffaf7;border-radius:18px;padding:14px 16px}
+    .score-pill{padding:8px 12px;border-radius:999px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;font-size:13px;font-weight:800;min-width:68px;text-align:center}
+    @media (max-width:680px){.brand img{width:56px;height:56px}h1{font-size:26px}.btn{width:100%}.hero-top{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div id="authScreen" class="auth-box">
+    <div style="text-align:center;margin-bottom:18px;">
+      <img src="logo.png" alt="Logo" style="width:78px;height:78px;border-radius:20px;object-fit:cover;box-shadow:0 10px 24px rgba(255,122,0,.24);margin-bottom:12px;">
+      <h1 style="font-size:30px;">Mis resultados</h1>
+      <p class="sub">Cada alumno verá únicamente sus notas personales.</p>
+    </div>
+    <div class="field"><label for="loginEmail">Correo</label><input type="email" id="loginEmail" placeholder="tucorreo@ejemplo.com" /></div>
+    <div class="field"><label for="loginPassword">Contraseña</label><input type="password" id="loginPassword" placeholder="Tu contraseña" /></div>
+    <button class="btn btn-primary" style="width:100%;" id="loginBtn">Entrar</button>
+    <div class="message" id="msgBox"></div>
+  </div>
+
+  <main id="app" class="wrap" style="display:none;">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <img src="logo.png" alt="Logo">
+          <div><h1>Mis resultados</h1><p id="userEmail" class="sub">Alumno</p></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn btn-secondary" href="index_principal_ligero.html">⬅ Volver al index</a>
+          <button class="btn btn-primary" id="logoutBtn">Cerrar sesión</button>
+        </div>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="stats">
+        <div class="stat"><strong id="testsCount">0</strong><span>Tests guardados</span></div>
+        <div class="stat"><strong id="avgScore">0.0</strong><span>Media</span></div>
+        <div class="stat"><strong id="bestScore">0.0</strong><span>Mejor nota</span></div>
+      </div>
+      <div class="result-list" id="resultsList">
+        <div class="result-item"><span>Aún no hay resultados guardados</span><span class="score-pill">--</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    const firebaseConfig={apiKey:"AIzaSyCkk4qjA7ziNF79bm418N9J_qKZ6R2O7dQ",authDomain:"uax-tests.firebaseapp.com",projectId:"uax-tests",databaseURL:"https://uax-tests-default-rtdb.firebaseio.com",storageBucket:"uax-tests.firebasestorage.app",messagingSenderId:"42201199894",appId:"1:42201199894:web:906ceb1a9ae9a5e58cfdb7",measurementId:"G-06KL27WT6W"};
+    const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+    const authScreen=document.getElementById("authScreen"), appScreen=document.getElementById("app"), msgBox=document.getElementById("msgBox");
+    function setMessage(text,type="bad"){msgBox.className="message "+type;msgBox.textContent=text;}
+    function clearMessage(){msgBox.className="message";msgBox.textContent="";}
+    async function loadResults(user){
+      const snap=await getDoc(doc(db,"usuarios",user.uid));
+      const list=document.getElementById("resultsList");
+      document.getElementById("userEmail").textContent=user.email||"Alumno";
+      if(!snap.exists()){document.getElementById("testsCount").textContent="0";document.getElementById("avgScore").textContent="0.0";document.getElementById("bestScore").textContent="0.0";list.innerHTML='<div class="result-item"><span>Aún no hay resultados guardados</span><span class="score-pill">--</span></div>';return;}
+      const data=snap.data();
+      const entries=Object.entries(data).filter(([k,v])=>!["email","uid","updatedAt"].includes(k)&&typeof v==="number").sort((a,b)=>a[0].localeCompare(b[0]));
+      if(!entries.length){document.getElementById("testsCount").textContent="0";document.getElementById("avgScore").textContent="0.0";document.getElementById("bestScore").textContent="0.0";list.innerHTML='<div class="result-item"><span>Aún no hay resultados guardados</span><span class="score-pill">--</span></div>';return;}
+      const scores=entries.map(([,s])=>Number(s)), avg=scores.reduce((a,b)=>a+b,0)/scores.length, best=Math.max(...scores);
+      document.getElementById("testsCount").textContent=String(entries.length);
+      document.getElementById("avgScore").textContent=avg.toFixed(2);
+      document.getElementById("bestScore").textContent=best.toFixed(2);
+      list.innerHTML=entries.map(([exam,score])=>`<div class="result-item"><div><strong style="display:block;color:#4b250b;margin-bottom:4px;">${exam.replaceAll("_"," ")}</strong><span class="sub">Resultado guardado en Firebase</span></div><span class="score-pill">${Number(score).toFixed(2)}</span></div>`).join("");
+    }
+    document.getElementById("loginBtn").addEventListener("click", async()=>{clearMessage(); const email=document.getElementById("loginEmail").value.trim(); const password=document.getElementById("loginPassword").value.trim(); if(!email||!password){setMessage("Rellena correo y contraseña."); return;} try{await signInWithEmailAndPassword(auth,email,password);}catch(e){setMessage("Correo o contraseña incorrectos.");}});
+    document.getElementById("logoutBtn").addEventListener("click", async()=>{await signOut(auth);});
+    onAuthStateChanged(auth, async(user)=>{if(user){authScreen.style.display="none";appScreen.style.display="block";await loadResults(user);}else{authScreen.style.display="block";appScreen.style.display="none";}});
+  </script>
+</body>
+</html>
