@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificado de Profesionalidad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=E07U6poH0eS4S97to_v6RWAhF9Fd9NhyN2XBIaOiCjkEN4eV1XMXlr5bkcerN1e1jobWK-hZq6itPaTtQq9PKTrcg5IvnVY3OV4bmkr5rDg7tRkq2Lq7Y0C8XUhb6OT5ydv6lLOpCODOeW3JPOtGJX0GGqk3_oJT9bUzC7mh_vD8DwCHPg7ZYhXLp5zyXS_xh6Xyzxh1VSXY1xvgTJ9ZlC6MS4e-oFSEceKB28WUlUBV2gT7Z1uMVY5TJC3qsAhkdWXGlcQhMlWzZ5Ignvi1aQ" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2;
+      --bg2:#ffe8d6;
+      --border:#f2ccb0;
+      --text:#3e2617;
+      --soft:#7c5d48;
+      --title:#8e3d00;
+      --orange:#ff7a00;
+      --orange2:#ff9e44;
+      --shadow:0 14px 28px rgba(143,63,0,.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      color:var(--text);
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 80px}
+    .hero,.card,.info{
+      background:rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+    .hero{
+      border-radius:28px;
+      padding:28px;
+      margin-bottom:20px;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#fff3e8;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:8px 14px;
+      color:#a54800;
+      font-size:13px;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0 0 10px;
+      color:var(--title);
+      font-size:clamp(28px,4vw,42px);
+    }
+    .hero p{
+      margin:0;
+      line-height:1.7;
+      color:var(--soft);
+    }
+    .stats{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+    .pill{
+      background:#fff7ef;
+      border:1px solid var(--border);
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      color:#a54800;
+      font-size:14px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      border-radius:24px;
+      padding:22px;
+    }
+    .card h2{
+      margin:0 0 8px;
+      color:var(--title);
+      font-size:24px;
+    }
+    .card p{
+      margin:0 0 18px;
+      line-height:1.7;
+      color:var(--soft);
+    }
+    .tag-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .tag{
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fff8f3;
+      border:1px solid var(--border);
+      color:#a54800;
+      font-size:12px;
+      font-weight:700;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-decoration:none;
+      border:none;
+      cursor:pointer;
+      border-radius:14px;
+      padding:13px 18px;
+      font-size:15px;
+      font-weight:700;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      color:#fff;
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+      box-shadow:0 10px 20px rgba(255,122,0,.23);
+    }
+    .btn-secondary{
+      color:#a54800;
+      background:#fff8f3;
+      border:1px solid var(--border);
+    }
+    .info{
+      margin-top:22px;
+      border-radius:22px;
+      padding:20px;
+    }
+    .info h3{
+      margin:0 0 10px;
+      color:var(--title);
+    }
+    .info p{
+      margin:0;
+      color:var(--soft);
+      line-height:1.7;
+    }
+    @media (max-width:700px){
+      .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">📘 Plataforma · Certificado de Profesionalidad</div>
+      <h1>Panel principal del Certificado de Profesionalidad</h1>
+      <p>
+        Desde este index puedes entrar directamente a los módulos y abrir sus test.
+        Te he dejado ya preparado el acceso al <strong>Módulo 1</strong>, enlazado con el test que me has adjuntado.
+      </p>
+      <div class="stats">
+        <div class="pill">Diseño responsive</div>
+        <div class="pill">Acceso rápido a módulos</div>
+        <div class="pill">Integrado con tu test</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>📚 Módulo 1</h2>
+        <p>
+          Acceso directo al test del Módulo 1 en formato por pestañas, con autocorrección,
+          bloqueo de respuestas y nota final.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Test autocorregible</span>
+          <span class="tag">Por pestañas</span>
+          <span class="tag">Nota final</span>
+        </div>
+        <a class="btn btn-primary" href="cp_modulo1_test_tabs.html">Abrir test Módulo 1</a>
+      </article>
+
+      <article class="card">
+        <h2>🛠 Próximos módulos</h2>
+        <p>
+          He dejado este bloque preparado para que luego puedas añadir Módulo 2, Módulo 3,
+          o los que quieras, manteniendo el mismo diseño del panel principal.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Preparado para ampliar</span>
+          <span class="tag">Mismo estilo visual</span>
+        </div>
+        <a class="btn btn-secondary" href="#">Disponible próximamente</a>
+      </article>
+    </section>
+
+    <section class="info">
+      <h3>Información</h3>
+      <p>
+        El botón de Módulo 1 abre el archivo del test que has adjuntado en esta conversación,
+        así que ya queda conectado con el contenido que me pasaste.
+      </p>
+    </section>
+  </div>
+</body>
+</html>
