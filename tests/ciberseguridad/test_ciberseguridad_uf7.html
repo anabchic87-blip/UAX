@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciberseguridad UF7 · Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=TUA3z99SfD2I5g-4yjpbN_5Yrzma_it-o1TSIPM7vxJ_UJ__gaw2HMMJCXLyU2ryUcrbW997tij-sAsB_bWhe0wl1O9kfEV0i0u6JjVGeuGXVBbtnKS289qAbPQyzjeYMtsnngh_1HaHzmx0-Yb6AwOIMBURgafhtKa8ddnYhfpAxZwcp0dMMTDNWr0XpbtLWmJz6CONE0xRG0ZEUmZC4kSb0M-YzL7qqyV8XtXpEQXZfcbw7UaLcUlXJQ9GV2eLmGNAYq_YkQ1wIn65U5w0dQ" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.toolbar,.question,.result-box{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-bottom:18px}
+    .hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.6}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .toolbar{position:sticky;top:10px;z-index:20;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .counter{display:flex;gap:10px;flex-wrap:wrap}
+    .counter-card{background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;min-width:140px;text-align:center}
+    .counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+    .counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+    .btn{text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .questions{display:grid;gap:16px}
+    .question{padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:76px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;cursor:pointer}
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+    .feedback-note.show{display:block}
+    .result-box{margin-top:22px;padding:20px}
+    .result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+    .helper{color:var(--soft);line-height:1.6}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+    .result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+    .result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+    .result-card span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    @media (max-width:700px){.btn{width:100%} .counter-card{flex:1 1 120px} .qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <section class="hero">
+      <div class="eyebrow">🛡️ Ciberseguridad · UF7</div>
+      <h1>Ciberseguridad · Cuestionario UF7</h1>
+      <p>Test autocorregible con el mismo estilo visual del ejemplo que me pasaste: nota final, corrección inmediata, botón para subir arriba y botón para volver al index.</p>
+      <div class="stats">
+        <div class="pill">📚 15 preguntas</div>
+        <div class="pill">✅ Autocorregible</div>
+        <div class="pill">📝 Nota sobre 10</div>
+        <div class="pill">🏠 Botón a index</div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">15</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="correctLive">0</strong><span>Aciertos</span></div>
+        <div class="counter-card"><strong id="wrongLive">0</strong><span>Fallos</span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" id="submitBtn">✅ Corregir test</button>
+        <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar</button>
+        <a class="btn btn-ghost" href="index.html">🏠 Home</a>
+      </div>
+    </section>
+
+    <form id="quizForm">
+      <section class="questions" id="questions"></section>
+    </form>
+
+    <section class="result-box">
+      <h2>Resultado del test</h2>
+      <div class="helper" id="resultText">Aún no has corregido el test.</div>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Total respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota sobre 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+        <a class="btn btn-ghost" href="index.html">🏠 Volver al index</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    
+
+
+
+
+const QUESTIONS = [
+{question:"¿Cuál es el principal objetivo de la criptografía en la seguridad informática?",options:["Reducir el tamaño de los archivos almacenados.","Acelerar la velocidad de transmisión de datos.","Proteger la información garantizando la confidencialidad, la integridad y la autenticación."],correct:"c"},
+{question:"¿Cuál es la principal función de un certificado digital?",options:["Almacenar claves de cifrado de forma segura.","Verificar la identidad de una entidad y su clave pública.","Garantizar que un mensaje no ha sido interceptado."],correct:"b"},
+{question:"¿Qué distingue al cifrado asimétrico del cifrado simétrico?",options:["Utiliza un par de claves: una pública y una privada.","Usa la misma clave para cifrar y descifrar datos.","No requiere claves para funcionar."],correct:"a"},
+{question:"¿Cuál es la función principal de la firma digital en un documento?",options:["Verificar la autenticidad y la integridad del documento.","Asegurar que solo una persona específica pueda abrirlo.","Comprimir su tamaño para facilitar la transmisión."],correct:"a"},
+{question:"¿Qué método se utiliza para verificar que un archivo descargado no ha sido modificado?",options:["Uso de una VPN para proteger la descarga.","Cifrado del archivo con una clave privada.","Comparación de su hash con el publicado por el proveedor."],correct:"c"},
+{question:"¿Qué tecnología permite verificar la identidad de un servidor en una conexión segura?",options:["Firewall.","Certificado digital.","VPN."],correct:"b"},
+{question:"¿Qué permite la infraestructura de clave pública (PKI)?",options:["Proteger sistemas operativos contra ataques de malware.","Administrar claves y certificados digitales para la autenticación y el cifrado.","Acelerar la conexión a Internet mediante el cifrado de datos."],correct:"b"},
+{question:"¿Qué hace el protocolo HMAC en la seguridad informática?",options:["Garantizar la integridad y la autenticación de los datos mediante funciones hash y claves secretas.","Cifrar discos duros completos para proteger los datos almacenados.","Proteger el tráfico de la red en conexiones wifi públicas."],correct:"a"},
+{question:"¿Cuál de los siguientes algoritmos pertenece a la criptografía simétrica?",options:["Diffie-Hellman.","AES.","RSA."],correct:"b"},
+{question:"¿Qué mecanismo de seguridad se utiliza en HTTPS para cifrar las comunicaciones?",options:["VPN.","SSL/TLS.","WAF."],correct:"b"},
+{question:"¿Cuál de los siguientes mecanismos se usa para verificar la autenticidad de un documento digital?",options:["VPN (Red Privada Virtual).","Firma digital.","Función hash."],correct:"b"},
+{question:"¿Qué función tiene un hash criptográfico en la seguridad de la información?",options:["Generar un valor único que permite verificar la integridad de los datos.","Asegurar que un mensaje solo pueda ser leído por el destinatario correcto.","Cifrar y descifrar mensajes de manera segura."],correct:"a"},
+{question:"¿Qué garantiza el no repudio en la criptografía?",options:["Que los datos cifrados sean ilegibles para terceros.","Que solo el remitente pueda leer el mensaje cifrado.","Que un usuario no pueda negar haber enviado un mensaje firmado digitalmente."],correct:"c"},
+{question:"¿Qué infraestructura permite la gestión de claves y certificados digitales?",options:["PKI (infraestructura de clave pública).","AES (Advanced Encryption Standard).","SSL/TLS."],correct:"a"},
+{question:"¿Qué protocolo permite el intercambio seguro de claves en una red insegura?",options:["Diffie-Hellman.","SHA-256.","HMAC."],correct:"a"}
+];
+
+
+
+
+
+
+    const TOTAL = QUESTIONS.length;
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const correctLive = document.getElementById("correctLive");
+    const wrongLive = document.getElementById("wrongLive");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultText = document.getElementById("resultText");
+    const resultBanner = document.getElementById("resultBanner");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+
+    let submitted = false;
+
+    function renderQuestions() {
+      questionsBox.innerHTML = "";
+      QUESTIONS.forEach((item, index) => {
+        const q = document.createElement("article");
+        q.className = "question";
+        q.innerHTML = `
+          <div class="qhead">
+            <div class="badge">${index + 1}/${TOTAL}</div>
+            <h3 class="qtitle">${item.question}</h3>
+          </div>
+          <div class="options">
+            ${item.options.map((opt, i) => {
+              const value = String.fromCharCode(97 + i);
+              return `
+                <label class="opt" data-question="${index}" data-value="${value}">
+                  <input type="radio" name="q${index}" value="${value}">
+                  <span><strong>${value})</strong> ${opt}</span>
+                </label>
+              `;
+            }).join("")}
+          </div>
+          <div class="feedback-note" id="feedback-${index}"></div>
+        `;
+        questionsBox.appendChild(q);
+      });
+      updateProgress();
+    }
+
+    function calculateLive() {
+      let answered = 0, blank = 0, correct = 0, wrong = 0;
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+          answered++;
+          if (selected.value === item.correct) correct++;
+          else wrong++;
+        } else {
+          blank++;
+        }
+      });
+      answeredCount.textContent = answered;
+      blankCount.textContent = blank;
+      correctLive.textContent = correct;
+      wrongLive.textContent = wrong;
+      return { answered, blank, correct, wrong };
+    }
+
+    function updateProgress() {
+      calculateLive();
+    }
+
+    function applyInstantCorrection(index) {
+      const item = QUESTIONS[index];
+      const labels = document.querySelectorAll(`[data-question="${index}"]`);
+      const selected = document.querySelector(`input[name="q${index}"]:checked`);
+      const feedback = document.getElementById(`feedback-${index}`);
+
+      labels.forEach(label => {
+        const value = label.getAttribute("data-value");
+        label.classList.remove("selected", "correct", "wrong");
+        if (selected && selected.value === value) label.classList.add("selected");
+        if (selected && value === item.correct) label.classList.add("correct");
+        if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+      });
+
+      if (selected) {
+        feedback.classList.add("show");
+        feedback.textContent = selected.value === item.correct
+          ? `✅ Correcta: ${item.correct.toUpperCase()}`
+          : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`;
+      }
+    }
+
+    function revealCorrections() {
+      QUESTIONS.forEach((item, index) => {
+        const labels = document.querySelectorAll(`[data-question="${index}"]`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feedback-${index}`);
+
+        labels.forEach(label => {
+          const value = label.getAttribute("data-value");
+          label.classList.remove("selected");
+          if (value === item.correct) label.classList.add("correct");
+          if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+        });
+
+        feedback.classList.add("show");
+        if (selected) {
+          feedback.textContent = selected.value === item.correct
+            ? `✅ Correcta: ${item.correct.toUpperCase()}`
+            : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`;
+        } else {
+          feedback.textContent = `⚪ En blanco · Correcta: ${item.correct.toUpperCase()}`;
+        }
+      });
+    }
+
+    function submitQuiz() {
+      if (submitted) return;
+      submitted = true;
+
+      const result = calculateLive();
+      const score = ((result.correct / TOTAL) * 10).toFixed(2);
+
+      resAnswered.textContent = result.answered;
+      resBlank.textContent = result.blank;
+      resCorrect.textContent = result.correct;
+      resWrong.textContent = result.wrong;
+      resScore.textContent = score;
+
+      resultText.textContent = `Has respondido ${result.answered} de ${TOTAL} preguntas. Tienes ${result.correct} aciertos y ${result.wrong} fallos.`;
+      resultBanner.className = "result-banner show " + (Number(score) >= 5 ? "ok" : "bad");
+      resultBanner.textContent = Number(score) >= 5
+        ? `✅ Test superado con un ${score} sobre 10`
+        : `⚠️ Test en ${score} sobre 10. Repasa la unidad y vuelve a intentarlo.`;
+
+      quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+      submitBtn.disabled = true;
+      revealCorrections();
+      document.querySelector(".result-box").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetQuiz() {
+      submitted = false;
+      resultText.textContent = "Aún no has corregido el test.";
+      resultBanner.className = "result-banner";
+      resultBanner.textContent = "";
+      resAnswered.textContent = "0";
+      resBlank.textContent = "0";
+      resCorrect.textContent = "0";
+      resWrong.textContent = "0";
+      resScore.textContent = "0.00";
+      renderQuestions();
+      submitBtn.disabled = false;
+      document.getElementById("top").scrollIntoView({ behavior: "smooth" });
+    }
+
+    quizForm.addEventListener("change", (event) => {
+      const radio = event.target;
+      if (!radio.matches('input[type="radio"]')) return;
+      const name = radio.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(inp => inp.closest('.opt')?.classList.remove('selected'));
+      radio.closest('.opt')?.classList.add('selected');
+      const index = Number(name.replace("q", ""));
+      applyInstantCorrection(index);
+      updateProgress();
+    });
+
+    submitBtn.addEventListener("click", submitQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+
+    renderQuestions();
+  </script>
+</body>
+</html>

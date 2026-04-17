@@ -1,0 +1,12 @@
+/* INTEGRA FORMACIÓN - estilos base */
+:root{
+  --primary:#ff7a00;
+  --dark:#1f1f1f;
+  --light:#ffffff;
+}
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#fff;
+  color:var(--dark);
+}

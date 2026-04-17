@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SGBD · UF3 · Test mixto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --ia:#7c3aed; --iabg:#f3e8ff;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.toolbar,.question,.result-box,.filter-box{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-bottom:18px}
+    .hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.6}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .toolbar{position:sticky;top:10px;z-index:20;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .top-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .top-nav-title{font-weight:800;color:var(--title);font-size:14px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:10px 14px}
+    .counter{display:flex;gap:10px;flex-wrap:wrap}
+    .counter-card{background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;min-width:140px;text-align:center}
+    .counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+    .counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+    .btn{text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .filter-box{padding:16px;margin-bottom:18px}
+    .filter-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .filter-pill{padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:#fff7ef;color:#a54800;font-weight:800;cursor:pointer}
+    .filter-pill.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-color:transparent}
+    .questions{display:grid;gap:16px}
+    .section-title{margin:10px 0 4px;color:var(--title);font-size:24px}
+    .section-subtitle{margin:0 0 12px;color:var(--soft)}
+    .question{padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .meta-line{margin:6px 0 0;color:#8b5e3c;font-size:13px;font-weight:700}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff}
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .result-box{margin-top:22px;padding:20px}
+    .result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+    .helper{color:var(--soft);line-height:1.6}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+    .result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+    .result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+    .result-card span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+    .feedback-note.show{display:block}
+    .bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    .hidden{display:none !important}
+    @media (max-width:700px){.btn{width:100%} .counter-card{flex:1 1 120px} .qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+
+    <section class="top-nav">
+      <a class="btn btn-secondary" href="../index.html" id="homeBtn">⬅ Volver al panel principal</a>
+      <div class="top-nav-title">Panel principal UAX</div>
+    </section>
+
+    <section class="hero">
+      <div class="eyebrow">☁️ SGBD · UF3</div>
+      <h1>Bases de datos y big data en la nube · Test completo</h1>
+      <p>Cuestionario autocorregible basado en el PDF de UF3 sobre RDS, snapshots, monitorización, migración, escalado vertical y horizontal, Redshift, ETL o ELT, data lake, Athena, Aurora y Glue.</p>
+      <div class="stats">
+        <div class="pill">📚 60 preguntas</div>
+        <div class="pill">🟢 20 fáciles</div>
+        <div class="pill">🟠 20 medias</div>
+        <div class="pill">🔴 20 difíciles</div>
+      </div>
+    </section>
+
+    <section class="filter-box">
+      <div class="filter-row">
+        <button class="filter-pill active" data-filter="todas" type="button">Todas</button>
+        <button class="filter-pill" data-filter="facil" type="button">Fáciles</button>
+        <button class="filter-pill" data-filter="medio" type="button">Medias</button>
+        <button class="filter-pill" data-filter="dificil" type="button">Difíciles</button>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">60</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="easyAnswered">0</strong><span>Fáciles</span></div>
+        <div class="counter-card"><strong id="mediumAnswered">0</strong><span>Medias</span></div>
+        <div class="counter-card"><strong id="hardAnswered">0</strong><span>Difíciles</span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" id="submitBtn">✅ Ver resultado final</button>
+        <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar</button>
+        <a class="btn btn-ghost" href="#resultado">📊 Ir al resultado</a>
+      </div>
+    </section>
+
+    <form id="quizForm">
+      <section class="questions" id="questions"></section>
+    </form>
+
+    <section class="result-box" id="resultado">
+      <h2>Resultado del test</h2>
+      <div class="helper" id="resultText">La corrección se muestra al instante mientras haces el test.</div>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Total respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota sobre 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+        <a class="btn btn-secondary" href="../index.html" id="homeBtnBottom">🏠 Ir al panel principal</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const EXAM_KEY = "sgbd_uf3_60_preguntas";
+    const QUESTIONS = [{"difficulty": "facil", "type": "mcq", "question": "RDS en AWS es un servicio de tipo...", "options": ["DBaaS relacional", "Editor de texto", "Sistema operativo", "Navegador web"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "En RDS se pueden desplegar motores como...", "options": ["MySQL, MariaDB o PostgreSQL", "Solo Access", "Solo SQLite", "Solo MongoDB Atlas"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Las copias automáticas en RDS se llaman habitualmente...", "options": ["Snapshots o instantáneas", "Triggers", "Vistas", "Parches"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "CloudWatch en AWS se utiliza para...", "options": ["Monitorización y análisis de logs", "Crear tablas en local", "Diseñar HTML", "Formatear discos físicos"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Enhanced Monitoring ofrece...", "options": ["Estadísticas más detalladas de recursos", "Copias lógicas SQL", "Un editor de código", "Claves primarias automáticas"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Performance Insights ayuda a analizar...", "options": ["Rendimiento de SQL, esperas y carga", "Solo imágenes", "Solo backups en frío", "Únicamente contraseñas"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Una migración Lift and Shift consiste en...", "options": ["Replicar la estructura existente de forma parecida en la nube", "Rehacer todo desde cero", "Eliminar todos los datos", "Pasar de cloud a papel"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "AWS Database Migration Service se usa para...", "options": ["Ayudar en migraciones de bases de datos", "Diseñar páginas web", "Cifrar discos locales", "Reparar teclados"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Una base de datos RDS en única instancia es...", "options": ["El despliegue más sencillo", "Un clúster multimaestro", "Una réplica de lectura obligatoria", "Un data lake"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "El escalado vertical en RDS consiste en...", "options": ["Aumentar CPU, RAM o disco de una instancia", "Añadir tablas nuevas", "Cambiar el idioma del panel", "Crear más usuarios"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "El escalado horizontal se basa en...", "options": ["Añadir más máquinas o nodos en paralelo", "Cambiar solo la contraseña root", "Reducir el tamaño de la base", "Borrar los logs"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Aurora es un motor...", "options": ["NewSQL nativo para AWS", "Solo para hojas de cálculo", "Sin compatibilidad con SQL", "Solo de escritorio"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Una réplica de lectura sirve para...", "options": ["Descargar consultas de lectura del maestro", "Hacer siempre escrituras más rápidas", "Desactivar backups", "Eliminar snapshots"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Un datawarehouse es...", "options": ["Un repositorio central para análisis y previsión", "Una tabla temporal", "Un antivirus", "Una VPN"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "El servicio de datawarehouse de AWS es...", "options": ["Redshift", "Athena", "CloudTrail", "Snowball"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "ETL significa...", "options": ["Extraer, transformar y cargar", "Entrenar, testear y lanzar", "Ejecutar, transferir y listar", "Exportar, truncar y loguear"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Un data lake suele almacenar...", "options": ["Grandes volúmenes de datos en bruto o semiestructurados", "Solo contraseñas", "Solo imágenes pequeñas", "Solo backups físicos"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Athena permite consultar datos de forma serverless sobre...", "options": ["Un data lake", "Una impresora", "Un router doméstico", "Un archivo HTML"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "Glue es un servicio orientado a...", "options": ["Integración y transformación de datos", "Dibujar diagramas UML", "Crear usuarios Linux", "Editar vídeos"], "correct": "a"}, {"difficulty": "facil", "type": "mcq", "question": "CloudTrail y Config ayudan a registrar...", "options": ["Recursos y cambios de configuración", "Solo consultas SELECT", "Solo direcciones IP del navegador", "Únicamente copias de seguridad locales"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "En RDS, los grupos de opciones sirven para...", "options": ["Definir características y extensiones propias del motor", "Hacer snapshots manuales", "Cambiar el precio de AWS", "Crear data lakes"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Los grupos de parámetros en RDS agrupan...", "options": ["Configuraciones comunes de administración como memoria o buffers", "Las contraseñas de usuarios web", "Los informes de facturación", "Las políticas de RRHH"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Un parámetro estático en RDS suele requerir...", "options": ["Reinicio manual de la base de datos", "Nada, se aplica siempre en caliente", "Exportación a S3", "Cambio de región"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Las snapshots automáticas de RDS se almacenan internamente en...", "options": ["S3", "EC2", "Route 53", "IAM"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Si no hay despliegue multi-AZ, durante la copia de seguridad la base de datos...", "options": ["Puede pararse", "Siempre sigue igual sin limitación", "Se convierte en Aurora", "Pasa a modo serverless"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Exportar snapshots a S3 en formato Parquet puede reducir...", "options": ["El coste de conservación", "La compatibilidad con SQL", "El número de usuarios IAM", "La existencia de réplicas"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Backtrack en Aurora permite...", "options": ["Volver atrás hasta un punto concreto en el tiempo", "Cambiar de región sin copiar datos", "Crear índices automáticamente", "Sustituir CloudWatch"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "AWS Backup resulta útil cuando se necesitan...", "options": ["Políticas de backup más complejas con retención y exportación", "Menos monitorización", "Eliminar todos los snapshots", "Solo backups físicos en local"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "CloudWatch centraliza en RDS logs como...", "options": ["Error, auditoría, general y consultas lentas", "Solo logs del navegador", "Solo correos electrónicos", "Solo logs del sistema operativo local"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Enhanced Monitoring normalmente...", "options": ["Puede no estar disponible en laboratorios de estudiante y tiene pequeño coste extra", "Es totalmente gratuito siempre", "Sustituye a RDS", "Solo funciona con Redshift"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Lift and Shift suele tener como ventaja...", "options": ["Menor riesgo y mayor similitud con lo existente", "Máximo ahorro garantizado siempre", "No necesitar migración", "Eliminar la necesidad de pruebas"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "El rediseño completo en cloud busca...", "options": ["Dimensionar de forma nativa en la nube", "Copiar exactamente todo sin cambios", "Evitar toda escalabilidad", "Usar siempre un único servidor"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Snowball se usa en AWS para...", "options": ["Transferencia masiva de datos en dispositivos físicos", "Monitorización de CPU", "Crear triggers SQL", "Gestionar usuarios root"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Las instancias de familia t son recomendables a menudo porque...", "options": ["Ofrecen buena relación potencia y coste para cargas no continuas", "Son las únicas válidas para RDS", "No cuestan dinero", "No necesitan configuración"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "En un despliegue multi-AZ normal...", "options": ["Se mejora la disponibilidad, pero no necesariamente el rendimiento", "Se multiplica siempre la velocidad de lectura y escritura", "No hay copias de seguridad", "No existe failover"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Cambiar la clase de disco a IOPS provisionadas puede...", "options": ["Aumentar notablemente el rendimiento", "Reducir la memoria RAM", "Eliminar la necesidad de SQL", "Convertir RDS en serverless"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Instance Scheduler puede ayudar a...", "options": ["Cambiar automáticamente el tipo de instancia según patrones de uso", "Crear triggers en MariaDB", "Exportar snapshots a PDF", "Hacer consultas federadas en Redshift"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "En un clúster multi-AZ con réplicas de lectura, las peticiones DML o DDL suelen ir al...", "options": ["Maestro", "Cliente JDBC", "Data lake", "Crawler"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "Aurora puede añadir hasta...", "options": ["15 réplicas de lectura", "2 bases de datos máximo", "1 solo endpoint total", "0 réplicas"], "correct": "a"}, {"difficulty": "medio", "type": "mcq", "question": "RDS Proxy ayuda sobre todo cuando el problema está en...", "options": ["La gestión de muchas conexiones abiertas", "La creación de vistas", "La falta de usuarios root", "El diseño de páginas HTML"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "El rol clásico del DBA en entornos cloud y big data se acerca al perfil de...", "options": ["Arquitecto o ingeniero de datos", "Diseñador gráfico", "Técnico de soporte de impresoras", "Administrador de WordPress"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "En RDS no se tiene acceso directo...", "options": ["Al sistema operativo ni a los ficheros de configuración", "A ninguna base de datos", "A los logs de error", "A los snapshots"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "CloudTrail y Config resultan útiles porque...", "options": ["Permiten registrar recursos y cambios para volver a estados anteriores con confianza", "Sustituyen a todas las copias de seguridad", "Eliminan la necesidad de monitorizar", "Convierten MariaDB en Aurora"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "La única forma de escalar eficaz e indefinidamente, según la unidad, es...", "options": ["La paralelización o escalado horizontal", "Aumentar siempre la RAM de un único servidor", "Eliminar índices", "Usar solo snapshots"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "En Aurora, los endpoints permiten...", "options": ["Separar y repartir lecturas y escrituras sin cambiar la estructura lógica de la aplicación", "Crear backups físicos del sistema operativo", "Eliminar la replicación", "Desactivar SQL"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "En la migración lógica de MariaDB a MySQL del caso práctico, se usa CloudShell porque...", "options": ["Permite ejecutar la pipe de migración sin depender de la máquina local y con más agilidad", "Sustituye a mysqldump", "Obliga a usar PostgreSQL", "Solo sirve para cambiar contraseñas"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "El comando de migración lógica del caso práctico conecta la salida de mysqldump con la entrada de mysql mediante...", "options": ["Una pipe", "Un trigger", "Una vista", "Un crawler"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "El despliegue clúster multi-AZ avanzado visto en la unidad estaba restringido a...", "options": ["MySQL 8.0.28", "MariaDB 10.6", "Oracle 11g", "SQLite 3"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Redshift distribuye los datos entre nodos usando esquemas como...", "options": ["Round robin, réplica total o distribución por clave", "Solo una tabla central sin nodos", "Únicamente snapshots", "Solo archivos CSV locales"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "En Redshift, las restricciones como la clave primaria...", "options": ["No se controlan realmente para reducir carga operativa", "Se fuerzan igual que en todos los OLTP", "Impiden usar SQL estándar", "Desactivan el driver JDBC"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Entre las mejoras modernas de Redshift aparecen...", "options": ["Escalado automático, AQUA, consultas federadas y Redshift ML", "Solo backups locales", "Solo creación de usuarios", "Únicamente cambio de color del panel"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Un big data pipeline se relaciona con...", "options": ["El flujo de datos para apoyar decisiones basadas en datos", "La configuración del navegador", "La eliminación de todas las fuentes de datos", "La creación manual de tablas temporales"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Athena se describe como...", "options": ["Base de datos serverless nativa sobre data lake", "Motor OLTP local de escritorio", "Herramienta para reparar tablas dañadas", "Cliente gráfico de MariaDB"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "AWS Glue Studio se caracteriza por...", "options": ["Diseñar ETL o ELT con interfaz gráfica y generar código Python sobre Spark serverless", "Crear snapshots de RDS", "Sustituir a IAM", "Configurar VPN site-to-site"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Glue DataBrew permite...", "options": ["Limpiar y normalizar datos visualmente al estilo hoja de cálculo", "Crear particiones físicas en discos locales", "Gestionar roles root en Linux", "Reiniciar parámetros estáticos de RDS"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Los crawlers de Glue ayudan a...", "options": ["Detectar e inferir esquemas de datos de forma incremental para catalogarlos", "Cambiar el tamaño de instancias EC2", "Aumentar la RAM del navegador", "Crear triggers SQL"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "La unidad menciona que los programas formativos cloud para FP incluyen...", "options": ["AWS Academy y Microsoft Learn, entre otros", "Solo certificados en papel", "Únicamente Oracle University", "Ninguna opción educativa"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "Una consulta federada en Redshift permite...", "options": ["Operar con repositorios fuera de Redshift integrándolos en SQL", "Eliminar la necesidad de datos externos", "Crear solo vistas locales", "Sustituir completamente a S3"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "El objetivo del datawarehouse es centralizar datos de distintos silos como ERP, CRM o IoT para...", "options": ["Análisis, inteligencia empresarial y modelos de previsión", "Solo guardar copias de seguridad físicas", "Únicamente almacenar contraseñas", "Desactivar procesos ETL"], "correct": "a"}, {"difficulty": "dificil", "type": "mcq", "question": "La infraestructura de datawarehouse en la nube se ha democratizado porque...", "options": ["Puede escalar de forma sencilla según necesidades y volumen de datos", "Ya no usa SQL", "No cuesta nada", "No requiere diseño de arquitectura"], "correct": "a"}];
+    const TOTAL = QUESTIONS.length;
+
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const easyAnswered = document.getElementById("easyAnswered");
+    const mediumAnswered = document.getElementById("mediumAnswered");
+    const hardAnswered = document.getElementById("hardAnswered");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultText = document.getElementById("resultText");
+    const resultBanner = document.getElementById("resultBanner");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+    const homeBtn = document.getElementById("homeBtn");
+    const homeBtnBottom = document.getElementById("homeBtnBottom");
+
+    function goToMainPanel(event) {
+      event.preventDefault();
+      const candidates = ["../index.html", "index.html", "./index.html", "../", "./"];
+      let i = 0;
+      function tryNext() {
+        if (i >= candidates.length) {
+          window.location.href = "../index.html";
+          return;
+        }
+        const target = candidates[i++];
+        fetch(target, { method: "HEAD" })
+          .then(response => {
+            if (response.ok) window.location.href = target;
+            else tryNext();
+          })
+          .catch(() => tryNext());
+      }
+      tryNext();
+    }
+
+    [homeBtn, homeBtnBottom].forEach(btn => {
+      if (btn) btn.addEventListener("click", goToMainPanel);
+    });
+
+    let submitted = false;
+    let activeFilter = "todas";
+
+    function saveLocalProgress() {
+      const answers = {};
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) answers[`q${index}`] = selected.value;
+      });
+      localStorage.setItem(`${EXAM_KEY}_progress`, JSON.stringify({ answers, submitted, activeFilter }));
+    }
+
+    function restoreProgress() {
+      try {
+        const raw = localStorage.getItem(`${EXAM_KEY}_progress`);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (!data || !data.answers) return;
+
+        Object.entries(data.answers).forEach(([key, value]) => {
+          const input = document.querySelector(`input[name="${key}"][value="${value}"]`);
+          if (input) {
+            input.checked = true;
+            input.closest(".opt")?.classList.add("selected");
+            const index = Number(key.replace("q", ""));
+            applyInstantCorrection(index);
+            lockQuestion(index);
+          }
+        });
+
+        if (data.activeFilter) {
+          activeFilter = data.activeFilter;
+          applyFilter(activeFilter);
+        }
+      } catch (error) {
+        console.error("No se pudo restaurar el progreso:", error);
+      }
+    }
+
+    function renderQuestions() {
+      questionsBox.innerHTML = "";
+
+      const sections = [
+        { key:"facil", title:"Preguntas fáciles", subtitle:"Bloque básico de conceptos generales del SGBD." },
+        { key:"medio", title:"Preguntas medias", subtitle:"Bloque intermedio sobre instalación, funcionamiento y permisos." },
+        { key:"dificil", title:"Preguntas difíciles", subtitle:"Bloque avanzado sobre variables, logs y detalles de administración." }
+      ];
+
+      let counter = 1;
+      sections.forEach(section => {
+        const header = document.createElement("div");
+        header.className = "difficulty-section";
+        header.dataset.section = section.key;
+        header.innerHTML = `<h2 class="section-title">${section.title}</h2><p class="section-subtitle">${section.subtitle}</p>`;
+        questionsBox.appendChild(header);
+
+        QUESTIONS.forEach((item, index) => {
+          if (item.difficulty !== section.key) return;
+          const q = document.createElement("article");
+          q.className = "question";
+          q.dataset.difficulty = item.difficulty;
+
+          q.innerHTML = `
+            <div class="qhead">
+              <div class="badge">${counter}</div>
+              <div>
+                <h3 class="qtitle">${item.question}</h3>
+                <p class="meta-line">Nivel: ${item.difficulty.charAt(0).toUpperCase() + item.difficulty.slice(1)}</p>
+              </div>
+            </div>
+            <div class="options">
+              ${item.options.map((opt, i) => {
+                const value = String.fromCharCode(97 + i);
+                return `
+                  <label class="opt" data-question="${index}" data-value="${value}">
+                    <input type="radio" name="q${index}" value="${value}">
+                    <span><strong>${value})</strong> ${opt}</span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+            <div class="feedback-note" id="feedback-${index}"></div>
+          `;
+          questionsBox.appendChild(q);
+          counter++;
+        });
+      });
+
+      restoreProgress();
+      updateProgress();
+      if (submitted) revealCorrections();
+    }
+
+    function updateProgress() {
+      let answered = 0, blank = 0, easy = 0, medium = 0, hard = 0;
+
+      QUESTIONS.forEach((item, index) => {
+        const checked = document.querySelector(`input[name="q${index}"]:checked`);
+        if (checked) {
+          answered++;
+          if (item.difficulty === "facil") easy++;
+          if (item.difficulty === "medio") medium++;
+          if (item.difficulty === "dificil") hard++;
+        } else {
+          blank++;
+        }
+      });
+
+      answeredCount.textContent = answered;
+      blankCount.textContent = blank;
+      easyAnswered.textContent = easy;
+      mediumAnswered.textContent = medium;
+      hardAnswered.textContent = hard;
+    }
+
+    function lockQuestion(index) {
+      document.querySelectorAll(`input[name="q${index}"]`).forEach(inp => {
+        inp.disabled = true;
+      });
+    }
+
+    function calculateResult() {
+      let correct = 0, wrong = 0;
+
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+          if (selected.value === item.correct) correct++;
+          else wrong++;
+        }
+      });
+
+      const score = TOTAL ? (correct / TOTAL) * 10 : 0;
+      return {
+        totalAnswered: Number(answeredCount.textContent),
+        blank: Number(blankCount.textContent),
+        correct,
+        wrong,
+        score: Number(score.toFixed(2))
+      };
+    }
+
+    function applyInstantCorrection(index) {
+      const item = QUESTIONS[index];
+      const labels = document.querySelectorAll(`[data-question="${index}"]`);
+      const selected = document.querySelector(`input[name="q${index}"]:checked`);
+      const feedback = document.getElementById(`feedback-${index}`);
+
+      labels.forEach(label => {
+        const value = label.getAttribute("data-value");
+        label.classList.remove("selected", "correct", "wrong");
+        if (selected && selected.value === value) label.classList.add("selected");
+        if (value === item.correct) label.classList.add("correct");
+        if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+      });
+
+      if (selected) {
+        feedback.classList.add("show");
+        feedback.textContent = selected.value === item.correct
+          ? `✅ Correcta: ${item.correct.toUpperCase()}`
+          : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`;
+      } else {
+        feedback.classList.remove("show");
+        feedback.textContent = "";
+      }
+    }
+
+    function revealCorrections() {
+      QUESTIONS.forEach((item, index) => {
+        const labels = document.querySelectorAll(`[data-question="${index}"]`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feedback-${index}`);
+
+        labels.forEach(label => {
+          const value = label.getAttribute("data-value");
+          label.classList.remove("selected");
+          if (value === item.correct) label.classList.add("correct");
+          if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+        });
+
+        feedback.classList.add("show");
+        feedback.textContent = selected
+          ? (selected.value === item.correct
+              ? `✅ Correcta: ${item.correct.toUpperCase()}`
+              : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`)
+          : `⚪ En blanco · Correcta: ${item.correct.toUpperCase()}`;
+      });
+    }
+
+    function submitQuiz() {
+      if (submitted) return;
+      submitted = true;
+
+      updateProgress();
+      const result = calculateResult();
+
+      resAnswered.textContent = result.totalAnswered;
+      resBlank.textContent = result.blank;
+      resCorrect.textContent = result.correct;
+      resWrong.textContent = result.wrong;
+      resScore.textContent = result.score.toFixed(2);
+
+      resultText.textContent =
+        `Has respondido ${result.totalAnswered} de ${TOTAL} preguntas. Tienes ${result.correct} aciertos y ${result.wrong} fallos.`;
+
+      resultBanner.className = "result-banner show " + (result.score >= 5 ? "ok" : "bad");
+      resultBanner.textContent =
+        result.score >= 5
+          ? `✅ Test superado con un ${result.score.toFixed(2)} sobre 10`
+          : `⚠️ Test en ${result.score.toFixed(2)} sobre 10. Repasa las respuestas marcadas.`;
+
+      quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+      submitBtn.disabled = true;
+      revealCorrections();
+      saveLocalProgress();
+      document.getElementById("resultado").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetQuiz() {
+      submitted = false;
+      resultText.textContent = "La corrección se muestra al instante mientras haces el test.";
+      resultBanner.className = "result-banner";
+      resultBanner.textContent = "";
+      resAnswered.textContent = "0";
+      resBlank.textContent = "0";
+      resCorrect.textContent = "0";
+      resWrong.textContent = "0";
+      resScore.textContent = "0.00";
+      localStorage.removeItem(`${EXAM_KEY}_progress`);
+      document.querySelectorAll(".filter-pill").forEach(btn => btn.classList.remove("active"));
+      document.querySelector('[data-filter="todas"]').classList.add("active");
+      activeFilter = "todas";
+      renderQuestions();
+      submitBtn.disabled = false;
+      document.getElementById("top").scrollIntoView({behavior:"smooth"});
+    }
+
+    function applyFilter(filter) {
+      activeFilter = filter;
+      document.querySelectorAll(".filter-pill").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.filter === filter);
+      });
+
+      document.querySelectorAll(".question").forEach(card => {
+        card.classList.toggle("hidden", !(filter === "todas" || card.dataset.difficulty === filter));
+      });
+
+      document.querySelectorAll(".difficulty-section").forEach(section => {
+        const key = section.dataset.section;
+        section.classList.toggle("hidden", !(filter === "todas" || key === filter));
+      });
+
+      saveLocalProgress();
+    }
+
+    quizForm.addEventListener("change", (event) => {
+      const radio = event.target;
+      if (!radio.matches('input[type="radio"]')) return;
+      const name = radio.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(inp => inp.closest('.opt')?.classList.remove('selected'));
+      radio.closest('.opt')?.classList.add('selected');
+      const index = Number(name.replace("q", ""));
+      applyInstantCorrection(index);
+      lockQuestion(index);
+      updateProgress();
+      saveLocalProgress();
+    });
+
+    submitBtn.addEventListener("click", submitQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+
+    document.querySelectorAll(".filter-pill").forEach(btn => {
+      btn.addEventListener("click", () => applyFilter(btn.dataset.filter));
+    });
+
+    renderQuestions();
+  </script>
+</body>
+</html>

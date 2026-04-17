@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAI · Campus INTEGRA</title>
+  <link rel="icon" type="image/png" href="../../assets/logo.png" />
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=RBDXFU5oNFlZaoJvtS3GYC9hhpT2HdBps-NQPmKYi5wmFcbWUJAcVog541va4gMjM1Fu8v5FdkpQSzUJjzgb7tm6zjevUg8l5p3PDhcr53fBtA6oYf4BQ8LCWDfPF1gr68T3KA7K8C_ouqtPw__U2tsW3XZZqnJ0NnDTgd6t70lTdULKabZsq_RxkgniA6OrcLqbVUz9ZOpYrS6e1l76DGOi5hGJ7N1K0dd0Tnisd3Ok8LIVJ18uEIulxAAWB9SaMjGJnxpM_q8CzdpPLdEErA" charset="UTF-8"></script><style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,#fff8f2,#ffe8d6);
+      color:#3e2617;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns:250px 1fr;
+      min-height:100vh;
+    }
+    .sidebar{
+      background:linear-gradient(180deg,#7c2d12 0%, #8e3d00 100%);
+      color:white;
+      padding:22px 16px;
+    }
+    .sidebar h2{font-size:24px;margin-bottom:18px}
+    .sidebar a{
+      display:block;color:white;text-decoration:none;padding:11px 12px;border-radius:12px;
+      margin-bottom:8px;font-weight:700;
+    }
+    .sidebar a:hover,.sidebar a.active{background:rgba(255,255,255,.14)}
+    .content{padding:26px}
+    .topbar{
+      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      background:rgba(255,255,255,.88);border:1px solid #f2ccb0;border-radius:20px;padding:16px 18px;margin-bottom:22px;
+    }
+    .topbar a{
+      text-decoration:none;color:#8e3d00;font-weight:700;background:#fff7ef;border:1px solid #f2ccb0;
+      padding:10px 14px;border-radius:12px;
+    }
+    .hero{
+      background:rgba(255,255,255,.92);border:1px solid #f2ccb0;border-radius:26px;padding:28px;margin-bottom:22px;
+      box-shadow:0 12px 24px rgba(143,63,0,.08);
+    }
+    .hero h1{font-size:34px;color:#8e3d00;margin-bottom:10px}
+    .hero p{color:#7c5d48;line-height:1.6}
+    .stats{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px;
+    }
+    .stat{
+      background:rgba(255,255,255,.92);border:1px solid #f2ccb0;border-radius:22px;padding:18px;
+      box-shadow:0 12px 24px rgba(143,63,0,.08);
+    }
+    .stat strong{display:block;font-size:26px;color:#8e3d00;margin-bottom:6px}
+    .modules{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;
+    }
+    .card{
+      background:rgba(255,255,255,.94);border:1px solid #f2ccb0;border-radius:24px;padding:20px;
+      box-shadow:0 12px 24px rgba(143,63,0,.08);
+    }
+    .card h3{margin-bottom:10px;color:#3d220f}
+    .card p{color:#734f39;line-height:1.55;margin-bottom:14px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:11px 14px;border-radius:12px;text-decoration:none;font-weight:800;
+      background:linear-gradient(135deg,#ff7a00,#ff9e44);color:white;
+    }
+    .btn.secondary{background:#fff8f3;color:#a54800;border:1px solid #f2ccb0}
+    @media (max-width: 900px){
+      .layout{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>INTEGRA</h2>
+      <a href="../../index.html">🏠 Inicio</a>
+      <a href="../bdd/index.html" class="">🗄️ BBDD</a>
+      <a href="../ciberseguridad/index.html" class="">🔐 Ciber</a>
+      <a href="../sostenibilidad/index.html" class="">🌱 Sostenibilidad</a>
+      <a href="../tai/index.html" class="active">💻 TAI</a>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <a href="../../index.html">⬅ Volver al panel</a>
+        <a href="#modulos">📚 Ir a módulos</a>
+      </div>
+
+      <section class="hero">
+        <h1>💻 TAI</h1>
+        <p>Entorno interno tipo Moodle para simulacros, packs de temas y ejercicios de oposición organizados por bloques.</p>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><strong>8</strong><span>Módulos / bloques</span></div>
+        <div class="stat"><strong>8</strong><span>Tests disponibles</span></div>
+        <div class="stat"><strong>Oposición</strong><span>Modo de estudio</span></div>
+      </section>
+
+      <section class="modules" id="modulos">
+        
+        <article class="card">
+          <h3>Pack de temas I</h3>
+          <p>Bloques globales y contenido variado.</p>
+          <div class="actions">
+            <a class="btn" href="tai_test_completo_pestanas_bloqueo_tiempo_global.html">Abrir pack I</a>
+          </div>
+        </article>
+        
+
+        <article class="card">
+          <h3>Pack de temas III</h3>
+          <p>Correo, VPN, HTTP y Windows.</p>
+          <div class="actions">
+            <a class="btn" href="tai_7_temas_nuevos_final.html">Abrir pack III</a>
+          </div>
+        </article>
+        
+
+        <article class="card">
+          <h3>Examen real 2025</h3>
+          <p>Simulacro real tipo oposición con temporizador.</p>
+          <div class="actions">
+            <a class="btn" href="tai_final_completo.html">Abrir examen</a>
+          </div>
+        </article>
+        
+
+        <article class="card">
+          <h3>Test Constitución 2</h3>
+          <p>Corrección inmediata al marcar.</p>
+          <div class="actions">
+            <a class="btn" href="tai_oposicion_2026_feedback_inmediato.html">Abrir test</a>
+          </div>
+        </article>
+        
+      </section>
+    </main>
+  </div>
+</body>
+</html>

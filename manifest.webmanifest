@@ -1,0 +1,29 @@
+{
+  "name": "INTEGRA FORMACIÓN",
+  "short_name": "INTEGRA",
+  "description": "Plataforma profesional de formación con acceso por roles, dashboard y resultados.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff8f2",
+  "theme_color": "#ff7a00",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/integra_favicon_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/integra_favicon_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/integra_favicon_180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=M_neq_f1j4kdyQ2iJzrTYP6OWiLIhVE5WGejmoHUr1h23LuA76jM2_SPjN_1Xv7K4UUzpAT4C6xjJM51xUJcNrcQExxiPahys8_4WvQCrDxCAP70cYD48U-b8yKAMwye4XJxTLat2sAB2m41gFtBKcKeYUaOrETSnU2Vl8ekBJClssUQn5tJfhKYTiVcShe9Y83CBzYdMs1c7a7HiX8fqSVss2GOdFSs-Wq7GR0ECDQgP2i1nOdq42S1G6eZlo1pVFTHaZELBFiqcqos3Fq4fw" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text)
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.toolbar,.question,.result-box{
+      background:rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      border-radius:22px;
+      box-shadow:var(--shadow)
+    }
+    .top-nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px
+    }
+    .top-nav-title{
+      font-weight:800;
+      color:var(--title);
+      font-size:14px;
+      background:#fff3e8;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:10px 14px
+    }
+    .hero{padding:24px;margin-bottom:18px}
+    .hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.6}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);
+      border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px
+    }
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{
+      background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;
+      font-weight:800;color:#a54800;font-size:14px
+    }
+    .toolbar{
+      position:sticky;top:10px;z-index:20;padding:14px;display:flex;justify-content:space-between;
+      align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px
+    }
+    .counter{display:flex;gap:10px;flex-wrap:wrap}
+    .counter-card{
+      background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;
+      min-width:140px;text-align:center
+    }
+    .counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+    .counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+    .btn{
+      text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;
+      cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .questions{display:grid;gap:16px}
+    .question{padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{
+      min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;
+      display:grid;place-items:center;font-weight:900;flex-shrink:0
+    }
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{
+      display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;
+      border-radius:16px;background:#fff;cursor:pointer
+    }
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+    .feedback-note.show{display:block}
+    .result-box{margin-top:22px;padding:20px}
+    .result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+    .helper{color:var(--soft);line-height:1.6}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+    .result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+    .result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+    .result-card span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    @media (max-width:700px){
+      .btn{width:100%}
+      .counter-card{flex:1 1 120px}
+      .qhead{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+
+    <section class="top-nav">
+      <a class="btn btn-secondary" href="../index.html" id="homeBtn">⬅ Volver al panel principal</a>
+      <div class="top-nav-title">Panel principal UAX</div>
+    </section>
+
+    <section class="hero">
+      <div class="eyebrow">🗄️ Bases de Datos · Test</div>
+      <h1>Cuestionario1</h1>
+      <p>Cuestionario autocorregible con preguntas sobre PL/SQL, índices, integridad referencial, triggers, rendimiento y administración de bases de datos.</p>
+      <div class="stats">
+        <div class="pill">📚 10 preguntas</div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">10</strong><span>En blanco</span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" id="submitBtn">✅ Corregir cuestionario</button>
+        <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar</button>
+        <a class="btn btn-ghost" href="#resultado">📊 Ir al resultado</a>
+      </div>
+    </section>
+
+    <form id="quizForm">
+      <section class="questions" id="questions"></section>
+    </form>
+
+    <section class="result-box" id="resultado">
+      <h2>Resultado del test</h2>
+      <div class="helper" id="resultText">Pulsa en “Corregir cuestionario” para ver los aciertos, los fallos y la nota final.</div>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Total respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota sobre 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+        <a class="btn btn-secondary" href="../index.html" id="homeBtnBottom">🏠 Ir al panel principal</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const EXAM_KEY = "cuestionario1_bbdd_web";
+    const QUESTIONS = [
+      {
+        question: "¿Cuál es el lenguaje de programación que generalmente se usa para crear triggers y procedimientos almacenados en Oracle Developer?",
+        options: ["Python.", "PL/SQL.", "T-SQL.", "JavaScript."],
+        correct: "b"
+      },
+      {
+        question: "¿Cuál es la función principal del comando GRANT en PL/SQL?",
+        options: ["Eliminar un usuario de la base de datos.", "Ejecutar una consulta SQL.", "Conceder permisos de usuario en la base de datos.", "Crear un índice en la tabla."],
+        correct: "c"
+      },
+      {
+        question: "¿Qué sucede si intentas insertar un valor en una columna con foreign key que no existe en la tabla referenciada?",
+        options: ["El valor se convierte automáticamente en NULL.", "Se ignora el valor insertado.", "El valor se inserta con normalidad.", "Se genera un error de integridad referencial."],
+        correct: "d"
+      },
+      {
+        question: "¿Cuál de las siguientes opciones define correctamente una foreign key en PL/SQL?",
+        options: [
+          "PRIMARY KEY (columna) REFERENCES tabla_referenciada(columna_referenciada);",
+          "UNIQUE KEY (columna) REFERENCES tabla_referenciada;",
+          "FOREIGN KEY (columna) REFERENCES tabla_referenciada(columna_referenciada);",
+          "FOREIGN KEY (columna_referenciada) REFERENCES columna;"
+        ],
+        correct: "c"
+      },
+      {
+        question: "¿Qué es un disparador en PL/SQL?",
+        options: [
+          "Un procedimiento almacenado que se ejecuta automáticamente en respuesta a ciertos eventos en la base de datos.",
+          "Un tipo de índice en la base de datos.",
+          "Un comando para crear tablas en la base de datos.",
+          "Un comando para consultar datos en la base de datos."
+        ],
+        correct: "a"
+      },
+      {
+        question: "¿Cuál de los siguientes eventos no puede activar un disparador en PL/SQL?",
+        options: ["INSERT", "UPDATE", "SELECT", "DELETE"],
+        correct: "c"
+      },
+      {
+        question: "¿Qué es un índice en una base de datos relacional?",
+        options: [
+          "Una tabla que almacena copias de los datos de otras tablas.",
+          "Un procedimiento almacenado que se ejecuta automáticamente.",
+          "Una estructura de datos que mejora la velocidad de las consultas.",
+          "Un permiso que concede acceso a un usuario."
+        ],
+        correct: "c"
+      },
+      {
+        question: "¿Qué se entiende por integridad referencial en la administración de bases de datos?",
+        options: [
+          "Asegurar que todos los datos sean numéricos.",
+          "La capacidad de manejar múltiples conexiones simultáneas.",
+          "Crear múltiples vistas de una sola tabla.",
+          "Garantizar que las relaciones entre tablas se mantengan correctamente."
+        ],
+        correct: "d"
+      },
+      {
+        question: "¿Cuál de las siguientes opciones es un método común para mejorar el rendimiento de las consultas en una base de datos?",
+        options: [
+          "Crear índices en columnas frecuentemente consultadas.",
+          "Aumentar la longitud de las tablas.",
+          "Reducir el tamaño de las bases de datos.",
+          "Eliminar los índices."
+        ],
+        correct: "a"
+      },
+      {
+        question: "¿Cuál de las siguientes tareas es responsabilidad principal de un administrador de bases de datos (DBA)?",
+        options: [
+          "Crear interfaces gráficas de usuario.",
+          "Configurar redes entre servidores.",
+          "Optimizar las consultas SQL para mejorar el rendimiento.",
+          "Desarrollar aplicaciones cliente-servidor."
+        ],
+        correct: "c"
+      }
+    ];
+
+    const TOTAL = QUESTIONS.length;
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultText = document.getElementById("resultText");
+    const resultBanner = document.getElementById("resultBanner");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+    const homeBtn = document.getElementById("homeBtn");
+    const homeBtnBottom = document.getElementById("homeBtnBottom");
+    let submitted = false;
+
+    function goToMainPanel(event) {
+      event.preventDefault();
+      const candidates = ["../index.html", "index.html", "./index.html", "../", "./"];
+      let i = 0;
+      function tryNext() {
+        if (i >= candidates.length) {
+          window.location.href = "../index.html";
+          return;
+        }
+        const target = candidates[i++];
+        fetch(target, { method: "HEAD" })
+          .then(response => {
+            if (response.ok) window.location.href = target;
+            else tryNext();
+          })
+          .catch(() => tryNext());
+      }
+      tryNext();
+    }
+
+    [homeBtn, homeBtnBottom].forEach(btn => {
+      if (btn) btn.addEventListener("click", goToMainPanel);
+    });
+
+    function saveProgress() {
+      const answers = {};
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) answers[`q${index}`] = selected.value;
+      });
+      localStorage.setItem(`${EXAM_KEY}_progress`, JSON.stringify({ answers, submitted }));
+    }
+
+    function restoreProgress() {
+      try {
+        const raw = localStorage.getItem(`${EXAM_KEY}_progress`);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (!data || !data.answers) return;
+
+        Object.entries(data.answers).forEach(([key, value]) => {
+          const input = document.querySelector(`input[name="${key}"][value="${value}"]`);
+          if (input) {
+            input.checked = true;
+            input.closest(".opt")?.classList.add("selected");
+          }
+        });
+
+        if (data.submitted) {
+          submitted = true;
+          submitBtn.disabled = true;
+          quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+          revealCorrections();
+          updateFinalBox();
+        }
+      } catch (error) {
+        console.error("No se pudo restaurar el progreso:", error);
+      }
+    }
+
+    function renderQuestions() {
+      questionsBox.innerHTML = "";
+
+      QUESTIONS.forEach((item, index) => {
+        const q = document.createElement("article");
+        q.className = "question";
+        q.innerHTML = `
+          <div class="qhead">
+            <div class="badge">${index + 1}</div>
+            <div>
+              <h3 class="qtitle">${item.question}</h3>
+            </div>
+          </div>
+          <div class="options">
+            ${item.options.map((opt, i) => {
+              const value = String.fromCharCode(97 + i);
+              return `
+                <label class="opt" data-question="${index}" data-value="${value}">
+                  <input type="radio" name="q${index}" value="${value}">
+                  <span><strong>${value})</strong> ${opt}</span>
+                </label>
+              `;
+            }).join("")}
+          </div>
+          <div class="feedback-note" id="feedback-${index}"></div>
+        `;
+        questionsBox.appendChild(q);
+      });
+
+      restoreProgress();
+      updateProgress();
+    }
+
+    function updateProgress() {
+      let answered = 0, blank = 0;
+      QUESTIONS.forEach((item, index) => {
+        const checked = document.querySelector(`input[name="q${index}"]:checked`);
+        if (checked) answered++;
+        else blank++;
+      });
+      answeredCount.textContent = answered;
+      blankCount.textContent = blank;
+    }
+
+    function calculateResult() {
+      let correct = 0, wrong = 0;
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+          if (selected.value === item.correct) correct++;
+          else wrong++;
+        }
+      });
+      const score = TOTAL ? (correct / TOTAL) * 10 : 0;
+      return {
+        totalAnswered: Number(answeredCount.textContent),
+        blank: Number(blankCount.textContent),
+        correct,
+        wrong,
+        score: Number(score.toFixed(2))
+      };
+    }
+
+    function revealCorrections() {
+      QUESTIONS.forEach((item, index) => {
+        const labels = document.querySelectorAll(`[data-question="${index}"]`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feedback-${index}`);
+
+        labels.forEach(label => {
+          const value = label.getAttribute("data-value");
+          label.classList.remove("selected", "correct", "wrong");
+          if (value === item.correct) label.classList.add("correct");
+          if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+        });
+
+        feedback.classList.add("show");
+        feedback.textContent = selected
+          ? (selected.value === item.correct
+              ? `✅ Correcta: ${item.correct.toUpperCase()}`
+              : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`)
+          : `⚪ En blanco · Correcta: ${item.correct.toUpperCase()}`;
+      });
+    }
+
+    function updateFinalBox() {
+      updateProgress();
+      const result = calculateResult();
+
+      resAnswered.textContent = result.totalAnswered;
+      resBlank.textContent = result.blank;
+      resCorrect.textContent = result.correct;
+      resWrong.textContent = result.wrong;
+      resScore.textContent = result.score.toFixed(2);
+
+      resultText.textContent =
+        `Has respondido ${result.totalAnswered} de ${TOTAL} preguntas. Tienes ${result.correct} aciertos y ${result.wrong} fallos.`;
+
+      resultBanner.className = "result-banner show " + (result.score >= 5 ? "ok" : "bad");
+      resultBanner.textContent =
+        result.score >= 5
+          ? `✅ Test superado con un ${result.score.toFixed(2)} sobre 10`
+          : `⚠️ Test en ${result.score.toFixed(2)} sobre 10. Repasa las respuestas marcadas.`;
+    }
+
+    function submitQuiz() {
+      if (submitted) return;
+      submitted = true;
+      quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+      submitBtn.disabled = true;
+      revealCorrections();
+      updateFinalBox();
+      saveProgress();
+      document.getElementById("resultado").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetQuiz() {
+      submitted = false;
+      localStorage.removeItem(`${EXAM_KEY}_progress`);
+      submitBtn.disabled = false;
+      resultText.textContent = "Pulsa en “Corregir cuestionario” para ver los aciertos, los fallos y la nota final.";
+      resultBanner.className = "result-banner";
+      resultBanner.textContent = "";
+      resAnswered.textContent = "0";
+      resBlank.textContent = "0";
+      resCorrect.textContent = "0";
+      resWrong.textContent = "0";
+      resScore.textContent = "0.00";
+      renderQuestions();
+      document.getElementById("top").scrollIntoView({behavior:"smooth"});
+    }
+
+    quizForm.addEventListener("change", (event) => {
+      const radio = event.target;
+      if (!radio.matches('input[type="radio"]') || submitted) return;
+      const name = radio.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(inp => inp.closest('.opt')?.classList.remove('selected'));
+      radio.closest('.opt')?.classList.add('selected');
+      updateProgress();
+      saveProgress();
+    });
+
+    submitBtn.addEventListener("click", submitQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+
+    renderQuestions();
+  </script>
+</body>
+</html>
