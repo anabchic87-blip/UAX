@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificado de Profesionalidad · Módulo 1 por pestañas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=0bMN1ukv0S5GDpOUkgND_LgLR1VhlpFDzvsjFWPMVcqRI1XanlSU-7awZpO-VXCTqYaAims2j5Vm2PKPdu8sPpr7ul1qdeQRU8jV8rQJWLNDtzDY3uLszA1zGH36ivs3W2La0XnjRAhGYfbwrSBVTJac9fDB35vgXngjovhbuYUGddeSmjh-4xW5SM39Irw3JRfNa-yHWmOuMCa6JtoxhxDPeqiGlifAlmnafk69eT4H90pK8NH6L0Zx5Ka1OyR-MwloG7yqmeG0pfBXP3jP7w" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --card:#fffdfb; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --warn:#a16207; --warnbg:#fef3c7;
+      --info:#1d4ed8; --infobg:#dbeafe;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .topbar{
+      position:sticky; top:0; z-index:1000; background:rgba(255,255,255,.98);
+      border-bottom:1px solid var(--border); padding:12px 16px; backdrop-filter: blur(8px);
+    }
+    .topbar-inner{max-width:1180px; margin:0 auto; display:flex; gap:10px; justify-content:space-between; align-items:center; flex-wrap:wrap;}
+    .topbar-actions{display:flex; gap:10px; flex-wrap:wrap;}
+    .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.tabs-panel,.question,.result-box{background:rgba(255,255,255,.95);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .hero{border-radius:28px;padding:24px;margin-bottom:18px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.65}
+    .stats,.counter,.actions,.bottom-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .stats{margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .notice,.tip-box{margin-top:14px;padding:14px 16px;border-radius:16px;font-weight:700;line-height:1.6}
+    .notice{background:var(--warnbg);color:var(--warn);border:1px solid #f59e0b}
+    .tip-box{background:var(--infobg);color:var(--info);border:1px solid #93c5fd}
+    .tabs-panel{border-radius:24px;padding:18px}
+    .tab-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+    .tab-btn{border:none;cursor:pointer;border-radius:14px;padding:12px 16px;font-weight:700;font-size:14px;background:#fff8f3;color:#a54800;border:1px solid var(--border);transition:transform .2s ease, box-shadow .2s ease}
+    .tab-btn:hover{transform:translateY(-2px)}
+    .tab-btn.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:14px;background:#fff9f5;border:1px solid var(--border);border-radius:18px;padding:14px}
+    .counter-card,.result-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px 14px;min-width:130px;text-align:center}
+    .counter-card strong,.result-card strong{display:block;font-size:22px;color:var(--title)}
+    .counter-card span,.result-card span{color:var(--soft);font-size:12px;font-weight:700}
+    .btn{border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .questions{display:grid;gap:16px}
+    .question{border-radius:22px;padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;transition:border-color .2s ease,background .2s ease,opacity .2s ease}
+    .opt input{margin-top:4px}.opt.selected{border-color:#f0a96d;background:#fff8f3}.opt.correct{border-color:#16a34a;background:#ecfdf5}.opt.wrong{border-color:#dc2626;background:#fef2f2}.opt.locked{opacity:.94}
+    .lock-badge{display:inline-block;margin-top:10px;padding:7px 10px;border-radius:999px;background:#fff4ea;border:1px solid var(--border);color:#a54800;font-size:12px;font-weight:800}.feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none;line-height:1.5;font-weight:700}.feedback-note.show{display:block}
+    .result-box{margin-top:22px;border-radius:22px;padding:20px}.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}.result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}.result-banner.show{display:block}.result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}.result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    @media (max-width:700px){.btn,.topbar .btn{width:100%}.counter-card{flex:1 1 120px}.qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+    <div class="topbar-actions">
+      <a href="#questions" class="btn btn-secondary">🚀 Entrar</a>
+      <button class="btn btn-primary" id="topSubmitBtn" type="button">✅ Corregir pestaña</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="top">
+  <section class="hero">
+    <div class="eyebrow">📘 Certificado de Profesionalidad · Módulo 1</div>
+    <h1>Test por pestañas del Módulo 1</h1>
+    <p>He dejado el contenido organizado en 4 pestañas, una por cada unidad. Mantiene el mismo estilo visual del HTML que me pasaste, con autocorrección por pestaña y bloqueo al responder.</p>
+    <div class="stats">
+      <div class="pill">4 pestañas</div>
+      <div class="pill">20 preguntas por pestaña</div>
+      <div class="pill">Autocorregible</div>
+      <div class="pill">Guarda progreso</div>
+    </div>
+    <div class="notice">Cada pregunta se bloquea al seleccionar una respuesta. Después puedes corregir la pestaña para ver tu nota.</div>
+    <div class="tip-box">Incluye Unidad 1, Unidad 2, Unidad 3 y Unidad 4 del certificado de profesionalidad.</div>
+  </section>
+
+  <section class="tabs-panel">
+    <div class="tab-bar" id="tabBar"></div>
+
+    <div class="toolbar">
+      <div>
+        <strong id="tabTitle" style="color:var(--title);font-size:22px;">Pestaña</strong>
+        <p id="tabDescription" style="color:var(--soft);line-height:1.6;margin:6px 0 0;"></p>
+      </div>
+
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">0</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="totalCount">0</strong><span>Total</span></div>
+      </div>
+
+      <div class="actions">
+        <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+        <button class="btn btn-primary" id="finishBtn" type="button">✅ Corregir pestaña</button>
+        <button class="btn btn-secondary" id="resetBtn" type="button">↺ Reiniciar pestaña</button>
+        <button class="btn btn-secondary" id="resetAllBtn" type="button">🗑 Reiniciar todo</button>
+      </div>
+    </div>
+
+    <section class="questions" id="questions"></section>
+
+    <section class="result-box" id="resultBox">
+      <h2 style="margin:0;color:var(--title);">Resultado de la pestaña</h2>
+      <p id="resultText" style="color:var(--soft);line-height:1.6;margin:10px 0 0;">Cuando termines una pestaña, pulsa en corregir para ver la nota final.</p>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a href="index.html" class="btn btn-secondary">🏠 Volver al módulo</a>
+        <a href="#top" class="btn btn-secondary">⬆ Subir arriba</a>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script>
+const TOPICS = {
+  unidad1: {
+    label: "UNIDAD 1",
+    description: "Estructura de la Formación Profesional y FPE.",
+    questions: [
+      {q:"La Formación Profesional se estructura en dos grandes subsistemas:",options:["FP básica y FP avanzada","FP Reglada y Formación Profesional para el Empleo","FP pública y FP privada","FP presencial y FP online"],correct:1},
+      {q:"Los dos subsistemas de FP se encuadran en:",options:["SEPE","SNCFP","INCUAL","CGFP"],correct:1},
+      {q:"El instrumento operativo del SNCFP es:",options:["CNCP","BOE","SEPE","CMFP"],correct:0},
+      {q:"El INCUAL depende de:",options:["El SEPE","El CGFP","Las comunidades autónomas","El BOE"],correct:1},
+      {q:"Los destinatarios de los programas formativos de FPE son:",options:["Solo desempleados","Solo trabajadores en activo","Todos los trabajadores en edad laboral","Solo menores de 30 años"],correct:2},
+      {q:"La FPE favorece principalmente:",options:["La escolarización obligatoria","La adquisición, mejora y actualización de competencias profesionales","Solo la formación universitaria","La formación exclusiva para funcionarios"],correct:1},
+      {q:"Los Reales Decretos de los certificados de profesionalidad proporcionan:",options:["Solo recomendaciones no obligatorias","Parámetros de actuación y especificaciones técnicas para la docencia","Exámenes oficiales únicos","Normas internas de cada centro"],correct:1},
+      {q:"En el mercado laboral actual, la acreditación de competencias debe ser:",options:["Verbal","Opcional","Documental y con valor administrativo","Solo interna en la empresa"],correct:2},
+      {q:"Uno de los instrumentos principales del SNCFP es:",options:["El Ministerio de Sanidad","INCUAL","La universidad pública","La inspección educativa"],correct:1},
+      {q:"El CNCP recoge:",options:["Cualificaciones profesionales","Solo títulos universitarios","Solo cursos privados","Normas fiscales"],correct:0},
+      {q:"La FP Reglada está dirigida principalmente a:",options:["Usuarios del sistema educativo","Solo desempleados de larga duración","Trabajadores jubilados","Solo directivos"],correct:0},
+      {q:"La FPE está dirigida a:",options:["Usuarios del sistema laboral, ocupados o desempleados","Solo estudiantes de bachillerato","Exclusivamente a autónomos","Solo funcionarios"],correct:0},
+      {q:"Los programas formativos en FPE conducen a:",options:["La acreditación de cualificaciones profesionales","La obtención de grados universitarios","La expedición de pasaportes","La homologación internacional automática"],correct:0},
+      {q:"A partir del programa formativo se extrae:",options:["La memoria económica","La programación didáctica","La nómina del docente","La matrícula del alumnado"],correct:1},
+      {q:"La formación en alternancia con el empleo combina:",options:["Viajes y teletrabajo","Empleo y formación","Práctica deportiva y estudio","Formación reglada y ocio"],correct:1},
+      {q:"La formación en alternancia permite compatibilizar:",options:["Aprendizaje formal y práctica profesional","Becas y jubilación","FP y oposiciones","Vacaciones y clases"],correct:0},
+      {q:"La normativa vigente establece el marco jurídico de:",options:["Solo empresas públicas","Cualquier empresa, organización o institución y sus trabajadores","Solo centros privados","Exclusivamente centros educativos"],correct:1},
+      {q:"La oferta formativa debe diseñarse teniendo en cuenta:",options:["La edad exacta de cada alumno","La posibilidad de acceso en distintas situaciones laborales","Solo el presupuesto del centro","Únicamente la modalidad presencial"],correct:1},
+      {q:"La FPE busca, entre otros fines:",options:["Mantener o mejorar la cualificación profesional","Reducir la jornada escolar","Sustituir la experiencia laboral","Eliminar la formación continua"],correct:0},
+      {q:"La idea clave de la UD1 es que la FP y la FPE comparten:",options:["Un marco general dentro del SNCFP","Los mismos horarios en todos los centros","Solo financiación privada","Los mismos exámenes para todo el país"],correct:0}
+    ]
+  },
+  unidad2: {
+    label: "UNIDAD 2",
+    description: "Certificados de profesionalidad.",
+    questions: [
+      {q:"El certificado de profesionalidad es el instrumento de acreditación de:",options:["Las titulaciones universitarias","Las cualificaciones profesionales del CNCP en el ámbito laboral","Las becas estatales","Los cursos no oficiales"],correct:1},
+      {q:"La Ley 30/2015 regula:",options:["El sistema de FPE en el ámbito laboral","La educación infantil","Los convenios internacionales","Las oposiciones docentes"],correct:0},
+      {q:"La acción formativa de los certificados de profesionalidad se dirige a:",options:["La adquisición y mejora de competencias y cualificaciones profesionales","Solo la preparación física","La enseñanza obligatoria","La formación militar"],correct:0},
+      {q:"La oferta formativa para obtener certificados de profesionalidad tiene carácter:",options:["Anual","Modular","Experimental","Libre"],correct:1},
+      {q:"La formación modular favorece:",options:["La acreditación parcial acumulable","La eliminación de módulos","La formación sin evaluación","El estudio exclusivamente presencial"],correct:0},
+      {q:"Los certificados de profesionalidad tienen carácter:",options:["Privado","Oficial y con validez en todo el territorio nacional","Exclusivamente autonómico","Internacional automático"],correct:1},
+      {q:"Cada certificado de profesionalidad se establece mediante:",options:["Orden ministerial interna","Real Decreto publicado en el BOE","Resolución de un centro","Acuerdo verbal"],correct:1},
+      {q:"Los certificados son expedidos por:",options:["Las academias privadas","El SEPE y los órganos competentes de las comunidades autónomas","Solo el INCUAL","Solo el BOE"],correct:1},
+      {q:"Cada certificado acredita normalmente:",options:["Una cualificación profesional del CNCP","Dos titulaciones universitarias","Un grado escolar","Una familia profesional completa"],correct:0},
+      {q:"La unidad mínima acreditable para obtener un certificado es:",options:["El tema","La sesión","La unidad de competencia","La tutoría"],correct:2},
+      {q:"Los módulos formativos del certificado pertenecen al:",options:["CMFP","BOE","SNCFP educativo","INCUAL territorial"],correct:0},
+      {q:"El certificado puede obtenerse superando:",options:["Solo un examen final","Todos los módulos correspondientes o mediante acumulación de acreditaciones parciales","Solo prácticas no laborales","Solo teleformación"],correct:1},
+      {q:"También se puede obtener mediante procedimientos de evaluación y acreditación de competencias adquiridas por:",options:["Sorteo público","Experiencia laboral y vías no formales de formación","Solo formación universitaria","Antigüedad en la empresa"],correct:1},
+      {q:"La estructura común del certificado incluye:",options:["Identificación, perfil profesional, formación, prescripciones de formadores y requisitos mínimos","Solo contenidos y nota final","Horario, matrícula y biblioteca","Seguro médico y comedor"],correct:0},
+      {q:"Una modalidad de impartición de certificados de profesionalidad es:",options:["Exclusivamente presencial","Presencial, teleformación y mixta","Solo online","Solo mixta"],correct:1},
+      {q:"La teleformación tiene como finalidad:",options:["Reducir los contenidos","Facilitar una oferta flexible y accesible para adquirir y acreditar cualificación profesional","Eliminar el seguimiento docente","Sustituir la evaluación"],correct:1},
+      {q:"Programar acciones formativas permite al docente:",options:["Tener una visión global del trabajo a realizar","Evitar la evaluación","Suprimir la temporalización","Trabajar sin documentación"],correct:0},
+      {q:"En la programación didáctica vinculada a certificados es fundamental:",options:["El trabajo en equipo entre profesionales","La improvisación individual","No revisar nunca los materiales","No coordinar tutorías"],correct:0},
+      {q:"Entre las herramientas documentales del equipo docente está:",options:["El modelo de programación didáctica","El libro de reclamaciones comercial","El inventario de limpieza","La licencia municipal"],correct:0},
+      {q:"Otro documento de apoyo citado en la unidad es:",options:["Modelo de planificación de la evaluación del aprendizaje","Carné de estudiante","Contrato de alquiler","Pasaporte europeo"],correct:0}
+    ]
+  },
+  unidad3: {
+    label: "UNIDAD 3",
+    description: "Programación didáctica de acciones formativas para el empleo.",
+    questions: [
+      {q:"La formación por competencias se sustenta en:",options:["La programación didáctica de acciones formativas","La improvisación docente","Solo el manual del alumno","La legislación fiscal"],correct:0},
+      {q:"Programar significa:",options:["Elaborar una guía para el desarrollo organizado del proceso de enseñanza-aprendizaje","Escribir únicamente los exámenes","Redactar solo los horarios","Preparar solo la plataforma online"],correct:0},
+      {q:"En FPE, la programación didáctica es:",options:["Un instrumento para regular un proceso de construcción del conocimiento y desarrollo personal y profesional","Un trámite sin utilidad real","Solo un resumen del temario","Un documento económico"],correct:0},
+      {q:"La competencia profesional es el conjunto de:",options:["Capacidades, conocimientos, habilidades, destrezas y actitudes con significación para el desempeño profesional","Solo conocimientos teóricos","Solo hábitos de estudio","Solo actitudes personales"],correct:0},
+      {q:"La programación de acciones formativas es:",options:["Solo el resultado final","Un proceso y también el resultado del mismo","Una tarea administrativa sin contenido didáctico","Exclusivamente una planificación semanal"],correct:1},
+      {q:"Las programaciones didácticas se componen de:",options:["Objetivos, contenidos, metodología, actividades, recursos, temporalización y evaluación","Solo objetivos y exámenes","Solo contenidos y tutorías","Recursos económicos y normas"],correct:0},
+      {q:"Los objetivos de aprendizaje son:",options:["Resultados esperados en el alumnado al finalizar el proceso de enseñanza-aprendizaje","Actividades del profesor","Normas del aula","Recursos materiales"],correct:0},
+      {q:"En FPE, los objetivos de aprendizaje se denominan:",options:["Competencias generales","Objetivos mínimos","Criterios de acceso","Capacidades básicas"],correct:0},
+      {q:"Cada competencia general se divide en:",options:["Unidades de competencia","Bloques horarios","Asignaturas","Exámenes parciales"],correct:0},
+      {q:"Los contenidos de aprendizaje pueden clasificarse en:",options:["Conceptuales, procedimentales y actitudinales","Teóricos, orales y escritos","Obligatorios y voluntarios","Presenciales y online"],correct:0},
+      {q:"Los contenidos se redactan en base a:",options:["Los objetivos programados","La matrícula del curso","El número de alumnos","La duración de las vacaciones"],correct:0},
+      {q:"La modalidad de impartición influye en la redacción de los contenidos porque puede ser:",options:["Presencial o teleformación","Solo presencial","Solo mixta","Solo autónoma"],correct:0},
+      {q:"La secuenciación lógica de los contenidos se recoge en la programación didáctica:",options:["A lo largo del tiempo y a través de las unidades didácticas","Solo al final del curso","Únicamente en la portada","Solo en las prácticas"],correct:0},
+      {q:"La metodología didáctica se aplica a través de:",options:["Las actividades de aprendizaje","Las matrículas","Las sanciones","Los contratos"],correct:0},
+      {q:"Cada actividad debe diseñarse en función de:",options:["Los objetivos a conseguir con los contenidos","El gusto del docente exclusivamente","La decoración del aula","La hora del recreo"],correct:0},
+      {q:"En entornos presenciales, una de las actividades más factibles son:",options:["Las dinámicas de grupo","Los trámites bancarios","Las licencias de obra","Los descuentos comerciales"],correct:0},
+      {q:"La metodología es el referente donde se enmarcan:",options:["Los métodos de enseñanza y las técnicas didácticas","Solo los exámenes finales","Solo las tutorías","Los contratos del profesorado"],correct:0},
+      {q:"A través de la metodología didáctica se define:",options:["Cómo el alumnado irá adquiriendo los aprendizajes previstos","El precio del curso","La duración de las vacaciones","La publicidad del centro"],correct:0},
+      {q:"Entre los recursos pedagógicos habituales aparecen:",options:["Bibliografía de referencia y anexos elaborados para contenidos concretos","Solo proyectores","Solo mesas y sillas","Únicamente redes sociales"],correct:0},
+      {q:"La evaluación en una programación didáctica es:",options:["Uno de sus elementos principales y parte indispensable del proceso de enseñanza-aprendizaje","Un elemento secundario sin peso real","Solo una nota final","Un trámite opcional"],correct:0}
+    ]
+  },
+  unidad4: {
+    label: "UNIDAD 4",
+    description: "Programación temporalizada de la acción formativa.",
+    questions: [
+      {q:"La temporalización diaria de contenidos, materiales y recursos viene determinada por:",options:["Una serie de pautas metodológicas","La intuición del docente","El azar","Las preferencias del alumnado"],correct:0},
+      {q:"Seguir adecuadamente estas pautas permite que la temporalización sea:",options:["Organizada y flexible","Rígida y cerrada","Improvisada y rápida","Compleja e inútil"],correct:0},
+      {q:"La temporalización debe establecer relación entre:",options:["Los contenidos a impartir y las actividades a realizar","Las notas y las ausencias","Los horarios y las vacaciones","Los libros y los exámenes"],correct:0},
+      {q:"La relación entre contenidos y actividades se logra a través de:",options:["Su secuenciación","La repetición aleatoria","El trabajo individual exclusivo","La supresión de objetivos"],correct:0},
+      {q:"La temporalización diaria se rige por criterios para:",options:["La selección, organización y concreción de contenidos y actividades","Solo el control de asistencia","Solo el reparto económico","La publicidad del curso"],correct:0},
+      {q:"En acciones formativas en línea, la temporalización se refleja en:",options:["La guía elaborada para el aprendizaje del alumnado","Un cartel informativo","La memoria del centro","El tablón de anuncios"],correct:0},
+      {q:"Conocer cómo se elabora la guía para acciones formativas en línea permite:",options:["Dotar de estructura al aprendizaje del alumnado","Eliminar las tutorías","Reducir la evaluación","Suprimir los recursos"],correct:0},
+      {q:"La guía derivada de la temporalización ayuda también a:",options:["Gestionar y utilizar los distintos documentos que emanan de ella","Evitar toda planificación","Quitar actividades","Eliminar contenidos"],correct:0},
+      {q:"La temporalización diaria es importante porque concreta:",options:["La programación en el desarrollo real de la acción formativa","Solo los descansos","Solo la entrega de diplomas","Solo la publicidad"],correct:0},
+      {q:"Una buena temporalización debe ser:",options:["Flexible pero organizada","Siempre rígida","Sin relación con objetivos","Únicamente teórica"],correct:0},
+      {q:"La temporalización parte de:",options:["Los objetivos de aprendizaje expresados en la programación didáctica","La matrícula del alumnado","La edad del profesor","Los gastos del centro"],correct:0},
+      {q:"La temporalización afecta a:",options:["Contenidos, materiales, recursos y actividades","Solo los exámenes","Solo las tutorías","Solo el aula física"],correct:0},
+      {q:"La secuencia previamente establecida sirve para:",options:["Ordenar el desarrollo de la acción formativa","Quitar importancia a los contenidos","Improvisar mejor","Eliminar el seguimiento"],correct:0},
+      {q:"La programación temporalizada ayuda al alumnado porque:",options:["Estructura su aprendizaje","Sustituye al docente","Evita estudiar","Quita la evaluación"],correct:0},
+      {q:"En la modalidad online, un documento clave ligado a la temporalización es:",options:["La guía de aprendizaje","El justificante bancario","El boletín oficial","El contrato laboral"],correct:0},
+      {q:"La temporalización diaria debe incluir una organización de:",options:["Contenidos y actividades según una secuencia","Solo los recreos","Solo la bibliografía","Solo las notas finales"],correct:0},
+      {q:"La unidad destaca que la temporalización bien elaborada facilita:",options:["La inclusión ordenada de materiales y recursos en la programación","La eliminación de módulos","La desaparición de la evaluación","La reducción de contenidos al mínimo"],correct:0},
+      {q:"En acciones formativas en línea, la temporalización no se deja:",options:["A la improvisación del alumnado","Reflejada en la guía de aprendizaje","Relacionada con contenidos","Vinculada a la programación"],correct:0},
+      {q:"Uno de los fines prácticos de la temporalización es:",options:["Gestionar mejor el proceso de aprendizaje","Quitar valor a la metodología","Evitar la secuenciación","Reducir la participación"],correct:0},
+      {q:"La idea central de la UD4 es que temporalizar correctamente permite:",options:["Un desarrollo estructurado de la acción formativa","Trabajar sin planificación","Impartir solo teoría","Prescindir de recursos"],correct:0}
+    ]
+  }
+};
+
+let currentTabKey = Object.keys(TOPICS)[0];
+let progress = JSON.parse(localStorage.getItem('cp_modulo1_4tabs_final_pro') || '{}');
+
+const tabBar=document.getElementById('tabBar'),
+      questionsBox=document.getElementById('questions'),
+      tabTitle=document.getElementById('tabTitle'),
+      tabDescription=document.getElementById('tabDescription'),
+      answeredCount=document.getElementById('answeredCount'),
+      blankCount=document.getElementById('blankCount'),
+      totalCount=document.getElementById('totalCount'),
+      resAnswered=document.getElementById('resAnswered'),
+      resBlank=document.getElementById('resBlank'),
+      resCorrect=document.getElementById('resCorrect'),
+      resWrong=document.getElementById('resWrong'),
+      resScore=document.getElementById('resScore'),
+      resultText=document.getElementById('resultText'),
+      resultBanner=document.getElementById('resultBanner');
+
+function renderTabs(){
+  tabBar.innerHTML = Object.entries(TOPICS).map(([key,topic]) =>
+    `<button class="tab-btn ${key===currentTabKey?'active':''}" onclick="selectTab('${key}')">${topic.label}</button>`
+  ).join('');
+}
+
+function selectTab(key){
+  currentTabKey = key;
+  renderTabs();
+  renderQuestions();
+}
+window.selectTab = selectTab;
+
+function saveState(){
+  localStorage.setItem('cp_modulo1_4tabs_final_pro', JSON.stringify(progress));
+}
+
+function getTabProgress(){
+  if(!progress[currentTabKey]) progress[currentTabKey] = {};
+  return progress[currentTabKey];
+}
+
+function renderQuestions(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  tabTitle.textContent = topic.label;
+  tabDescription.textContent = topic.description;
+  totalCount.textContent = topic.questions.length;
+
+  questionsBox.innerHTML = topic.questions.map((item,index)=>{
+    const saved = state[index];
+    const locked = !!saved;
+    const noteClass = locked ? 'feedback-note show' : 'feedback-note';
+    return `<article class="question">
+      <div class="qhead">
+        <div class="badge">${index+1}</div>
+        <div><h3 class="qtitle">${item.q}</h3></div>
+      </div>
+      <div class="options">
+        ${item.options.map((opt,optIndex)=>{
+          const selected = saved && saved.selected === optIndex;
+          const isCorrect = optIndex === item.correct;
+          let cls = 'opt';
+          if(locked){
+            cls += ' locked';
+            if(isCorrect) cls += ' correct';
+            if(selected && !isCorrect) cls += ' wrong';
+            if(selected) cls += ' selected';
+          }
+          return `<label class="${cls}">
+            <input type="radio" name="q${index}" value="${optIndex}" ${selected?'checked':''} ${locked?'disabled':''}>
+            <span>${opt}</span>
+          </label>`;
+        }).join('')}
+      </div>
+      <div class="lock-badge">${locked?'🔒 Respuesta guardada':'🔓 Sin responder'}</div>
+      <div class="${noteClass}">${locked?(saved.correct?'✅ Correcta':'❌ Incorrecta · Respuesta correcta: '+String.fromCharCode(97+item.correct)+') '+item.options[item.correct]):''}</div>
+    </article>`;
+  }).join('');
+
+  bindEvents();
+  updateCounters();
+}
+
+function bindEvents(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  topic.questions.forEach((item,index)=>{
+    document.querySelectorAll(`input[name="q${index}"]`).forEach(radio=>{
+      radio.addEventListener('change', ()=>{
+        if(state[index]) return;
+        const selected = Number(radio.value);
+        state[index] = {selected, correct:selected===item.correct};
+        saveState();
+        renderQuestions();
+      });
+    });
+  });
+}
+
+function updateCounters(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  const answered = Object.keys(state).length;
+  const blank = topic.questions.length - answered;
+  answeredCount.textContent = answered;
+  blankCount.textContent = blank;
+}
+
+function corregirPestana(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  let answered=0, correct=0, wrong=0;
+  topic.questions.forEach((q,index)=>{
+    if(state[index]){
+      answered++;
+      if(state[index].correct) correct++;
+      else wrong++;
+    }
+  });
+  const blank = topic.questions.length - answered;
+  const score = topic.questions.length ? (correct/topic.questions.length)*10 : 0;
+  resAnswered.textContent = answered;
+  resBlank.textContent = blank;
+  resCorrect.textContent = correct;
+  resWrong.textContent = wrong;
+  resScore.textContent = score.toFixed(2);
+  resultBanner.className = 'result-banner show ' + (score>=5?'ok':'bad');
+  resultBanner.textContent = score>=5
+    ? `✅ Buen trabajo. Nota final: ${score.toFixed(2)} / 10`
+    : `⚠️ Necesita repaso. Nota final: ${score.toFixed(2)} / 10`;
+  resultText.textContent = `Has respondido ${answered} de ${topic.questions.length} preguntas en esta pestaña.`;
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetPestana(){
+  progress[currentTabKey] = {};
+  saveState();
+  renderQuestions();
+  resAnswered.textContent='0';
+  resBlank.textContent='0';
+  resCorrect.textContent='0';
+  resWrong.textContent='0';
+  resScore.textContent='0.00';
+  resultBanner.className='result-banner';
+  resultBanner.textContent='';
+  resultText.textContent='Pestaña reiniciada. Puedes volver a responder.';
+}
+
+function resetTodo(){
+  progress = {};
+  saveState();
+  renderQuestions();
+  resAnswered.textContent='0';
+  resBlank.textContent='0';
+  resCorrect.textContent='0';
+  resWrong.textContent='0';
+  resScore.textContent='0.00';
+  resultBanner.className='result-banner';
+  resultBanner.textContent='';
+  resultText.textContent='Todo el módulo se ha reiniciado.';
+}
+
+document.getElementById('finishBtn').addEventListener('click', corregirPestana);
+document.getElementById('topSubmitBtn').addEventListener('click', corregirPestana);
+document.getElementById('resetBtn').addEventListener('click', resetPestana);
+document.getElementById('resetAllBtn').addEventListener('click', resetTodo);
+
+renderTabs();
+renderQuestions();
+</script>
+</body>
+</html>
