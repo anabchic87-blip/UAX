@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificado de Profesionalidad · Prep examen páginas 12-45</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qcqRyQEVYUbC0U3FKbg2YTjuqHo2B3jK_U2QbdXCVZ8_ZZYO0yBQkEBLPadlzRYuPONM8H9z8exhPfzzzXIqCQlQtO3MkRkD57KQOO-gCzqp5abo4fWzMBZ7rzL_q0WGhUI2iMavVq9tYZBDteZMLG_aUIf5hJDVCdkDupaqKrDsYguT7N3SGq_-juvovxxFoDcEAicCZi9ORVaXTm0Ik1D3dHPhDmZF6AadlM95nZIV8OL5k6g0U6AWlYeyiRqfRqUTq-sraXJv7IfW10ZBFg" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --card:#fffdfb; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --warn:#a16207; --warnbg:#fef3c7;
+      --info:#1d4ed8; --infobg:#dbeafe;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .topbar{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.98);border-bottom:1px solid var(--border);padding:12px 16px;backdrop-filter: blur(8px)}
+    .topbar-inner{max-width:1180px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+    .topbar-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.tabs-panel,.question,.result-box{background:rgba(255,255,255,.95);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .hero{border-radius:28px;padding:24px;margin-bottom:18px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.65}
+    .stats,.counter,.actions,.bottom-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .stats{margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .notice,.tip-box{margin-top:14px;padding:14px 16px;border-radius:16px;font-weight:700;line-height:1.6}
+    .notice{background:var(--warnbg);color:var(--warn);border:1px solid #f59e0b}
+    .tip-box{background:var(--infobg);color:var(--info);border:1px solid #93c5fd}
+    .tabs-panel{border-radius:24px;padding:18px}
+    .tab-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+    .tab-btn{border:none;cursor:pointer;border-radius:14px;padding:12px 16px;font-weight:700;font-size:14px;background:#fff8f3;color:#a54800;border:1px solid var(--border);transition:transform .2s ease, box-shadow .2s ease}
+    .tab-btn:hover{transform:translateY(-2px)}
+    .tab-btn.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:14px;background:#fff9f5;border:1px solid var(--border);border-radius:18px;padding:14px}
+    .counter-card,.result-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px 14px;min-width:130px;text-align:center}
+    .counter-card strong,.result-card strong{display:block;font-size:22px;color:var(--title)}
+    .counter-card span,.result-card span{color:var(--soft);font-size:12px;font-weight:700}
+    .btn{border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .questions{display:grid;gap:16px}
+    .question{border-radius:22px;padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;transition:border-color .2s ease,background .2s ease,opacity .2s ease}
+    .opt input{margin-top:4px}.opt.selected{border-color:#f0a96d;background:#fff8f3}.opt.correct{border-color:#16a34a;background:#ecfdf5}.opt.wrong{border-color:#dc2626;background:#fef2f2}.opt.locked{opacity:.94}
+    .lock-badge{display:inline-block;margin-top:10px;padding:7px 10px;border-radius:999px;background:#fff4ea;border:1px solid var(--border);color:#a54800;font-size:12px;font-weight:800}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none;line-height:1.5;font-weight:700}
+    .feedback-note.show{display:block}
+    .result-box{margin-top:22px;border-radius:22px;padding:20px}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    @media (max-width:700px){.btn,.topbar .btn{width:100%}.counter-card{flex:1 1 120px}.qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+    <div class="topbar-actions">
+      <a href="#questions" class="btn btn-secondary">🚀 Entrar</a>
+      <button class="btn btn-primary" id="topSubmitBtn" type="button">✅ Corregir pestaña</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="top">
+  <section class="hero">
+    <div class="eyebrow">📘 Certificado de Profesionalidad · Prep examen</div>
+    <h1>Test por dificultad · páginas 12-45</h1>
+    <p>He organizado el repaso en 4 pestañas con el mismo formato visual que los test anteriores: 20 preguntas fáciles, 20 medias, 20 difíciles y 20 tipo examen real.</p>
+    <div class="stats">
+      <div class="pill">4 pestañas</div>
+      <div class="pill">80 preguntas</div>
+      <div class="pill">Autocorregible</div>
+      <div class="pill">Guarda progreso</div>
+    </div>
+    <div class="notice">Cada pregunta se bloquea al seleccionar una respuesta. Después puedes corregir la pestaña para ver tu nota.</div>
+    <div class="tip-box">Contenido basado en el bloque de estudio de las páginas 12 a 45: SNCFP, FPE, certificados de profesionalidad, CNCP, INCUAL, SEPE y programación didáctica.</div>
+  </section>
+
+  <section class="tabs-panel">
+    <div class="tab-bar" id="tabBar"></div>
+
+    <div class="toolbar">
+      <div>
+        <strong id="tabTitle" style="color:var(--title);font-size:22px;">Pestaña</strong>
+        <p id="tabDescription" style="color:var(--soft);line-height:1.6;margin:6px 0 0;"></p>
+      </div>
+
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">0</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="totalCount">0</strong><span>Total</span></div>
+      </div>
+
+      <div class="actions">
+        <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+        <button class="btn btn-primary" id="finishBtn" type="button">✅ Corregir pestaña</button>
+        <button class="btn btn-secondary" id="resetBtn" type="button">↺ Reiniciar pestaña</button>
+        <button class="btn btn-secondary" id="resetAllBtn" type="button">🗑 Reiniciar todo</button>
+      </div>
+    </div>
+
+    <section class="questions" id="questions"></section>
+
+    <section class="result-box" id="resultBox">
+      <h2 style="margin:0;color:var(--title);">Resultado de la pestaña</h2>
+      <p id="resultText" style="color:var(--soft);line-height:1.6;margin:10px 0 0;">Cuando termines una pestaña, pulsa en corregir para ver la nota final.</p>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a href="index.html" class="btn btn-secondary">🏠 Volver al módulo</a>
+        <a href="#top" class="btn btn-secondary">⬆ Subir arriba</a>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script>
+const TOPICS = {
+  faciles: {
+    label: "FÁCIL",
+    description: "20 preguntas básicas para afianzar conceptos clave.",
+    questions: [
+      {q:"La FPE está pensada para dar respuesta a las demandas de formación de:",options:["Solo empresas","Trabajadores y empresas","Solo universidades"],correct:1},
+      {q:"La FPE es un subsistema más:",options:["Ágil y versátil","Lento y cerrado","Exclusivamente universitario"],correct:0},
+      {q:"Los trabajadores destinatarios de la FPE pueden ser:",options:["Solo desempleados","Solo ocupados","Empleados y desempleados"],correct:2},
+      {q:"Los dos subsistemas de FP comparten como referencia el:",options:["SNCFP","IRPF","SEPA"],correct:0},
+      {q:"En el ámbito educativo se encuentra la:",options:["FP reglada o inicial","FPE","Negociación colectiva"],correct:0},
+      {q:"En el ámbito laboral se encuentra la:",options:["FP reglada","FPE","ESO"],correct:1},
+      {q:"La Ley Orgánica 5/2002 trata sobre:",options:["Cualificaciones y Formación Profesional","Prevención de riesgos","Protección de datos"],correct:0},
+      {q:"El SNCFP integra ofertas de formación profesional a través del:",options:["CNCP","DNI","CGPJ"],correct:0},
+      {q:"La competencia profesional es un conjunto de conocimientos y:",options:["Capacidades","Vacaciones","Ayudas"],correct:0},
+      {q:"La cualificación profesional tiene significación para:",options:["El ocio","El empleo","La jubilación"],correct:1},
+      {q:"La unidad de competencia es el agregado mínimo de:",options:["Materias","Competencias profesionales","Aulas"],correct:1},
+      {q:"La Formación Profesional es un proceso formativo global de:",options:["Capacitación para la actividad laboral","Preparación deportiva","Selección de personal"],correct:0},
+      {q:"El certificado de profesionalidad acredita:",options:["Competencias profesionales","Solo asistencia","Solo notas"],correct:0},
+      {q:"El certificado de profesionalidad se relaciona con el:",options:["CNCP","Carné joven","Boletín meteorológico"],correct:0},
+      {q:"Una acción formativa puede estructurarse en varios:",options:["Módulos","Contratos","Convenios"],correct:0},
+      {q:"El Sistema Nacional de Empleo está integrado por el SEPE y:",options:["Las diputaciones","Los Servicios Públicos de Empleo autonómicos","Los ayuntamientos"],correct:1},
+      {q:"El INCUAL es un organismo clave en la definición de la oferta del:",options:["CNCP","Bachillerato","Doctorado"],correct:0},
+      {q:"El CNCP ordena las:",options:["Cualificaciones profesionales","Notas del alumnado","Horas extras"],correct:0},
+      {q:"El certificado de profesionalidad es una acreditación oficial en el ámbito de la:",options:["Administración laboral","Educación infantil","Sanidad privada"],correct:0},
+      {q:"La programación didáctica es un documento:",options:["Dinámico","Fijo e invariable","Solo económico"],correct:0}
+    ]
+  },
+  medio: {
+    label: "MEDIO",
+    description: "20 preguntas de nivel intermedio sobre definiciones, organismos y estructura.",
+    questions: [
+      {q:"¿Qué informa sobre la evolución de la demanda y oferta de profesiones, ocupaciones y perfiles en el mercado laboral?",options:["Área de Observatorio Profesional","Consejo Escolar","Inspección Médica"],correct:0},
+      {q:"Las especialidades formativas transversales se aplican a:",options:["Un solo sector","Diversos sectores productivos","Solo al sector público"],correct:1},
+      {q:"Las especialidades sectoriales responden a:",options:["Necesidades específicas de sectores productivos","Intereses recreativos","Únicamente a estudios universitarios"],correct:0},
+      {q:"La FP según la Ley Orgánica 5/2002 incluye acciones de inserción y reinserción laboral de:",options:["Solo estudiantes","Trabajadores","Solo directivos"],correct:1},
+      {q:"El SNCFP favorece el desarrollo profesional y social de las personas y cubre necesidades del:",options:["Sistema productivo","Sistema bancario","Sistema sanitario"],correct:0},
+      {q:"La cualificación profesional puede adquirirse mediante formación modular y también mediante:",options:["Experiencia laboral","Solo oposición","Solo formación universitaria"],correct:0},
+      {q:"Una unidad de competencia puede ser objeto de reconocimiento o acreditación:",options:["Parcial","Solo total","Nunca parcial"],correct:0},
+      {q:"El certificado de profesionalidad puede obtenerse mediante cursos completos o acumulación de:",options:["Acreditaciones parciales","Solo faltas justificadas","Trienios"],correct:0},
+      {q:"Otra vía para obtener el certificado de profesionalidad es:",options:["Reconocimiento de experiencia laboral","Sorteo público","Traslado de expediente"],correct:0},
+      {q:"Una acción formativa está dirigida a la adquisición y mejora de:",options:["Competencias profesionales","Solo hábitos de lectura","Solo asistencia"],correct:0},
+      {q:"Las iniciativas de formación de FPE se dirigen a un adulto en edad laboral con un enfoque práctico orientado:",options:["Al empleo","Al turismo","A la jubilación"],correct:0},
+      {q:"La FP pretende paliar el desajuste entre lo aprendido en las aulas y:",options:["La realidad del mercado laboral","Las vacaciones escolares","La economía doméstica"],correct:0},
+      {q:"El Sistema Nacional de Empleo promueve y desarrolla la política de:",options:["Empleo","Defensa","Transporte"],correct:0},
+      {q:"El INCUAL, el CNCP y el CGFP forman parte de los instrumentos y acciones que conforman el:",options:["SNCFP","SEPA","SMI"],correct:0},
+      {q:"El Catálogo Modular de Formación Profesional organiza los módulos formativos por:",options:["UC asociadas al CNCP","Edades del alumnado","Meses del año"],correct:0},
+      {q:"Según el esquema del PDF, la FP reglada expide:",options:["Títulos profesionales","Certificados de empresa","Licencias municipales"],correct:0},
+      {q:"Según el esquema comparativo del PDF, la FPE expide:",options:["Certificados de profesionalidad","Grados universitarios","Títulos de ESO"],correct:0},
+      {q:"En la FP reglada, los destinatarios principales son:",options:["Estudiantes","Trabajadores","Empresarios"],correct:0},
+      {q:"En la FPE, los destinatarios principales son:",options:["Trabajadores","Solo menores de edad","Solo opositores"],correct:0},
+      {q:"La programación didáctica organiza y distribuye contenidos en:",options:["Unidades de trabajo","Nóminas","Listas de espera"],correct:0}
+    ]
+  },
+  dificiles: {
+    label: "DIFÍCIL",
+    description: "20 preguntas más finas sobre matices, estructura y elaboración de programación didáctica.",
+    questions: [
+      {q:"El Área de Observatorio Profesional atiende también a los perfiles adoptados en:",options:["La negociación colectiva","Las juntas de evaluación","La inspección fiscal"],correct:0},
+      {q:"Según el PDF, la FPE se presenta como un subsistema más ágil y versátil que el:",options:["Tradicional","Universitario","Dual"],correct:0},
+      {q:"La definición del SNCFP habla de un conjunto de instrumentos y acciones necesarios para promover y desarrollar la integración de las ofertas de:",options:["Formación profesional","Transporte escolar","Atención sanitaria"],correct:0},
+      {q:"La evaluación, según el CNCP, comprueba si la competencia profesional cumple con las realizaciones y criterios:",options:["Especificados en el marco del CNCP","Decididos por cada alumno","Acordados solo por la empresa"],correct:0},
+      {q:"El certificado de profesionalidad acredita cualificaciones profesionales en el ámbito de la Administración:",options:["Laboral","Tributaria","Judicial"],correct:0},
+      {q:"Las cualificaciones profesionales, según el PDF, no se pueden cursar porque lo que se acredita es:",options:["El certificado de profesionalidad","La asistencia diaria","La experiencia mínima"],correct:0},
+      {q:"La programación didáctica transforma actuaciones educativas generales en propuestas didácticas más:",options:["Concretas","Aleatorias","Informales"],correct:0},
+      {q:"La programación didáctica se adapta a:",options:["Las necesidades que surgen","Solo al horario del docente","Solo a la plataforma"],correct:0},
+      {q:"El PDF insiste en no confundir la programación didáctica con:",options:["La unidad didáctica","El certificado profesional","El sistema educativo"],correct:0},
+      {q:"En la elaboración de la programación didáctica, el punto 1 consiste en:",options:["Descripción","Evaluación","Secuencia de actividades"],correct:0},
+      {q:"En la elaboración de la programación didáctica, el punto 5 es:",options:["Recursos materiales y humanos","Metodología","Contenidos"],correct:0},
+      {q:"En la elaboración de la programación didáctica, el punto 6 es:",options:["Organización de espacio y tiempo","Objetivos","Descripción"],correct:0},
+      {q:"En la elaboración de la programación didáctica, el punto 7 es:",options:["Metodología","Recursos materiales","Temporalización anual"],correct:0},
+      {q:"En la elaboración de la programación didáctica, el punto 8 es:",options:["Evaluación","Objetivos","Contenidos"],correct:0},
+      {q:"Las modalidades de evaluación citadas en el PDF son:",options:["Inicial, continua y final","Oral, escrita y práctica","Interna, externa y mixta"],correct:0},
+      {q:"La evaluación inicial se identifica también como:",options:["Diagnóstica","Formativa","Sumativa"],correct:0},
+      {q:"La evaluación continua se identifica también como:",options:["Formativa","Diagnóstica","Selectiva"],correct:0},
+      {q:"La evaluación final se identifica también como:",options:["Sumativa","Diagnóstica","Preventiva"],correct:0},
+      {q:"Al finalizar la acción formativa es obligatorio realizar un informe o memoria con conclusiones pedagógicas y de seguimiento a nivel:",options:["Individual y grupal","Exclusivamente económico","Solo institucional"],correct:0},
+      {q:"Dentro de la programación didáctica, la metodología debe indicar cómo se va a enseñar, por ejemplo:",options:["Presencial u online síncrona o asíncrona","Solo mediante examen oral","Solo con estudio autónomo"],correct:0}
+    ]
+  },
+  examen: {
+    label: "EXAMEN REAL",
+    description: "20 preguntas estilo examen real del certificado de habilitación a la docencia.",
+    questions: [
+      {q:"El subsistema de Formación Profesional para el Empleo está orientado principalmente a:",options:["La adquisición y actualización de competencias profesionales en el ámbito laboral","La escolarización obligatoria","La obtención de títulos universitarios"],correct:0},
+      {q:"El Sistema Nacional de Cualificaciones y Formación Profesional promueve la integración de la oferta formativa a través del:",options:["Catálogo Nacional de Cualificaciones Profesionales","Registro civil","Sistema Nacional de Salud"],correct:0},
+      {q:"Se entiende por competencia profesional:",options:["El conjunto de conocimientos y capacidades que permiten el ejercicio de la actividad profesional","La suma de asignaturas aprobadas","La experiencia laboral sin formación"],correct:0},
+      {q:"Una cualificación profesional se define como:",options:["El conjunto de competencias profesionales con significación para el empleo","Un módulo aislado","Una unidad didáctica temporal"],correct:0},
+      {q:"La unidad de competencia es:",options:["El agregado mínimo de competencias profesionales susceptible de reconocimiento o acreditación parcial","El conjunto de familias profesionales","Una práctica no laboral"],correct:0},
+      {q:"El certificado de profesionalidad es:",options:["El documento que acredita competencias profesionales para desarrollar una actividad laboral o una cualificación profesional determinada","Una guía de estudio sin validez oficial","Un parte de asistencia"],correct:0},
+      {q:"Una acción formativa puede estructurarse en varios módulos con:",options:["Objetivos, contenidos y duración propios","Solo teoría","Solo evaluación final"],correct:0},
+      {q:"El Sistema Nacional de Empleo está integrado por:",options:["SEPE y servicios públicos de empleo de las comunidades autónomas","SEPE y ayuntamientos","Solo el Ministerio de Educación"],correct:0},
+      {q:"El INCUAL es clave porque:",options:["Define la oferta del CNCP conforme a lo dispuesto por el CGFP","Expide directamente todos los certificados","Gestiona becas universitarias"],correct:0},
+      {q:"El CNCP ordena las cualificaciones profesionales en función de:",options:["Las competencias apropiadas para el ejercicio profesional","La edad de los trabajadores","La provincia de residencia"],correct:0},
+      {q:"El CMFP clasifica y organiza:",options:["Módulos formativos por UC asociadas al CNCP","Exámenes por niveles","Aulas por edificios"],correct:0},
+      {q:"En la comparación entre FP reglada y FPE, la FPE pertenece al contexto del:",options:["Sistema laboral","Sistema educativo","Sistema sanitario"],correct:0},
+      {q:"En la comparación entre FP reglada y FPE, la estructura de la FPE aparece como:",options:["Programas, módulos y UF","Ciclos, módulos y asignaturas","Cursos, créditos y seminarios"],correct:0},
+      {q:"La programación didáctica se caracteriza por ser:",options:["Un documento dinámico que secuencia y organiza contenidos","Un documento económico cerrado","Una simple lista de temas"],correct:0},
+      {q:"No debe confundirse la programación didáctica con:",options:["La unidad didáctica","El certificado profesional","La evaluación inicial"],correct:0},
+      {q:"En la elaboración de la programación didáctica, los objetivos deben expresar lo que el alumnado será capaz de:",options:["Hacer o adquirir con la unidad","Pagar al final del curso","Elegir como normativa"],correct:0},
+      {q:"Los contenidos de aprendizaje en la programación didáctica deben contemplar:",options:["Conceptos, procedimientos y actitudes","Solo conocimientos teóricos","Solo actividades prácticas"],correct:0},
+      {q:"La secuencia de actividades debe establecerse de forma que:",options:["Las actividades estén relacionadas entre sí","Cada actividad sea totalmente aislada","No exista progresión"],correct:0},
+      {q:"En el apartado de evaluación de la programación didáctica deben indicarse:",options:["Criterios e indicadores de valoración, tipos de pruebas, plazos y criterios de evaluación","Solo la nota final","Solo el porcentaje de asistencia"],correct:0},
+      {q:"Según el Real Decreto 659/2023 citado en la página 45, para impartir ofertas de formación profesional en centros no incorporados al sistema educativo puede exigirse, entre otros requisitos:",options:["Certificado Profesional de habilitación para la docencia en grados A, B y C del Sistema de Formación Profesional","Exclusivamente un máster universitario","Solo experiencia en empresa sin más requisitos"],correct:0}
+    ]
+  }
+};
+
+let currentTabKey = Object.keys(TOPICS)[0];
+let progress = JSON.parse(localStorage.getItem('cp_prep_examen_12_45_dificultad') || '{}');
+
+const tabBar=document.getElementById('tabBar'),
+      questionsBox=document.getElementById('questions'),
+      tabTitle=document.getElementById('tabTitle'),
+      tabDescription=document.getElementById('tabDescription'),
+      answeredCount=document.getElementById('answeredCount'),
+      blankCount=document.getElementById('blankCount'),
+      totalCount=document.getElementById('totalCount'),
+      resAnswered=document.getElementById('resAnswered'),
+      resBlank=document.getElementById('resBlank'),
+      resCorrect=document.getElementById('resCorrect'),
+      resWrong=document.getElementById('resWrong'),
+      resScore=document.getElementById('resScore'),
+      resultText=document.getElementById('resultText'),
+      resultBanner=document.getElementById('resultBanner');
+
+function renderTabs(){
+  tabBar.innerHTML = Object.entries(TOPICS).map(([key,topic]) =>
+    `<button class="tab-btn ${key===currentTabKey?'active':''}" onclick="selectTab('${key}')">${topic.label}</button>`
+  ).join('');
+}
+
+function selectTab(key){
+  currentTabKey = key;
+  renderTabs();
+  renderQuestions();
+}
+window.selectTab = selectTab;
+
+function saveState(){
+  localStorage.setItem('cp_prep_examen_12_45_dificultad', JSON.stringify(progress));
+}
+
+function getTabProgress(){
+  if(!progress[currentTabKey]) progress[currentTabKey] = {};
+  return progress[currentTabKey];
+}
+
+function renderQuestions(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  tabTitle.textContent = topic.label;
+  tabDescription.textContent = topic.description;
+  totalCount.textContent = topic.questions.length;
+
+  questionsBox.innerHTML = topic.questions.map((item,index)=>{
+    const saved = state[index];
+    const locked = !!saved;
+    const noteClass = locked ? 'feedback-note show' : 'feedback-note';
+    return `<article class="question">
+      <div class="qhead">
+        <div class="badge">${index+1}</div>
+        <div><h3 class="qtitle">${item.q}</h3></div>
+      </div>
+      <div class="options">
+        ${item.options.map((opt,optIndex)=>{
+          const selected = saved && saved.selected === optIndex;
+          const isCorrect = optIndex === item.correct;
+          let cls = 'opt';
+          if(locked){
+            cls += ' locked';
+            if(isCorrect) cls += ' correct';
+            if(selected && !isCorrect) cls += ' wrong';
+            if(selected) cls += ' selected';
+          }
+          return `<label class="${cls}">
+            <input type="radio" name="q${index}" value="${optIndex}" ${selected?'checked':''} ${locked?'disabled':''}>
+            <span>${opt}</span>
+          </label>`;
+        }).join('')}
+      </div>
+      <div class="lock-badge">${locked?'🔒 Respuesta guardada':'🔓 Sin responder'}</div>
+      <div class="${noteClass}">${locked?(saved.correct?'✅ Correcta':'❌ Incorrecta · Respuesta correcta: '+String.fromCharCode(97+item.correct)+') '+item.options[item.correct]):''}</div>
+    </article>`;
+  }).join('');
+
+  bindEvents();
+  updateCounters();
+}
+
+function bindEvents(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  topic.questions.forEach((item,index)=>{
+    document.querySelectorAll(`input[name="q${index}"]`).forEach(radio=>{
+      radio.addEventListener('change', ()=>{
+        if(state[index]) return;
+        const selected = Number(radio.value);
+        state[index] = {selected, correct:selected===item.correct};
+        saveState();
+        renderQuestions();
+      });
+    });
+  });
+}
+
+function updateCounters(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  const answered = Object.keys(state).length;
+  const blank = topic.questions.length - answered;
+  answeredCount.textContent = answered;
+  blankCount.textContent = blank;
+}
+
+function corregirPestana(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  let answered=0, correct=0, wrong=0;
+  topic.questions.forEach((q,index)=>{
+    if(state[index]){
+      answered++;
+      if(state[index].correct) correct++;
+      else wrong++;
+    }
+  });
+  const blank = topic.questions.length - answered;
+  const score = topic.questions.length ? (correct/topic.questions.length)*10 : 0;
+  resAnswered.textContent = answered;
+  resBlank.textContent = blank;
+  resCorrect.textContent = correct;
+  resWrong.textContent = wrong;
+  resScore.textContent = score.toFixed(2);
+  resultBanner.className = 'result-banner show ' + (score>=5?'ok':'bad');
+  resultBanner.textContent = score>=5
+    ? `✅ Buen trabajo. Nota final: ${score.toFixed(2)} / 10`
+    : `⚠️ Necesita repaso. Nota final: ${score.toFixed(2)} / 10`;
+  resultText.textContent = `Has respondido ${answered} de ${topic.questions.length} preguntas en esta pestaña.`;
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetPestana(){
+  progress[currentTabKey] = {};
+  saveState();
+  renderQuestions();
+  resAnswered.textContent='0';
+  resBlank.textContent='0';
+  resCorrect.textContent='0';
+  resWrong.textContent='0';
+  resScore.textContent='0.00';
+  resultBanner.className='result-banner';
+  resultBanner.textContent='';
+  resultText.textContent='Pestaña reiniciada. Puedes volver a responder.';
+}
+
+function resetTodo(){
+  progress = {};
+  saveState();
+  renderQuestions();
+  resAnswered.textContent='0';
+  resBlank.textContent='0';
+  resCorrect.textContent='0';
+  resWrong.textContent='0';
+  resScore.textContent='0.00';
+  resultBanner.className='result-banner';
+  resultBanner.textContent='';
+  resultText.textContent='Todo el test se ha reiniciado.';
+}
+
+document.getElementById('finishBtn').addEventListener('click', corregirPestana);
+document.getElementById('topSubmitBtn').addEventListener('click', corregirPestana);
+document.getElementById('resetBtn').addEventListener('click', resetPestana);
+document.getElementById('resetAllBtn').addEventListener('click', resetTodo);
+
+renderTabs();
+renderQuestions();
+</script>
+</body>
+</html>
