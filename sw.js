@@ -1,67 +1,59 @@
-const CACHE_NAME = 'integra-pwa-v2';
+// 🔥 Helper para guardar resultados reales de tests en Firebase
 
-const URLS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './assets/logo.png',
-  './assets/integra_favicon_16.png',
-  './assets/integra_favicon_32.png',
-  './assets/integra_favicon_180.png',
-  './assets/integra_favicon_192.png',
-  './assets/integra_favicon_512.png',
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-  // ASIGNATURAS CORREGIDAS (IMPORTANTE)
-  './bdd/index.html',
-  './ciberseguridad/index.html',
-  './sostenibilidad/index.html',
-  './tai/index.html',
-  './certificado-profesionalidad/index.html'
-];
+// ⚠️ TU CONFIG (la que me pasaste)
+const firebaseConfig = {
+  apiKey: "AIzaSyAS1Ad4wBNn2HDufn1fZJiteHZGXZcX_No",
+  authDomain: "formacion-481a0.firebaseapp.com",
+  projectId: "formacion-481a0",
+  databaseURL: "https://formacion-481a0-default-rtdb.europe-west1.firebasedatabase.app",
+  storageBucket: "formacion-481a0.firebasestorage.app",
+  messagingSenderId: "850316210880",
+  appId: "1:850316210880:web:f18e91f053bf4d133a7325",
+  measurementId: "G-MTLW5R8MSZ"
+};
 
-// INSTALACIÓN
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(URLS_TO_CACHE))
-      .catch(() => Promise.resolve())
-  );
-  self.skipWaiting();
-});
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// ACTIVACIÓN (limpia caché antigua)
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      )
-    )
-  );
-  self.clients.claim();
-});
+// 🔥 FUNCIÓN CLAVE
+async function guardarResultadoTest({ asignatura, test, nota, tiempo = null }) {
+  const user = auth.currentUser;
 
-// FETCH (estrategia mejorada)
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
+  if (!user) {
+    alert("❌ Tienes que iniciar sesión");
+    return;
+  }
 
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        const cloned = response.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          try {
-            cache.put(event.request, cloned);
-          } catch (e) {}
-        });
-        return response;
-      })
-      .catch(() =>
-        caches.match(event.request).then(
-          cached => cached || caches.match('./index.html')
-        )
-      )
-  );
-});
+  const ref = doc(db, "resultados", user.uid);
+  const snap = await getDoc(ref);
+  const data = snap.exists() ? snap.data() : {};
+
+  const history = Array.isArray(data.history) ? data.history : [];
+
+  const nuevo = {
+    asignatura: asignatura || "General",
+    test: test || "Test",
+    nota: Number(nota || 0),
+    tiempo: tiempo,
+    fecha: Date.now()
+  };
+
+  const clave = `${asignatura}_${test}`.replace(/\s+/g, "_");
+
+  await setDoc(ref, {
+    uid: user.uid,
+    email: user.email,
+    updatedAt: Date.now(),
+    [clave]: nota,
+    history: [...history, nuevo]
+  }, { merge: true });
+
+  console.log("✅ Resultado guardado");
+}
+
+window.guardarResultadoTest = guardarResultadoTest;
