@@ -839,6 +839,30 @@
 
     let cachedAuthorizedUsers = [];
     let cachedGlobalResults = [];
+    <script type="module">
+
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+// etc...
+
+let cachedAuthorizedUsers = [];
+let cachedGlobalResults = [];
+
+// 🔥 AQUÍ PEGA ESTO
+function getEstadoConexion(lastChanged, online){
+  if (!lastChanged) return "Sin actividad";
+
+  const ahora = Date.now();
+  const diff = Math.floor((ahora - lastChanged) / 1000);
+
+  if (online && diff < 30) return "🟢 Activo ahora";
+
+  if (diff < 60) return "🟡 Hace unos segundos";
+  if (diff < 300) return "🟡 Hace " + Math.floor(diff/60) + " min";
+  if (diff < 3600) return "⚫ Hace " + Math.floor(diff/60) + " min";
+
+  return "⚫ Hace " + Math.floor(diff/3600) + " h";
+}
 
     async function cargarRankingGlobal(){
       const box = document.getElementById('rankingList');
