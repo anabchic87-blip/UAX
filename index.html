@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INTEGRA FORMACIÓN · Campus</title>
+  <meta name="description" content="Campus INTEGRA con acceso por usuario, resultados y panel de administración." />
+  <meta name="theme-color" content="#ff7a00" />
+  <link rel="icon" type="image/png" href="assets/logo.png" /><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=tBBoI3xJMkgw3q990bn5Gp-_cc_Vt0l0Ue1JTMUKrZvxS7uTg3ElLC6BbmwVmGXlkw0oeMHEi9enIhjAevVFBBRH5kZiDASjZQXE4_4QH67RAHemBl0CpHkovsUJ_OWpoAj7ef9xn_ONEOENlVecknZQClFv_gvH-oZuEVTDsG8_DevcKujiLWMBb5dwStjHLRqV5gL6lSiLHw4BiMy9K6byMvgmG_Fx-MhJF9uNA8rV6IrVpcPqRrJhI9U6nq_EebmBssUPsLo_280xLyKFuQ" charset="UTF-8"></script><style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg1:#fff8f2;
+      --bg2:#ffe8d6;
+      --card:#fffdfb;
+      --border:#f2ccb0;
+      --text:#3e2617;
+      --soft:#7c5d48;
+      --title:#ff7a00;
+      --orange:#ff7a00;
+      --orange2:#ff9e44;
+      --orangeSoft:#fff2e6;
+      --shadow:rgba(143,63,0,0.10);
+      --ok:#15803d;
+      --okbg:#dcfce7;
+      --bad:#b91c1c;
+      --badbg:#fee2e2;
+    }
+
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,122,0,.12), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(168,85,247,.08), transparent 20%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    .loading-screen{
+      position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2)); padding:24px;
+    }
+    .loading-card{
+      width:min(520px,100%);
+      background:rgba(255,255,255,.97);
+      border:1px solid var(--border);
+      border-radius:30px;
+      padding:28px;
+      box-shadow:0 20px 45px rgba(143,63,0,.14);
+      text-align:center;
+    }
+    .loading-logo{
+      width:92px;height:92px;object-fit:contain;margin:0 auto 12px;display:block;
+      background:#fff;border-radius:22px;padding:8px;box-shadow:0 12px 26px rgba(255,122,0,.16)
+    }
+    .loading-spinner{
+      width:52px; height:52px; border-radius:50%; margin:0 auto 16px;
+      border:5px solid #ffd7b6; border-top-color:var(--orange); animation:giro 1s linear infinite;
+    }
+    @keyframes giro{to{transform:rotate(360deg)}}
+
+    .auth-screen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      background:
+        radial-gradient(circle at top left, rgba(255,122,0,.18), transparent 20%),
+        radial-gradient(circle at bottom right, rgba(255,158,68,.16), transparent 20%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
+    }
+    .auth-card{
+      width:min(590px,100%);
+      background:rgba(255,255,255,.97);
+      border:1px solid var(--border);
+      border-radius:30px;
+      padding:30px;
+      box-shadow:0 22px 48px rgba(143,63,0,.14);
+      text-align:center;
+    }
+    .auth-logo-img{
+      width:108px;height:108px;display:block;margin:0 auto 18px;object-fit:contain;
+      border-radius:26px;background:#fff;padding:8px;box-shadow:0 14px 30px rgba(255,122,0,.18);
+    }
+    .brand-mini{text-align:center;margin-bottom:12px}
+    .brand-mini h1{color:var(--title);font-size:35px;line-height:1.1;margin-bottom:6px}
+    .brand-mini p{color:var(--soft);font-size:16px;line-height:1.5}
+    .company-pill{
+      display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;border-radius:999px;
+      background:#fff5ec;border:1px solid var(--border);color:#a54800;font-weight:700;font-size:13px;margin:0 auto 18px
+    }
+    .auth-tabs{display:flex;gap:10px;margin-bottom:18px}
+    .auth-tab{
+      flex:1;border:none;border-radius:14px;padding:13px 14px;font-size:14px;font-weight:800;cursor:pointer;
+      background:#fff3e8;color:#a54800;border:1px solid var(--border)
+    }
+    .auth-tab.active{
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+      color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.22)
+    }
+    .auth-panel{display:none}
+    .auth-panel.active{display:block}
+    .field{margin-bottom:14px;text-align:left}
+    .field label{display:block;font-size:14px;font-weight:700;color:#7c4a25;margin-bottom:8px}
+    .field input{
+      width:100%;padding:14px 16px;border-radius:15px;border:1px solid var(--border);
+      background:#fff;font-size:15px;color:var(--text);outline:none
+    }
+    .btn-block,.btn,.danger-btn,.small-btn,.logout-btn,.nav-link{
+      border:none;border-radius:14px;padding:14px 18px;font-size:15px;font-weight:800;cursor:pointer;
+      transition:.22s ease;text-decoration:none;display:inline-flex;align-items:center;justify-content:center
+    }
+    .btn-block,.btn{
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+      color:#fff;box-shadow:0 10px 18px rgba(255,122,0,.16)
+    }
+    .btn-secondary,.small-btn{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .danger-btn{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;padding:10px 12px;font-size:13px}
+    .btn-block{width:100%}
+    .auth-message{display:none;margin-top:14px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:700;line-height:1.5}
+    .auth-message.ok{display:block;background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .auth-message.bad{display:block;background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .auth-help,.status-note{
+      margin-top:16px;padding:12px 14px;border-radius:16px;background:#fff7ef;border:1px solid var(--border);
+      color:#9a4d12;font-size:13px;line-height:1.55
+    }
+
+    .app{display:none}
+    .dashboard{
+      display:grid;
+      grid-template-columns:280px 1fr;
+      min-height:100vh;
+    }
+
+    .sidebar{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:auto;
+      background:linear-gradient(180deg,#b94f00 0%, #8e3d00 100%);
+      border-right:1px solid rgba(255,255,255,.12);
+      padding:20px 16px 28px;
+    }
+    .sidebar-logo{
+      width:82px;height:82px;display:block;margin:0 auto 14px;object-fit:contain;
+      border-radius:22px;background:#fff;padding:8px;box-shadow:0 12px 24px rgba(255,122,0,.14)
+    }
+    .sidebar-brand{text-align:center;margin-bottom:18px}
+    .sidebar-brand h1{font-size:24px;color:#fff;line-height:1.15;margin-bottom:6px}
+    .sidebar-brand p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.5}
+    .sidebar-card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      padding:16px;
+      margin-bottom:14px;
+    }
+    .sidebar-title{
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      margin-bottom:12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    .sidebar-subtitle{
+      color:rgba(255,255,255,.88);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin:6px 0 10px;
+      padding-left:4px;
+    }
+    .nav-menu{display:grid;gap:10px}
+    .nav-link,.logout-btn{
+      justify-content:flex-start;width:100%;
+      background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)
+    }
+    .nav-link:hover,.logout-btn:hover,.btn:hover,.small-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 22px rgba(0,0,0,.12)
+    }
+
+    .content{
+      min-width:0;
+      padding:24px 28px 34px;
+    }
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      margin-bottom:22px;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px 20px;
+      box-shadow:0 12px 22px rgba(143,63,0,.06);
+      position:sticky;
+      top:12px;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .topbar h2{color:var(--title);font-size:30px;line-height:1.1;margin-bottom:6px}
+    .topbar p{color:var(--soft);line-height:1.6}
+    .topbar-right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .user-box{
+      background:#fff3e8;border:1px solid #f2ccb0;padding:12px 16px;border-radius:14px;
+      font-weight:700;color:#8e3d00;min-width:220px;text-align:center;
+    }
+
+    .dashboard-hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+      margin-bottom:22px;
+    }
+    .hero-panel,.summary-panel,.result-box,.online-panel,.admin-panel,.course-card{
+      background:rgba(255,255,255,.96);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 12px 24px rgba(143,63,0,.08);
+    }
+    .hero-brand{
+      display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 16px;background:#fff6ef;border:1px solid var(--border);
+      border-radius:999px;color:#a54800;font-weight:800;font-size:13px;margin-bottom:16px
+    }
+    .hero-panel h2{
+      font-size:34px;
+      color:var(--title);
+      line-height:1.1;
+      margin-bottom:10px;
+    }
+    .hero-panel p,.summary-panel p{
+      color:var(--soft);
+      line-height:1.7;
+      font-size:15px;
+    }
+    .kpi-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .kpi-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 10px 20px rgba(143,63,0,.06);
+    }
+    .kpi-card strong{
+      display:block;
+      color:var(--title);
+      font-size:24px;
+      margin-bottom:6px;
+    }
+    .kpi-card span{
+      color:var(--soft);
+      font-size:13px;
+      font-weight:700;
+    }
+    .summary-panel h3{
+      color:var(--title);
+      font-size:22px;
+      margin-bottom:12px;
+    }
+    .summary-list{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+    .summary-item{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+      background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:12px 14px;color:#7a4a26;font-weight:700;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .section-title{font-size:24px;color:var(--title);margin-bottom:6px}
+    .section-head p{color:var(--soft);line-height:1.5;font-size:14px}
+    .courses-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(255px,1fr));
+      gap:18px;
+      margin-bottom:24px;
+    }
+    .course-card{
+      position:relative;
+      overflow:hidden;
+      transition:transform .22s ease, box-shadow .22s ease;
+    }
+    .course-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 18px 34px rgba(143,63,0,.12);
+    }
+    .course-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+    }
+    .course-icon{
+      width:60px;
+      height:60px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      background:linear-gradient(135deg,#ffe4c9,#ffd0a6);
+      box-shadow:inset 0 2px 0 rgba(255,255,255,.72);
+    }
+    .course-badge{
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fff8f2;
+      border:1px solid var(--border);
+      color:#b24f00;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .course-card h3{
+      color:#3d220f;
+      font-size:21px;
+      margin-bottom:10px;
+      line-height:1.25;
+    }
+    .course-card p{
+      color:#734f39;
+      font-size:15px;
+      line-height:1.6;
+      margin-bottom:18px;
+      min-height:72px;
+    }
+    .actions,.demo-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .ghost-btn{
+      background:#fff;
+      color:#a54800;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:14px;
+      font-weight:800;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .grid-two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+    .result-list,.online-users{display:grid;gap:10px}
+    .result-item,.online-user{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;background:#fff8f2;
+      border:1px solid var(--border);font-weight:700;color:#7a4a26
+    }
+    .score-pill,.online-badge,.role-pill{padding:8px 12px;border-radius:999px;font-size:13px;font-weight:800;min-width:68px;text-align:center}
+    .score-pill{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+    .online-badge{background:#ecfdf5;color:#15803d;border:1px solid #bbf7d0;white-space:nowrap}
+    .online-user-info{display:flex;flex-direction:column;gap:4px}
+    .online-user-role{font-size:13px;color:#a87b5c}
+    .admin-panel{display:none}
+    .admin-panel.show{display:block}
+    .admin-grid,.table-row{display:grid;grid-template-columns:2fr 1fr auto;gap:12px;align-items:end}
+    .table-box{border:1px solid var(--border);border-radius:18px;overflow:hidden;background:#fffaf6}
+    .table-row{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .table-row:last-child{border-bottom:none}
+    .table-head{background:#fff1e7;font-weight:800;color:#ff7a00}
+    .role-pill{background:#fff3e8;border:1px solid var(--border);color:#a54800}
+    .empty-state{display:none;text-align:center;padding:30px;background:rgba(255,255,255,0.75);border:1px dashed var(--border);border-radius:20px;color:var(--soft);font-weight:700;margin-top:10px}
+    .footer{text-align:center;color:#8a674f;font-size:14px;margin-top:30px;padding-bottom:10px}
+
+    @media (max-width: 1100px){
+      .dashboard{grid-template-columns:1fr}
+      .sidebar{
+        position:relative;
+        height:auto;
+        border-right:none;
+        border-bottom:1px solid var(--border);
+      }
+      .dashboard-hero,.grid-two{grid-template-columns:1fr}
+    }
+    @media (max-width: 768px){
+      .auth-screen{padding:16px}
+      .auth-card,.loading-card{padding:22px 18px;border-radius:24px}
+      .auth-logo-img,.loading-logo{width:84px;height:84px;border-radius:22px}
+      .brand-mini h1{font-size:27px}
+      .content{padding:14px}
+      .topbar{padding:16px;flex-direction:column;align-items:flex-start}
+      .topbar h2{font-size:24px}
+      .topbar-right,.actions,.demo-actions{flex-direction:column;width:100%}
+      .btn,.small-btn,.logout-btn,.nav-link,.ghost-btn{width:100%}
+      .kpi-grid{grid-template-columns:1fr 1fr}
+      .courses-grid,.grid-two{grid-template-columns:1fr}
+      .admin-grid,.table-row{grid-template-columns:1fr}
+    }
+    @media (max-width: 480px){
+      .kpi-grid{grid-template-columns:1fr}
+    }
+  
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .stat-card{
+      background:#fff8f2;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 8px 18px rgba(143,63,0,.06);
+    }
+    .stat-card strong{
+      display:block;
+      color:var(--title);
+      font-size:24px;
+      margin-bottom:6px;
+    }
+    .stat-card span{
+      color:var(--soft);
+      font-size:13px;
+      font-weight:700;
+    }
+    .admin-subpanel{
+      margin-top:18px;
+      background:#fffaf6;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+    }
+    .admin-subpanel h4{
+      color:var(--title);
+      margin-bottom:10px;
+      font-size:18px;
+    }
+    .admin-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .tiny-btn{
+      border:none;
+      border-radius:12px;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:800;
+      cursor:pointer;
+      background:#fff3e8;
+      color:#a54800;
+      border:1px solid var(--border);
+    }
+    .tiny-btn.danger{
+      background:#fee2e2;
+      color:#b91c1c;
+      border:1px solid #fca5a5;
+    }
+    .tiny-btn.ok{
+      background:#ecfdf5;
+      color:#15803d;
+      border:1px solid #bbf7d0;
+    }
+    .ranking-list{
+      display:grid;
+      gap:10px;
+    }
+    .ranking-item{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      padding:12px 14px;
+      background:#fff8f2;
+      border:1px solid var(--border);
+      border-radius:16px;
+      font-weight:700;
+      color:#7a4a26;
+    }
+    .muted-note{
+      color:var(--soft);
+      font-size:13px;
+      line-height:1.5;
+      margin-bottom:12px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-card">
+      <img src="assets/logo.png" alt="INTEGRA FORMACIÓN" class="loading-logo">
+      <div class="loading-spinner"></div>
+      <h2 style="color:#ff7a00;margin-bottom:8px;">Cargando INTEGRA FORMACIÓN…</h2>
+      <p style="color:#7c5d48;line-height:1.6;">Inicializando el campus.</p>
+    </div>
+  </div>
+
+  <section class="auth-screen" id="authScreen" style="display:none;">
+    <div class="auth-card">
+      <img src="assets/logo.png" alt="INTEGRA FORMACIÓN" class="auth-logo-img">
+      <div class="brand-mini">
+        <div class="company-pill">INTEGRA FORMACIÓN</div>
+        <h1>Campus INTEGRA</h1>
+        <p>Docencia, Tecnología y Futuro</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="showPanel('login')">Iniciar sesión</button>
+        <button class="auth-tab" id="tabRegister" onclick="showPanel('register')">Crear cuenta</button>
+      </div>
+
+      <div class="auth-panel active" id="loginPanel">
+        <div class="field">
+          <label for="loginEmail">Correo</label>
+          <input type="email" id="loginEmail" placeholder="tucorreo@ejemplo.com" />
+        </div>
+        <div class="field">
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="Tu contraseña" />
+        </div>
+        <button class="btn-block" onclick="login()">Entrar</button>
+      </div>
+
+      <div class="auth-panel" id="registerPanel">
+        <div class="field">
+          <label for="registerEmail">Correo</label>
+          <input type="email" id="registerEmail" placeholder="tucorreo@ejemplo.com" />
+        </div>
+        <div class="field">
+          <label for="registerPassword">Contraseña</label>
+          <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" />
+        </div>
+        <button class="btn-block" onclick="register()">Crear cuenta</button>
+      </div>
+
+      <div class="auth-message" id="authMessage"></div>
+      <div class="auth-help">Academia orientada a formación profesional, ocio y tiempo libre, socorrismo, emergencias e informática.</div>
+    </div>
+  </section>
+
+  <div class="app" id="appScreen">
+    <div class="dashboard">
+      <aside class="sidebar">
+        <img src="assets/logo.png" alt="INTEGRA FORMACIÓN" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h1>INTEGRA FORMACIÓN</h1>
+          <p>Entorno de formación online</p>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">Campus de formación</div>
+          <div class="sidebar-subtitle">Asignaturas</div>
+          <div class="nav-menu">
+            <a class="nav-link" href="tests/bdd/index.html">🗄️ BBDD</a>
+            <a class="nav-link" href="tests/ciberseguridad/index.html">🔐 Ciber</a>
+            <a class="nav-link" href="tests/sostenibilidad/index.html">🌱 Sostenibilidad</a>
+            <a class="nav-link" href="tests/tai/index.html">💻 TAI</a>
+            <a class="nav-link" href="tests/certificado-profesionalidad/index.html">📘 Certificado</a>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">Campus de navegación</div>
+          <div class="sidebar-subtitle">Accesos</div>
+          <div class="nav-menu">
+            <a class="nav-link" href="#inicio">🏠 Inicio</a>
+            <a class="nav-link" href="#resultadosPanel">📊 Mis resultados</a>
+            <a class="nav-link" href="#conectados" id="connectedMenuLink" style="display:none;">🟢 Usuarios conectados</a>
+            <a class="nav-link" href="#adminPanel" id="adminMenuLink" style="display:none;">⚙️ Panel de administración</a>
+          </div>
+        </div>
+
+        <div id="firebaseStatus" style="display:none;"></div>
+      </aside>
+
+      <main class="content">
+        <section class="topbar" id="inicio">
+          <div>
+            <h2>Campus INTEGRA</h2>
+            <p>Vista principal del campus con una estructura limpia, ordenada y más profesional.</p>
+          </div>
+          <div class="topbar-right">
+            <div class="user-box" id="userEmailTop">Usuario</div>
+            <button class="btn" onclick="logout()">Cerrar sesión</button>
+          </div>
+        </section>
+
+        <section class="dashboard-hero">
+          <div class="hero-panel">
+            <div class="hero-brand">Campus virtual · Dashboard</div>
+            <h2>Panel principal</h2>
+            <p>Accede a tus asignaturas, consulta tus resultados y entra al campus desde una vista más limpia, moderna y funcional.</p>
+            <div class="kpi-grid">
+              <div class="kpi-card">
+                <strong id="kpiAsignaturas">5</strong>
+                <span>Alumnos autorizados</span>
+              </div>
+              <div class="kpi-card">
+                <strong id="kpiResultados">0</strong>
+                <span>Resultados guardados</span>
+              </div>
+              <div class="kpi-card">
+                <strong>24/7</strong>
+                <span>Acceso al campus</span>
+              </div>
+              <div class="kpi-card">
+                <strong>100%</strong>
+                <span>Diseño responsive</span>
+              </div>
+            </div>
+          </div>
+          <div class="summary-panel">
+            <h3>Resumen rápido</h3>
+            <p>Consulta de un vistazo el estado general de tu acceso al campus.</p>
+            <div class="summary-list">
+              <div class="summary-item"><span>📚 Área principal</span><span>Campus</span></div>
+              <div class="summary-item"><span>📊 Estado</span><span>Activo</span></div>
+              <div class="summary-item"><span>🧭 Navegación</span><span>Lateral</span></div>
+              <div class="summary-item"><span>🔐 Perfil</span><span id="miniRole">Alumno</span></div>
+            </div>
+          </div>
+        </section>
+
+
+        <h3 class="section-title" id="resultadosPanel">Panel de resultados</h3>
+        <section class="result-box" style="margin-bottom:18px;">
+          <h3 style="color:var(--title);margin-bottom:10px;">Mi resumen</h3>
+          <p class="muted-note">Resumen completo del rendimiento del usuario actual.</p>
+          <div class="stats-grid">
+            <div class="stat-card"><strong id="statMedia">0.00</strong><span>Media</span></div>
+            <div class="stat-card"><strong id="statTotalTests">0</strong><span>Tests realizados</span></div>
+            <div class="stat-card"><strong id="statMejorNota">0.00</strong><span>Mejor nota</span></div>
+            <div class="stat-card"><strong id="statUltimoResultado">--</strong><span>Último resultado</span></div>
+          </div>
+        </section>
+
+        <section class="grid-two">
+          <div class="result-box">
+            <h3 style="color:var(--title);margin-bottom:10px;">Mis resultados</h3>
+            <p style="color:var(--soft);line-height:1.55;margin-bottom:14px;">Notas guardadas para el usuario actual.</p>
+            <div class="result-list" id="resultsList">
+              <div class="result-item"><span>Aún no hay resultados guardados</span><span class="score-pill">--</span></div>
+            </div>
+          </div>
+
+          <div class="result-box">
+            <h3 style="color:var(--title);margin-bottom:10px;">Ranking general</h3>
+            <p style="color:var(--soft);line-height:1.55;margin-bottom:14px;">Top de usuarios según su media global.</p>
+            <div class="ranking-list" id="rankingList">
+              <div class="ranking-item"><span>Aún no hay ranking disponible</span><span class="score-pill">--</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="result-box" id="studentsResultsPanel" style="margin-bottom:22px; display:none;">
+          <h3 style="color:var(--title);margin-bottom:10px;">Resultados de alumnos</h3>
+          <p style="color:var(--soft);line-height:1.55;margin-bottom:14px;">Resumen de todos los alumnos que tienes dados de alta en la plataforma.</p>
+          <div class="table-box" id="studentsResultsTable">
+            <div class="table-row table-head">
+              <div>Alumno</div>
+              <div>Resumen</div>
+              <div>Estado</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="online-panel" id="onlinePanel" style="display:none;">
+          <h3 style="color:var(--title);margin-bottom:10px;">Usuarios conectados</h3>
+          <p style="color:var(--soft);line-height:1.55;margin-bottom:14px;">Panel de usuarios conectados en tiempo real.</p>
+          <div class="result-item" style="margin-bottom:14px;"><span id="onlineSummary">Cargando conectados…</span><span class="online-badge" id="adminConnectedCount">0</span></div>
+          <div class="online-users" id="onlineUsers">
+            <div class="online-user"><div class="online-user-info"><div class="online-user-email">Cargando panel…</div><div class="online-user-role">Espera unos segundos</div></div><div class="online-badge">...</div></div>
+          </div>
+        </section>
+
+        <section class="admin-panel" id="adminPanel">
+          <h3 style="color:var(--title);margin-bottom:10px;">Panel de administración</h3>
+          <p style="color:var(--soft);line-height:1.55;margin-bottom:14px;">Gestiona usuarios autorizados, roles, accesos y resultados globales del campus.</p>
+          <div class="status-note" style="margin-bottom:16px;">
+            Desde este panel puedes gestionar usuarios autorizados, cambiar roles, bloquear accesos y consultar resultados de todos los alumnos.
+          </div>
+
+          <div class="stats-grid" style="margin-bottom:16px;">
+            <div class="stat-card"><strong id="adminTotalUsuarios">0</strong><span>Usuarios autorizados</span></div>
+            <div class="stat-card"><strong id="adminTotalAdmins">0</strong><span>Administradores</span></div>
+            <div class="stat-card"><strong id="adminTotalAlumnos">0</strong><span>Alumnos</span></div>
+            <div class="stat-card"><strong id="adminTotalResultados">0</strong><span>Resultados guardados</span></div>
+          </div>
+
+          <div class="admin-grid" style="margin-bottom:16px;">
+            <div class="field">
+              <label for="newUserEmail">Añadir usuario autorizado</label>
+              <input type="email" id="newUserEmail" placeholder="nuevo@integra.com">
+            </div>
+            <div class="field">
+              <label for="newUserRole">Rol</label>
+              <input type="text" id="newUserRole" value="alumno">
+            </div>
+            <button class="btn" type="button" onclick="agregarAutorizado()">Añadir</button>
+          </div>
+
+          <div class="table-box" id="authorizedTable">
+            <div class="table-row table-head">
+              <div>Correo</div>
+              <div>Rol / estado</div>
+              <div>Acción</div>
+            </div>
+          </div>
+
+          <div class="admin-subpanel">
+            <h4>Resultados globales</h4>
+            <p class="muted-note">Resumen completo de resultados guardados por usuario. Solo visible para el administrador.</p>
+            <div class="table-box" id="adminResultsTable">
+              <div class="table-row table-head">
+                <div>Usuario</div>
+                <div>Resumen</div>
+                <div>Acción</div>
+              </div>
+            </div>
+          </div>
+          <div class="admin-subpanel">
+            <h4>📧 Envío de correos</h4>
+            <p class="muted-note">Envía avisos a alumnos sobre nuevos tests, materiales o resultados desde el panel de administración.</p>
+
+            <div class="admin-grid" style="margin-bottom:12px;">
+              <div class="field">
+                <label for="mailDestino">Correo destino</label>
+                <input type="email" id="mailDestino" placeholder="alumno@correo.com">
+              </div>
+              <div class="field">
+                <label for="mailAsunto">Asunto</label>
+                <input type="text" id="mailAsunto" value="Nuevo contenido en la plataforma">
+              </div>
+              <button class="btn" type="button" onclick="enviarCorreoAlumno()">Enviar</button>
+            </div>
+
+            <div class="field" style="margin-bottom:12px;">
+              <label for="mailMensaje">Mensaje</label>
+              <input type="text" id="mailMensaje" value="Hola, ya tienes nuevo contenido o resultados disponibles en la plataforma. Entra para revisarlo.">
+            </div>
+
+            <div class="admin-actions">
+              <button class="tiny-btn ok" type="button" onclick="enviarATodos()">📢 Enviar a todos los alumnos</button>
+              <button class="tiny-btn" type="button" onclick="rellenarMensajeNuevoTest()">Nuevo test</button>
+              <button class="tiny-btn" type="button" onclick="rellenarMensajeResultados()">Resultados</button>
+            </div>
+
+            <div class="status-note" style="margin-top:12px;">
+              Configura tus claves de EmailJS en el bloque final del archivo. Esta versión está preparada para envío manual desde el panel admin.
+            </div>
+          </div>
+
+        </section>
+
+        <div class="footer">INTEGRA FORMACIÓN · Docencia, Tecnología y Futuro · Plataforma TFG</div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const INITIAL_ADMIN_EMAIL = 'anabchic87@hotmail.com';
+    const INITIAL_ADMIN_UID = 'iUqvBO5sKPSJPGQknShBkS4czFp2';
+    const ROLES_VALIDOS = ['admin', 'alumno'];
+    const cards = document.querySelectorAll('.searchable');
+    const authScreen = document.getElementById('authScreen');
+    const appScreen = document.getElementById('appScreen');
+    const authMessage = document.getElementById('authMessage');
+    const userEmailEl = document.getElementById('userEmailTop');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const firebaseStatus = document.getElementById('firebaseStatus');
+
+    let currentUser = null;
+    let currentRole = 'alumno';
+
+    function isAdminRole(role){ return String(role || '').toLowerCase() === 'admin'; }
+    function getSafeRole(role){ return ROLES_VALIDOS.includes(String(role || '').toLowerCase()) ? String(role).toLowerCase() : 'alumno'; }
+
+    function showLoading(show){ loadingScreen.style.display = show ? 'flex' : 'none'; }
+    function setFirebaseStatus(text){ if (firebaseStatus) firebaseStatus.textContent = text; }
+    function showPanel(which){
+      document.getElementById('loginPanel').classList.toggle('active', which === 'login');
+      document.getElementById('registerPanel').classList.toggle('active', which === 'register');
+      document.getElementById('tabLogin').classList.toggle('active', which === 'login');
+      document.getElementById('tabRegister').classList.toggle('active', which === 'register');
+      clearAuthMessage();
+    }
+    function setAuthMessage(text, type){ authMessage.textContent = text; authMessage.className = 'auth-message ' + type; }
+    function clearAuthMessage(){ authMessage.textContent = ''; authMessage.className = 'auth-message'; }
+    function escapeHtml(value){
+      return String(value ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function formatPresenceTime(timestamp){
+      if (!timestamp) return 'Última actividad no disponible';
+      const date = new Date(timestamp);
+      if (Number.isNaN(date.getTime())) return 'Última actividad no disponible';
+      const diffSec = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
+      if (diffSec < 60) return 'Activo hace unos segundos';
+      if (diffSec < 3600) return `Activo hace ${Math.floor(diffSec / 60)} min`;
+      if (diffSec < 86400) return `Activo hace ${Math.floor(diffSec / 3600)} h`;
+      return 'Última conexión: ' + date.toLocaleString('es-ES');
+    }
+
+    function getEstadoConexion(lastChanged, online){
+      if (!lastChanged) return '⚫ Nunca conectado';
+      const ahora = Date.now();
+      const diff = Math.floor((ahora - lastChanged) / 1000);
+
+      if (online && diff < 30) return '🟢 Activo ahora';
+      if (diff < 60) return '🟡 Hace unos segundos';
+      if (diff < 300) return '🟡 Hace ' + Math.floor(diff / 60) + ' min';
+      if (diff < 3600) return '⚫ Hace ' + Math.floor(diff / 60) + ' min';
+
+      return '⚫ Hace ' + Math.floor(diff / 3600) + ' h';
+    }
+    function actualizarDashboard(){
+      const alumnosCache = Array.isArray(window.cachedAuthorizedUsers) ? window.cachedAuthorizedUsers : [];
+      const total = alumnosCache.filter(u => getSafeRole(u.role || 'alumno') === 'alumno').length;
+      const kpiAsignaturas = document.getElementById('kpiAsignaturas');
+      const kpiResultados = document.getElementById('kpiResultados');
+      const miniRole = document.getElementById('miniRole');
+      const results = document.querySelectorAll('#resultsList .result-item');
+      if (kpiAsignaturas) kpiAsignaturas.textContent = String(total);
+      if (kpiResultados) {
+        const hasEmpty = results.length === 1 && (results[0].textContent || '').includes('Aún no hay resultados');
+        kpiResultados.textContent = hasEmpty ? '0' : String(results.length);
+      }
+      if (miniRole) miniRole.textContent = currentRole === 'admin' ? 'Administrador' : 'Alumno';
+    }
+    window.showPanel = showPanel;
+
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function calcularResumenResultados(data){
+      const entries = Object.entries(data || {})
+        .filter(([key, value]) => !['email','uid','updatedAt'].includes(key) && typeof value === 'number' && !Number.isNaN(value));
+      const notas = entries.map(([,value]) => Number(value));
+      const total = notas.length;
+      const media = total ? (notas.reduce((a,b)=>a+b,0) / total) : 0;
+      const mejor = total ? Math.max(...notas) : 0;
+      const ultimo = total ? notas[notas.length - 1] : null;
+      return { total, media, mejor, ultimo, entries };
+    }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc, getDocs, deleteDoc, collection } from 'https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js';
+    import { getDatabase, ref, set, onValue, onDisconnect, get } from 'https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAS1Ad4wBNn2HDufn1fZJiteHZGXZcX_No',
+      authDomain: 'formacion-481a0.firebaseapp.com',
+      projectId: 'formacion-481a0',
+      databaseURL: 'https://formacion-481a0-default-rtdb.europe-west1.firebasedatabase.app',
+      storageBucket: 'formacion-481a0.firebasestorage.app',
+      messagingSenderId: '850316210880',
+      appId: '1:850316210880:web:f18e91f053bf4d133a7325',
+      measurementId: 'G-MTLW5R8MSZ'
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const rtdb = getDatabase(app);
+
+    let connectedUsersStop = null;
+
+    let cachedAuthorizedUsers = [];
+    let cachedGlobalResults = [];
+    window.cachedAuthorizedUsers = cachedAuthorizedUsers;
+    window.cachedGlobalResults = cachedGlobalResults;
+
+    async function cargarRankingGlobal(){
+      const box = document.getElementById('rankingList');
+      if (!box) return;
+      try{
+        const snap = await getDocs(collection(db, 'resultados'));
+        const ranking = [];
+        snap.forEach(docSnap => {
+          const data = docSnap.data() || {};
+          const resumen = calcularResumenResultados(data);
+          if (resumen.total > 0) {
+            ranking.push({
+              email: data.email || 'Sin correo',
+              media: resumen.media,
+              total: resumen.total
+            });
+          }
+        });
+        ranking.sort((a,b) => b.media - a.media || b.total - a.total || String(a.email).localeCompare(String(b.email)));
+        if (!ranking.length) {
+          box.innerHTML = '<div class="ranking-item"><span>Aún no hay ranking disponible</span><span class="score-pill">--</span></div>';
+          return;
+        }
+        box.innerHTML = ranking.slice(0, 5).map((item, index) => `
+          <div class="ranking-item">
+            <span>${index + 1}. ${escapeHtml(item.email)}</span>
+            <span class="score-pill">${item.media.toFixed(2)}</span>
+          </div>
+        `).join('');
+      }catch(e){
+        box.innerHTML = '<div class="ranking-item"><span>Error cargando ranking</span><span class="score-pill">!!</span></div>';
+      }
+    }
+
+    function pintarResumenUsuario(data){
+      const resumen = calcularResumenResultados(data || {});
+      setText('statMedia', resumen.total ? resumen.media.toFixed(2) : '0.00');
+      setText('statTotalTests', String(resumen.total));
+      setText('statMejorNota', resumen.total ? resumen.mejor.toFixed(2) : '0.00');
+      setText('statUltimoResultado', resumen.ultimo !== null ? Number(resumen.ultimo).toFixed(2) : '--');
+    }
+
+    async function cargarResultadosAlumnos(){
+      const panel = document.getElementById('studentsResultsPanel');
+      const box = document.getElementById('studentsResultsTable');
+      if (!panel || !box) return;
+
+      if (!isAdminRole(currentRole)) {
+        panel.style.display = 'none';
+        return;
+      }
+
+      panel.style.display = 'block';
+      box.innerHTML = `
+        <div class="table-row table-head">
+          <div>Alumno</div>
+          <div>Resumen</div>
+          <div>Estado</div>
+        </div>`;
+
+      try{
+        const [usersSnap, resultsSnap] = await Promise.all([
+          getDocs(collection(db, 'usuarios_autorizados')),
+          getDocs(collection(db, 'resultados'))
+        ]);
+        const presenceSnap = await get(ref(rtdb, 'presence'));
+        const presenceData = presenceSnap.val() || {};
+
+        const alumnos = [];
+        usersSnap.forEach(docSnap => {
+          const data = docSnap.data() || {};
+          if (getSafeRole(data.role || 'alumno') === 'alumno') alumnos.push(data);
+        });
+
+        const resultsMap = {};
+        resultsSnap.forEach(docSnap => {
+          const data = docSnap.data() || {};
+          if (data.email) resultsMap[String(data.email).toLowerCase()] = data;
+        });
+
+        alumnos.sort((a,b) => String(a.email || '').localeCompare(String(b.email || '')));
+
+        if (!alumnos.length) {
+          box.innerHTML += '<div class="table-row"><div>No hay alumnos cargados</div><div>--</div><div>--</div></div>';
+          return;
+        }
+
+        box.innerHTML += alumnos.map(alumno => {
+          const email = String(alumno.email || '').toLowerCase();
+          const resultData = resultsMap[email] || {};
+          const resumen = calcularResumenResultados(resultData);
+          const texto = resumen.total
+            ? `Media ${resumen.media.toFixed(2)} · Mejor ${resumen.mejor.toFixed(2)} · ${resumen.total} tests`
+            : 'Sin resultados todavía';
+          const estado = alumno.activo === false ? 'bloqueado' : 'activo';
+
+          const userPresence = Object.values(presenceData).find(p =>
+            p && String(p.email || '').toLowerCase() === email
+          );
+          const estadoConexion = userPresence
+            ? getEstadoConexion(userPresence.lastChanged, userPresence.online)
+            : '⚫ Nunca conectado';
+
+          return `
+            <div class="table-row">
+              <div>${escapeHtml(alumno.email || '')}</div>
+              <div>${escapeHtml(texto)}</div>
+              <div>
+                <span class="role-pill">${escapeHtml(estado)}</span><br>
+                <span style="display:inline-block;margin-top:8px;color:#7c5d48;font-size:12px;font-weight:700;">${escapeHtml(estadoConexion)}</span>
+              </div>
+            </div>`;
+        }).join('');
+      }catch(e){
+        box.innerHTML += '<div class="table-row"><div>Error cargando resultados de alumnos</div><div>--</div><div>--</div></div>';
+      }
+    }
+
+    async function actualizarAdminStats(){
+      setText('adminTotalUsuarios', String(cachedAuthorizedUsers.length));
+      setText('adminTotalAdmins', String(cachedAuthorizedUsers.filter(u => getSafeRole(u.role) === 'admin').length));
+      setText('adminTotalAlumnos', String(cachedAuthorizedUsers.filter(u => getSafeRole(u.role) !== 'admin').length));
+      setText('adminTotalResultados', String(cachedGlobalResults.length));
+    }
+
+    async function cargarResultadosAdmin(){
+      if (!isAdminRole(currentRole)) return;
+      const box = document.getElementById('adminResultsTable');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="table-row table-head">
+          <div>Usuario</div>
+          <div>Resumen</div>
+          <div>Acción</div>
+        </div>`;
+      try{
+        const snap = await getDocs(collection(db, 'resultados'));
+        const items = [];
+        snap.forEach(docSnap => items.push({ id: docSnap.id, ...docSnap.data() }));
+        cachedGlobalResults = items;
+        window.cachedGlobalResults = cachedGlobalResults;
+        if (!items.length) {
+          box.innerHTML += '<div class="table-row"><div>No hay resultados globales</div><div>--</div><div>--</div></div>';
+          await actualizarAdminStats();
+          return;
+        }
+        items.sort((a,b) => String(a.email || '').localeCompare(String(b.email || '')));
+        box.innerHTML += items.map(item => {
+          const resumen = calcularResumenResultados(item);
+          const texto = resumen.total
+            ? `Media ${resumen.media.toFixed(2)} · Mejor ${resumen.mejor.toFixed(2)} · ${resumen.total} tests`
+            : 'Sin resultados';
+          return `
+            <div class="table-row">
+              <div>${escapeHtml(item.email || 'Sin correo')}</div>
+              <div>${escapeHtml(texto)}</div>
+              <div class="admin-actions">
+                <button class="tiny-btn danger" onclick="borrarResultadosUsuario('${escapeHtml(item.id)}')">Borrar resultados</button>
+              </div>
+            </div>`;
+        }).join('');
+        await actualizarAdminStats();
+      }catch(e){
+        box.innerHTML += '<div class="table-row"><div>Error cargando resultados globales</div><div>--</div><div>--</div></div>';
+      }
+    }
+
+    function emailKey(email){ return String(email || '').trim().toLowerCase().replace(/\./g, ','); }
+
+    async function asegurarAdminBase(user){
+      if (!user) return;
+      const userEmail = String(user.email || '').toLowerCase();
+      const isBootstrapAdmin = userEmail === INITIAL_ADMIN_EMAIL.toLowerCase() || user.uid === INITIAL_ADMIN_UID;
+      if (!isBootstrapAdmin) return;
+
+      const adminDocRef = doc(db, 'usuarios_autorizados', emailKey(INITIAL_ADMIN_EMAIL));
+      const adminSnap = await getDoc(adminDocRef);
+      if (!adminSnap.exists()) {
+        await setDoc(adminDocRef, {
+          email: INITIAL_ADMIN_EMAIL.toLowerCase(),
+          role: 'admin',
+          activo: true,
+          uid: user.uid,
+          marca: 'INTEGRA FORMACIÓN',
+          bootstrapAdmin: true,
+          createdAt: Date.now(),
+          updatedAt: Date.now()
+        }, { merge: true });
+      }
+    }
+
+    async function getAccessData(email){
+      const snap = await getDoc(doc(db, 'usuarios_autorizados', emailKey(email)));
+      if (!snap.exists()) return null;
+      const data = snap.data() || {};
+      return {
+        ...data,
+        role: getSafeRole(data.role),
+        activo: data.activo !== false
+      };
+    }
+
+    async function cargarResultadosUsuario(uid){
+      const box = document.getElementById('resultsList');
+      try{
+        const snap = await getDoc(doc(db, 'resultados', uid));
+        if (!snap.exists()) {
+          box.innerHTML = '<div class="result-item"><span>Aún no hay resultados guardados</span><span class="score-pill">--</span></div>';
+          pintarResumenUsuario({});
+          return;
+        }
+        const data = snap.data() || {};
+        const resumen = calcularResumenResultados(data);
+        if (!resumen.entries.length) {
+          box.innerHTML = '<div class="result-item"><span>Aún no hay resultados guardados</span><span class="score-pill">--</span></div>';
+          pintarResumenUsuario(data);
+          return;
+        }
+        box.innerHTML = resumen.entries
+          .sort((a,b) => a[0].localeCompare(b[0]))
+          .map(([exam, score]) => `
+          <div class="result-item">
+            <span>${escapeHtml(String(exam).split('_').join(' '))}</span>
+            <span class="score-pill">${Number(score).toFixed(2)}</span>
+          </div>
+        `).join('');
+        pintarResumenUsuario(data);
+      }catch(e){
+        box.innerHTML = '<div class="result-item"><span>Error cargando resultados</span><span class="score-pill">!!</span></div>';
+        pintarResumenUsuario({});
+      }
+    }
+
+    async function guardarResultadoDemo(examen, nota){
+      if (!currentUser) return setAuthMessage('Debes iniciar sesión para guardar resultados.', 'bad');
+      try{
+        await setDoc(doc(db, 'resultados', currentUser.uid), {
+          uid: currentUser.uid,
+          email: currentUser.email,
+          updatedAt: Date.now(),
+          [examen]: Number(nota)
+        }, { merge: true });
+        await cargarResultadosUsuario(currentUser.uid);
+        await cargarRankingGlobal();
+        if (isAdminRole(currentRole)) { await cargarResultadosAdmin(); await cargarResultadosAlumnos(); }
+        actualizarDashboard();
+        setAuthMessage(`Resultado guardado: ${examen} → ${Number(nota).toFixed(2)}`, 'ok');
+      }catch(e){
+        setAuthMessage('No se ha podido guardar el resultado.', 'bad');
+      }
+    }
+    window.guardarResultadoDemo = guardarResultadoDemo;
+
+    async function cargarAutorizados(){
+      if (!isAdminRole(currentRole)) return;
+      const box = document.getElementById('authorizedTable');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="table-row table-head">
+          <div>Correo</div>
+          <div>Rol / estado</div>
+          <div>Acción</div>
+        </div>`;
+      try{
+        const snap = await getDocs(collection(db, 'usuarios_autorizados'));
+        const items = [];
+        snap.forEach(docSnap => items.push(docSnap.data()));
+        cachedAuthorizedUsers = items;
+        window.cachedAuthorizedUsers = cachedAuthorizedUsers;
+        items.sort((a,b) => String(a.email || '').localeCompare(String(b.email || '')));
+        if (!items.length) {
+          box.innerHTML += '<div class="table-row"><div>No hay usuarios</div><div>--</div><div>--</div></div>';
+          await actualizarAdminStats();
+          return;
+        }
+        box.innerHTML += items.map(item => {
+          const isProtected = String(item.email || '').toLowerCase() === INITIAL_ADMIN_EMAIL.toLowerCase();
+          const role = getSafeRole(item.role || 'alumno');
+          const activo = item.activo !== false;
+          return `
+          <div class="table-row">
+            <div>${escapeHtml(item.email || '')}</div>
+            <div>
+              <span class="role-pill">${escapeHtml(role)}</span>
+              <span class="role-pill" style="margin-left:8px;">${activo ? 'activo' : 'bloqueado'}</span>
+            </div>
+            <div class="admin-actions">
+              ${isProtected ? '<span class="role-pill">protegido</span>' : `
+                <button class="tiny-btn" onclick="cambiarRolUsuario('${escapeHtml(item.email || '')}','admin')">Hacer admin</button>
+                <button class="tiny-btn ok" onclick="cambiarRolUsuario('${escapeHtml(item.email || '')}','alumno')">Hacer alumno</button>
+                <button class="tiny-btn" onclick="cambiarEstadoUsuario('${escapeHtml(item.email || '')}', ${activo ? 'false' : 'true'})">${activo ? 'Bloquear' : 'Activar'}</button>
+                <button class="tiny-btn danger" onclick="eliminarAutorizado('${escapeHtml(item.email || '')}')">Quitar</button>
+              `}
+            </div>
+          </div>`;
+        }).join('');
+        await actualizarAdminStats();
+      }catch(e){
+        box.innerHTML += '<div class="table-row"><div>Error cargando accesos</div><div>--</div><div>--</div></div>';
+      }
+    }
+
+    async function agregarAutorizado(){
+      if (!isAdminRole(currentRole)) return setAuthMessage('Solo el administrador puede añadir usuarios autorizados.', 'bad');
+      const email = document.getElementById('newUserEmail').value.trim();
+      const role = getSafeRole(document.getElementById('newUserRole').value.trim() || 'alumno');
+      if (!email) return setAuthMessage('Indica un correo para autorizar.', 'bad');
+      try{
+        await setDoc(doc(db, 'usuarios_autorizados', emailKey(email)), {
+          email: email.toLowerCase(),
+          role,
+          activo: true,
+          updatedAt: Date.now()
+        }, { merge: true });
+        document.getElementById('newUserEmail').value = '';
+        await cargarAutorizados();
+        await cargarResultadosAlumnos();
+        await actualizarAdminStats();
+        setAuthMessage('Usuario autorizado correctamente.', 'ok');
+      }catch(e){
+        setAuthMessage('No se ha podido añadir el acceso.', 'bad');
+      }
+    }
+    window.agregarAutorizado = agregarAutorizado;
+
+    async function eliminarAutorizado(email){
+      if (!isAdminRole(currentRole)) return setAuthMessage('Solo el administrador puede quitar accesos.', 'bad');
+      try{
+        await deleteDoc(doc(db, 'usuarios_autorizados', emailKey(email)));
+        await cargarAutorizados();
+        await cargarResultadosAlumnos();
+        await actualizarAdminStats();
+        setAuthMessage('Acceso eliminado.', 'ok');
+      }catch(e){
+        setAuthMessage('No se ha podido quitar el acceso.', 'bad');
+      }
+    }
+    window.eliminarAutorizado = eliminarAutorizado;
+
+    async function cambiarRolUsuario(email, nuevoRol){
+      if (!isAdminRole(currentRole)) return setAuthMessage('Solo el administrador puede cambiar roles.', 'bad');
+      try{
+        await setDoc(doc(db, 'usuarios_autorizados', emailKey(email)), {
+          email: String(email || '').toLowerCase(),
+          role: getSafeRole(nuevoRol),
+          updatedAt: Date.now()
+        }, { merge: true });
+        await cargarAutorizados();
+        await cargarResultadosAlumnos();
+        setAuthMessage('Rol actualizado correctamente.', 'ok');
+      }catch(e){
+        setAuthMessage('No se ha podido cambiar el rol.', 'bad');
+      }
+    }
+    window.cambiarRolUsuario = cambiarRolUsuario;
+
+    async function cambiarEstadoUsuario(email, activo){
+      if (!isAdminRole(currentRole)) return setAuthMessage('Solo el administrador puede cambiar el estado.', 'bad');
+      try{
+        await setDoc(doc(db, 'usuarios_autorizados', emailKey(email)), {
+          email: String(email || '').toLowerCase(),
+          activo: Boolean(activo),
+          updatedAt: Date.now()
+        }, { merge: true });
+        await cargarAutorizados();
+        await cargarResultadosAlumnos();
+        setAuthMessage('Estado del usuario actualizado.', 'ok');
+      }catch(e){
+        setAuthMessage('No se ha podido cambiar el estado del usuario.', 'bad');
+      }
+    }
+    window.cambiarEstadoUsuario = cambiarEstadoUsuario;
+
+    async function borrarResultadosUsuario(uid){
+      if (!isAdminRole(currentRole)) return setAuthMessage('Solo el administrador puede borrar resultados.', 'bad');
+      try{
+        await deleteDoc(doc(db, 'resultados', uid));
+        await cargarResultadosAdmin();
+        await cargarResultadosAlumnos();
+        await cargarRankingGlobal();
+        if (currentUser && currentUser.uid === uid) {
+          await cargarResultadosUsuario(uid);
+          actualizarDashboard();
+        }
+        setAuthMessage('Resultados eliminados correctamente.', 'ok');
+      }catch(e){
+        setAuthMessage('No se han podido borrar los resultados.', 'bad');
+      }
+    }
+    window.borrarResultadosUsuario = borrarResultadosUsuario;
+
+    async function activarPresencia(user, role){
+      try{
+        const presenceRef = ref(rtdb, 'presence/' + user.uid);
+        await onDisconnect(presenceRef).set({
+          uid: user.uid,
+          email: user.email || 'Sin correo',
+          role: role || 'alumno',
+          online: false,
+          lastChanged: Date.now()
+        });
+        await set(presenceRef, {
+          uid: user.uid,
+          email: user.email || 'Sin correo',
+          role: role || 'alumno',
+          online: true,
+          lastChanged: Date.now(),
+          serverTime: Date.now()
+        });
+      }catch(e){
+        setFirebaseStatus('No se ha podido activar la presencia en tiempo real.');
+      }
+    }
+
+    function escucharConectados(){
+      const panel = document.getElementById('onlinePanel');
+      const summary = document.getElementById('onlineSummary');
+      const count = document.getElementById('adminConnectedCount');
+      const list = document.getElementById('onlineUsers');
+
+      if (!isAdminRole(currentRole)) {
+        panel.style.display = 'none';
+        const adminMenuLink = document.getElementById('adminMenuLink');
+        const connectedMenuLink = document.getElementById('connectedMenuLink');
+        if (adminMenuLink) adminMenuLink.style.display = 'none';
+        if (connectedMenuLink) connectedMenuLink.style.display = 'none';
+        if (connectedUsersStop) connectedUsersStop();
+        return;
+      }
+
+      panel.style.display = 'block';
+      const adminMenuLink = document.getElementById('adminMenuLink');
+      const connectedMenuLink = document.getElementById('connectedMenuLink');
+      if (adminMenuLink) adminMenuLink.style.display = 'inline-flex';
+      if (connectedMenuLink) connectedMenuLink.style.display = 'inline-flex';
+
+      if (connectedUsersStop) connectedUsersStop();
+      connectedUsersStop = onValue(ref(rtdb, 'presence'), (snapshot) => {
+        const data = snapshot.val() || {};
+        const users = Object.values(data).filter(item => item && item.online).sort((a,b) => String(a.email || '').localeCompare(String(b.email || '')));
+        summary.textContent = `🟢 ${users.length} usuario${users.length === 1 ? '' : 's'} conectado${users.length === 1 ? '' : 's'}`;
+        count.textContent = String(users.length);
+        if (!users.length) {
+          list.innerHTML = '<div class="online-user"><div class="online-user-info"><div class="online-user-email">No hay usuarios conectados ahora mismo</div><div class="online-user-role">El panel se actualizará automáticamente</div></div><div class="online-badge">VACÍO</div></div>';
+          return;
+        }
+        list.innerHTML = users.map(item => `
+          <div class="online-user">
+            <div class="online-user-info">
+              <div class="online-user-email">${escapeHtml(item.email || 'Sin correo')}</div>
+              <div class="online-user-role">${escapeHtml(item.role || 'alumno')} · ${escapeHtml(formatPresenceTime(item.lastChanged))}</div>
+            </div>
+            <div class="online-badge">ONLINE</div>
+          </div>
+        `).join('');
+      }, () => {
+        summary.textContent = '⚠️ Sin acceso a conectados';
+        count.textContent = '0';
+        list.innerHTML = '<div class="online-user"><div class="online-user-info"><div class="online-user-email">No se ha podido leer la presencia en tiempo real</div><div class="online-user-role">Revisa la configuración</div></div><div class="online-badge">ERROR</div></div>';
+      });
+    }
+
+    function traducirError(code){
+      const map = {
+        'auth/email-already-in-use': 'Ese correo ya está registrado.',
+        'auth/invalid-email': 'El correo no tiene un formato válido.',
+        'auth/weak-password': 'La contraseña es demasiado débil. Usa al menos 6 caracteres.',
+        'auth/invalid-credential': 'Correo o contraseña incorrectos.',
+        'auth/user-not-found': 'No existe una cuenta con ese correo.',
+        'auth/missing-password': 'Falta la contraseña.',
+        'auth/network-request-failed': 'Error de red. Revisa la conexión.',
+        'auth/operation-not-allowed': 'Email/Password no está activado.'
+      };
+      return map[code] || ('Error: ' + code);
+    }
+
+    window.register = async function(){
+      clearAuthMessage();
+      const email = document.getElementById('registerEmail').value.trim();
+      const password = document.getElementById('registerPassword').value.trim();
+      if (!email || !password) return setAuthMessage('Rellena correo y contraseña.', 'bad');
+      try{
+        await createUserWithEmailAndPassword(auth, email, password);
+        setAuthMessage('Cuenta creada correctamente. Ahora debes autorizar el acceso.', 'ok');
+      }catch(e){
+        setAuthMessage(traducirError(e.code), 'bad');
+      }
+    };
+
+    window.login = async function(){
+      clearAuthMessage();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      if (!email || !password) return setAuthMessage('Rellena correo y contraseña.', 'bad');
+      try{
+        await signInWithEmailAndPassword(auth, email, password);
+      }catch(e){
+        setAuthMessage(traducirError(e.code), 'bad');
+      }
+    };
+
+    window.logout = async function(){
+      try{
+        if (currentUser) {
+          try {
+            await set(ref(rtdb, 'presence/' + currentUser.uid), {
+              uid: currentUser.uid,
+              email: currentUser.email || 'Sin correo',
+              role: currentRole || 'alumno',
+              online: false,
+              lastChanged: Date.now()
+            });
+          } catch (_) {}
+        }
+        await signOut(auth);
+      }
+      catch(e){ setAuthMessage('No se ha podido cerrar la sesión.', 'bad'); }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      try{
+        showLoading(false);
+        if (user){
+          await asegurarAdminBase(user);
+          const access = await getAccessData(user.email);
+          if (!access) {
+            authScreen.style.display = 'flex';
+            appScreen.style.display = 'none';
+            setAuthMessage('Tu cuenta existe, pero todavía no está autorizada para entrar en la plataforma.', 'bad');
+            await signOut(auth);
+            setFirebaseStatus('Usuario no autorizado.');
+            return;
+          }
+          if (access.activo === false) {
+            authScreen.style.display = 'flex';
+            appScreen.style.display = 'none';
+            setAuthMessage('Tu acceso está bloqueado. Contacta con el administrador.', 'bad');
+            await signOut(auth);
+            setFirebaseStatus('Acceso bloqueado.');
+            return;
+          }
+
+          currentUser = user;
+          currentRole = getSafeRole(access.role || 'alumno');
+          authScreen.style.display = 'none';
+          appScreen.style.display = 'block';
+          userEmailEl.textContent = `${user.email} · ${currentRole}`;
+          document.getElementById('adminPanel').classList.toggle('show', currentRole === 'admin');
+
+          if (currentRole === 'admin') {
+            await cargarAutorizados();
+            await cargarResultadosAdmin();
+            await cargarResultadosAlumnos();
+          } else {
+            document.getElementById('adminPanel').classList.remove('show');
+            const studentsPanel = document.getElementById('studentsResultsPanel');
+            if (studentsPanel) studentsPanel.style.display = 'none';
+          }
+
+          await activarPresencia(user, currentRole);
+          escucharConectados();
+          await cargarResultadosUsuario(user.uid);
+          await cargarRankingGlobal();
+          actualizarDashboard();
+          setFirebaseStatus('Conectado.');
+          clearAuthMessage();
+        } else {
+          currentUser = null;
+          currentRole = 'alumno';
+          authScreen.style.display = 'flex';
+          appScreen.style.display = 'none';
+          if (connectedUsersStop) connectedUsersStop();
+          actualizarDashboard();
+          setFirebaseStatus('Listo para iniciar sesión.');
+        }
+      }catch(error){
+        console.error(error);
+        showLoading(false);
+        authScreen.style.display = 'flex';
+        appScreen.style.display = 'none';
+        setFirebaseStatus('Ha ocurrido un error al cargar.');
+        setAuthMessage('La página ha cargado, pero no se ha podido inicializar correctamente. Revisa Firestore, Authentication y dominios autorizados.', 'bad');
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    const EMAILJS_PUBLIC_KEY = 'yPR0JvvIX3Q3o3Bns';
+    const EMAILJS_SERVICE_ID = 'service_tsflpx4';
+    const EMAILJS_TEMPLATE_ID = 'template_d9xcaxo';
+
+    try {
+      if (window.emailjs && EMAILJS_PUBLIC_KEY !== 'PON_AQUI_TU_PUBLIC_KEY') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+      }
+    } catch (e) {
+      console.error('No se pudo inicializar EmailJS', e);
+    }
+
+    function getMailMessage() {
+      const asuntoEl = document.getElementById('mailAsunto');
+      const mensajeEl = document.getElementById('mailMensaje');
+      return {
+        asunto: asuntoEl ? asuntoEl.value.trim() : '',
+        mensaje: mensajeEl ? mensajeEl.value.trim() : ''
+      };
+    }
+
+    function emailJsConfigurado() {
+      return EMAILJS_PUBLIC_KEY !== 'PON_AQUI_TU_PUBLIC_KEY'
+        && EMAILJS_SERVICE_ID !== 'PON_AQUI_TU_SERVICE_ID'
+        && EMAILJS_TEMPLATE_ID !== 'PON_AQUI_TU_TEMPLATE_ID';
+    }
+
+    function rellenarMensajeNuevoTest() {
+      const asuntoEl = document.getElementById('mailAsunto');
+      const mensajeEl = document.getElementById('mailMensaje');
+      if (asuntoEl) asuntoEl.value = 'Nuevo test disponible en la plataforma';
+      if (mensajeEl) mensajeEl.value = 'Hola, ya tienes un nuevo test disponible en la plataforma. Entra cuando quieras para hacerlo.';
+    }
+
+    function rellenarMensajeResultados() {
+      const asuntoEl = document.getElementById('mailAsunto');
+      const mensajeEl = document.getElementById('mailMensaje');
+      if (asuntoEl) asuntoEl.value = 'Resultados disponibles en la plataforma';
+      if (mensajeEl) mensajeEl.value = 'Hola, ya tienes nuevos resultados disponibles en la plataforma. Entra para revisarlos.';
+    }
+
+    async function enviarCorreoAlumno(){
+      if (!isAdminRole(currentRole)) {
+        alert('Solo el administrador puede enviar correos.');
+        return;
+      }
+
+      const destino = document.getElementById('mailDestino').value.trim();
+      const asunto = document.getElementById('mailAsunto').value.trim();
+      const mensaje = document.getElementById('mailMensaje').value.trim();
+
+      if(!destino || !asunto || !mensaje){
+        alert('Completa destinatario, asunto y mensaje.');
+        return;
+      }
+
+      try{
+        const response = await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            to_email: destino,
+            to_name: destino.split('@')[0],
+            subject: asunto,
+            message: mensaje
+          }
+        );
+
+        console.log('Email enviado:', response);
+        alert('Correo enviado correctamente');
+
+      }catch(e){
+        console.error('ERROR EMAILJS:', e);
+        alert('Error real: ' + (e?.text || e?.message || 'Error desconocido'));
+      }
+    }
+    window.enviarCorreoAlumno = enviarCorreoAlumno;
+
+    async function enviarATodos(){
+      if (!isAdminRole(currentRole)) {
+        alert('Solo el administrador puede enviar correos.');
+        return;
+      }
+
+      if(!window.cachedAuthorizedUsers || !Array.isArray(window.cachedAuthorizedUsers)) {
+        alert('No hay usuarios cargados');
+        return;
+      }
+
+      if (!emailJsConfigurado()) {
+        alert('Falta configurar EmailJS en este archivo: PUBLIC_KEY, SERVICE_ID y TEMPLATE_ID.');
+        return;
+      }
+
+      const { asunto, mensaje } = getMailMessage();
+      if(!asunto || !mensaje){
+        alert('Completa asunto y mensaje.');
+        return;
+      }
+
+      const alumnos = window.cachedAuthorizedUsers.filter(u =>
+        (String(u.role || 'alumno').toLowerCase() === 'alumno') && u.activo !== false && u.email
+      );
+
+      if(!alumnos.length){
+        alert('No hay alumnos activos');
+        return;
+      }
+
+      let enviados = 0;
+      let fallos = 0;
+
+      for(const alumno of alumnos){
+        try{
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_email: alumno.email,
+            subject: asunto,
+            message: mensaje,
+            to_name: String(alumno.email).split('@')[0]
+          });
+          enviados++;
+        }catch(e){
+          console.error('Error con:', alumno.email, e);
+          fallos++;
+        }
+      }
+
+      alert(`Proceso terminado. Enviados: ${enviados}. Fallos: ${fallos}.`);
+    }
+    window.enviarATodos = enviarATodos;
+
+    window.rellenarMensajeNuevoTest = rellenarMensajeNuevoTest;
+    window.rellenarMensajeResultados = rellenarMensajeResultados;
+  </script>
+
+</body>
+</html>
