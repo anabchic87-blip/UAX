@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MF1442_3 · Test módulo 1 · 20 preguntas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=n-0YPoZMOrZuTbDgZMKV645h0msgkv0DNqsHXh0vqaPYekTRWQm664x5Pc5eKlBaqmUduj9X0nGUXefSzkuQIadvdWicyalfKsDEEqFWTOtCFq6w6kf0JmhfZdF7wYYi8UfZdIPHk_--eP23MpQguo3-2JkOW9AXGmz2VvJSSy9gqU2dkdVSim9vebKQhnrxjaa1NroxRwlH3CMzVCtn_QdFQQVbEbYD7Aq3ekMlDAn1CiY5ZMinNUY_BXh4xbSkFTNVmtJUIxi2G_Y372vDdg" charset="UTF-8"></script><style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --card:#fffdfb; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --warn:#a16207; --warnbg:#fef3c7;
+      --info:#1d4ed8; --infobg:#dbeafe;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .topbar{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.98);border-bottom:1px solid var(--border);padding:12px 16px;backdrop-filter:blur(8px)}
+    .topbar-inner{max-width:1180px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+    .topbar-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.tabs-panel,.question,.result-box{background:rgba(255,255,255,.95);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .hero{border-radius:28px;padding:24px;margin-bottom:18px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.65}
+    .stats,.counter,.actions,.bottom-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .stats{margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .notice,.tip-box{margin-top:14px;padding:14px 16px;border-radius:16px;font-weight:700;line-height:1.6}
+    .notice{background:var(--warnbg);color:var(--warn);border:1px solid #f59e0b}
+    .tip-box{background:var(--infobg);color:var(--info);border:1px solid #93c5fd}
+    .tabs-panel{border-radius:24px;padding:18px}
+    .tab-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+    .tab-btn{border:none;cursor:pointer;border-radius:14px;padding:12px 16px;font-weight:700;font-size:14px;background:#fff8f3;color:#a54800;border:1px solid var(--border);transition:transform .2s ease, box-shadow .2s ease}
+    .tab-btn:hover{transform:translateY(-2px)}
+    .tab-btn.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:14px;background:#fff9f5;border:1px solid var(--border);border-radius:18px;padding:14px}
+    .counter-card,.result-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px 14px;min-width:130px;text-align:center}
+    .counter-card strong,.result-card strong{display:block;font-size:22px;color:var(--title)}
+    .counter-card span,.result-card span{color:var(--soft);font-size:12px;font-weight:700}
+    .btn{border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .questions{display:grid;gap:16px}
+    .question{border-radius:22px;padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;transition:border-color .2s ease,background .2s ease,opacity .2s ease}
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .opt.locked{opacity:.95}
+    .lock-badge{display:inline-block;margin-top:10px;padding:7px 10px;border-radius:999px;background:#fff4ea;border:1px solid var(--border);color:#a54800;font-size:12px;font-weight:800}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none;line-height:1.5;font-weight:700}
+    .feedback-note.show{display:block}
+    .result-box{margin-top:22px;border-radius:22px;padding:20px}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    @media (max-width:700px){.btn,.topbar .btn{width:100%}.counter-card{flex:1 1 120px}.qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+    <div class="topbar-actions">
+      <a href="#questions" class="btn btn-secondary">🚀 Entrar</a>
+      <button class="btn btn-primary" id="topSubmitBtn" type="button">✅ Corregir pestaña</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="top">
+  <section class="hero">
+    <div class="eyebrow">📘 Certificado de Profesionalidad · Preparación examen</div>
+    <h1>Test módulo 1 · 20 preguntas</h1>
+    <p>Test en el mismo formato visual, con 20 preguntas tipo examen sobre los conceptos clave del módulo 1.</p>
+    <div class="stats">
+      <div class="pill">1 pestaña</div>
+      <div class="pill">20 preguntas</div>
+      <div class="pill">4 opciones</div>
+      <div class="pill">Tipo examen</div>
+    </div>
+    <div class="notice">Cada pregunta se bloquea al seleccionar respuesta. Puedes corregir al final y reiniciar cuando quieras.</div>
+    <div class="tip-box">Bloque único del módulo 1 para practicar de forma rápida y directa.</div>
+  </section>
+
+  <section class="tabs-panel">
+    <div class="tab-bar" id="tabBar"></div>
+
+    <div class="toolbar">
+      <div>
+        <strong id="tabTitle" style="color:var(--title);font-size:22px;">Pestaña</strong>
+        <p id="tabDescription" style="color:var(--soft);line-height:1.6;margin:6px 0 0;"></p>
+      </div>
+
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">0</strong><span>En blanco</span></div>
+        <div class="counter-card"><strong id="totalCount">0</strong><span>Total</span></div>
+      </div>
+
+      <div class="actions">
+        <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+        <button class="btn btn-primary" id="finishBtn" type="button">✅ Corregir pestaña</button>
+        <button class="btn btn-secondary" id="resetBtn" type="button">↺ Reiniciar pestaña</button>
+        <button class="btn btn-secondary" id="resetAllBtn" type="button">🗑 Reiniciar todo</button>
+      </div>
+    </div>
+
+    <section class="questions" id="questions"></section>
+
+    <section class="result-box" id="resultBox">
+      <h2 style="margin:0;color:var(--title);">Resultado de la pestaña</h2>
+      <p id="resultText" style="color:var(--soft);line-height:1.6;margin:10px 0 0;">Cuando termines una pestaña, pulsa en corregir para ver la nota final.</p>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a href="index.html" class="btn btn-secondary">🏠 Volver al módulo</a>
+        <a href="#top" class="btn btn-secondary">⬆ Subir arriba</a>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script>
+const TOPICS = {
+  modulo1: {
+    label: "MÓDULO 1",
+    description: "Test de 20 preguntas tipo examen sobre conceptos básicos de FPE, SNCFP, CNCP, programación didáctica, contenidos, metodología y evaluación.",
+    questions: [
+      {q:"La Formación Profesional para el Empleo (FPE) tiene como finalidad:", options:["Formar solo estudiantes", "Mejorar la empleabilidad y competencias profesionales", "Preparar oposiciones", "Sustituir la formación reglada"], correct:1},
+      {q:"El SNCFP es:", options:["Un sistema que integra la FP en España", "Un curso", "Un examen", "Un certificado"], correct:0},
+      {q:"El CNCP:", options:["Clasifica cualificaciones profesionales", "Evalúa alumnos", "Da títulos", "Organiza horarios"], correct:0},
+      {q:"La programación didáctica es:", options:["Un examen", "Una planificación del proceso de enseñanza-aprendizaje", "Un horario", "Un registro administrativo"], correct:1},
+      {q:"Los objetivos deben ser:", options:["Ambiguos", "Claros y medibles", "Opcionales", "Muy largos"], correct:1},
+      {q:"Un contenido procedimental es:", options:["Teoría", "Saber hacer", "Actitud", "Evaluación"], correct:1},
+      {q:"Los contenidos actitudinales son:", options:["Conceptos", "Valores y actitudes", "Práctica", "Recursos"], correct:1},
+      {q:"La metodología responde a:", options:["Qué enseñar", "Cómo enseñar", "Cuándo evaluar", "Qué calificar"], correct:1},
+      {q:"La evaluación inicial sirve para:", options:["Calificar", "Conocer el nivel del alumnado", "Evaluar al final", "Poner nota final"], correct:1},
+      {q:"La evaluación continua:", options:["Se realiza durante el proceso formativo", "Solo al final", "No es necesaria", "Solo cuenta si hay examen"], correct:0},
+      {q:"La evaluación final:", options:["No se usa", "Comprueba resultados al final", "Es opcional", "Se hace al principio"], correct:1},
+      {q:"La temporalización es:", options:["Organización del espacio", "Organización del tiempo", "Evaluación", "Metodología"], correct:1},
+      {q:"Un recurso material es:", options:["El profesor", "Un ordenador", "Un objetivo", "La motivación"], correct:1},
+      {q:"La metodología activa implica:", options:["Alumno pasivo", "Alumno protagonista", "Solo teoría", "Solo examen"], correct:1},
+      {q:"La formación por competencias busca:", options:["Memorizar", "Aplicar conocimientos en situaciones reales", "Solo teoría", "Repetir contenidos"], correct:1},
+      {q:"El certificado de profesionalidad:", options:["No tiene validez", "Acredita competencias profesionales", "Es un curso", "Es una unidad didáctica"], correct:1},
+      {q:"La programación didáctica es:", options:["Estática", "Dinámica y adaptable", "Invariable", "Solo teórica"], correct:1},
+      {q:"El aprendizaje significativo consiste en:", options:["Memorizar", "Relacionar conocimientos nuevos con previos", "Repetir", "Copiar apuntes"], correct:1},
+      {q:"La evaluación formativa es:", options:["Final", "Continua y orientada a mejorar el aprendizaje", "Inexistente", "Solo práctica"], correct:1},
+      {q:"El docente en FPE debe:", options:["Seguir el libro", "Adaptarse al alumnado", "No cambiar metodología", "Evaluar solo al final"], correct:1}
+    ]
+  }
+};
+let currentTabKey = Object.keys(TOPICS)[0];
+let progress = JSON.parse(localStorage.getItem('test_mf1442_modulo1_20_preguntas') || '{}');
+
+const tabBar=document.getElementById('tabBar'),
+      questionsBox=document.getElementById('questions'),
+      tabTitle=document.getElementById('tabTitle'),
+      tabDescription=document.getElementById('tabDescription'),
+      answeredCount=document.getElementById('answeredCount'),
+      blankCount=document.getElementById('blankCount'),
+      totalCount=document.getElementById('totalCount'),
+      resAnswered=document.getElementById('resAnswered'),
+      resBlank=document.getElementById('resBlank'),
+      resCorrect=document.getElementById('resCorrect'),
+      resWrong=document.getElementById('resWrong'),
+      resScore=document.getElementById('resScore'),
+      resultText=document.getElementById('resultText'),
+      resultBanner=document.getElementById('resultBanner');
+
+function renderTabs(){
+  tabBar.innerHTML = Object.entries(TOPICS).map(([key,topic]) =>
+    `<button class="tab-btn ${key===currentTabKey?'active':''}" onclick="selectTab('${key}')">${topic.label}</button>`
+  ).join('');
+}
+
+function selectTab(key){
+  currentTabKey = key;
+  renderTabs();
+  renderQuestions();
+}
+window.selectTab = selectTab;
+
+function saveState(){
+  localStorage.setItem('test_mf1442_modulo1_20_preguntas', JSON.stringify(progress));
+}
+
+function getTabProgress(){
+  if(!progress[currentTabKey]) progress[currentTabKey] = {};
+  return progress[currentTabKey];
+}
+
+function letter(idx){ return ['a','b','c','d'][idx] || ''; }
+
+function renderQuestions(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  tabTitle.textContent = topic.label;
+  tabDescription.textContent = topic.description;
+  totalCount.textContent = topic.questions.length;
+
+  questionsBox.innerHTML = topic.questions.map((item,index)=>{
+    const saved = state[index];
+    const locked = !!saved;
+    const noteClass = locked ? 'feedback-note show' : 'feedback-note';
+    return `<article class="question">
+      <div class="qhead">
+        <div class="badge">${index+1}</div>
+        <div><h3 class="qtitle">${item.q}</h3></div>
+      </div>
+      <div class="options">
+        ${item.options.map((opt,optIndex)=>{
+          const selected = saved && saved.selected === optIndex;
+          const isCorrect = optIndex === item.correct;
+          let cls = 'opt';
+          if(locked){
+            cls += ' locked';
+            if(isCorrect) cls += ' correct';
+            if(selected && !isCorrect) cls += ' wrong';
+            if(selected) cls += ' selected';
+          }
+          return `<label class="${cls}">
+            <input type="radio" name="q${index}" value="${optIndex}" ${selected?'checked':''} ${locked?'disabled':''}>
+            <span><strong>${letter(optIndex).toUpperCase()})</strong> ${opt}</span>
+          </label>`;
+        }).join('')}
+      </div>
+      <div class="lock-badge">${locked?'🔒 Respuesta guardada':'🔓 Sin responder'}</div>
+      <div class="${noteClass}">${locked?(saved.correct?'✅ Correcta':'❌ Incorrecta · Respuesta correcta: '+letter(item.correct)+') '+item.options[item.correct]):''}</div>
+    </article>`;
+  }).join('');
+
+  bindEvents();
+  updateCounters();
+}
+
+function bindEvents(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  topic.questions.forEach((item,index)=>{
+    document.querySelectorAll(`input[name="q${index}"]`).forEach(radio=>{
+      radio.addEventListener('change', ()=>{
+        if(state[index]) return;
+        const selected = Number(radio.value);
+        state[index] = {selected, correct:selected===item.correct};
+        saveState();
+        renderQuestions();
+      });
+    });
+  });
+}
+
+function updateCounters(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  const answered = Object.keys(state).length;
+  const blank = topic.questions.length - answered;
+  answeredCount.textContent = answered;
+  blankCount.textContent = blank;
+}
+
+function corregirPestana(){
+  const topic = TOPICS[currentTabKey];
+  const state = getTabProgress();
+  let answered=0, correct=0, wrong=0;
+  topic.questions.forEach((q,index)=>{
+    if(state[index]){
+      answered++;
+      if(state[index].correct) correct++;
+      else wrong++;
+    }
+  });
+  const blank = topic.questions.length - answered;
+  const score = topic.questions.length ? (correct/topic.questions.length)*10 : 0;
+  resAnswered.textContent = answered;
+  resBlank.textContent = blank;
+  resCorrect.textContent = correct;
+  resWrong.textContent = wrong;
+  resScore.textContent = score.toFixed(2);
+  resultBanner.className = 'result-banner show ' + (score>=5?'ok':'bad');
+  resultBanner.textContent = score>=5
+    ? `✅ Buen trabajo. Nota final: ${score.toFixed(2)} / 10`
+    : `⚠️ Necesita repaso. Nota final: ${score.toFixed(2)} / 10`;
+  resultText.textContent = `Has respondido ${answered} de ${topic.questions.length} preguntas en esta pestaña.`;
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function resetPestana(){
+  progress[currentTabKey] = {};
+  saveState();
+  renderQuestions();
+  resAnswered.textContent='0';
+  resBlank.textContent='0';
+  resCorrect.textContent='0';
+  resWrong.textContent='0';
+  resScore.textContent='0.00';
+  resultBanner.className='result-banner';
+  resultBanner.textContent='';
+  resultText.textContent='Pestaña reiniciada. Puedes volver a responder.';
+}
+
+function resetTodo(){
+  progress = {};
+  saveState();
+  renderQuestions();
+  resAnswered.textContent='0';
+  resBlank.textContent='0';
+  resCorrect.textContent='0';
+  resWrong.textContent='0';
+  resScore.textContent='0.00';
+  resultBanner.className='result-banner';
+  resultBanner.textContent='';
+  resultText.textContent='Todo el test se ha reiniciado.';
+}
+
+document.getElementById('finishBtn').addEventListener('click', corregirPestana);
+document.getElementById('topSubmitBtn').addEventListener('click', corregirPestana);
+document.getElementById('resetBtn').addEventListener('click', resetPestana);
+document.getElementById('resetAllBtn').addEventListener('click', resetTodo);
+
+renderTabs();
+renderQuestions();
+</script>
+</body>
+</html>
