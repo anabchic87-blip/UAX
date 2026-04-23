@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario Examen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text)
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.toolbar,.question,.result-box{
+      background:rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      border-radius:22px;
+      box-shadow:var(--shadow)
+    }
+    .top-nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px
+    }
+    .top-nav-title{
+      font-weight:800;
+      color:var(--title);
+      font-size:14px;
+      background:#fff3e8;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:10px 14px
+    }
+    .hero{padding:24px;margin-bottom:18px}
+    .hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.6}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);
+      border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px
+    }
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{
+      background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;
+      font-weight:800;color:#a54800;font-size:14px
+    }
+    .toolbar{
+      position:sticky;top:10px;z-index:20;padding:14px;display:flex;justify-content:space-between;
+      align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px
+    }
+    .counter{display:flex;gap:10px;flex-wrap:wrap}
+    .counter-card{
+      background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;
+      min-width:140px;text-align:center
+    }
+    .counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+    .counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+    .btn{
+      text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;
+      cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+    .questions{display:grid;gap:16px}
+    .question{padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{
+      min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;
+      display:grid;place-items:center;font-weight:900;flex-shrink:0
+    }
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{
+      display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;
+      border-radius:16px;background:#fff;cursor:pointer
+    }
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+    .feedback-note.show{display:block}
+    .result-box{margin-top:22px;padding:20px}
+    .result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+    .helper{color:var(--soft);line-height:1.6}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+    .result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+    .result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+    .result-card span{color:var(--soft);font-size:13px;font-weight:700}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    .bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+    @media (max-width:700px){
+      .btn{width:100%}
+      .counter-card{flex:1 1 120px}
+      .qhead{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="top">
+
+    <section class="top-nav">
+      <a class="btn btn-secondary" href="index.html" id="homeBtn">⬅ Volver al panel principal</a>
+      <div class="top-nav-title">Panel Bases de Datos · INTEGRA</div>
+    </section>
+
+    <section class="hero">
+      <div class="eyebrow">🗄️ Bases de Datos · Test examen</div>
+      <h1>Cuestionario Examen</h1>
+      <p>Cuestionario autocorregible en formato web con las preguntas extraídas del PDF que me has adjuntado.</p>
+      <div class="stats">
+        <div class="pill">📚 75 preguntas</div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="counter">
+        <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+        <div class="counter-card"><strong id="blankCount">75</strong><span>En blanco</span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" id="submitBtn">✅ Corregir cuestionario</button>
+        <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar</button>
+        <a class="btn btn-ghost" href="#resultado">📊 Ir al resultado</a>
+      </div>
+    </section>
+
+    <form id="quizForm">
+      <section class="questions" id="questions"></section>
+    </form>
+
+    <section class="result-box" id="resultado">
+      <h2>Resultado del test</h2>
+      <div class="helper" id="resultText">Pulsa en “Corregir cuestionario” para ver los aciertos, los fallos y la nota final.</div>
+      <div class="result-grid">
+        <div class="result-card"><strong id="resAnswered">0</strong><span>Total respondidas</span></div>
+        <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+        <div class="result-card"><strong id="resScore">0.00</strong><span>Nota sobre 10</span></div>
+      </div>
+      <div class="result-banner" id="resultBanner"></div>
+      <div class="bottom-actions">
+        <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+        <a class="btn btn-secondary" href="index.html" id="homeBtnBottom">🏠 Ir al panel principal</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const EXAM_KEY = "cuestionario_examen_bbdd_web";
+    const QUESTIONS = [
+      {
+            "question": "¿Qué característica de Aurora permite rebobinar la base de datos hasta 72 horas sin usar instantáneas?",
+            "options": [
+                  "Snapshot",
+                  "Multi-AZ",
+                  "Backtrack",
+                  "Failover"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué comando se usa para eliminar todos los privilegios de un usuario en MariaDB?",
+            "options": [
+                  "DELETE PRIVILEGES FROM usuario",
+                  "REMOVE ALL FROM usuario",
+                  "REVOKE ALL PRIVILEGES, GRANT OPTION FROM usuario",
+                  "DROP PRIVILEGES FROM usuario"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuál es la principal diferencia entre ETL y ELT?",
+            "options": [
+                  "En ELT los datos se transforman antes de cargarlos en el destino",
+                  "En ELT los datos se cargan primero en bruto y se transforman después",
+                  "ETL es exclusivo de entornos cloud y ELT de entornos locales",
+                  "No existe diferencia real entre ambos enfoques"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es la sintaxis correcta para crear un usuario en MariaDB que solo pueda conectarse desde localhost con contraseña?",
+            "options": [
+                  "NEW USER nombre@localhost PASSWORD 'clave';",
+                  "ADD USER nombre@localhost WITH PASSWORD 'clave';",
+                  "INSERT INTO mysql.user (User) VALUES ('nombre');",
+                  "CREATE USER nombre@localhost IDENTIFIED BY 'clave';"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué tipo de dato en MariaDB almacena valores en el rango de 0 a 255 y ocupa 1 byte en memoria?",
+            "options": [
+                  "SMALLINT",
+                  "TINYINT con signo",
+                  "UNSIGNED TINYINT",
+                  "BIT"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuáles son los tres tipos de integridad que monitoriza un SGBD?",
+            "options": [
+                  "Física, lógica y conceptual",
+                  "De dominio, de entidad y referencial",
+                  "De usuario, de tabla y de columna",
+                  "Primaria, secundaria y terciaria"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es la sintaxis correcta para declarar una variable local dentro de un procedimiento almacenado en MariaDB?",
+            "options": [
+                  "SET @variable tipoDato;",
+                  "DECLARE variable tipoDato;",
+                  "VAR variable tipoDato;",
+                  "CREATE variable tipoDato;"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es la diferencia principal entre usar los comandos GRANT/REVOKE y modificar directamente la vista mysql.user para gestionar permisos?",
+            "options": [
+                  "No hay diferencia; ambos métodos son equivalentes en todos los aspectos",
+                  "GRANT/REVOKE es más lento porque recarga las tablas de permisos",
+                  "Con GRANT/REVOKE los cambios tienen efecto inmediato; con modificación directa de mysql.user es necesario reiniciar el servidor o ejecutar FLUSH PRIVILEGES",
+                  "La modificación directa de mysql.user es el método recomendado por ser más seguro"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué tipo de dato en MariaDB almacena cadenas de caracteres ASCII de longitud variable, almacenando solo los caracteres necesarios?",
+            "options": [
+                  "CHAR(N)",
+                  "BINARY(N)",
+                  "TEXT",
+                  "VARCHAR(N)"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "Según el decálogo de optimización de MariaDB para sistemas CMS, ¿a qué porcentaje de la RAM debería equivaler el parámetro innodb_buffer_pool_size?",
+            "options": [
+                  "50%",
+                  "60%",
+                  "70%",
+                  "80%"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué servicio de AWS actúa como base de datos serverless nativa sobre un data lake en S3?",
+            "options": [
+                  "Redshift",
+                  "Glue",
+                  "EMR",
+                  "Athena"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Dónde almacena MariaDB toda la información relativa a las cuentas de usuarios y permisos?",
+            "options": [
+                  "En un fichero llamado users.cfg en la carpeta de instalación",
+                  "En una base de datos llamada mysql",
+                  "En el fichero my.ini junto con la configuración del servidor",
+                  "En la carpeta share del directorio de instalación"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué herramienta de AWS permite migrar esquemas desde motores heterogéneos como Oracle o SQL Server hacia MySQL o PostgreSQL?",
+            "options": [
+                  "AWS Snowball",
+                  "AWS CloudTrail",
+                  "AWS Database Migration Service",
+                  "AWS Config"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué estrategia de migración consiste en replicar la estructura existente en la nube de la manera más parecida posible?",
+            "options": [
+                  "Rediseño completo",
+                  "Lift and Shift o Rehosting",
+                  "Re-platforming",
+                  "Re-architecting"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué herramienta de RDS permite establecer características propias y extensiones de cada motor de base de datos?",
+            "options": [
+                  "Grupos de parámetros",
+                  "Grupos de opciones",
+                  "Parameter Store",
+                  "Config Rules"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué hace el comando OPTIMIZE TABLE en MariaDB?",
+            "options": [
+                  "Actualiza las estadísticas de índices de una tabla",
+                  "Comprueba una tabla en busca de errores",
+                  "Desfragmenta tablas o actualiza el índice de texto completo de InnoDB",
+                  "Genera una suma de verificación de una tabla"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuál de los siguientes comandos de mantenimiento de tablas en MariaDB se usa para reparar una tabla posiblemente dañada?",
+            "options": [
+                  "CHECK TABLE",
+                  "ANALYZE TABLE",
+                  "OPTIMIZE TABLE",
+                  "REPAIR TABLE"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué comando SHOW permite obtener información sobre el estado del servidor MariaDB, equivalente a mysqladmin extended-status?",
+            "options": [
+                  "SHOW VARIABLES",
+                  "SHOW PROCESS LIST",
+                  "SHOW STATUS",
+                  "SHOW ERRORS"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué son los triggers o disparadores en MariaDB?",
+            "options": [
+                  "Procedimientos almacenados que se ejecutan manualmente por el administrador",
+                  "Tipo especial de procedimientos almacenados vinculados a una tabla que se ejecutan automáticamente ante operaciones INSERT, UPDATE o DELETE",
+                  "Funciones que se disparan a intervalos regulares de tiempo",
+                  "Índices especiales que mejoran la velocidad de las consultas"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué significa DDDM?",
+            "options": [
+                  "Data Driven Decision Making",
+                  "Distributed Data Dynamic Management",
+                  "Data Definition and Data Modeling",
+                  "Dynamic Data Driven Management"
+            ],
+            "correct": "a"
+      },
+      {
+            "question": "¿Para qué sirven los eventos en MariaDB?",
+            "options": [
+                  "Para registrar errores del servidor automáticamente",
+                  "Para ejecutar instrucciones SQL de forma programada, una vez o a intervalos regulares, según un horario",
+                  "Para capturar operaciones de inserción y actualización en tablas",
+                  "Para gestionar las conexiones simultáneas al servidor"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es la principal diferencia entre el escalado vertical y el escalado horizontal en RDS?",
+            "options": [
+                  "El escalado vertical añade más nodos, el horizontal mejora el hardware",
+                  "El escalado vertical mejora el hardware de un único servidor, el horizontal añade más máquinas en paralelo",
+                  "El escalado vertical es más eficiente a largo plazo",
+                  "No existe diferencia significativa entre ambos tipos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué describe el nivel interno o físico de la arquitectura ANSI-SPARC?",
+            "options": [
+                  "La visión individual que tiene cada usuario o grupo de usuarios de la base de datos",
+                  "Las entidades, atributos y relaciones de la base de datos sin detalles físicos",
+                  "La estructura física de almacenamiento de los datos: archivos, organización, métodos de acceso y tipos de registros",
+                  "Las restricciones de seguridad y acceso al sistema"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué algoritmo de procesamiento paralelo de datos tiene su origen en las necesidades de paralelización de Google?",
+            "options": [
+                  "Spark",
+                  "MapReduce",
+                  "HDFS",
+                  "HBase"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué herramienta visual de AWS Glue permite completar, limpiar y normalizar datos al estilo de hojas de cálculo con capacidad para cientos de millones de filas?",
+            "options": [
+                  "Glue Studio",
+                  "Glue DataBrew",
+                  "Glue Crawler",
+                  "Glue ETL"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué variable del sistema debe estar activada para que los eventos de MariaDB se ejecuten según su planificación?",
+            "options": [
+                  "query_cache_type",
+                  "have_query_cache",
+                  "event_scheduler",
+                  "log_bin_trust_function_creators"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuál es la diferencia principal entre el bucle WHILE y el bucle REPEAT en MariaDB?",
+            "options": [
+                  "WHILE permite etiquetar el bucle y REPEAT no",
+                  "Con WHILE el bucle puede no ejecutarse si la condición inicial es falsa; con REPEAT el bucle se ejecuta al menos una vez antes de comprobar la condición",
+                  "REPEAT comprueba la condición al inicio de cada iteración y WHILE al final",
+                  "WHILE solo puede usarse en funciones y REPEAT solo en procedimientos almacenados"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es el servicio de base de datos relacional gestionado (DBaaS) de AWS?",
+            "options": [
+                  "Aurora",
+                  "RDS",
+                  "Redshift",
+                  "DynamoDB"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es la principal diferencia entre los parámetros IN, OUT e INOUT en los procedimientos almacenados de MariaDB?",
+            "options": [
+                  "IN recibe un valor de entrada, OUT devuelve un valor de salida, INOUT funciona como entrada y salida a la vez",
+                  "IN, OUT e INOUT son sinónimos y funcionan de la misma manera",
+                  "OUT es el parámetro por defecto si no se especifica nada",
+                  "INOUT solo puede usarse con tipos de datos numéricos"
+            ],
+            "correct": "a"
+      },
+      {
+            "question": "¿Qué es un data lake?",
+            "options": [
+                  "Un datawarehouse optimizado para consultas analíticas",
+                  "Un almacén de datos estructurados con esquema definido",
+                  "Un almacén de datos en bruto orientado a su ingestión y acceso rápido",
+                  "Una base de datos relacional distribuida"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué tablas temporales se crean automáticamente al trabajar con triggers en MariaDB, y para qué sirven?",
+            "options": [
+                  "Se crean TEMP y CURRENT, que almacenan los registros antes y después de una operación",
+                  "Se crean OLD y NEW; OLD contiene el registro antes de la modificación o el que se borrará, y NEW contiene el nuevo registro que se insertará o el valor después de la actualización",
+                  "Se crea solo una tabla MODIFIED que almacena siempre el registro modificado",
+                  "Se crean BEFORE y AFTER con los valores anteriores y posteriores de todos los campos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál de los siguientes SGBD es considerado el mejor sistema de software propietario de alto rendimiento y el más utilizado a nivel mundial?",
+            "options": [
+                  "MariaDB",
+                  "PostgreSQL",
+                  "SQLServer",
+                  "OracleSQL"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué recurso limita MAX_QUERIES_PER_HOUR en MariaDB?",
+            "options": [
+                  "El número de conexiones simultáneas que puede tener un usuario",
+                  "El número de consultas (incluyendo actualizaciones) que puede hacer una cuenta en una hora",
+                  "El tiempo máximo de ejecución de una consulta",
+                  "El número de tablas que puede consultar un usuario por hora"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es el coste de facturación de AWS Athena?",
+            "options": [
+                  "Por hora de uso del clúster",
+                  "Por terabyte de datos procesados",
+                  "Por número de consultas ejecutadas",
+                  "Por gigabyte almacenado en S3"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué operaciones NO están permitidas dentro del cuerpo de una función almacenada en MariaDB (entre BEGIN y END)?",
+            "options": [
+                  "SELECT, INSERT y UPDATE",
+                  "ALTER TABLE, LOAD DATA, LOCK TABLES, UNLOCK TABLES, FLUSH y recursividad",
+                  "Declarar variables locales y usar estructuras de control",
+                  "Llamar a otras funciones ya creadas en la base de datos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es el orden correcto de operaciones al trabajar con un cursor en MariaDB?",
+            "options": [
+                  "Abrir, Declarar, Extraer datos, Cerrar",
+                  "Declarar, Extraer datos, Abrir, Cerrar",
+                  "Declarar, Abrir, Extraer datos, Cerrar",
+                  "Abrir, Extraer datos, Declarar, Cerrar"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuándo se activa FOR EACH ROW en un trigger de MariaDB?",
+            "options": [
+                  "Una sola vez por cada sentencia que dispara el trigger, independientemente de las filas afectadas",
+                  "Una vez por cada fila afectada por el evento INSERT, UPDATE o DELETE",
+                  "Solo cuando la tabla tiene más de un registro",
+                  "Solo en triggers del tipo AFTER, no en BEFORE"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuántas réplicas de lectura permite añadir como máximo un clúster Aurora?",
+            "options": [
+                  "5",
+                  "10",
+                  "15",
+                  "20"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué característica de un SGBD garantiza que solo los usuarios autorizados puedan ver o modificar la información para la cual tienen permisos?",
+            "options": [
+                  "Control de redundancia",
+                  "Consistencia de la información",
+                  "Seguridad de la base de datos",
+                  "Integridad referencial"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué formato de almacenamiento usa Redshift en lugar del almacenamiento por filas convencional?",
+            "options": [
+                  "JSON",
+                  "Parquet",
+                  "Columnar",
+                  "HDFS"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué tipo de nodos introdujo Redshift en 2019 con mejoras significativas de rendimiento gracias a la arquitectura Nitro?",
+            "options": [
+                  "DC2",
+                  "RA3",
+                  "RA2",
+                  "DC3"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué ventaja principal tiene MariaDB frente a MySQL tras la bifurcación por el cambio de licencia de MySQL?",
+            "options": [
+                  "MariaDB es completamente incompatible con MySQL, lo que le otorga más seguridad",
+                  "MariaDB ofrece más funcionalidades y en muchos escenarios mejor rendimiento, con motores de almacenamiento más eficientes como Aria y XtraDB",
+                  "MariaDB solo funciona en Linux, lo que la hace más segura",
+                  "MariaDB elimina la necesidad de usar SQL como lenguaje de consulta"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿En qué año fue presentado el servicio AWS Redshift?",
+            "options": [
+                  "2009",
+                  "2010",
+                  "2012",
+                  "2015"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuál es la diferencia entre los tipos de dato DATETIME y TIMESTAMP en MariaDB?",
+            "options": [
+                  "DATETIME almacena solo la fecha y TIMESTAMP solo la hora",
+                  "TIMESTAMP se actualiza automáticamente con la fecha del sistema cuando se guarda un registro; DATETIME almacena fechas con precisión de milisegundo sin actualización automática",
+                  "No hay diferencia entre ambos tipos de dato",
+                  "DATETIME ocupa más espacio en memoria que TIMESTAMP"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué ventaja tiene usar índices compuestos en MariaDB cuando se realizan búsquedas frecuentes por varios campos?",
+            "options": [
+                  "Los índices compuestos no ofrecen ventaja frente a índices individuales",
+                  "Permiten búsquedas ordenadas por combinaciones de los campos incluidos, mejorando el rendimiento de consultas que usan esos campos juntos",
+                  "Los índices compuestos solo funcionan con el motor InnoDB",
+                  "Reducen el espacio ocupado en disco respecto a tener índices individuales por cada campo"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿En qué fichero se almacena la configuración del servidor MariaDB en Windows?",
+            "options": [
+                  "server.cfg",
+                  "mariadb.conf",
+                  "my.ini",
+                  "config.xml"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué es un SGBD?",
+            "options": [
+                  "Un lenguaje de programación para crear aplicaciones web",
+                  "Una herramienta software que permite definir, crear, administrar, manipular y mantener bases de datos con acceso controlado",
+                  "Un sistema operativo especializado en el almacenamiento de ficheros",
+                  "Un protocolo de comunicación entre servidores de datos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué servicio físico de AWS permite la transferencia de datos sin conexión a escala de petabytes?",
+            "options": [
+                  "Direct Connect",
+                  "VPN Site-to-Site",
+                  "Snowball",
+                  "Data Sync"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué es una vista en MariaDB?",
+            "options": [
+                  "Un informe generado automáticamente sobre el estado de la base de datos",
+                  "Una consulta almacenada que actúa como tabla virtual generada dinámicamente al acceder a ella",
+                  "Una copia física de una tabla para mejorar el rendimiento",
+                  "Un procedimiento almacenado que devuelve conjuntos de resultados"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál de las siguientes NO es una herramienta de monitorización y rendimiento destacable para RDS en AWS?",
+            "options": [
+                  "Análisis de logs en CloudWatch",
+                  "Enhanced Monitoring",
+                  "Performance Insights",
+                  "AWS Inspector"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué servicio de AWS permite detectar y catalogar datos de un data lake de forma incremental mediante crawlers?",
+            "options": [
+                  "Athena",
+                  "EMR",
+                  "Glue",
+                  "Kinesis"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué hace el comando ANALYZE TABLE en MariaDB?",
+            "options": [
+                  "Repara una tabla posiblemente dañada",
+                  "Genera una suma de verificación de la tabla para comparar con otras",
+                  "Analiza y almacena la distribución de claves de una tabla (estadísticas de índice), útil para decidir el orden en JOINs y qué índices usar",
+                  "Comprueba una tabla en busca de errores sin modificar nada"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "En un trigger para el evento UPDATE, ¿cómo se accede al valor de un campo antes de ser modificado?",
+            "options": [
+                  "NEW.nom_col",
+                  "CURRENT.nom_col",
+                  "OLD.nom_col",
+                  "BEFORE.nom_col"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué herramienta de MariaDB realiza copias de seguridad a nivel lógico, es decir, generando instrucciones SQL?",
+            "options": [
+                  "MariaBackup",
+                  "mariadb-dump / mysqldump",
+                  "mysqlcheck",
+                  "mariadb-admin"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué es un índice en una base de datos?",
+            "options": [
+                  "Una copia de seguridad de una tabla",
+                  "Una herramienta que permite localizar y devolver registros de forma rápida y eficiente",
+                  "Un tipo especial de vista que optimiza las consultas de agregación",
+                  "Un registro de todas las consultas ejecutadas en el servidor"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué contiene el diccionario de datos de MariaDB y dónde se almacena?",
+            "options": [
+                  "Las copias de seguridad programadas; se almacena en la carpeta /data",
+                  "Los metadatos sobre las bases de datos (nombres de tablas, tipos de datos, etc.); se almacena en la base de datos information_schema",
+                  "Los registros de errores del servidor; se almacena en el fichero error.log",
+                  "Las estadísticas de rendimiento; se almacena en la base de datos performance_schema"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué son las variables de sistema en MariaDB?",
+            "options": [
+                  "Variables que almacenan los datos de los usuarios de la base de datos",
+                  "Variables que determinan el funcionamiento del servidor y que, si se quieren cambiar de forma permanente, se especifican en el fichero my.ini",
+                  "Variables que solo pueden modificarse reiniciando el servidor",
+                  "Variables que contienen el historial de consultas ejecutadas"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué unidades de capacidad utiliza Aurora Serverless v2 para medir y cobrar los recursos?",
+            "options": [
+                  "RPU (Redshift Process Units)",
+                  "VCU (Virtual Compute Units)",
+                  "ACU (Aurora Capacity Units)",
+                  "ECU (Elastic Compute Units)"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué es un despliegue Multi-AZ en RDS?",
+            "options": [
+                  "Despliegue de la base de datos en múltiples regiones de AWS",
+                  "Despliegue con un servidor maestro y un esclavo en zonas de disponibilidad diferentes para alta disponibilidad",
+                  "Despliegue exclusivo para bases de datos Aurora",
+                  "Despliegue que duplica el rendimiento del servidor principal"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál de las siguientes restricciones se debe tener en cuenta al crear una vista en MariaDB?",
+            "options": [
+                  "No se pueden usar cláusulas WHERE en la SELECT de la vista",
+                  "No se pueden usar tablas temporales, subconsultas en el FROM, ni cláusulas GROUP BY o HAVING",
+                  "La vista solo puede contener una tabla en su SELECT",
+                  "Las vistas no pueden tener el mismo nombre que otra vista"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué comando se utiliza para llamar a un procedimiento almacenado en MariaDB?",
+            "options": [
+                  "EXECUTE",
+                  "RUN",
+                  "INVOKE",
+                  "CALL"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué característica clave diferencia a los nodos RA3 de Redshift respecto a los DC2?",
+            "options": [
+                  "Mayor número de CPUs virtuales",
+                  "Separación entre almacenamiento y cómputo usando S3 para datos fríos",
+                  "Compatibilidad con más tipos de consultas SQL",
+                  "Menor latencia en la escritura de datos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es el rol hacia el que evoluciona el DBA clásico en entornos de big data?",
+            "options": [
+                  "Científico de datos",
+                  "Analista de datos",
+                  "Arquitecto o ingeniero de datos",
+                  "Artista de datos"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuál de los siguientes NO es un componente básico de un SGBD?",
+            "options": [
+                  "Diccionario de datos",
+                  "Lenguaje de definición de datos (DDL)",
+                  "Compilador de código fuente",
+                  "Lenguaje de manipulación de datos (DML)"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuántos niveles de abstracción propone la arquitectura ANSI-SPARC para los SGBD?",
+            "options": [
+                  "Dos: físico y lógico",
+                  "Cuatro: físico, conceptual, externo e interno",
+                  "Tres: interno o físico, conceptual y externo",
+                  "Cinco: físico, lógico, conceptual, externo y de usuario"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Cuál es el lenguaje estándar utilizado por los SGBD relacionales para la definición y manipulación de datos?",
+            "options": [
+                  "Python",
+                  "XML",
+                  "SQL",
+                  "JSON"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué significa el acrónimo ETL en el procesamiento de datos?",
+            "options": [
+                  "Extract, Transfer, Load",
+                  "Extract, Transform, Load",
+                  "Evaluate, Transform, Launch",
+                  "Extract, Transform, Link"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Cuál es el puerto TCP predeterminado de escucha del servidor MariaDB?",
+            "options": [
+                  "8080",
+                  "1433",
+                  "5432",
+                  "3306"
+            ],
+            "correct": "d"
+      },
+      {
+            "question": "¿Qué comando se utiliza en MariaDB para modificar el valor de una variable dinámica mientras el servidor está en ejecución?",
+            "options": [
+                  "MODIFY",
+                  "UPDATE",
+                  "SET",
+                  "ALTER"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué privilegio de MariaDB permite que un usuario pueda asignar sus propios privilegios a otros usuarios?",
+            "options": [
+                  "ALL PRIVILEGES",
+                  "SUPER",
+                  "GRANT OPTION",
+                  "ADMIN"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué comando de MariaDB se usa para ver el plan de ejecución de una consulta SELECT y así poder analizarla y optimizarla?",
+            "options": [
+                  "ANALYZE SELECT",
+                  "DESCRIBE SELECT",
+                  "EXPLAIN seguido de la consulta SELECT",
+                  "SHOW QUERY PLAN"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué diferencia principal existe entre una función y un procedimiento almacenado en MariaDB?",
+            "options": [
+                  "Las funciones pueden usar bucles y los procedimientos no",
+                  "Los procedimientos pueden llamarse con SELECT y las funciones no",
+                  "Las funciones siempre retornan un valor y pueden usarse en SELECT; los procedimientos no están obligados a retornar un valor",
+                  "Las funciones permiten parámetros de salida OUT y los procedimientos no"
+            ],
+            "correct": "c"
+      },
+      {
+            "question": "¿Qué es un cursor en MariaDB?",
+            "options": [
+                  "Una herramienta para optimizar índices de forma automática",
+                  "Una estructura que permite recorrer y procesar individualmente los registros del resultado de una consulta SELECT",
+                  "Un tipo especial de variable para almacenar resultados numéricos",
+                  "Un procedimiento que gestiona transacciones en la base de datos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Qué se entiende por independencia lógica en un SGBD?",
+            "options": [
+                  "La capacidad de cambiar el esquema interno sin modificar el esquema conceptual",
+                  "La capacidad de cambiar el esquema conceptual sin tener que modificar los esquemas externos",
+                  "La posibilidad de ejecutar consultas en cualquier lenguaje de programación",
+                  "La capacidad del sistema para funcionar en múltiples sistemas operativos"
+            ],
+            "correct": "b"
+      },
+      {
+            "question": "¿Para qué sirve el registro de consultas lentas (slow queries) en MariaDB?",
+            "options": [
+                  "Para registrar los errores críticos del servidor",
+                  "Para almacenar todas las conexiones realizadas al servidor",
+                  "Para conocer qué consultas superan un tiempo determinado y merman el rendimiento, con el fin de optimizarlas",
+                  "Para guardar las copias de seguridad automáticas del servidor"
+            ],
+            "correct": "c"
+      }
+];
+
+    const TOTAL = QUESTIONS.length;
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const answeredCount = document.getElementById("answeredCount");
+    const blankCount = document.getElementById("blankCount");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultText = document.getElementById("resultText");
+    const resultBanner = document.getElementById("resultBanner");
+    const resAnswered = document.getElementById("resAnswered");
+    const resBlank = document.getElementById("resBlank");
+    const resCorrect = document.getElementById("resCorrect");
+    const resWrong = document.getElementById("resWrong");
+    const resScore = document.getElementById("resScore");
+    const homeBtn = document.getElementById("homeBtn");
+    const homeBtnBottom = document.getElementById("homeBtnBottom");
+    let submitted = false;
+
+    function goToMainPanel(event) {
+      event.preventDefault();
+      const candidates = ["index.html", "./index.html", "../index.html", "../../index.html"];
+      let i = 0;
+      function tryNext() {
+        if (i >= candidates.length) {
+          window.location.href = "index.html";
+          return;
+        }
+        const target = candidates[i++];
+        fetch(target, { method: "HEAD" })
+          .then(response => {
+            if (response.ok) window.location.href = target;
+            else tryNext();
+          })
+          .catch(() => tryNext());
+      }
+      tryNext();
+    }
+
+    [homeBtn, homeBtnBottom].forEach(btn => {
+      if (btn) btn.addEventListener("click", goToMainPanel);
+    });
+
+    function saveProgress() {
+      const answers = {};
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) answers[`q${index}`] = selected.value;
+      });
+      localStorage.setItem(`${EXAM_KEY}_progress`, JSON.stringify({ answers, submitted }));
+    }
+
+    function restoreProgress() {
+      try {
+        const raw = localStorage.getItem(`${EXAM_KEY}_progress`);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (!data || !data.answers) return;
+
+        Object.entries(data.answers).forEach(([key, value]) => {
+          const input = document.querySelector(`input[name="${key}"][value="${value}"]`);
+          if (input) {
+            input.checked = true;
+            input.closest(".opt")?.classList.add("selected");
+          }
+        });
+
+        if (data.submitted) {
+          submitted = true;
+          submitBtn.disabled = true;
+          quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+          revealCorrections();
+          updateFinalBox();
+        }
+      } catch (error) {
+        console.error("No se pudo restaurar el progreso:", error);
+      }
+    }
+
+    function renderQuestions() {
+      questionsBox.innerHTML = "";
+
+      QUESTIONS.forEach((item, index) => {
+        const q = document.createElement("article");
+        q.className = "question";
+        q.innerHTML = `
+          <div class="qhead">
+            <div class="badge">${index + 1}</div>
+            <div>
+              <h3 class="qtitle">${item.question}</h3>
+            </div>
+          </div>
+          <div class="options">
+            ${item.options.map((opt, i) => {
+              const value = String.fromCharCode(97 + i);
+              return `
+                <label class="opt" data-question="${index}" data-value="${value}">
+                  <input type="radio" name="q${index}" value="${value}">
+                  <span><strong>${value})</strong> ${opt}</span>
+                </label>
+              `;
+            }).join("")}
+          </div>
+          <div class="feedback-note" id="feedback-${index}"></div>
+        `;
+        questionsBox.appendChild(q);
+      });
+
+      restoreProgress();
+      updateProgress();
+    }
+
+    function updateProgress() {
+      let answered = 0, blank = 0;
+      QUESTIONS.forEach((item, index) => {
+        const checked = document.querySelector(`input[name="q${index}"]:checked`);
+        if (checked) answered++;
+        else blank++;
+      });
+      answeredCount.textContent = answered;
+      blankCount.textContent = blank;
+    }
+
+    function calculateResult() {
+      let correct = 0, wrong = 0;
+      QUESTIONS.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+          if (selected.value === item.correct) correct++;
+          else wrong++;
+        }
+      });
+      const score = TOTAL ? (correct / TOTAL) * 10 : 0;
+      return {
+        totalAnswered: Number(answeredCount.textContent),
+        blank: Number(blankCount.textContent),
+        correct,
+        wrong,
+        score: Number(score.toFixed(2))
+      };
+    }
+
+    function revealCorrections() {
+      QUESTIONS.forEach((item, index) => {
+        const labels = document.querySelectorAll(`[data-question="${index}"]`);
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedback = document.getElementById(`feedback-${index}`);
+
+        labels.forEach(label => {
+          const value = label.getAttribute("data-value");
+          label.classList.remove("selected", "correct", "wrong");
+          if (value === item.correct) label.classList.add("correct");
+          if (selected && selected.value === value && value !== item.correct) label.classList.add("wrong");
+        });
+
+        feedback.classList.add("show");
+        feedback.textContent = selected
+          ? (selected.value === item.correct
+              ? `✅ Correcta: ${item.correct.toUpperCase()}`
+              : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${item.correct.toUpperCase()}`)
+          : `⚪ En blanco · Correcta: ${item.correct.toUpperCase()}`;
+      });
+    }
+
+    function updateFinalBox() {
+      updateProgress();
+      const result = calculateResult();
+
+      resAnswered.textContent = result.totalAnswered;
+      resBlank.textContent = result.blank;
+      resCorrect.textContent = result.correct;
+      resWrong.textContent = result.wrong;
+      resScore.textContent = result.score.toFixed(2);
+
+      resultText.textContent =
+        `Has respondido ${result.totalAnswered} de ${TOTAL} preguntas. Tienes ${result.correct} aciertos y ${result.wrong} fallos.`;
+
+      resultBanner.className = "result-banner show " + (result.score >= 5 ? "ok" : "bad");
+      resultBanner.textContent =
+        result.score >= 5
+          ? `✅ Test superado con un ${result.score.toFixed(2)} sobre 10`
+          : `⚠️ Test en ${result.score.toFixed(2)} sobre 10. Repasa las respuestas marcadas.`;
+    }
+
+    function submitQuiz() {
+      if (submitted) return;
+      submitted = true;
+      quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+      submitBtn.disabled = true;
+      revealCorrections();
+      updateFinalBox();
+      saveProgress();
+      document.getElementById("resultado").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetQuiz() {
+      submitted = false;
+      localStorage.removeItem(`${EXAM_KEY}_progress`);
+      submitBtn.disabled = false;
+      resultText.textContent = "Pulsa en “Corregir cuestionario” para ver los aciertos, los fallos y la nota final.";
+      resultBanner.className = "result-banner";
+      resultBanner.textContent = "";
+      resAnswered.textContent = "0";
+      resBlank.textContent = "0";
+      resCorrect.textContent = "0";
+      resWrong.textContent = "0";
+      resScore.textContent = "0.00";
+      renderQuestions();
+      document.getElementById("top").scrollIntoView({behavior:"smooth"});
+    }
+
+    quizForm.addEventListener("change", (event) => {
+      const radio = event.target;
+      if (!radio.matches('input[type="radio"]') || submitted) return;
+      const name = radio.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(inp => inp.closest('.opt')?.classList.remove('selected'));
+      radio.closest('.opt')?.classList.add('selected');
+      updateProgress();
+      saveProgress();
+    });
+
+    submitBtn.addEventListener("click", submitQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+
+    renderQuestions();
+  </script>
+</body>
+</html>
