@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ciberseguridad · 4 bloques PDF</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+  --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+  --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+.hero,.toolbar,.question,.result-box,.tabs-box{background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
+.hero{padding:24px;margin-bottom:18px}
+.hero h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+.hero p{margin:0;color:var(--soft);line-height:1.6}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+.tabs-box{padding:14px;margin-bottom:18px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap}
+.tab-btn{border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+.tab-btn.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+.toolbar{position:sticky;top:10px;z-index:20;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.counter{display:flex;gap:10px;flex-wrap:wrap}
+.counter-card{background:#fff9f5;border:1px solid var(--border);border-radius:16px;padding:12px 16px;min-width:140px;text-align:center}
+.counter-card strong{display:block;font-size:22px;color:var(--title);margin-bottom:4px}
+.counter-card span{font-size:13px;color:var(--soft);font-weight:700}
+.btn{text-decoration:none;border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff}
+.btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+.btn-ghost{background:#f8fafc;color:#334155;border:1px solid #e2e8f0}
+.questions{display:grid;gap:16px}
+.question{padding:18px}
+.qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.badge{min-width:76px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+.qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+.options{display:grid;gap:10px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;cursor:pointer}
+.opt input{margin-top:4px}
+.opt.selected{border-color:#f0a96d;background:#fff8f3}
+.opt.correct{border-color:#16a34a;background:#ecfdf5}
+.opt.wrong{border-color:#dc2626;background:#fef2f2}
+.feedback-note{font-size:12px;color:#8b5e3c;margin-top:8px;display:none}
+.feedback-note.show{display:block}
+.result-box{margin-top:22px;padding:20px}
+.result-box h2{margin:0 0 10px;color:var(--title);font-size:26px}
+.helper{color:var(--soft);line-height:1.6}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.result-card{background:#fff8f2;border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center}
+.result-card strong{display:block;font-size:26px;color:var(--title);margin-bottom:4px}
+.result-card span{color:var(--soft);font-size:13px;font-weight:700}
+.result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+.result-banner.show{display:block}
+.result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+.result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+.bottom-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:700px){.btn{width:100%} .counter-card{flex:1 1 120px} .qhead{flex-direction:column} .tab-btn{flex:1 1 220px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+  <section class="hero">
+    <div class="eyebrow">🛡️ Ciberseguridad · examen por PDFs</div>
+    <h1>Test de 4 bloques en formato examen</h1>
+    <p>He mantenido el mismo estilo del HTML que me has pasado y lo he adaptado a <strong>4 pestañas</strong>, una por cada PDF. Cada bloque tiene <strong>25 preguntas tipo examen</strong> con corrección automática y nota sobre 10 restando fallos.</p>
+    <div class="stats">
+      <div class="pill">📘 4 bloques</div>
+      <div class="pill">✅ 25 preguntas por bloque</div>
+      <div class="pill">📝 Nota restando fallos</div>
+      <div class="pill">🏠 Home conectado a index.html</div>
+    </div>
+  </section>
+
+  <section class="tabs-box">
+    <div class="tabs" id="tabs"></div>
+  </section>
+
+  <section class="toolbar">
+    <div class="counter">
+      <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+      <div class="counter-card"><strong id="blankCount">25</strong><span>En blanco</span></div>
+      <div class="counter-card"><strong id="correctLive">0</strong><span>Aciertos</span></div>
+      <div class="counter-card"><strong id="wrongLive">0</strong><span>Fallos</span></div>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap">
+      <button class="btn btn-primary" type="button" id="submitBtn">✅ Corregir bloque</button>
+      <button class="btn btn-secondary" type="button" id="resetBtn">↺ Reiniciar bloque</button>
+      <a class="btn btn-ghost" href="index.html">🏠 Home</a>
+    </div>
+  </section>
+
+  <form id="quizForm">
+    <section class="questions" id="questions"></section>
+  </form>
+
+  <section class="result-box">
+    <h2>Resultado del bloque</h2>
+    <div class="helper" id="resultText">Aún no has corregido este bloque.</div>
+    <div class="result-grid">
+      <div class="result-card"><strong id="resAnswered">0</strong><span>Total respondidas</span></div>
+      <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+      <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+      <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+      <div class="result-card"><strong id="resScore">0.00</strong><span>Nota sobre 10</span></div>
+    </div>
+    <div class="result-banner" id="resultBanner"></div>
+    <div class="bottom-actions">
+      <a class="btn btn-secondary" href="#top">⬆ Volver arriba</a>
+      <a class="btn btn-ghost" href="index.html">🏠 Volver al index</a>
+    </div>
+  </section>
+</div>
+
+<script>
+const TESTS = {"CPD · Seguridad física y SAI": [{"q": "¿En qué planta se recomienda situar preferentemente un CPD para evitar inundaciones?", "o": ["En sótano", "En primera planta", "En la azotea"], "a": 1}, {"q": "¿Qué elemento constructivo del CPD facilita cableado y ventilación?", "o": ["Falso suelo y falso techo", "Puertas giratorias", "Mamparas de cristal"], "a": 0}, {"q": "¿Qué materiales se recomiendan en la construcción de un CPD?", "o": ["Materiales ignífugos", "Madera barnizada", "Plástico ligero"], "a": 0}, {"q": "¿Qué sistema ayuda a detectar incendios en un CPD?", "o": ["Detectores de humo", "Balanceador de carga", "Servidor proxy"], "a": 0}, {"q": "¿Qué método de acceso físico se cita como medida de control de acceso?", "o": ["Biometría", "DHCP", "RAID"], "a": 0}, {"q": "¿Cuál es el rango de temperatura óptima en un CPD?", "o": ["10–15 ºC", "18–24 ºC", "28–35 ºC"], "a": 1}, {"q": "¿Qué humedad relativa se recomienda para evitar estática y corrosión?", "o": ["5–15 %", "40–60 %", "80–95 %"], "a": 1}, {"q": "¿Qué filtros se mencionan para controlar el polvo en el CPD?", "o": ["HEPA", "WEP", "RAID"], "a": 0}, {"q": "¿Qué busca la redundancia del suministro eléctrico?", "o": ["Eliminar puntos únicos de fallo", "Aumentar la temperatura", "Sustituir las copias de seguridad"], "a": 0}, {"q": "¿Qué significan las siglas SAI?", "o": ["Sistema de Acceso Interno", "Sistema de Alimentación Ininterrumpida", "Servicio de Administración Integrada"], "a": 1}, {"q": "¿Qué autonomía mínima se menciona para un SAI?", "o": ["Un minuto", "Diez minutos", "Una hora"], "a": 1}, {"q": "¿Qué permite ese tiempo mínimo del SAI?", "o": ["Formatear los discos", "Realizar una parada ordenada o esperar al grupo electrógeno", "Cifrar automáticamente toda la red"], "a": 1}, {"q": "¿Qué tipo de SAI alimenta directamente desde la red y conmuta a batería en milisegundos?", "o": ["Offline", "Online", "Biométrico"], "a": 0}, {"q": "¿Qué tipo de SAI es híbrido entre offline y online?", "o": ["Inline", "RAID 1", "Proxy inverso"], "a": 0}, {"q": "¿Qué tipo de SAI alimenta siempre desde batería?", "o": ["Offline", "Online", "Inline"], "a": 1}, {"q": "¿Qué tipo de SAI es el ideal para equipos críticos?", "o": ["Offline", "Online", "Cualquiera sin diferencias"], "a": 1}, {"q": "¿Qué componente del SAI se degrada con el tiempo y exige reemplazo periódico?", "o": ["Las baterías", "Los cables Ethernet", "El teclado"], "a": 0}, {"q": "¿Qué permiten los sistemas modulares de SAI?", "o": ["Mantenimiento sin interrupciones significativas", "Eliminar la climatización", "Sustituir la red local"], "a": 0}, {"q": "¿Qué documento debe actualizarse tras cada cambio significativo en el CPD?", "o": ["El DRP", "La BIOS", "La caché DNS"], "a": 0}, {"q": "¿Qué significa DRP en el contexto del CPD?", "o": ["Data Routing Protocol", "Plan de Recuperación de Desastres", "Directorio de Recursos Públicos"], "a": 1}, {"q": "¿Qué debe incluir un DRP según el PDF?", "o": ["Solo contraseñas WiFi", "Inventario de hardware, software, red y respaldos", "Únicamente el plano del edificio"], "a": 1}, {"q": "¿Qué ventaja aporta un DRP vigente y probado?", "o": ["Reduce el coste del hardware", "Reduce la inactividad de días a horas", "Elimina la necesidad de backups"], "a": 1}, {"q": "¿Qué afirmación sobre biometría aparece en el PDF?", "o": ["Es transferible entre usuarios", "Se integra con MFA y genera registros auditables", "Solo sirve para redes WiFi"], "a": 1}, {"q": "¿Qué característica se destaca de la biometría en el CPD?", "o": ["Alta seguridad e intransferibilidad", "Bajo consumo de ancho de banda", "Compresión de datos"], "a": 0}, {"q": "Según las conclusiones del PDF, ¿qué combinación crea una defensa lógica razonablemente aceptable?", "o": ["ACL, contraseñas robustas y biometría", "Solo un antivirus", "Un switch y un proxy"], "a": 0}], "Backups · Almacenamiento y recuperación": [{"q": "¿Qué fórmula resume el PDF para explicar la información?", "o": ["Información = hardware + software", "Información = datos + contexto", "Información = red + usuario"], "a": 1}, {"q": "¿Qué tecnología protege la integridad de la información ante fallo de hardware?", "o": ["RAID", "Cookies", "NAT"], "a": 0}, {"q": "¿Qué estrategia de recuperación se menciona como estándar mínimo?", "o": ["5-4-3", "3-2-1", "2-1-1"], "a": 1}, {"q": "¿Qué representan las 3 copias en la regla 3-2-1?", "o": ["Tres usuarios distintos", "Tres copias de los datos", "Tres contraseñas"], "a": 1}, {"q": "¿Qué significa el 1 de la regla 3-2-1?", "o": ["Una sola nube", "Una copia en otra ubicación", "Un único disco"], "a": 1}, {"q": "¿Qué tipo de almacenamiento incluye registros de CPU, cachés y RAM?", "o": ["Primario", "Secundario", "Terciario"], "a": 0}, {"q": "¿Qué dispositivos aparecen como almacenamiento secundario?", "o": ["HDD y SSD", "Cinta magnética y DVD únicamente", "Solo registros CPU"], "a": 0}, {"q": "¿Qué almacenamiento se asocia a retención legal a largo plazo?", "o": ["Primario", "Terciario", "Volátil"], "a": 1}, {"q": "¿Qué ventaja se destaca del almacenamiento fuera de línea?", "o": ["Mayor exposición a ciberataques", "Aislamiento frente a ciberataques", "Sustituye la climatización"], "a": 1}, {"q": "¿Qué tecnología se describe como mecánica, magnética y de bajo coste por GB?", "o": ["HDD", "SSD", "NVMe"], "a": 0}, {"q": "¿Qué tecnología usa PCIe y suele ofrecer velocidades extremas?", "o": ["NVMe", "HDD", "Cinta"], "a": 0}, {"q": "¿Qué afirmación sobre RAID aparece en el PDF?", "o": ["Sustituye al backup", "No sustituye al backup", "Solo sirve para correo"], "a": 1}, {"q": "¿Qué RAID realiza una copia exacta entre dos discos?", "o": ["RAID 1", "RAID 5", "RAID 0"], "a": 0}, {"q": "¿Qué RAID usa paridad y tres o más discos?", "o": ["RAID 1", "RAID 5", "RAID 10"], "a": 1}, {"q": "¿Qué solución se recomienda para compartir archivos en equipos y entornos colaborativos?", "o": ["SAN", "NAS", "MFA"], "a": 1}, {"q": "¿Qué solución se asocia a bases de datos y baja latencia?", "o": ["SAN", "USB", "DVD"], "a": 0}, {"q": "¿Qué tipo de copia guarda todos los datos?", "o": ["Completa", "Incremental", "Diferencial"], "a": 0}, {"q": "¿Qué copia solo guarda cambios desde el último backup incremental o completo?", "o": ["Incremental", "Completa", "Espejo"], "a": 0}, {"q": "¿Qué copia guarda cambios desde la última copia completa?", "o": ["Diferencial", "Espejo", "Snapshot"], "a": 0}, {"q": "¿Qué tipo de copia es una réplica exacta en tiempo real pero sin historial?", "o": ["Espejo", "Completa", "Diferencial"], "a": 0}, {"q": "¿Qué rotación de copias se menciona en la planificación de backups?", "o": ["GFS", "ACL", "NIS2"], "a": 0}, {"q": "¿Qué son las copias en caliente?", "o": ["Copias con el sistema activo", "Copias cifradas con AES", "Copias en cinta"], "a": 0}, {"q": "¿Qué práctica se considera obligatoria además de copiar?", "o": ["Pruebas de restauración", "Desfragmentar cada día", "Cambiar el SSID"], "a": 0}, {"q": "¿Qué función cumplen SHA-256 o MD5 en el PDF?", "o": ["Cifrar por completo el archivo", "Verificar integridad mediante hash", "Asignar direcciones IP"], "a": 1}, {"q": "¿Qué diferencia básica subraya el PDF entre hash y cifrado?", "o": ["El hash permite recuperar el original", "El hash verifica integridad y no permite obtener el original", "Son exactamente lo mismo"], "a": 1}], "Redes · Criptografía y certificados": [{"q": "¿Qué ataque de ingeniería social suplanta identidades para engañar al usuario?", "o": ["Phishing", "RAID", "Hash"], "a": 0}, {"q": "¿Qué variante de phishing se realiza mediante SMS?", "o": ["Vishing", "Smishing", "Whaling"], "a": 1}, {"q": "¿Qué variante se dirige a personas con grandes responsabilidades?", "o": ["Whaling", "SNMP", "Baiting"], "a": 0}, {"q": "¿Qué técnica usa USB infectados como cebo?", "o": ["Baiting", "Spoofing", "Hashing"], "a": 0}, {"q": "¿Qué es el dumpster diving?", "o": ["Capturar tráfico WiFi", "Recopilar información de la basura", "Cifrar discos USB"], "a": 1}, {"q": "¿Qué es shoulder surfing?", "o": ["Mirar por encima del hombro", "Atacar por VPN", "Clonar un disco"], "a": 0}, {"q": "¿Qué manipulación puede redirigir al usuario a una web falsa mediante DNS?", "o": ["DNS spoofing/poisoning", "RAID 5", "SNMPv3"], "a": 0}, {"q": "¿Qué protocolo de monitorización remota de red se menciona?", "o": ["SNMP", "TLS", "PGP"], "a": 0}, {"q": "¿Qué versión de SNMP añade seguridad con cifrado y autenticación?", "o": ["SNMPv1", "SNMPv2", "SNMPv3"], "a": 2}, {"q": "¿Qué regla mide disponibilidad y tiempo de caída?", "o": ["Regla de los 9s", "Regla 3-2-1", "Ley de Moore"], "a": 0}, {"q": "¿Qué herramienta se cita como muy extendida para monitorizar servicios y sistemas?", "o": ["Nagios", "Paint", "BitLocker"], "a": 0}, {"q": "¿Qué combinación se menciona como ideal para entornos dinámicos y contenedores?", "o": ["Prometheus + Grafana", "DNS + DHCP", "MD5 + SHA1"], "a": 0}, {"q": "¿Qué protocolo se menciona para túneles cifrados y VPNs en redes públicas?", "o": ["IPSec/IKE", "ARP", "FTP"], "a": 0}, {"q": "¿Qué algoritmo de WireGuard se cita en el PDF?", "o": ["Curve25519", "RC4", "MD5"], "a": 0}, {"q": "¿Qué protocolo WiFi se considera vulnerable y desaconsejado desde 2004?", "o": ["WEP", "WPA2", "WPA3"], "a": 0}, {"q": "¿Qué protocolo WiFi se indica como obsoleto con TKIP?", "o": ["WPA", "WPA3", "SNMP"], "a": 0}, {"q": "¿Qué protocolo WiFi usa AES de 128 bits y se considera seguro?", "o": ["WPA2", "WEP", "TKIP"], "a": 0}, {"q": "¿Qué protocolo WiFi es el estándar actual obligatorio en nuevos dispositivos desde 2020?", "o": ["WPA3", "WPA", "WEP"], "a": 0}, {"q": "¿Qué propiedad garantiza que solo el destinatario autorizado pueda leer el mensaje?", "o": ["Confidencialidad", "No repudio", "Latencia"], "a": 0}, {"q": "¿Qué propiedad garantiza que el contenido no haya sido modificado?", "o": ["Integridad", "Disponibilidad", "Redundancia"], "a": 0}, {"q": "¿Qué tipo de cifrado utiliza una sola clave secreta?", "o": ["Simétrico", "Asimétrico", "Biométrico"], "a": 0}, {"q": "¿Qué algoritmo simétrico se considera el estándar actual de cifrado?", "o": ["AES", "DES", "RSA"], "a": 0}, {"q": "¿Qué algoritmo asimétrico se basa en la dificultad de factorizar grandes números primos?", "o": ["RSA", "AES", "RC4"], "a": 0}, {"q": "¿Qué vinculan los certificados digitales según el PDF?", "o": ["Una identidad con una clave pública", "Una IP con un puerto", "Un hash con una VLAN"], "a": 0}, {"q": "¿Qué tres garantías principales ofrecen los certificados digitales?", "o": ["Autenticidad, integridad y no repudio", "Velocidad, latencia y redundancia", "Compresión, deduplicación y caché"], "a": 0}], "Seguridad activa · Malware · Marco legal": [{"q": "¿Qué engloba la seguridad activa según el PDF?", "o": ["Medidas para detectar amenazas, minimizar daños y restaurar la normalidad", "Solo medidas físicas del edificio", "Únicamente el cifrado de discos"], "a": 0}, {"q": "¿Cuál de estas herramientas aparece como clave en seguridad activa?", "o": ["Antivirus y antispyware actualizados", "Solo proyectores", "Solo teclados"], "a": 0}, {"q": "¿Qué debe definir un plan de contingencia?", "o": ["Respuesta, minimización de daños y recuperación", "Solo contraseñas", "Solo copias en USB"], "a": 0}, {"q": "¿Qué se exige además en entornos más expuestos como nube y móvil?", "o": ["MFA, VPN y políticas estrictas", "Desactivar actualizaciones", "Acceso anónimo"], "a": 0}, {"q": "¿Qué afirma el PDF sobre el usuario dentro de la cadena de seguridad?", "o": ["Es el elemento más débil", "Es el elemento más fuerte", "No influye en la seguridad"], "a": 0}, {"q": "¿Cuál es el primer paso ante una intrusión o infección?", "o": ["Aislamiento", "Borrado definitivo inmediato", "Cambiar el fondo de pantalla"], "a": 0}, {"q": "¿Qué se recomienda hacer con un ordenador infectado conectado a red?", "o": ["Desconectarlo de inmediato", "Abrir más puertos", "Reiniciar el router remoto"], "a": 0}, {"q": "¿Qué puede aportar información útil en la fase de identificación?", "o": ["El consumo de CPU, memoria y disco", "El color del equipo", "El idioma del teclado"], "a": 0}, {"q": "¿Qué debe hacerse si aparece una aplicación no instalada por el usuario?", "o": ["Desinstalarla o aplicar parches si procede", "Compartirla con otros equipos", "Ignorarla siempre"], "a": 0}, {"q": "¿Qué se suele requerir como medida preventiva tras restaurar el equipo?", "o": ["Cambiar claves", "Eliminar backups", "Quitar el firewall"], "a": 0}, {"q": "¿Para qué sirven los logs del sistema tras un ataque?", "o": ["Análisis forense y valoración legal", "Aumentar la RAM", "Cambiar la BIOS"], "a": 0}, {"q": "¿Qué normativa europea de protección de datos se menciona?", "o": ["RGPD", "LSSICE", "SNMP"], "a": 0}, {"q": "¿Qué ley española adapta el RGPD?", "o": ["LOPDPGDD", "RAID", "PKI"], "a": 0}, {"q": "¿Qué organismo vela por el cumplimiento de la normativa de protección de datos en España?", "o": ["AEPD", "INCIBE-CERT exclusivamente", "FNMT"], "a": 0}, {"q": "¿Qué derechos clásicos reforzados aparecen en el PDF?", "o": ["ARCO", "ACL", "SLA"], "a": 0}, {"q": "¿En qué plazo se deben notificar brechas según el PDF?", "o": ["≤ 72 horas", "30 días", "12 horas exactas siempre"], "a": 0}, {"q": "¿Qué malware cifra archivos y exige rescate?", "o": ["Ransomware", "Spyware", "Adware"], "a": 0}, {"q": "¿Qué malware se replica y propaga por redes?", "o": ["Gusanos", "Cookies", "Switches"], "a": 0}, {"q": "¿Qué malware recopila datos sin consentimiento?", "o": ["Spyware", "RAID", "Proxy"], "a": 0}, {"q": "¿Cuál es la mejor protección frente al ransomware según el PDF?", "o": ["Backups offline actualizados", "Pagar el rescate", "Desactivar el antivirus"], "a": 0}, {"q": "¿Qué ataques se consideran pasivos en red?", "o": ["Sniffing y MitM", "DoS y XSS", "Ransomware y SQLi"], "a": 0}, {"q": "¿Qué ataques se consideran activos en red?", "o": ["DoS/DDoS, ransomware, SQLi y XSS", "Hash y cifrado", "ACL y MFA"], "a": 0}, {"q": "¿Qué medidas de protección de red se citan en el PDF?", "o": ["HTTPS, VPN, SSH, MFA, DMZ, firewalls e IDS/IPS", "Solo discos SSD", "Solo USB offline"], "a": 0}, {"q": "¿Qué ley regula servicios de Internet, comercio electrónico y cookies?", "o": ["LSSICE", "RGPD", "RAID 1"], "a": 0}, {"q": "¿Qué principio jurídico aparece en el PDF final?", "o": ["Ignorantia iuris non excusat", "Carpe diem", "Habeas corpus tecnológico"], "a": 0}]};
+const testNames = Object.keys(TESTS);
+let currentTest = testNames[0];
+let submitted = false;
+
+const tabs = document.getElementById("tabs");
+const questionsBox = document.getElementById("questions");
+const quizForm = document.getElementById("quizForm");
+const answeredCount = document.getElementById("answeredCount");
+const blankCount = document.getElementById("blankCount");
+const correctLive = document.getElementById("correctLive");
+const wrongLive = document.getElementById("wrongLive");
+const submitBtn = document.getElementById("submitBtn");
+const resetBtn = document.getElementById("resetBtn");
+const resultText = document.getElementById("resultText");
+const resultBanner = document.getElementById("resultBanner");
+const resAnswered = document.getElementById("resAnswered");
+const resBlank = document.getElementById("resBlank");
+const resCorrect = document.getElementById("resCorrect");
+const resWrong = document.getElementById("resWrong");
+const resScore = document.getElementById("resScore");
+
+function buildTabs(){
+  tabs.innerHTML = "";
+  testNames.forEach(name => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "tab-btn" + (name === currentTest ? " active" : "");
+    btn.textContent = name;
+    btn.addEventListener("click", () => {
+      currentTest = name;
+      submitted = false;
+      buildTabs();
+      resetPanel();
+      renderQuestions();
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+    tabs.appendChild(btn);
+  });
+}
+
+function renderQuestions(){
+  const questions = TESTS[currentTest];
+  questionsBox.innerHTML = "";
+  questions.forEach((item, index) => {
+    const q = document.createElement("article");
+    q.className = "question";
+    q.innerHTML = `
+      <div class="qhead">
+        <div class="badge">${index + 1}/25</div>
+        <h3 class="qtitle">${item.q}</h3>
+      </div>
+      <div class="options">
+        ${item.o.map((opt, i) => {
+          const value = String.fromCharCode(97 + i);
+          return `
+            <label class="opt" data-question="${index}" data-value="${value}">
+              <input type="radio" name="q${index}" value="${value}">
+              <span><strong>${value})</strong> ${opt}</span>
+            </label>
+          `;
+        }).join("")}
+      </div>
+      <div class="feedback-note" id="feedback-${index}"></div>
+    `;
+    questionsBox.appendChild(q);
+  });
+  updateProgress();
+}
+
+function calculateLive(){
+  const questions = TESTS[currentTest];
+  let answered = 0, blank = 0, correct = 0, wrong = 0;
+  questions.forEach((item, index) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    if (selected) {
+      answered++;
+      if ((selected.value.charCodeAt(0) - 97) === item.a) correct++;
+      else wrong++;
+    } else {
+      blank++;
+    }
+  });
+  answeredCount.textContent = answered;
+  blankCount.textContent = blank;
+  correctLive.textContent = correct;
+  wrongLive.textContent = wrong;
+  return { answered, blank, correct, wrong };
+}
+
+function updateProgress(){ calculateLive(); }
+
+function applyInstantCorrection(index){
+  const item = TESTS[currentTest][index];
+  const labels = document.querySelectorAll(`[data-question="${index}"]`);
+  const selected = document.querySelector(`input[name="q${index}"]:checked`);
+  const feedback = document.getElementById(`feedback-${index}`);
+  labels.forEach(label => {
+    const value = label.getAttribute("data-value");
+    label.classList.remove("selected", "correct", "wrong");
+    if (selected && selected.value === value) label.classList.add("selected");
+    if (selected && (value.charCodeAt(0)-97) === item.a) label.classList.add("correct");
+    if (selected && selected.value === value && (value.charCodeAt(0)-97) !== item.a) label.classList.add("wrong");
+  });
+  if (selected) {
+    const correctLetter = String.fromCharCode(97 + item.a).toUpperCase();
+    feedback.classList.add("show");
+    feedback.textContent = ((selected.value.charCodeAt(0)-97) === item.a)
+      ? `✅ Correcta: ${correctLetter}`
+      : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${correctLetter}`;
+  }
+}
+
+function revealCorrections(){
+  TESTS[currentTest].forEach((item, index) => {
+    const labels = document.querySelectorAll(`[data-question="${index}"]`);
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    const feedback = document.getElementById(`feedback-${index}`);
+    labels.forEach(label => {
+      const idx = label.getAttribute("data-value").charCodeAt(0)-97;
+      label.classList.remove("selected");
+      if (idx === item.a) label.classList.add("correct");
+      if (selected && selected.value === label.getAttribute("data-value") && idx !== item.a) label.classList.add("wrong");
+    });
+    const correctLetter = String.fromCharCode(97 + item.a).toUpperCase();
+    feedback.classList.add("show");
+    feedback.textContent = selected
+      ? (((selected.value.charCodeAt(0)-97) === item.a)
+          ? `✅ Correcta: ${correctLetter}`
+          : `❌ Tu respuesta: ${selected.value.toUpperCase()} · Correcta: ${correctLetter}`)
+      : `⚪ En blanco · Correcta: ${correctLetter}`;
+  });
+}
+
+async function guardarResultadoFirebase(score){
+  try{
+    if (!window.guardarResultadoTest) return;
+    await window.guardarResultadoTest({
+      asignatura: 'Ciberseguridad',
+      test: currentTest,
+      nota: Number(score || 0),
+      tiempo: null
+    });
+  }catch(error){
+    console.error('Error guardando resultado en Firebase:', error);
+  }
+}
+
+function submitQuiz(){
+  if (submitted) return;
+  submitted = true;
+  const result = calculateLive();
+  const raw = result.correct - result.wrong;
+  const score = Math.max(0, (raw / 25) * 10);
+  resAnswered.textContent = result.answered;
+  resBlank.textContent = result.blank;
+  resCorrect.textContent = result.correct;
+  resWrong.textContent = result.wrong;
+  resScore.textContent = score.toFixed(2);
+  guardarResultadoFirebase(score);
+  resultText.textContent = `En "${currentTest}" has respondido ${result.answered} de 25 preguntas. Tienes ${result.correct} aciertos y ${result.wrong} fallos. La nota se calcula restando falladas.`;
+  resultBanner.className = "result-banner show " + (score >= 5 ? "ok" : "bad");
+  resultBanner.textContent = score >= 5
+    ? `✅ Bloque superado con un ${score.toFixed(2)} sobre 10`
+    : `⚠️ Bloque en ${score.toFixed(2)} sobre 10. Repásalo y vuelve a intentarlo.`;
+  quizForm.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = true);
+  submitBtn.disabled = true;
+  revealCorrections();
+  document.querySelector(".result-box").scrollIntoView({ behavior: "smooth" });
+}
+
+function resetPanel(){
+  resultText.textContent = "Aún no has corregido este bloque.";
+  resultBanner.className = "result-banner";
+  resultBanner.textContent = "";
+  resAnswered.textContent = "0";
+  resBlank.textContent = "0";
+  resCorrect.textContent = "0";
+  resWrong.textContent = "0";
+  resScore.textContent = "0.00";
+  submitBtn.disabled = false;
+}
+
+function resetQuiz(){
+  submitted = false;
+  resetPanel();
+  renderQuestions();
+  document.getElementById("top").scrollIntoView({ behavior: "smooth" });
+}
+
+quizForm.addEventListener("change", (event) => {
+  const radio = event.target;
+  if (!radio.matches('input[type="radio"]')) return;
+  const name = radio.name;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(inp => inp.closest('.opt')?.classList.remove('selected'));
+  radio.closest('.opt')?.classList.add('selected');
+  const index = Number(name.replace("q", ""));
+  applyInstantCorrection(index);
+  updateProgress();
+});
+
+submitBtn.addEventListener("click", submitQuiz);
+resetBtn.addEventListener("click", resetQuiz);
+
+buildTabs();
+renderQuestions();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAS1Ad4wBNn2HDufn1fZJiteHZGXZcX_No",
+  authDomain: "formacion-481a0.firebaseapp.com",
+  projectId: "formacion-481a0",
+  databaseURL: "https://formacion-481a0-default-rtdb.europe-west1.firebasedatabase.app",
+  storageBucket: "formacion-481a0.firebasestorage.app",
+  messagingSenderId: "850316210880",
+  appId: "1:850316210880:web:f18e91f053bf4d133a7325",
+  measurementId: "G-MTLW5R8MSZ"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+window.firebaseAuth = auth;
+const db = getFirestore(app);
+
+window.guardarResultadoTest = async function({ asignatura, test, nota, tiempo = null }) {
+  const user = auth.currentUser;
+  if (!user) throw new Error("Debes iniciar sesión antes de guardar resultados.");
+
+  const resultRef = doc(db, "resultados", user.uid);
+  const snap = await getDoc(resultRef);
+  const existing = snap.exists() ? snap.data() : {};
+  const history = Array.isArray(existing.history) ? existing.history : [];
+
+  const nuevoRegistro = {
+    asignatura: String(asignatura || "General"),
+    test: String(test || "Test"),
+    nota: Number(nota || 0),
+    tiempo: tiempo !== null ? Number(tiempo) : null,
+    fecha: Date.now()
+  };
+
+  const legacyKey = `${String(asignatura || "TEST").toUpperCase().replace(/\s+/g, "_")}_${String(test || "Resultado").replace(/\s+/g, "_")}`;
+
+  await setDoc(resultRef, {
+    uid: user.uid,
+    email: user.email,
+    updatedAt: Date.now(),
+    [legacyKey]: Number(nota || 0),
+    history: [...history, nuevoRegistro]
+  }, { merge: true });
+
+  return nuevoRegistro;
+};
+</script>
+</body>
+</html>
