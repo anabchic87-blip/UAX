@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MF1442_3 · Test por pestañas</title>
+  <link rel="icon" type="image/png" href="../../assets/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1:#fff8f2; --bg2:#ffe8d6; --border:#f2ccb0; --text:#3e2617; --soft:#7c5d48;
+      --title:#8e3d00; --orange:#ff7a00; --orange2:#ff9e44; --shadow:0 14px 28px rgba(143,63,0,.10);
+      --ok:#15803d; --okbg:#dcfce7; --bad:#b91c1c; --badbg:#fee2e2; --warn:#a16207; --warnbg:#fef3c7;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
+    .topbar{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.98);border-bottom:1px solid var(--border);padding:12px 16px;backdrop-filter:blur(8px)}
+    .topbar-inner{max-width:1180px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+    .topbar-actions,.stats,.counter,.actions,.bottom-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+    .hero,.tabs-panel,.question,.result-box{background:rgba(255,255,255,.95);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .hero{border-radius:28px;padding:24px;margin-bottom:18px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff3e8;border:1px solid var(--border);border-radius:999px;padding:8px 14px;color:#a54800;font-size:13px;font-weight:800;margin-bottom:14px}
+    h1{margin:0 0 10px;color:var(--title);font-size:clamp(28px,4vw,42px)}
+    .hero p{margin:0;color:var(--soft);line-height:1.65}
+    .stats{margin-top:16px}
+    .pill{background:#fff7ef;border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;color:#a54800;font-size:14px}
+    .notice{margin-top:14px;padding:14px 16px;border-radius:16px;font-weight:700;line-height:1.6;background:var(--warnbg);color:var(--warn);border:1px solid #f59e0b}
+    .tabs-panel{border-radius:24px;padding:18px}
+    .tab-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+    .tab-btn{border:none;cursor:pointer;border-radius:14px;padding:12px 16px;font-weight:800;font-size:14px;background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .tab-btn.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:14px;background:#fff9f5;border:1px solid var(--border);border-radius:18px;padding:14px}
+    .counter-card,.result-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px 14px;min-width:130px;text-align:center}
+    .counter-card strong,.result-card strong{display:block;font-size:22px;color:var(--title)}
+    .counter-card span,.result-card span{color:var(--soft);font-size:12px;font-weight:700}
+    .btn{border:none;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 20px rgba(255,122,0,.23)}
+    .btn-secondary{background:#fff8f3;color:#a54800;border:1px solid var(--border)}
+    .questions{display:grid;gap:16px}
+    .question{border-radius:22px;padding:18px}
+    .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .badge{min-width:48px;height:48px;border-radius:14px;background:#fff4ea;color:#c2410c;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+    .qtitle{margin:0;color:#3d220f;font-size:18px;line-height:1.45}
+    .options{display:grid;gap:10px}
+    .opt{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid #f1e2d4;border-radius:16px;background:#fff;transition:border-color .2s ease,background .2s ease,opacity .2s ease;cursor:pointer}
+    .opt input{margin-top:4px}
+    .opt.selected{border-color:#f0a96d;background:#fff8f3}
+    .opt.correct{border-color:#16a34a;background:#ecfdf5}
+    .opt.wrong{border-color:#dc2626;background:#fef2f2}
+    .opt.locked{opacity:.92;cursor:default}
+    .feedback-note{font-size:12px;color:#8b5e3c;margin-top:10px;display:none;line-height:1.5;font-weight:800}
+    .feedback-note.show{display:block}
+    .result-box{margin-top:22px;border-radius:22px;padding:20px}
+    .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}
+    .result-banner{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:800;display:none}
+    .result-banner.show{display:block}
+    .result-banner.ok{background:var(--okbg);color:var(--ok);border:1px solid #86efac}
+    .result-banner.bad{background:var(--badbg);color:var(--bad);border:1px solid #fca5a5}
+    @media (max-width:700px){.btn,.topbar .btn{width:100%} .counter-card{flex:1 1 120px} .qhead{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+      <div class="topbar-actions">
+        <a href="#questions" class="btn btn-secondary">🚀 Entrar</a>
+        <button class="btn btn-primary" id="topSubmitBtn" type="button">✅ Corregir pestaña</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" id="top">
+    <section class="hero">
+      <div class="eyebrow">📚 MF1442_3 · Materiales, medios y recursos didácticos</div>
+      <h1>Test por pestañas MF1442_3</h1>
+      <p>He montado los seis test por temas y un test final en una sola página, manteniendo el patrón visual de la plataforma. Cada respuesta se bloquea al marcarla y después puedes corregir la pestaña completa.</p>
+      <div class="stats">
+        <div class="pill">6 temas</div>
+        <div class="pill">1 test final</div>
+        <div class="pill">80 preguntas</div>
+        <div class="pill">Corrección automática</div>
+      </div>
+      <div class="notice">Consejo: practica primero tema por tema y deja la pestaña Final para repasar como simulacro.</div>
+    </section>
+
+    <section class="tabs-panel">
+      <div class="tab-bar" id="tabBar"></div>
+      <div class="toolbar">
+        <div>
+          <strong id="tabTitle" style="color:var(--title);font-size:22px;">Pestaña</strong>
+          <p id="tabDescription" style="color:var(--soft);line-height:1.6;margin:6px 0 0;"></p>
+        </div>
+        <div class="counter">
+          <div class="counter-card"><strong id="answeredCount">0</strong><span>Respondidas</span></div>
+          <div class="counter-card"><strong id="blankCount">0</strong><span>En blanco</span></div>
+          <div class="counter-card"><strong id="totalCount">0</strong><span>Total</span></div>
+        </div>
+        <div class="actions">
+          <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+          <button class="btn btn-primary" id="finishBtn" type="button">✅ Corregir pestaña</button>
+          <button class="btn btn-secondary" id="resetBtn" type="button">↺ Reiniciar pestaña</button>
+          <button class="btn btn-secondary" id="resetAllBtn" type="button">🗑 Reiniciar todo</button>
+        </div>
+      </div>
+      <section class="questions" id="questions"></section>
+      <section class="result-box" id="resultBox">
+        <h2 style="margin:0;color:var(--title);">Resultado de la pestaña</h2>
+        <p id="resultText" style="color:var(--soft);line-height:1.6;margin:10px 0 0;">Al marcar una respuesta se bloquea. Después puedes corregir toda la pestaña para ver la nota final.</p>
+        <div class="result-grid">
+          <div class="result-card"><strong id="resAnswered">0</strong><span>Respondidas</span></div>
+          <div class="result-card"><strong id="resBlank">0</strong><span>En blanco</span></div>
+          <div class="result-card"><strong id="resCorrect">0</strong><span>Aciertos</span></div>
+          <div class="result-card"><strong id="resWrong">0</strong><span>Fallos</span></div>
+          <div class="result-card"><strong id="resScore">0.00</strong><span>Nota / 10</span></div>
+        </div>
+        <div class="result-banner" id="resultBanner"></div>
+        <div class="bottom-actions" style="margin-top:16px;">
+          <a href="index.html" class="btn btn-secondary">🏠 Volver al módulo</a>
+          <a href="#top" class="btn btn-secondary">⬆ Subir arriba</a>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const TABS = [{"label": "Tema 1", "title": "Diseño y elaboración de material didáctico impreso", "questions": [{"q": "En el caso de las acciones formativas vinculadas a Certificados de Profesionalidad ¿qué documento facilita las orientaciones de formación para elaborar y seleccionar el material didáctico?", "options": ["El programa formativo del fichero de especialidades.", "El anexo correspondiente al Real Decreto donde se publicó el Certificado de Profesionalidad.", "Los criterios de evaluación correspondientes a la unidad o módulo formativo.", "La Resolución de 26 de mayo de 2014 del Servicio Público de Empleo Estatal."], "correct": 1}, {"q": "¿Cuál de los siguientes elementos corresponde a un objetivo didáctico a alcanzar por el alumno tras finalizar la acción formativa?", "options": ["Los criterios de realización.", "Los contenidos específicos.", "Los criterios de evaluación.", "Los contenidos procedimentales."], "correct": 0}, {"q": "¿Es lícita la inclusión en una obra propia de fragmentos de otras ajenas de naturaleza escrita, sonora o audiovisual, así como la de obras aisladas de carácter plástico o fotográfico figurativo, siempre que se trate de obras ya divulgadas y su inclusión se realice a título de cita o para su análisis, comentario o juicio crítico?", "options": ["No.", "Sí.", "Sí, siempre que sea con fines docentes o de investigación e indicando la fuente y el nombre del autor de la obra utilizada.", "Sí, siempre que sea con fines docentes."], "correct": 1}, {"q": "¿Podemos insertar una fotografía copiada de Internet con derechos de autor en un manual didáctico?", "options": ["Sí.", "No.", "Sí, siempre que sea con fines docentes.", "Sí, siempre que la imagen vaya a ser objeto de análisis o estudio y se reconozca la autoría."], "correct": 3}, {"q": "Las variantes de una misma tipografía recibe el nombre de:", "options": ["Familia tipográfica.", "Fuente tipográfica.", "Caracteres tipográficos.", "Tipografía Sans Serif."], "correct": 0}, {"q": "¿Qué tipo de alineación de párrafo se recomienda para distribuir el texto en columnas estrechas?", "options": ["Justificación forzosa.", "Alineación izquierda.", "Alineación derecha.", "Párrafo en lámpara."], "correct": 1}, {"q": "¿Cuándo es recomendable el uso de la cursiva?", "options": ["Cuando se necesite destacar el concepto principal del párrafo.", "Cuando se necesite destacar palabras técnicas o poco familiares.", "Cuando se necesite destacar títulos de obras.", "B y c son correctas."], "correct": 3}, {"q": "Si pretendemos insertar una imagen que ocupe aproximadamente el ancho del cuerpo de texto en un documento cuyas páginas están en A4 (210 mm x 297 mm) ¿cuánto deberá medir aproximadamente de ancho?", "options": ["16 cm de ancho.", "21 cm de ancho.", "7 cm de ancho.", "420 mm de ancho."], "correct": 0}, {"q": "¿Por qué una imagen a 300 ppp tiene la misma nitidez que una a 72 ppp cuando las vemos en una pantalla?", "options": ["La pregunta es falsa. Una imagen a 300 ppp se ve con mucha más nitidez que una a 72 ppp en pantalla.", "Porque la mayoría de las pantallas tienen una resolución de 72 ppp y no pueden reproducir imágenes a mayor resolución.", "La pregunta es falsa porque una imagen a 72 ppp muestra mayor nitidez que una imagen a 300 ppp en pantalla.", "Todas las respuestas anteriores son incorrectas."], "correct": 1}, {"q": "¿Qué tipo de residuo es el tóner de una impresora láser?", "options": ["Residuo urbano.", "Residuo radiactivo.", "Residuo biodegradable.", "Dependiendo de su composición se considera residuo peligroso."], "correct": 3}]}, {"label": "Tema 2", "title": "Planificación y utilización de medios y recursos gráficos", "questions": [{"q": "¿Qué característica determina la extensión de un recurso gráfico en cuanto a su pertinencia con el contenido?", "options": ["El diseño eficiente.", "La relevancia.", "La capacidad para motivar.", "La estimulación de la abstracción."], "correct": 1}, {"q": "¿Qué cualidad que caracteriza a los textos que pueden ser leídos sin dificultad por todas las personas, incluidas las que tienen alguna discapacidad visual?", "options": ["Diseño responsivo.", "Texto Serif.", "Accesibilidad.", "a y c son correctas."], "correct": 3}, {"q": "¿Qué es un podcast?", "options": ["Es un formato que consigue que los archivos ocupen poco espacio en un dispositivo y que la calidad del sonido sea buena.", "Es un formato más reciente que el formato MP3 que se utiliza para crear archivos de audio que van a estar disponibles en Internet para su descarga.", "Es un archivo de sonido digital, generalmente subido a una página de Internet, que podemosun descargarl en un dispositivo que esté conectado a la red. .", "Es un reproductor de mp3."], "correct": 2}, {"q": "¿Cuál de las siguientes acciones no puede realizarse con una pizarra digital interactiva?", "options": ["Visitar páginas web.", "Reproducir audio y video.", "Resaltar, colorear y anotar.", "Todas estas acciones pueden realizarse en una pizarra digital interactiva."], "correct": 3}, {"q": "¿A qué distancia de la pantalla es aconsejable colocar el retroproyector o proyector de periscopio?", "options": ["De 3 a 6 metros.", "A 1 metro.", "En la parte posterior del aula.", "De 6 a 8 metros y con un ángulo de 45º."], "correct": 3}, {"q": "¿Qué debemos tener en cuenta a la hora de elegir un recurso sonoro?", "options": ["Que reproduzca audio digital.", "El valor significativo que dicho recurso tenga.", "Que esté lo más actualizado posible.", "Que esté en formato mp3."], "correct": 1}, {"q": "¿Cuál de los siguientes medios es capaz de reproducir un recurso interactivo?", "options": ["Un ordenador.", "Una pizarra digital interactiva.", "Un dispositivo móvil.", "A, b y c correctas."], "correct": 3}, {"q": "¿Cuál de las siguientes técnicas consiste en solicitar a los estudiantes que reflexionen acerca de una cuestión en la fase de conclusión de la exposición de un recurso didáctico?", "options": ["Pregunta retórica.", "Llamada a la acción.", "Repetición del mensaje central.", "Resumen."], "correct": 0}, {"q": "En una sesión de una hora ¿cuánto tiempo como mínimo deberíamos dedicar al desarrollo de la exposición de un recurso gráfico?", "options": ["50 minutos.", "30 minutos.", "15 minutos.", "60 minutos."], "correct": 2}, {"q": "¿Qué dispositivo es capaz de imprimir figuras en relieve para adaptar recursos gráficos para estudiantes con déficit visual?", "options": ["La prensa de estampación.", "Impresora matricial.", "Impresora láser.", "Horno Fuser."], "correct": 1}]}, {"label": "Tema 3", "title": "Diseño y elaboración de materiales y presentaciones multimedia", "questions": [{"q": "¿Cuál de las siguientes fuentes de luz en un proyector garantiza una mayor duración?", "options": ["Halógeno.", "De filamento.", "Led.", "Infrarrojos."], "correct": 2}, {"q": "¿Qué tipo de conexión transmite imagen en alta definición?", "options": ["VGA.", "RCA.", "HDMI.", "Euroconector."], "correct": 2}, {"q": "¿Qué ventaja tiene la conexión WIFI de los proyectores?", "options": ["La posibilidad de proyectar archivos de cualquier dispositivo u ordenador que forme parte de la red local..", "La posibilidad de proyectar un archivo que se encuentra en otro ordenador de la red local.", "La alta calidad de la imagen proyectada.", "A y b son correctas."], "correct": 3}, {"q": "¿Qué control permite la corrección trapezoidal de la imagen proyectada?", "options": ["Keystone.", "Alfa.", "Thunderbolt.", "RJ-45."], "correct": 0}, {"q": "¿Qué debemos hacer para evitar que el proyector sufra sobrecalentamiento?", "options": ["Limpiar los filtros periódicamente.", "Cambiar la lámpara periódicamente.", "Colocar el proyector sobre una base plana.", "Desconectar el proyector de la red eléctrica."], "correct": 0}, {"q": "¿Cuál de los siguientes no es un programa de diseño de presentaciones multimedia?", "options": ["Microsoft PowerPoint.", "Camtasia.", "Apple Keynote.", "Prezi."], "correct": 1}, {"q": "¿Qué tecla debemos pulsar para avanzar de diapositiva en el modo presentación?", "options": ["La barra espaciadora.", "La tecla escape.", "Tabulador.", "F1."], "correct": 0}, {"q": "¿Qué tamaño mínimo de fuente se aconseja para que los estudiantes del fondo del aula puedan leer el texto de la imagen proyectada?", "options": ["24 puntos.", "12 puntos.", "150 puntos.", "40 puntos."], "correct": 0}, {"q": "¿Podemos incluir un fragmento de una obra con derechos de autor en una presentación de diapositivas propia?", "options": ["No.", "Sí, siempre que indiquemos la fuente y el nombre del autor.", "Sí, siempre que sea con fines docentes, sin tener que indicar el nombre del autor y la fuente.", "Sí, siempre que paguemos los correspondientes derechos al autor."], "correct": 1}, {"q": "¿Qué debemos hacer con las lámparas de los proyectores que están inservibles?", "options": ["Tirarla al contenedor amarillo.", "Ninguna es correcta.", "Tirarla al contenedor verde.", "Almacenarlas para entregarlas a un gestor de residuos peligrosos autorizado."], "correct": 3}]}, {"label": "Tema 4", "title": "Utilización de la web como recurso didáctico", "questions": [{"q": "¿Qué concepto indica que un documento se encuentra disponible en la red mundial de Internet?", "options": ["http.", "ftp.", "www.", "dominio."], "correct": 2}, {"q": "¿Qué concepto sirve para separar diferentes áreas de una página web en su URL?", "options": ["Dirección web.", "Dominio.", "Subdominio.", "IP."], "correct": 2}, {"q": "¿Qué protocolo rige la comunicación entre los servidores y los navegadores web?", "options": ["ftp.", "html.", "xml.", "http."], "correct": 3}, {"q": "¿Con qué lenguaje de programación podemos aportar funcionalidad a una página web?", "options": ["JavaScript.", "HTML.", "XML.", "PowerPoint."], "correct": 0}, {"q": "¿A qué nos estamos refiriendo cuando mencionamos el concepto URL?", "options": ["A la dirección de una página web.", "A un protoclo de transferencia de archivos.", "Al dominio de una dirección web.", "Ninguna es correcta."], "correct": 0}, {"q": "¿Cuál de los siguientes no es un navegador web?", "options": ["Google Chrome.", "FileZilla.", "Safari.", "Firefox."], "correct": 1}, {"q": "¿Qué combinación de teclas debemos pulsar para ampliar el tamaño del texto de la páginas que abrimos con un navegador?", "options": ["La tecla Control y la tecla +.", "La tecla ALT y la tecla +.", "La tecla Avance de página.", "La tecla de tabulación y la barra espaciadora."], "correct": 0}, {"q": "¿Si deseamos mantener una videoconferencia con dispositivos de Android, qué programa debemos utilizar?", "options": ["Skype.", "FaceTime.", "AChat.", "La cámara del dispositivo."], "correct": 0}, {"q": "¿Qué herramienta debemos utilizar para provocar la reflexión alrededor de un tema y llamar a la acción a los estudiantes?", "options": ["Blog.", "Foro.", "Wiki.", "Correo electrónico."], "correct": 1}, {"q": "¿Qué asociación rige las normas de accesibilidad que deben cumplir las páginas web?", "options": ["Wikipedia.", "HTML5 Rocks.", "ONCE.", "W3C."], "correct": 3}]}, {"label": "Tema 5", "title": "Utilización de la pizarra digital interactiva", "questions": [{"q": "¿De qué elementos mínimos tangibles se compone un sistema de PDI?", "options": ["Ordenador, proyector, pantalla y conexiones.", "Ordenador, proyector, pantalla y software.", "Dispositivo móvil, cableado y proyector.", "Pantalla táctil y proyector."], "correct": 0}, {"q": "¿Cuál de los siguientes cables puede transmitir audio y video?", "options": ["VGA.", "DVI.", "HDMI.", "RGB."], "correct": 2}, {"q": "¿Qué dos dispositivos se conectan con el cable USB en un sistema de PDI?", "options": ["El proyector y el ordenador.", "La pizarra y los altavoces.", "El proyector y la pizarra.", "El ordenador y la pizarra."], "correct": 3}, {"q": "¿Cuál de los siguientes recursos puede visualizarse en una PDI?", "options": ["Páginas web.", "Video y audio.", "Videojuegos.", "Todas son correctas."], "correct": 3}, {"q": "¿Con cuál de las siguientes aplicaciones informáticas puede el docente elaborar recursos didácticos interactivos?", "options": ["Articulate Storyline.", "Smart Notebook.", "JavaScript.", "A y b son correctas."], "correct": 3}, {"q": "Si desplazamos la PDI de un aula a otra ¿tendremos que volver a calibrarla?", "options": ["No.", "Sí.", "Sólo si es de proyección superior.", "Sólo si es de proyección frontal."], "correct": 1}, {"q": "¿Dónde podemos seleccionar el color con el que deseamos escribir en la PDI?", "options": ["En las herramientas flotantes.", "Eligiendo el lápiz interactivo del color deseado.", "Pulsando en la bandeja de lápices el color deseado.", "Todas son correctas."], "correct": 3}, {"q": "¿A qué altura máxima debe estar el borde superior de la PDI?", "options": ["190 cm.", "200 cm.", "220 cm.", "230 cm."], "correct": 0}, {"q": "¿Qué tipo de PDI utilizarías para una sesión en modalidad de teleformación?", "options": ["Capacitiva.", "Tablet monitor.", "De proyección superior.", "No utilizaría PDI."], "correct": 2}, {"q": "¿Qué tipo de adaptador necesitamos para conectar un ordenador portátil de la marca Apple a una PDI?", "options": ["RCA.", "Minijack.", "USB.", "Thunderbolt."], "correct": 3}]}, {"label": "Tema 6", "title": "Entorno virtual de aprendizaje", "questions": [{"q": "¿Qué puede hacer un docente de teleformación con una plataforma LMS?", "options": ["Controlar el acceso de los estudiantes a la plataforma.", "Realizar el seguimiento del aprendizaje de los estudiantes.", "Evaluar a los estudiantes.", "Todas son correctas."], "correct": 1}, {"q": "¿Cuál de las siguientes herramientas es un medio de comunicación asíncrona propio de las LMS?", "options": ["Chats.", "Videoconferencias.", "Foros.", "Videotutoriales."], "correct": 2}, {"q": "¿Qué estándares de los LMS permiten hacer el seguimiento de los estudiantes?", "options": ["b y c son correctas.", "W3C.", "Paquetes de contenidos IMS.", "SCORM"], "correct": 3}, {"q": "¿Cuál de los siguientes métodos se utiliza para grabar videotutoriales sobre procedimientos en programas informáticos mostrando lo que sucede en pantalla?", "options": ["Screencast.", "Skillcatch.", "Video Streaming.", "Ninguna es correcta."], "correct": 0}, {"q": "¿Qué aplicación informática permite mantener una videoconferencia y al msimo tiempo mostrar el contenido de una pizarra digital interactiva?", "options": ["Articulate Storyline.", "Smart Notebook.", "JavaScript.", "Adobe Connect."], "correct": 3}, {"q": "¿Qué tipo de evaluación se consigue con los tests autoevaluables en los LMS?", "options": ["Evaluación cualitativa.", "Evaluación cuantitativa.", "Evaluación de prácticas.", "Observación sistemática."], "correct": 1}, {"q": "¿Cuál de los siguientes programas permite grabar las acciones que se realizan en un programa informático?", "options": ["Adobe Audition.", "Microsfot PowerPoint.", "Adobe Premiere Pro.", "Camtasia Studio."], "correct": 3}, {"q": "¿Qué entidad establece los requisitos de las plataforma LMS para ser utilizadas en acciones formativas de Certificados de profesionalidad?", "options": ["SEPE.", "W3C.", "Moodle.", "El centro de formación que imparta la acción formativa."], "correct": 0}, {"q": "¿Cuál de las siguientes preguntas que pueden proponerse en un foro de debate para que los estudiantes consideren otros puntos de vista diferentes al suyo propio?", "options": ["¿Cuáles son las consecuencias de este asunto?.", "¿Qué otra alternativa existe de ver este asunto?.", "¿Puedes darme un ejemplo sobre este asunto?.", "¿Cuál es tu opinión acerca de este asunto?."], "correct": 1}, {"q": "¿Cuál es el pricipal recurso que utilizan los estudiantes para solicitar tutorías y resolver dudas?", "options": ["Videoconferencia.", "Chat.", "Foro de debate.", "Correo electrónico."], "correct": 3}]}, {"label": "Final", "title": "Test final MF1442_3", "questions": [{"q": "En el caso de las acciones formativas vinculadas a Certificados de Profesionalidad ¿qué documento facilita las orientaciones de formación para elaborar y seleccionar el material didáctico?", "options": ["El programa formativo del fichero de especialidades.", "El anexo correspondiente al Real Decreto donde se publicó el Certificado de Profesionalidad.", "Los criterios de evaluación correspondientes a la unidad o módulo formativo.", "La Resolución de 26 de mayo de 2014 del Servicio Público de Empleo Estatal."], "correct": 1}, {"q": "¿Cuál de los siguientes elementos corresponde a un objetivo didáctico a alcanzar por el alumno tras finalizar la acción formativa?", "options": ["Los criterios de realización.", "Los contenidos específicos.", "Los criterios de evaluación.", "Los contenidos procedimentales."], "correct": 2}, {"q": "¿Es lícita la inclusión en una obra propia de fragmentos de otras ajenas de naturaleza escrita, sonora o audiovisual, así como la de obras aisladas de carácter plástico o fotográfico figurativo, siempre que se trate de obras ya divulgadas y su inclusión se realice a título de cita o para su análisis, comentario o juicio crítico?", "options": ["No.", "Sí.", "Sí, siempre que sea con fines docentes o de investigación e indicando la fuente y el nombre del autor de la obra utilizada.", "Sí, siempre que sea con fines docentes."], "correct": 2}, {"q": "¿Qué característica determina la extensión de un recurso gráfico en cuanto a su pertinencia con el contenido?", "options": ["El diseño eficiente.", "La relevancia.", "La capacidad para motivar.", "La estimulación de la abstracción."], "correct": 1}, {"q": "¿Qué cualidad que caracteriza a los textos que pueden ser leídos sin dificultad por todas las 1 / 5 H G H H H H G H H H G H H G H H personas, incluidas las que tienen alguna discapacidad visual?", "options": ["Diseño responsivo.", "Texto Serif.", "Accesibilidad.", "a y c son correctas."], "correct": 2}, {"q": "¿Qué es un podcast?", "options": ["Es un formato que consigue que los archivos ocupen poco espacio en un dispositivo y que la calidad del sonido sea buena.", "Es un formato más reciente que el formato MP3 que se utiliza para crear archivos de audio que van a estar disponibles en Internet para su descarga.", "Es un archivo de sonido digital, generalmente subido a una página de Internet, que podemosun descargarl en un dispositivo que esté conectado a la red.", "Es un reproductor de mp3."], "correct": 2}, {"q": "¿Cuál de las siguientes fuentes de luz en un proyector garantiza una mayor duración?", "options": ["Halógeno.", "De filamento.", "Led.", "Infrarrojos."], "correct": 2}, {"q": "¿Qué tipo de conexión transmite imagen en alta definición?", "options": ["VGA.", "RCA.", "HDMI.", "Euroconector."], "correct": 2}, {"q": "¿Qué ventaja tiene la conexión WIFI de los proyectores?", "options": ["La posibilidad de proyectar archivos de cualquier dispositivo u ordenador que forme parte de la red local..", "La posibilidad de proyectar un archivo que se encuentra en otro ordenador de la red local.", "La alta calidad de la imagen proyectada.", "A y b son correctas."], "correct": 3}, {"q": "¿Qué control permite la corrección trapezoidal de la imagen proyectada?", "options": ["Keystone.", "Alfa.", "Thunderbolt.", "RJ-45."], "correct": 0}, {"q": "¿Qué concepto indica que un documento se encuentra disponible en la red mundial de Internet?", "options": ["http.", "ftp.", "www.", "dominio."], "correct": 2}, {"q": "¿Qué concepto sirve para separar diferentes áreas de una página web en su URL?", "options": ["Dirección web.", "Dominio.", "Subdominio.", "IP."], "correct": 2}, {"q": "¿Qué protocolo rige la comunicación entre los servidores y los navegadores web?", "options": ["ftp.", "html.", "xml.", "http."], "correct": 3}, {"q": "¿Con qué lenguaje de programación podemos aportar funcionalidad a una página web?", "options": ["JavaScript.", "HTML.", "XML.", "PowerPoint."], "correct": 0}, {"q": "¿De qué elementos mínimos tangibles se compone un sistema de PDI?", "options": ["Ordenador, proyector, pantalla y conexiones.", "Ordenador, proyector, pantalla y software.", "Dispositivo móvil, cableado y proyector.", "Pantalla táctil y proyector."], "correct": 0}, {"q": "¿Cuál de los siguientes cables puede transmitir audio y video?", "options": ["VGA.", "DVI.", "HDMI.", "RGB."], "correct": 2}, {"q": "¿Qué dos dispositivos se conectan con el cable USB en un sistema de PDI?", "options": ["El proyector y el ordenador.", "La pizarra y los altavoces.", "El proyector y la pizarra.", "El ordenador y la pizarra."], "correct": 3}, {"q": "¿Qué puede hacer un docente de teleformación con una plataforma LMS?", "options": ["Controlar el acceso de los estudiantes a la plataforma.", "Realizar el seguimiento del aprendizaje de los estudiantes.", "Evaluar a los estudiantes.", "Todas son correctas."], "correct": 3}, {"q": "¿Cuál de las siguientes herramientas es un medio de comunicación asíncrona propio de las LMS?", "options": ["Chats.", "Videoconferencias.", "Foros.", "Videotutoriales."], "correct": 2}, {"q": "¿Qué estándares de los LMS permiten hacer el seguimiento de los estudiantes?", "options": ["SCORM.", "W3C.", "Paquetes de contenidos IMS.", "a y c son correctas."], "correct": 3}]}];
+    const state = JSON.parse(localStorage.getItem('mf1442_tabs_state') || '{}');
+    let current = 0;
+    const letters = ['a','b','c','d'];
+    const $ = id => document.getElementById(id);
+
+    function saveState(){ localStorage.setItem('mf1442_tabs_state', JSON.stringify(state)); }
+    function key(tabIndex,qIndex){ return `t${tabIndex}_q${qIndex}`; }
+    function getAnswer(tabIndex,qIndex){ return state[key(tabIndex,qIndex)]; }
+    function setAnswer(tabIndex,qIndex,optIndex){ state[key(tabIndex,qIndex)] = optIndex; saveState(); }
+    function clearTab(tabIndex){ TABS[tabIndex].questions.forEach((_,i)=>delete state[key(tabIndex,i)]); saveState(); }
+
+    function renderTabs(){
+      $('tabBar').innerHTML = TABS.map((t,i)=>`<button class="tab-btn ${i===current?'active':''}" onclick="openTab(${i})">${t.label}</button>`).join('');
+    }
+
+    function openTab(i){ current=i; render(); window.scrollTo({top:0, behavior:'smooth'}); }
+
+    function render(){
+      renderTabs();
+      const tab = TABS[current];
+      $('tabTitle').textContent = tab.label + ' · ' + tab.title;
+      $('tabDescription').textContent = `${tab.questions.length} preguntas del PDF correspondiente.`;
+      $('questions').innerHTML = tab.questions.map((q,qi)=>renderQuestion(q,qi)).join('');
+      updateCounters();
+      updateResult(false);
+    }
+
+    function renderQuestion(q,qi){
+      const saved = getAnswer(current,qi);
+      const locked = saved !== undefined;
+      const options = q.options.map((op,oi)=>{
+        let cls = 'opt';
+        if(locked) cls += ' locked';
+        if(saved === oi) cls += ' selected';
+        if(locked && oi === q.correct) cls += ' correct';
+        if(locked && saved === oi && oi !== q.correct) cls += ' wrong';
+        return `<label class="${cls}">
+          <input type="radio" name="q${qi}" ${saved===oi?'checked':''} ${locked?'disabled':''} onchange="answerQuestion(${qi},${oi})">
+          <span><strong>${letters[oi]}.</strong> ${escapeHtml(op)}</span>
+        </label>`;
+      }).join('');
+      const note = locked ? `<div class="feedback-note show">${saved===q.correct?'✅ Correcta':'❌ Incorrecta'}. Respuesta correcta: <strong>${letters[q.correct]}.</strong> ${escapeHtml(q.options[q.correct])}</div>` : `<div class="feedback-note">Marca una opción para bloquear la respuesta.</div>`;
+      return `<article class="question">
+        <div class="qhead"><div class="badge">${qi+1}</div><h3 class="qtitle">${escapeHtml(q.q)}</h3></div>
+        <div class="options">${options}</div>${note}
+      </article>`;
+    }
+
+    function answerQuestion(qi,oi){
+      if(getAnswer(current,qi) !== undefined) return;
+      setAnswer(current,qi,oi);
+      render();
+    }
+
+    function updateCounters(){
+      const total = TABS[current].questions.length;
+      const answered = TABS[current].questions.filter((_,i)=>getAnswer(current,i)!==undefined).length;
+      $('answeredCount').textContent = answered;
+      $('blankCount').textContent = total - answered;
+      $('totalCount').textContent = total;
+    }
+
+    function calc(){
+      const qs = TABS[current].questions;
+      const total = qs.length;
+      const answered = qs.filter((_,i)=>getAnswer(current,i)!==undefined).length;
+      const correct = qs.filter((q,i)=>getAnswer(current,i)===q.correct).length;
+      const wrong = answered - correct;
+      const blank = total - answered;
+      const score = total ? (correct*10/total) : 0;
+      return {total,answered,correct,wrong,blank,score};
+    }
+
+    function updateResult(showBanner=true){
+      const r = calc();
+      $('resAnswered').textContent = r.answered;
+      $('resBlank').textContent = r.blank;
+      $('resCorrect').textContent = r.correct;
+      $('resWrong').textContent = r.wrong;
+      $('resScore').textContent = r.score.toFixed(2);
+      const banner = $('resultBanner');
+      if(showBanner){
+        banner.className = 'result-banner show ' + (r.score >= 5 ? 'ok' : 'bad');
+        banner.textContent = r.score >= 5 ? `✅ Aprobado: ${r.score.toFixed(2)} / 10` : `❌ Sigue repasando: ${r.score.toFixed(2)} / 10`;
+      } else {
+        banner.className = 'result-banner';
+        banner.textContent = '';
+      }
+    }
+
+    function finishTab(){ updateResult(true); $('resultBox').scrollIntoView({behavior:'smooth'}); }
+    function resetTab(){ if(confirm('¿Reiniciar solo esta pestaña?')){ clearTab(current); render(); } }
+    function resetAll(){ if(confirm('¿Reiniciar todos los test?')){ Object.keys(state).forEach(k=>delete state[k]); saveState(); render(); } }
+    function escapeHtml(text){ return String(text).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+
+    $('finishBtn').addEventListener('click', finishTab);
+    $('topSubmitBtn').addEventListener('click', finishTab);
+    $('resetBtn').addEventListener('click', resetTab);
+    $('resetAllBtn').addEventListener('click', resetAll);
+    render();
+  </script>
+</body>
+</html>
